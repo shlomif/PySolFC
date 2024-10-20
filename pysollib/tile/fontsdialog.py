@@ -22,13 +22,12 @@
 # ---------------------------------------------------------------------------
 
 import tkinter
+import tkinter.font
+import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.tkutil import bind
-
-from six.moves import tkinter_font
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxDialog
 from .tkwidget import PysolScale
@@ -109,7 +108,7 @@ class FontChooserDialog(MfxDialog):
                         command=self.fontupdate, variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
-        font_families = list(tkinter_font.families())
+        font_families = list(tkinter.font.families())
         font_families.sort()
         selected = -1
         n = 0

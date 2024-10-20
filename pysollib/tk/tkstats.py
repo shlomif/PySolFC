@@ -24,6 +24,7 @@
 import os
 import time
 import tkinter
+import tkinter.font
 
 from pysollib.mfxutil import KwStruct, kwdefault
 from pysollib.mfxutil import format_time
@@ -31,8 +32,6 @@ from pysollib.mygettext import _
 from pysollib.settings import TOP_TITLE
 from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
 from pysollib.ui.tktile.tkutil import bind, loadImage
-
-from six.moves import tkinter_font
 
 from .tkwidget import MfxDialog, MfxMessageDialog
 from .tkwidget import MfxScrolledCanvas
@@ -63,7 +62,7 @@ class SingleGame_StatsDialog(MfxDialog):
         #      createChart = self.createSimpleChart
         #
         self.font = self.app.getFont("default")
-        self.tk_font = tkinter_font.Font(self.top, self.font)
+        self.tk_font = tkinter.font.Font(self.top, self.font)
         self.font_metrics = self.tk_font.metrics()
         self._calc_tabs()
         #
@@ -313,7 +312,7 @@ class CanvasFormatter(PysolStatsFormatter):
         tw = 15*self.w
         # tw = 160
         self._tabs = [tw]
-        font = tkinter_font.Font(self.canvas, self.font)
+        font = tkinter.font.Font(self.canvas, self.font)
         for t in arg[1:]:
             tw = font.measure(t)+20
             self._tabs.append(tw)
@@ -460,7 +459,7 @@ class AllGames_StatsDialog(MfxDialog):
         #    lines = 20
         #
         self.font = app.getFont(self.FONT_TYPE)
-        font = tkinter_font.Font(parent, self.font)
+        font = tkinter.font.Font(parent, self.font)
         self.font_metrics = font.metrics()
         self.CHAR_H = self.font_metrics['linespace']
         self.CHAR_W = font.measure('M')
@@ -816,8 +815,8 @@ class ProgressionDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
 
         font_name = app.getFont('default')
-        font = tkinter_font.Font(parent, font_name)
-        tkfont = tkinter_font.Font(parent, font)
+        font = tkinter.font.Font(parent, font_name)
+        tkfont = tkinter.font.Font(parent, font)
         font_metrics = font.metrics()
         measure = tkfont.measure
         self.text_height = font_metrics['linespace']

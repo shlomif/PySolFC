@@ -3,10 +3,9 @@
 See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
+import html.parser as html_parser
 
 from pysollib.formatter import AS_IS
-
-from six.moves import html_parser
 
 
 class HTMLParseError(RuntimeError):

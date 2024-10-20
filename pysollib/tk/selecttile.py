@@ -22,12 +22,11 @@
 # ---------------------------------------------------------------------------##
 
 import tkinter
+import tkinter.colorchooser
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
-
-from six.moves import tkinter_colorchooser
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
@@ -176,7 +175,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:        # "Solid color..."
             try:
-                c = tkinter_colorchooser.askcolor(
+                c = tkinter.colorchooser.askcolor(
                     master=self.top,
                     initialcolor=self.table_color,
                     title=_("Select table color"))

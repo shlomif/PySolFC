@@ -23,14 +23,13 @@
 
 import os
 import tkinter
+import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.pysolaudio import pysolsoundserver
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxDialog, MfxMessageDialog
 from .tkwidget import PysolScale

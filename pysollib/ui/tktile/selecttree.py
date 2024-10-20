@@ -26,7 +26,7 @@
 # ************************************************************************
 
 # imports
-from six.moves import tkinter_font
+import tkinter.font
 
 
 class BaseSelectDialogTreeLeaf:
@@ -111,7 +111,7 @@ class BaseSelectDialogTreeCanvas:
         self.style.height = 14    # height of symbol
         if font:
             self.style.font = font
-            f = tkinter_font.Font(parent, font)
+            f = tkinter.font.Font(parent, font)
             h = f.metrics()["linespace"]
             self.style.disty = max(self.style.width, h)
 

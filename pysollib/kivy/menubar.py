@@ -2092,7 +2092,7 @@ class PysolMenubarTk:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-#        d = tkFileDialog.Open()
+#        d = tkinter.filedialog.Open()
 #        filename = d.show(filetypes=self.FILETYPES,
 #                          defaultextension=self.DEFAULTEXTENSION,
 #                          initialdir=idir, initialfile=ifile)

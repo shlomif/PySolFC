@@ -21,6 +21,8 @@
 #
 # ---------------------------------------------------------------------------##
 
+import tkinter.ttk as ttk
+
 from pysollib.mygettext import _, n_
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog
@@ -31,8 +33,6 @@ from pysollib.ui.tktile.fullpicturedialog import destroy_full_picture_dialog
 from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
 from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
 from pysollib.util import CARDSET
-
-from six.moves import tkinter_ttk as ttk
 
 from .selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from .selecttile import SelectTileDialogWithPreview

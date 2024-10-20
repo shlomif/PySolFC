@@ -25,7 +25,7 @@ from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.winsystems.common import BaseTkSettings, base_init_root_window
 
 if USE_TILE:
-    from six.moves import tkinter_ttk as ttk
+    import tkinter.ttk as ttk
 
 
 def init_root_window(root, app):

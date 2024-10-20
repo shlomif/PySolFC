@@ -23,6 +23,7 @@
 
 import os
 import tkinter
+import tkinter.ttk as ttk
 
 from pysollib.mfxutil import Image, ImageOps, ImageTk
 from pysollib.mygettext import _, n_
@@ -32,8 +33,6 @@ from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.ui.tktile.tkutil import loadImage
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
-
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxTooltip
 

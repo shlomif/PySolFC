@@ -9,7 +9,7 @@
 
 import os
 import tkinter
-import tkinter.FileDialog
+import tkinter.filedialog
 from glob import glob
 
 from PIL import Image, ImageTk
@@ -174,7 +174,7 @@ def on_mousewheel(event):
 def select_dir():
     global data_dir
 
-    dialog = tkinter.FileDialog.Directory(root)
+    dialog = tkinter.filedialog.Directory(root)
     directory = dialog.show()
     if directory:
         data_dir = os.path.normpath(directory)

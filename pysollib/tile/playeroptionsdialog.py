@@ -22,11 +22,10 @@
 # ---------------------------------------------------------------------------##
 
 import tkinter
+import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
-
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxDialog
 

@@ -9,11 +9,10 @@
 
 import os
 import tkinter
+import tkinter.filedialog
 from glob import glob
 
 from PIL import Image, ImageTk
-
-from six.moves import tkinter_tkfiledialog as filedialog  # messagebox
 
 
 cardset_type = {
@@ -175,7 +174,7 @@ def on_mousewheel(event):
 def select_dir():
     global data_dir
 
-    dialog = filedialog.Directory(root)
+    dialog = tkinter.filedialog.Directory(root)
     directory = dialog.show()
     if directory:
         data_dir = os.path.normpath(directory)

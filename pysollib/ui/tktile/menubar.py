@@ -4,6 +4,7 @@ import platform
 import re
 import sys
 import tkinter
+import tkinter.filedialog
 
 from pysollib.gamedb import GI
 from pysollib.hint import PySolHintLayoutImportError
@@ -17,8 +18,6 @@ from pysollib.ui.tktile.tkconst import COMPOUNDS, CURSOR_WATCH, EVENT_HANDLED
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
 from pysollib.ui.tktile.tkconst import STATUSBAR_ITEMS, TOOLBAR_BUTTONS
 from pysollib.ui.tktile.tkutil import after_idle, bind
-
-from six.moves import tkinter_tkfiledialog
 
 
 def createToolbarMenu(menubar, menu):
@@ -1440,7 +1439,7 @@ class PysolMenubarTkCommon:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-        d = tkinter_tkfiledialog.Open()
+        d = tkinter.filedialog.Open()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1477,7 +1476,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.boards
         # print self.game.filename, ifile
-        d = tkinter_tkfiledialog.SaveAs()
+        d = tkinter.filedialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1509,7 +1508,7 @@ Unsupported game for import.
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.boards
-        d = tkinter_tkfiledialog.Open()
+        d = tkinter.filedialog.Open()
         key = 'PYSOL_DEBUG_IMPORT'
         if key not in os.environ:
             filename = d.show(filetypes=self.FILETYPES,
@@ -1556,7 +1555,7 @@ Unsupported game for import.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkinter_tkfiledialog.SaveAs()
+        d = tkinter.filedialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)

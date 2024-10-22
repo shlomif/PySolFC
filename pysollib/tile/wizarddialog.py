@@ -22,13 +22,12 @@
 # ---------------------------------------------------------------------------
 
 import tkinter
+import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.wizardpresets import presets
 from pysollib.wizardutil import WizardWidgets
-
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxDialog
 from .tkwidget import PysolCombo, PysolScale

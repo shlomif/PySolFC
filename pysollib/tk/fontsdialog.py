@@ -22,13 +22,12 @@
 # ---------------------------------------------------------------------------##
 
 import tkinter
+import tkinter.font
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.tk.tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
-
-from six.moves import tkinter_font
 
 
 class FontChooserDialog(MfxDialog):
@@ -101,7 +100,7 @@ class FontChooserDialog(MfxDialog):
         self.size_var.set(self.font_size)
         self.weight_var.set(self.font_weight == 'bold')
         self.slant_var.set(self.font_slant == 'italic')
-        font_families = list(tkinter_font.families())
+        font_families = list(tkinter.font.families())
         font_families.sort()
         selected = -1
         n = 0

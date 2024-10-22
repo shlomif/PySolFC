@@ -21,15 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
+# Importing necessary modules for the Sanibel card game
 from pysollib.gamedb import GI, GameInfo, registerGame
-from pysollib.games.gypsy import Gypsy
-from pysollib.hint import Yukon_Hint
-from pysollib.layout import Layout
-from pysollib.stack import \
-        SS_FoundationStack, \
-        StackWrapper, \
-        WasteTalonStack, \
-        Yukon_AC_RowStack
+from pysollib.games.gypsy import Gypsy  # Import Gypsy, base class for Sanibel
+from pysollib.hint import Yukon_Hint  # Hint mechanism for Yukon-based games
+from pysollib.layout import Layout  # Layout configuration for the game
+from pysollib.stack import (
+    SS_FoundationStack,  # Foundation stack for completed suits
+    StackWrapper,  # Wrapper for stack with additional functionality
+    WasteTalonStack,  # Talon stack for dealing cards
+    Yukon_AC_RowStack  # Row stack class used in Yukon-like games
+)
 
 # ************************************************************************
 # * Sanibel
@@ -38,26 +40,52 @@ from pysollib.stack import \
 
 
 class Sanibel(Gypsy):
-    Layout_Method = staticmethod(Layout.klondikeLayout)
-    Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
-    Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
-    RowStack_Class = Yukon_AC_RowStack
-    Hint_Class = Yukon_Hint
+    """
+    Class representing the Sanibel card game, a variant of Yukon.
+    It uses a similar layout and gameplay mechanics to Yukon but with
+    specific rules defined in the class.
+    """
+
+    Layout_Method = staticmethod(Layout.klondikeLayout)  # Use Klondike layout
+    Talon_Class = StackWrapper(
+        WasteTalonStack, max_rounds=1
+    )  # One round Talon
+    Foundation_Class = StackWrapper(
+        SS_FoundationStack, max_move=0
+    )  # Foundation stacks
+    RowStack_Class = Yukon_AC_RowStack  # Row stack for Yukon gameplay
+    Hint_Class = Yukon_Hint  # Hint system for Yukon-style games
 
     def createGame(self):
+        """
+        Set up the game with a specific number of rows, waste piles,
+        and initial playcards.
+        """
+        # Create a Gypsy-like game with 10 rows, 1 waste stack,
+        # and 23 playcards
         Gypsy.createGame(self, rows=10, waste=1, playcards=23)
 
     def startGame(self):
+        """
+        Start the game by dealing cards into the talon and rows.
+        """
+        # Deal the first three rows from the talon
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
+        # Deal 6 more rows
         self._startDealNumRows(6)
+        # Deal the last row and cards from the talon
         self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self.s.talon.dealCards()  # Deal the first card to the WasteStack
 
     def getHighlightPilesStacks(self):
+        """
+        Returns an empty tuple, meaning no specific stacks will be highlighted.
+        """
         return ()
 
 
+# Register the Sanibel game in the game database with its associated info
 registerGame(GameInfo(201, Sanibel, "Sanibel",
                       GI.GT_YUKON | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))

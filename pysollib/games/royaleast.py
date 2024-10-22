@@ -21,15 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
+# Importing necessary modules from the pysollib library for the game
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
-from pysollib.stack import \
-        RK_RowStack, \
-        SS_FoundationStack, \
-        WasteStack, \
-        WasteTalonStack
+from pysollib.stack import (
+    RK_RowStack,  # Row stack for holding cards
+    SS_FoundationStack,  # Foundation stack where cards are placed to win
+    WasteStack,  # Waste stack for discarded cards
+    WasteTalonStack  # Talon stack for dealing cards
+)
 
 # ************************************************************************
 # * Royal East
@@ -37,43 +39,61 @@ from pysollib.stack import \
 
 
 class RoyalEast(Game):
-    Hint_Class = CautiousDefaultHint
+    """
+    Class representing the Royal East card game.
+    It defines the layout, rules, and mechanics of the game.
+    """
+
+    Hint_Class = CautiousDefaultHint  # Setting the hint class for this game
 
     #
     # game layout
     #
 
     def createGame(self):
-        # create layout
+        """Set up the game layout and initialize the stacks."""
+        # Initialize the layout and stack container
         l, s = Layout(self), self.s
 
-        # set window
-        self.setSize(l.XM + 5.5*l.XS, l.YM + 4*l.YS)
+        # Set the game window size
+        self.setSize(l.XM + 5.5 * l.XS, l.YM + 4 * l.YS)
 
-        # extra settings
+        # Initialize base card variable
         self.base_card = None
 
-        # create stacks
+        # Create foundation stacks (where cards are stacked by suit)
         for i in range(4):
             dx, dy = ((0, 0), (2, 0), (0, 2), (2, 2))[i]
-            x, y = l.XM + (2*dx+5)*l.XS//2, l.YM + (2*dy+1)*l.YS//2
+            x, y = (
+                l.XM + (2 * dx + 5) * l.XS // 2,
+                l.YM + (2 * dy + 1) * l.YS // 2
+            )
             stack = SS_FoundationStack(x, y, self, i, mod=13, max_move=0)
-            stack.CARD_YOFFSET = 0
+            stack.CARD_YOFFSET = 0  # No vertical card offset
             s.foundations.append(stack)
+
+        # Create row stacks (where cards are initially dealt)
         for i in range(5):
             dx, dy = ((1, 0), (0, 1), (1, 1), (2, 1), (1, 2))[i]
-            x, y = l.XM + (2*dx+5)*l.XS//2, l.YM + (2*dy+1)*l.YS//2
+            x, y = (
+                l.XM + (2 * dx + 5) * l.XS // 2,
+                l.YM + (2 * dy + 1) * l.YS // 2
+            )
             stack = RK_RowStack(x, y, self, mod=13, max_move=1)
-            stack.CARD_YOFFSET = 0
+            stack.CARD_YOFFSET = 0  # No vertical card offset
             s.rows.append(stack)
-        x, y = l.XM, l.YM + 3*l.YS//2
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "s")
-        x = x + l.XS
-        s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
 
-        # define stack-groups
+        # Create the talon (where undealt cards are stored) and waste stacks
+        x, y = l.XM, l.YM + 3 * l.YS // 2
+        s.talon = WasteTalonStack(
+            x, y, self, max_rounds=1
+        )  # Talon with one round of cards
+        l.createText(s.talon, "s")  # Label for the talon
+        x = x + l.XS
+        s.waste = WasteStack(x, y, self)  # Waste stack for discarded cards
+        l.createText(s.waste, "s")  # Label for the waste
+
+        # Define stack groups (standard Solitaire layout grouping)
         l.defaultStackGroups()
 
     #
@@ -81,32 +101,46 @@ class RoyalEast(Game):
     #
 
     def startGame(self):
+        """Start a new game by setting up the base card and dealing cards."""
+        # Set the base card as the last card in the talon stack
         self.base_card = self.s.talon.cards[-1]
+
+        # Set the base rank for each foundation stack based on the base card
         for s in self.s.foundations:
             s.cap.base_rank = self.base_card.rank
-        # deal base card to Foundations
+
+        # Deal the base card to the corresponding foundation stack
         c = self.s.talon.getCard()
         to_stack = self.s.foundations[c.suit * self.gameinfo.decks]
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, to_stack, frames=0)
-        # deal rows
+
+        # Deal cards to row stacks
         self._startAndDealRowAndCards()
 
     def _restoreGameHook(self, game):
+        """Restore the game from a saved state."""
+        # Restore the base card based on its saved ID
         self.base_card = self.cards[game.loadinfo.base_card_id]
+
+        # Set the base rank for the foundation stacks
         for s in self.s.foundations:
             s.cap.base_rank = self.base_card.rank
 
     def _loadGameHook(self, p):
-        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        """Load additional game state during game restoration."""
+        # Register an additional variable to save the base card's ID
+        self.loadinfo.addattr(base_card_id=None)
         self.loadinfo.base_card_id = p.load()
 
     def _saveGameHook(self, p):
+        """Save the game state including the base card's ID."""
         p.dump(self.base_card.id)
 
+    # Define matching highlights for the game
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
-# register the game
+# Register the Royal East game in the game database
 registerGame(GameInfo(93, RoyalEast, "Royal East",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

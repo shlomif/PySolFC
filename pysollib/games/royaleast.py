@@ -38,6 +38,7 @@ from pysollib.stack import (
 # ************************************************************************
 
 class RoyalEast(Game):
+    
     """
     Class representing the Royal East card game.
     It defines the layout, rules, and mechanics of the game.
@@ -63,7 +64,10 @@ class RoyalEast(Game):
         # Create foundation stacks (where cards are stacked by suit)
         for i in range(4):
             dx, dy = ((0, 0), (2, 0), (0, 2), (2, 2))[i]
-            x, y = l.XM + (2 * dx + 5) * l.XS // 2, l.YM + (2 * dy + 1) * l.YS // 2
+            x, y = (
+                l.XM + (2 * dx + 5) * l.XS // 2,
+                l.YM + (2 * dy + 1) * l.YS // 2
+            )
             stack = SS_FoundationStack(x, y, self, i, mod=13, max_move=0)
             stack.CARD_YOFFSET = 0  # No vertical card offset
             s.foundations.append(stack)
@@ -71,14 +75,19 @@ class RoyalEast(Game):
         # Create row stacks (where cards are initially dealt)
         for i in range(5):
             dx, dy = ((1, 0), (0, 1), (1, 1), (2, 1), (1, 2))[i]
-            x, y = l.XM + (2 * dx + 5) * l.XS // 2, l.YM + (2 * dy + 1) * l.YS // 2
+            x, y = (
+                l.XM + (2 * dx + 5) * l.XS // 2,
+                l.YM + (2 * dy + 1) * l.YS // 2
+            )
             stack = RK_RowStack(x, y, self, mod=13, max_move=1)
             stack.CARD_YOFFSET = 0  # No vertical card offset
             s.rows.append(stack)
 
         # Create the talon (where undealt cards are stored) and waste stacks
         x, y = l.XM, l.YM + 3 * l.YS // 2
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)  # Talon with one round of cards
+        s.talon = WasteTalonStack(
+            x, y, self, max_rounds=1
+        )  # Talon with one round of cards
         l.createText(s.talon, "s")  # Label for the talon
         x = x + l.XS
         s.waste = WasteStack(x, y, self)  # Waste stack for discarded cards
@@ -135,4 +144,3 @@ class RoyalEast(Game):
 # Register the Royal East game in the game database
 registerGame(GameInfo(93, RoyalEast, "Royal East",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
-

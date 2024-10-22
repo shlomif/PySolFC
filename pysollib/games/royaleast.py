@@ -37,8 +37,8 @@ from pysollib.stack import (
 # * Royal East
 # ************************************************************************
 
+
 class RoyalEast(Game):
-    
     """
     Class representing the Royal East card game.
     It defines the layout, rules, and mechanics of the game.

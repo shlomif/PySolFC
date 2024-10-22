@@ -38,8 +38,8 @@ from pysollib.stack import (
 # *   play similar to Yukon
 # ************************************************************************
 
-class Sanibel(Gypsy):
 
+class Sanibel(Gypsy):
     """
     Class representing the Sanibel card game, a variant of Yukon.
     It uses a similar layout and gameplay mechanics to Yukon but with

@@ -21,7 +21,7 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Importing necessary classes from the `pysollib` package to define the game 
+# Importing necessary classes from the `pysollib` package to define the game
 # and its components
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame

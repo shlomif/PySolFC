@@ -92,7 +92,7 @@ class ClearTheDungeon(Game):
     #
     # Define the layout of the game
     #
-    
+
     def createGame(self):
         # Create the game layout
         l, s = Layout(self), self.s

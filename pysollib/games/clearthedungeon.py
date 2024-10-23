@@ -58,7 +58,7 @@ class ClearTheDungeon_RowStack(BasicRowStack):
                     goal_rank = card.rank + 1
                     goal_suit = card.suit
                 elif cardnum == 1:
-                    # Add a value of 10 if the card is a joker, otherwise 
+                    # Add a value of 10 if the card is a joker, otherwise
                     # add its rank
                     if card.suit == 4:
                         total += 10

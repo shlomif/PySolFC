@@ -27,10 +27,10 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
 from pysollib.stack import (
-    AbstractFoundationStack, 
-    BasicRowStack, 
-    OpenStack, 
-    ReserveStack, 
+    AbstractFoundationStack,
+    BasicRowStack,
+    OpenStack,
+    ReserveStack,
     TalonStack
 )
 from pysollib.util import ANY_SUIT, JACK, KING, NO_RANK, QUEEN

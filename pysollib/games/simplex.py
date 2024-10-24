@@ -36,6 +36,7 @@ from pysollib.util import ANY_RANK, ANY_SUIT
 # * Simplex
 # ************************************************************************
 
+
 # Helper function to check if all cards in a sequence have the same rank
 def isSameRankSequence(cards):
     c0 = cards[0]  # Get the rank of the first card
@@ -49,7 +50,7 @@ def isSameRankSequence(cards):
 class Simplex_Foundation(AbstractFoundationStack):
     # Function to check if group of cards can be accepted into the foundation
     def acceptsCards(self, from_stack, cards):
-        if len(cards) != 4:  #Foundation only accepts exactly 4 cards at time
+        if len(cards) != 4:
             return False
         return isSameRankSequence(cards)  # Cards must be of the same rank
 

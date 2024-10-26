@@ -784,8 +784,6 @@ class Options:
                     continue
                 for key, value in data.items():
                     if value is False:
-                        print_err('config file: validation error: '
-                                  'section: "%s", key: "%s"' % (section, key))
                         config[section][key] = None
 
         # general

@@ -358,9 +358,11 @@ class PysolMenubar(PysolMenubarTk):
             if 1 and gi.id == self.game.id:
                 # force change of game
                 continue
-            if 1 and gi.category != self.game.gameinfo.category:
+            # Not sure why this check to not change game category existed,
+            # but commented, as it doesn't make sense.
+            # if 1 and gi.category != self.game.gameinfo.category:
                 # don't change game category
-                continue
+                # continue
             won, lost = self.app.stats.getStats(self.app.opt.player, gi.id)
             if type == 'all':
                 games.append(gi.id)

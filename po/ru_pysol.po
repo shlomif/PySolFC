@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-10-19 14:33-0400\n"
+"PO-Revision-Date: 2024-10-29 20:07-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -2406,6 +2406,29 @@ msgid "Castle"
 msgstr ""
 
 msgid "Subjects"
+msgstr ""
+
+msgid ""
+"Castle.  From left to right, accepts the king, queen, and jack of the suit, "
+"in that order."
+msgstr ""
+
+msgid ""
+"Dungeon.  Accepts the ace (dragon) of the suit, but only once the tower and "
+"castle are filled."
+msgstr ""
+
+msgid "Tower.  Accepts the ten (wizard) of the suit."
+msgstr ""
+
+msgid ""
+"Subjects.  Builds down by suit from 9 to 2, but can only be built to once "
+"the castle is filled."
+msgstr ""
+
+msgid ""
+"Guest Chambers.  A free cell, but only accepts cards of the suit, and only "
+"once the king and queen are in the castle."
 msgstr ""
 
 #: pysollib/games/curdsandwhey.py:76

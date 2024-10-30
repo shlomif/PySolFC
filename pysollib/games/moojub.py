@@ -119,7 +119,7 @@ class Moojub(Game):
 # * Four Kingdoms
 # ************************************************************************
 
-class FourKingdoms_Foundation(SS_FoundationStack):
+class FourKingdoms_KingFoundation(SS_FoundationStack):
     RequiredStacks = ()
 
     def acceptsCards(self, from_stack, cards):
@@ -129,23 +129,37 @@ class FourKingdoms_Foundation(SS_FoundationStack):
         return SS_FoundationStack.acceptsCards(self, from_stack, cards)
 
     def getHelp(self):
-        return _('Foundation.')
+        return _('Castle.  From left to right, accepts the king, queen, '
+                 'and jack of the suit, in that order.')
 
 
-class FourKingdoms_DungeonFoundation(FourKingdoms_Foundation):
-    RequiredStacks = (1, 2, 3, 4)
-
-
-class FourKingdoms_QueenFoundation(FourKingdoms_Foundation):
+class FourKingdoms_QueenFoundation(FourKingdoms_KingFoundation):
     RequiredStacks = (-1,)
 
 
-class FourKingdoms_JackFoundation(FourKingdoms_Foundation):
+class FourKingdoms_JackFoundation(FourKingdoms_KingFoundation):
     RequiredStacks = (-1, -2)
 
 
-class FourKingdoms_SubjectsFoundation(FourKingdoms_Foundation):
+class FourKingdoms_DungeonFoundation(FourKingdoms_KingFoundation):
+    RequiredStacks = (1, 2, 3, 4)
+
+    def getHelp(self):
+        return _('Dungeon.  Accepts the ace (dragon) of the suit, but only '
+                 'once the tower and castle are filled.')
+
+
+class FourKingdoms_TowerFoundation(FourKingdoms_KingFoundation):
+    def getHelp(self):
+        return _('Tower.  Accepts the ten (wizard) of the suit.')
+
+
+class FourKingdoms_SubjectsFoundation(FourKingdoms_KingFoundation):
     RequiredStacks = (-1, -2, -3)
+
+    def getHelp(self):
+        return _('Subjects.  Builds down by suit from 9 to 2, but can only '
+                 'be built to once the castle is filled.')
 
 
 class FourKingdoms_Reserve(ReserveStack):
@@ -159,6 +173,11 @@ class FourKingdoms_Reserve(ReserveStack):
             if len(self.game.s.foundations[checkStack + s].cards) == 0:
                 return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
+
+    def getHelp(self):
+        return _('Guest Chambers.  A free cell, but only accepts cards of '
+                 'the suit, and only once the king and queen are in the '
+                 'castle.')
 
 
 class FourKingdoms_RowStack(SS_RowStack):
@@ -187,12 +206,12 @@ class FourKingdoms(Game):
                                                max_cards=1, max_accept=1))
             x += (1.5 * l.XS)
             s.foundations.append(
-                FourKingdoms_Foundation(x, y, self, i, base_rank=9,
-                                        max_cards=1, max_accept=1))
+                FourKingdoms_TowerFoundation(x, y, self, i, base_rank=9,
+                                             max_cards=1, max_accept=1))
             x += (3 * l.XS)
             s.foundations.append(
-                FourKingdoms_Foundation(x, y, self, i, base_rank=KING,
-                                        max_cards=1, max_accept=1))
+                FourKingdoms_KingFoundation(x, y, self, i, base_rank=KING,
+                                            max_cards=1, max_accept=1))
             x += l.XS
             s.foundations.append(
                 FourKingdoms_QueenFoundation(x, y, self, i, base_rank=QUEEN,
@@ -207,6 +226,9 @@ class FourKingdoms(Game):
                                                 dir=-1, max_cards=8,
                                                 max_accept=1))
 
+        # I know it seems weird to add the Guest Chambers out of position
+        # order, but it makes it so much easier to manage the stack logic
+        # later.
         for i in range(4):
             x, y = l.XM + (l.XS * 3), l.YM + l.TEXT_HEIGHT + (l.YS * i)
             s.reserves.append(

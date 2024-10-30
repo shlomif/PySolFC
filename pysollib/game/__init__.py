@@ -827,8 +827,8 @@ class Game(object):
         reset_solver_dialog()
         # unhide toplevel when we use a progress bar
         if not self.preview:
-            wm_map(self.top, maximized=self.app.opt.wm_maximized)
-            self.top.attributes('-fullscreen', self.app.opt.wm_fullscreen)
+            wm_map(self.top, maximized=self.app.opt.wm_maximized,
+                   fullscreen=self.app.opt.wm_fullscreen)
             self.top.busyUpdate()
         if TOOLKIT == 'gtk':
             # FIXME
@@ -910,8 +910,8 @@ class Game(object):
             stats=self.app.stats.getStats(self.app.opt.player, self.id))
         if not self.preview:
             self.updateMenus()
-            wm_map(self.top, maximized=self.app.opt.wm_maximized)
-            self.top.attributes('-fullscreen', self.app.opt.wm_fullscreen)
+            wm_map(self.top, maximized=self.app.opt.wm_maximized,
+                   fullscreen=self.app.opt.wm_fullscreen)
         self.setCursor(cursor=self.app.top_cursor)
         self.stats.update_time = time.time()
         self.busy = old_busy

@@ -46,7 +46,7 @@ def wm_withdraw(window):
     window.wm_withdraw()
 
 
-def wm_map(window, maximized=0):
+def wm_map(window, maximized=0, fullscreen=0):
     return
 
 

@@ -43,7 +43,7 @@ def wm_deiconify(window):
     window.present()
 
 
-def wm_map(window, maximized=None):
+def wm_map(window, maximized=None, fullscreen=None):
     window.show()
 
 

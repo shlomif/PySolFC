@@ -43,12 +43,13 @@ def wm_deiconify(window):
     window.wm_deiconify()
 
 
-def wm_map(window, maximized=0):
+def wm_map(window, maximized=0, fullscreen=0):
     if window.wm_state() != "iconic":
         if maximized and WIN_SYSTEM == "win32":
             window.wm_state("zoomed")
         else:
             wm_deiconify(window)
+    window.attributes('-fullscreen', fullscreen)
 
 
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")

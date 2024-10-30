@@ -112,6 +112,7 @@ num_recent_games = integer(10, 100)
 last_gameid = integer
 game_holded = integer
 wm_maximized = boolean
+wm_fullscreen = boolean
 splashscreen = boolean
 date_format = string
 mouse_type = string
@@ -287,6 +288,7 @@ class Options:
         ('last_gameid', 'int'),
         ('game_holded', 'int'),
         ('wm_maximized', 'bool'),
+        ('wm_fullscreen', 'bool'),
         ('splashscreen', 'bool'),
         ('date_format', 'str'),
         ('mouse_type', 'str'),
@@ -490,6 +492,7 @@ class Options:
         self.last_gameid = 0            # last game played
         self.game_holded = 0            # gameid or 0
         self.wm_maximized = 1
+        self.wm_fullscreen = 0
         self.save_games_geometry = False
         # saved games geometry (gameid: (width, height))
         self.games_geometry = {}

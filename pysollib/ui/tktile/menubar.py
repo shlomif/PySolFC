@@ -994,6 +994,7 @@ class PysolMenubarTkCommon:
         self._bindKey(ctrl, "Down", self.mSelectNextGameById)
 
         self._bindKey("", "F5", self.refresh)
+        self._bindKey("", "F11", self.togglefullscreen)
 
         if os.name == 'posix' and platform.system() != 'Darwin':
             self._bindKey('Alt-', 'F4', self.mQuit)
@@ -2029,6 +2030,9 @@ Unsupported game for import.
         self.app.updateCardset()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
+
+    def togglefullscreen(self, *event):
+        self.app.wm_toggle_fullscreen()
 
     #
     # toolbar support

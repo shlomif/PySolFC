@@ -506,6 +506,10 @@ class Application:
             wm_withdraw(self.top)
             self.top.busyUpdate()
 
+    def wm_toggle_fullscreen(self):
+        self.opt.wm_fullscreen = not self.opt.wm_fullscreen
+        self.top.attributes("-fullscreen", self.opt.wm_fullscreen)
+
     def loadImages1(self):
         # load dialog images
         dirname = os.path.join("images", "logos")

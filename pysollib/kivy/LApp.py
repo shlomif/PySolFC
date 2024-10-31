@@ -1401,6 +1401,11 @@ class LWorkWindow(Widget):
         # return True
 
 # =============================================================================
+# TkBase:
+# When using (introducing) new methods of the main tk window in the tk-version
+# please check if that method is catched here. And provide appropriate
+# implementation if needed. Otherwise the android version will crash.
+# LB241029.
 
 
 class LTkBase:
@@ -1563,6 +1568,9 @@ class LTkBase:
     def winfo_ismapped(self):
         return True
         # ???
+
+    def attributes(self, *args):
+        pass
 
 # =============================================================================
 

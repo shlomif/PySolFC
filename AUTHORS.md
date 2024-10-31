@@ -11,8 +11,8 @@ Main Authors
     * macOS package maintainer
 * [Shlomi Fish](https://www.shlomifish.org/)
     * Continued PySolFC maintenance, port to python 3, test suite (Note: he places all his changes under the Expat licence).
-* https://github.com/lufebe16
-    * Added the Kivy toolkit
+* [lufebe16](https://github.com/lufebe16)
+    * Added the Kivy toolkit and all the Android app related code and build procedures.
 * [Roderik Ploszek](https://github.com/Programator2)
     * Fixes and enhancements
 * [Joe R.](https://github.com/joeraz)

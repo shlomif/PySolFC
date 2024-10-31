@@ -1,0 +1,3 @@
+- some new games (see under games/by-pysol-version)
+- bugfixes.
+- consult NEWS.asscidoc or html-src/news.html on the github repo and https://pysolfc.sourceforge.io for more informations.

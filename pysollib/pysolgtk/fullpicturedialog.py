@@ -50,5 +50,9 @@ def connect_game_full_picture_dialog(game):
     pass
 
 
+def raise_find_card_dialog():
+    pass
+
+
 def destroy_full_picture_dialog():
     pass

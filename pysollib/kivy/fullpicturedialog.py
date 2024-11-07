@@ -108,6 +108,10 @@ def connect_game_full_picture_dialog(game):
     '''
 
 
+def raise_full_picture_dialog():
+    pass
+
+
 def destroy_full_picture_dialog():
     pass
     '''

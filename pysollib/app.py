@@ -53,7 +53,10 @@ from pysollib.pysoltk import PysolStatusbar
 from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
 from pysollib.pysoltk import destroy_find_card_dialog
+from pysollib.pysoltk import destroy_full_picture_dialog
 from pysollib.pysoltk import loadImage, wm_withdraw
+from pysollib.pysoltk import raise_find_card_dialog
+from pysollib.pysoltk import raise_full_picture_dialog
 from pysollib.resource import CSI, CardsetManager
 from pysollib.resource import Music, MusicManager
 from pysollib.resource import Sample, SampleManager
@@ -277,6 +280,7 @@ class Application:
             #
             destroy_help_html()
             destroy_find_card_dialog()
+            destroy_full_picture_dialog()
             destroy_solver_dialog()
             # update options
             self.opt.last_gameid = id_
@@ -509,6 +513,10 @@ class Application:
     def wm_toggle_fullscreen(self):
         self.opt.wm_fullscreen = not self.opt.wm_fullscreen
         self.top.attributes("-fullscreen", self.opt.wm_fullscreen)
+        # Topmost dialogs need to be reset when toggling fullscreen.
+        raise_find_card_dialog()
+        raise_full_picture_dialog()
+        self.top.attributes('-topmost', False)
 
     def loadImages1(self):
         # load dialog images

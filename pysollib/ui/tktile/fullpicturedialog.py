@@ -135,6 +135,14 @@ def connect_game_full_picture_dialog(game):
         pass
 
 
+def raise_full_picture_dialog():
+    try:
+        full_picture_dialog.tkraise()
+        full_picture_dialog.attributes("-topmost", True)
+    except Exception:
+        pass
+
+
 def destroy_full_picture_dialog():
     global full_picture_dialog
     try:

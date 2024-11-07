@@ -46,6 +46,8 @@ from pysollib.pysoltk import TimeoutsDialog
 from pysollib.pysoltk import create_find_card_dialog
 from pysollib.pysoltk import create_full_picture_dialog
 from pysollib.pysoltk import create_solver_dialog
+from pysollib.pysoltk import raise_find_card_dialog
+from pysollib.pysoltk import raise_full_picture_dialog
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE_URL, TITLE
 from pysollib.settings import TOP_SIZE
@@ -534,10 +536,12 @@ class PysolMenubar(PysolMenubarTk):
         if self.game.canFindCard():
             create_find_card_dialog(self.game.top, self.game,
                                     self.app.getFindCardImagesDir())
+            raise_find_card_dialog()
 
     def mFullPicture(self, *args):
         if self.game.canShowFullPicture():
             create_full_picture_dialog(self.game.top, self.game)
+            raise_full_picture_dialog()
 
     def mSolver(self, *args):
         create_solver_dialog(self.game.top, self.app)

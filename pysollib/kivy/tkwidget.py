@@ -372,7 +372,129 @@ class MfxTooltip:
 # Kivy implementation of MfxScrolledCanvas.
 
 
-class LScrollFrame(BoxLayout):
+from kivy.uix.scatterlayout import Scatter        # noqa
+from kivy.uix.stencilview import StencilView      # noqa
+from kivy.graphics.transformation import Matrix   # noqa
+
+
+class LScatterFrame(Scatter):
+    def __init__(self, inner, **kw):
+        super(LScatterFrame, self).__init__(**kw)
+        self.inner = inner
+        self.add_widget(inner)
+        self.bind(pos=self._updatepos)
+        self.bind(size=self._update)
+        self.do_rotation = False
+        self.scale_min = 1.0
+        self.scale_max = 2.5
+        self.do_collide_after_children = True
+        self.saved_pos = None
+        self.lock_pos = None
+
+    def _update(self,instance,value):
+        print("_update",self.pos,self.size)
+        self.inner.size = self.size
+
+    def _updatepos(self,instance,value):
+        print("_updatepos",self.pos,self.size)
+        if self.lock_pos is None:
+            self.lock_pos = "locked"
+            if self.saved_pos is not None:
+                px = self.parent.pos[0]+self.saved_pos[0]
+                py = self.parent.pos[1]+self.saved_pos[1]
+                self.pos = (px,py)
+            self.lock_pos = None
+
+    def collide_point(self,x,y):
+        px,py = self.parent.pos
+        sx,sy = self.parent.size
+        if (px<=x and x<(px+sx) and py<=y and y<(py+sy)):
+            return True
+        return False
+
+    def on_touch_down(self, touch):
+        ret = False
+        x,y = touch.pos
+        if self.collide_point(x,y):
+            ret = super(LScatterFrame, self).on_touch_down(touch)
+        return ret
+
+    def on_touch_up(self, touch):
+        ret = False
+        x,y = touch.pos
+        if self.collide_point(x,y):
+            ret = super(LScatterFrame, self).on_touch_up(touch)
+        return ret
+
+    def on_touch_move(self, touch):
+        ret = False
+        x,y = touch.pos
+        if self.collide_point(x,y):
+            self.lock_pos = "locked"
+            ret = super(LScatterFrame, self).on_touch_move(touch)
+            self.lock_pos = None
+        return ret
+
+    def on_transform_with_touch(self,touch):
+        print("on_transform",self.transform)
+
+        # Restrict translation so that the widget remains fully
+        # filled and the game cannot leave the screen completely.
+
+        # calculate appearant size. As we do not allow rotation
+        # this will work.
+        pw,ph = self.parent.size
+        il = self.transform.transform_point(0,0,0)
+        iu = self.transform.transform_point(pw,ph,0)
+        print ("il",il)
+        print ("iu",iu)
+
+        # Our Edge points are now:
+        w = iu[0] - il[0]
+        h = iu[1] - il[1]
+        x,y = self.pos
+        px,py = self.parent.pos
+        sx,sy = self.parent.size
+
+        print("dim-inner",x,y,w,h)
+        print("dim-parent",px,py,sx,sy)
+
+        # calculate correction matrices
+        tmx = None
+        tmy = None
+        tmxx = None
+        tmyy = None
+        if (x>px):
+            tmx = Matrix().translate(px-x,0,0)
+            print("x0")
+        if (y>py):
+            tmy = Matrix().translate(0,py-y,0)
+            print("y0")
+        if ((x+w) <= (px+sx)):
+            tmxx = Matrix().translate(px+sx-x-w,0,0)
+            print("x1")
+        if ((y+h) <= (py+sy)):
+            tmyy = Matrix().translate(0,py+sy-y-h,0)
+            print("y1")
+
+        # combine and apply
+        tm = Matrix()
+        if tmx is not None:
+            tm = tm.multiply(tmx)
+        if tmy is not None:
+            tm = tm.multiply(tmy)
+        if tmxx is not None:
+            tm = tm.multiply(tmxx)
+        if tmyy is not None:
+            tm = tm.multiply(tmyy)
+
+        self.apply_transform(tm)
+        offx = self.pos[0] - self.parent.pos[0]
+        offy = self.pos[1] - self.parent.pos[1]
+        self.saved_pos = (offx,offy)
+
+
+class LScrollFrame(BoxLayout,StencilView):
     def __init__(self, **kw):
         super(LScrollFrame, self).__init__(orientation="vertical", **kw)
 
@@ -501,22 +623,12 @@ class MfxScrolledCanvas(object):
 
     def createCanvas(self, kw):
         logging.info('MfxRoot: createCanvas')
-        # bd = kw['bd']
         kw['bd'] = 0
-        # relief = kw['relief']
         del kw['relief']
-        # frame = Tkinter.Frame(self.frame, bd=bd, relief=relief)
-        # frame.grid(row=0, column=0, sticky="news")
-        '''
-        self.canvas = MfxCanvas(self.frame, **kw)
-        self.frame.add_widget(self.canvas)
-        self.parent.pushWork(self.frame)
-        '''
         self.canvas = MfxCanvas(self.parent, **kw)
-        self.frame = self.canvas
+        scatter = LScatterFrame(self.canvas)
+        self.frame.add_widget(scatter)
         self.parent.pushWork('playground', self.frame)
-        ''
-        # self.canvas.pack(expand=True, fill='both')
 
     def createHbar(self):
         pass

@@ -181,6 +181,8 @@ class Images:
         # load face cards
         for n in self.cs.getFaceCardNames():
             self._card.append(self.__loadCard(n + self.cs.ext))
+            if self._card[-1] is None:
+                return 0
             self._card[-1].filename = n
             if progress:
                 progress.update(step=pstep)

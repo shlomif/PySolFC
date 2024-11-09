@@ -383,27 +383,29 @@ class LScatterFrame(Scatter):
         self.inner = inner
         self.add_widget(inner)
         self.bind(pos=self._updatepos)
-        self.bind(size=self._update)
+        self.bind(size=self._updatesize)
         self.do_rotation = False
         self.scale_min = 1.0
-        self.scale_max = 2.5
-        self.do_collide_after_children = True
-        self.saved_pos = None
+        self.scale_max = 2.2
         self.lock_pos = None
+        self.offset = None
 
-    def _update(self,instance,value):
-        print("_update",self.pos,self.size)
-        self.inner.size = self.size
-
-    def _updatepos(self,instance,value):
-        print("_updatepos",self.pos,self.size)
+    def _update(self):
         if self.lock_pos is None:
             self.lock_pos = "locked"
-            if self.saved_pos is not None:
-                px = self.parent.pos[0]+self.saved_pos[0]
-                py = self.parent.pos[1]+self.saved_pos[1]
-                self.pos = (px,py)
+            if self.offset is not None:
+                dx = round(self.offset[0] * (self.bbox[1][0] - self.size[0]))
+                dy = round(self.offset[1] * (self.bbox[1][1] - self.size[1]))
+                self.pos = (self.parent.pos[0]-dx,self.parent.pos[1]-dy)
             self.lock_pos = None
+            print("_update",self.pos,self.size)
+
+    def _updatesize(self,instance,value):
+        self.inner.size = self.size
+        self._update()
+
+    def _updatepos(self,instance,value):
+        self._update()
 
     def collide_point(self,x,y):
         px,py = self.parent.pos
@@ -413,85 +415,62 @@ class LScatterFrame(Scatter):
         return False
 
     def on_touch_down(self, touch):
-        ret = False
+        if touch.is_double_tap: return False
         x,y = touch.pos
         if self.collide_point(x,y):
-            ret = super(LScatterFrame, self).on_touch_down(touch)
-        return ret
+            return super(LScatterFrame, self).on_touch_down(touch)
+        return False
 
     def on_touch_up(self, touch):
-        ret = False
+        if touch.grab_current == self:
+            return super(LScatterFrame, self).on_touch_up(touch)
+
         x,y = touch.pos
         if self.collide_point(x,y):
-            ret = super(LScatterFrame, self).on_touch_up(touch)
-        return ret
+            return super(LScatterFrame, self).on_touch_up(touch)
+        return False
 
     def on_touch_move(self, touch):
         ret = False
-        x,y = touch.pos
-        if self.collide_point(x,y):
-            self.lock_pos = "locked"
-            ret = super(LScatterFrame, self).on_touch_move(touch)
-            self.lock_pos = None
+        self.lock_pos = "locked"
+        ret = super(LScatterFrame, self).on_touch_move(touch)
+        self.lock_pos = None
         return ret
 
     def on_transform_with_touch(self,touch):
-        print("on_transform",self.transform)
+        self.chk_bnd()
 
-        # Restrict translation so that the widget remains fully
-        # filled and the game cannot leave the screen completely.
+    def chk_bnd(self):
+        # Keep the game on the screen.
 
-        # calculate appearant size. As we do not allow rotation
-        # this will work.
-        pw,ph = self.parent.size
-        il = self.transform.transform_point(0,0,0)
-        iu = self.transform.transform_point(pw,ph,0)
-        print ("il",il)
-        print ("iu",iu)
-
-        # Our Edge points are now:
-        w = iu[0] - il[0]
-        h = iu[1] - il[1]
-        x,y = self.pos
+        # limiting parameters:
+        pos,size = self.bbox
+        w,h = size
+        x,y = pos
         px,py = self.parent.pos
         sx,sy = self.parent.size
 
-        print("dim-inner",x,y,w,h)
-        print("dim-parent",px,py,sx,sy)
-
-        # calculate correction matrices
-        tmx = None
-        tmy = None
-        tmxx = None
-        tmyy = None
-        if (x>px):
-            tmx = Matrix().translate(px-x,0,0)
-            print("x0")
-        if (y>py):
-            tmy = Matrix().translate(0,py-y,0)
-            print("y0")
-        if ((x+w) <= (px+sx)):
-            tmxx = Matrix().translate(px+sx-x-w,0,0)
-            print("x1")
-        if ((y+h) <= (py+sy)):
-            tmyy = Matrix().translate(0,py+sy-y-h,0)
-            print("y1")
-
-        # combine and apply
+        # calculate correction matrix and apply
         tm = Matrix()
-        if tmx is not None:
-            tm = tm.multiply(tmx)
-        if tmy is not None:
-            tm = tm.multiply(tmy)
-        if tmxx is not None:
-            tm = tm.multiply(tmxx)
-        if tmyy is not None:
-            tm = tm.multiply(tmyy)
-
+        if (x>px):
+            tm = tm.multiply(Matrix().translate(px-x,0,0))
+        if (y>py):
+            tm = tm.multiply(Matrix().translate(0,py-y,0))
+        if ((x+w) <= (px+sx)):
+            tm = tm.multiply(Matrix().translate(px+sx-x-w,0,0))
+        if ((y+h) <= (py+sy)):
+            tm = tm.multiply(Matrix().translate(0,py+sy-y-h,0))
         self.apply_transform(tm)
-        offx = self.pos[0] - self.parent.pos[0]
-        offy = self.pos[1] - self.parent.pos[1]
-        self.saved_pos = (offx,offy)
+
+        # save current offset.
+        self.offset = None
+        offx = self.parent.pos[0] - self.pos[0]
+        offy = self.parent.pos[1] - self.pos[1]
+        offmx = float(self.bbox[1][0] - self.size[0])
+        offmy = float(self.bbox[1][1] - self.size[1])
+        if (offmx>0 and offmy>0):
+            self.offset = (offx/offmx,offy/offmy)
+        # print ("offset = ",self.offset)
 
 
 class LScrollFrame(BoxLayout,StencilView):

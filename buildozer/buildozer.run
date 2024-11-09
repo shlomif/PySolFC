@@ -7,6 +7,14 @@ export GRADLE_OPTS="-Xms1724m -Xmx5048m -Dorg.gradle.jvmargs='-Xms1724m -Xmx5048
 
 echo '### run buildozer'
 
+
+if [ "$1" == "test" ]
+then
+	echo '### ... release.test'
+  buildozer --profile test android release
+  exit 0
+fi
+
 if [ "$1" ]
 then
 	echo '### ... release'

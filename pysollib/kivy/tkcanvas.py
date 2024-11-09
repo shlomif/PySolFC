@@ -653,6 +653,21 @@ class MfxCanvas(LImage):
         self.bind(pos=self.pos_update_widget)
         self.bind(size=self.size_update_widget)
 
+    def on_touch_down(self,touch):
+        ret = False
+        ret = super(MfxCanvas,self).on_touch_down(touch)
+        return ret
+
+    def on_touch_up(self,touch):
+        ret = False
+        ret = super(MfxCanvas,self).on_touch_up(touch)
+        return ret
+
+    def on_touch_move(self,touch):
+        ret = False
+        ret = super(MfxCanvas,self).on_touch_move(touch)
+        return ret
+
     def KivyToCoreP(self, pos, size, scale):
         cpos = pos
         cpos = (cpos[0] - self.pos[0], self.pos[1] +

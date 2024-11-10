@@ -5246,6 +5246,9 @@ msgstr ""
 msgid "&Sticky mouse"
 msgstr ""
 
+msgid "D&rag cards cursor"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:610
 msgid "Use mouse for undo/redo"
 msgstr ""

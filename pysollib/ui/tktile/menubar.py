@@ -348,6 +348,7 @@ class PysolMenubarTkCommon:
             tree_icon_style=tkinter.StringVar(),
             mouse_type=tkinter.StringVar(),
             mouse_undo=tkinter.BooleanVar(),
+            mouse_dragcursor=tkinter.BooleanVar(),
             negative_bottom=tkinter.BooleanVar(),
             pause=tkinter.BooleanVar(),
             theme=tkinter.StringVar(),
@@ -422,6 +423,7 @@ class PysolMenubarTkCommon:
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
+        tkopt.mouse_dragcursor.set(opt.dragcursor)
         tkopt.negative_bottom.set(opt.negative_bottom)
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
@@ -851,6 +853,10 @@ class PysolMenubarTkCommon:
             value='sticky-mouse',
             command=self.mOptMouseType)
         submenu.add_separator()
+        submenu.add_checkbutton(
+            label=n_("D&rag cards cursor"),
+            variable=self.tkopt.mouse_dragcursor,
+            command=self.mOptMouseDragCursor)
         submenu.add_checkbutton(
             label=n_("Use mouse for undo/redo"),
             variable=self.tkopt.mouse_undo,
@@ -2012,6 +2018,11 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.mouse_type = self.tkopt.mouse_type.get()
+
+    def mOptMouseDragCursor(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.dragcursor = self.tkopt.mouse_dragcursor.get()
 
     def mOptMouseUndo(self, *event):
         if self._cancelDrag(break_pause=False):

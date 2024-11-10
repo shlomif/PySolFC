@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-10-29 20:07-0400\n"
+"PO-Revision-Date: 2024-11-10 18:24-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -5587,6 +5587,9 @@ msgstr ""
 #: pysollib/ui/tktile/menubar.py:605
 msgid "&Sticky mouse"
 msgstr "&Липкая мышь"
+
+msgid "D&rag cards cursor"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:610
 msgid "Use mouse for undo/redo"

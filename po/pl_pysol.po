@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-10-29 20:06-0400\n"
+"PO-Revision-Date: 2024-11-10 18:25-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5513,6 +5513,9 @@ msgstr "Wskaż i kliknij"
 #: pysollib/ui/tktile/menubar.py:605
 msgid "&Sticky mouse"
 msgstr "Lepka my&sz"
+
+msgid "D&rag cards cursor"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:610
 msgid "Use mouse for undo/redo"

@@ -260,7 +260,7 @@ class Arachnida(CurdsAndWhey):
         s.foundations.append(
             AbstractFoundationStack(
                 x, y, self, suit=ANY_SUIT,
-                max_accept=0, max_cards=104))
+                max_accept=0, max_move=0, max_cards=104))
         l.createText(s.foundations[0], "s")
 
         # define stack-groups

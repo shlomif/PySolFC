@@ -1347,6 +1347,7 @@ class Game(object):
         # pause game if root window has been iconified
         if self.app and not self.pause:
             self.app.menubar.mPause()
+        # should return EVENT_HANDLED or EVENT_PROPAGATE
 
     _resizeHandlerID = None
 
@@ -1370,6 +1371,7 @@ class Game(object):
         if self._resizeHandlerID:
             self.canvas.after_cancel(self._resizeHandlerID)
         self._resizeHandlerID = self.canvas.after(250, self._resizeHandler)
+        # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
 
     def playSample(self, name, priority=0, loop=0):
 

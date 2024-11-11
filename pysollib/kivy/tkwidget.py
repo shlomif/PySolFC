@@ -371,7 +371,6 @@ class MfxTooltip:
 # ************************************************************************
 # Kivy implementation of MfxScrolledCanvas.
 
-
 from kivy.uix.scatterlayout import Scatter        # noqa
 from kivy.uix.stencilview import StencilView      # noqa
 from kivy.graphics.transformation import Matrix   # noqa
@@ -389,8 +388,27 @@ class LScatterFrame(Scatter):
         self.scale_max = 2.2
         self.lock_pos = None
         self.offset = None
+        self.tkopt = None
+
+    def set_scale(self,zoom):
+        scale = zoom[0]
+        self.transform = Matrix().scale(scale,scale,1)
+        xoff = zoom[1]
+        yoff = zoom[2]
+        self.offset = (xoff,yoff)
 
     def _update(self):
+        # initialisation
+        if self.tkopt is None:
+            app = self.inner.wmain.app
+            tkopt = None
+            if app is not None: tkopt = app.menubar.tkopt
+            if tkopt is not None:
+                self.tkopt = tkopt
+                self.set_scale(tkopt.table_zoom.value)
+                print("table_zoom",tkopt.table_zoom.value)
+
+        # update
         if self.lock_pos is None:
             self.lock_pos = "locked"
             if self.offset is not None:
@@ -470,7 +488,14 @@ class LScatterFrame(Scatter):
         offmy = float(self.bbox[1][1] - self.size[1])
         if (offmx>0 and offmy>0):
             self.offset = (offx/offmx,offy/offmy)
-        # print ("offset = ",self.offset)
+
+        # update persistent zoom parameters
+        zoom = self.bbox[1][0]/float(self.size[0])
+        if self.offset is not None:
+            zoominfo = [zoom, self.offset[0], self.offset[1]]
+        else:
+            zoominfo = [zoom, 0.0, 0.0]
+        self.tkopt.table_zoom.value = zoominfo
 
 
 class LScrollFrame(BoxLayout,StencilView):

@@ -38,6 +38,7 @@ from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
 from pysollib.kivy.LObjWrap import LBoolWrap
+from pysollib.kivy.LObjWrap import LListWrap
 from pysollib.kivy.LObjWrap import LNumWrap
 from pysollib.kivy.LObjWrap import LStringWrap
 from pysollib.kivy.androidrot import AndroidScreenRotation
@@ -1531,6 +1532,7 @@ class PysolMenubarTk:
             language=LStringWrap(opt, "language"),
             save_games_geometry=LBoolWrap(opt, "save_games_geometry"),
             pause=LBoolWrap(self, "pause"),
+            table_zoom=LListWrap(opt, "table_zoom"),
             # cards
             cardset=LNumWrap(self, "cardset"),
             cardback=LNumWrap(self, "cardback"),

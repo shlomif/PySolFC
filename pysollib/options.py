@@ -143,6 +143,7 @@ solver_iterations_output_step = integer
 solver_preset = string
 display_win_message = boolean
 language = string
+table_zoom = list
 
 [sound_samples]
 move = boolean
@@ -322,6 +323,7 @@ class Options:
         # ('favorite_gameid', 'list'),
         ('display_win_message', 'bool'),
         ('language', 'str'),
+        # ('table_zoom', 'list'),
         ]
 
     def __init__(self):
@@ -417,6 +419,7 @@ class Options:
         self.translate_game_names = True
         self.display_win_message = True
         self.language = ''
+        self.table_zoom = [1.0, 0.0, 0.0]
         # sound
         self.sound = True
         self.sound_mode = 1
@@ -668,6 +671,7 @@ class Options:
 
         config['general']['recent_gameid'] = self.recent_gameid
         config['general']['favorite_gameid'] = self.favorite_gameid
+        config['general']['table_zoom'] = self.table_zoom
         visible_buttons = [b for b in self.toolbar_vars
                            if self.toolbar_vars[b]]
         config['general']['visible_buttons'] = visible_buttons
@@ -810,6 +814,13 @@ class Options:
         if favorite_gameid is not None:
             try:
                 self.favorite_gameid = [int(i) for i in favorite_gameid]
+            except Exception:
+                traceback.print_exc()
+
+        table_zoom = self._getOption('general', 'table_zoom', 'list')
+        if table_zoom is not None:
+            try:
+                self.table_zoom = [float(i) for i in table_zoom]
             except Exception:
                 traceback.print_exc()
 

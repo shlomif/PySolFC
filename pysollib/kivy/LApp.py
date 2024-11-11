@@ -57,6 +57,7 @@ from pysollib.kivy.LBase import LBase
 from pysollib.kivy.LTask import LTask, LTaskQ
 from pysollib.kivy.androidperms import requestStoragePerm
 from pysollib.kivy.androidrot import AndroidScreenRotation
+from pysollib.kivy.tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.resource import CSI
 
 if platform != 'android':
@@ -792,27 +793,44 @@ class LImageItem(BoxLayout, LBase):
     def get_image_type(self):
         return self.image_type
 
+    '''
+    NOTE:
+    The following code binds kivy events to tk-like (?) events used
+    in common code. There are several problems
+    - EVENT_HANDLED and EVENT_PROPAGATE constants are defined separately in
+      different ui implementations, but are used in common code (stack.py,
+      game/__init__.py, many game implementations: (241 functions!))
+    - EVENT_PROPAGATE is defined to 'None', which is highly unspecific.
+      (conditions would evaluate to False, empty returns of event function
+      implicitly return EVENT_PROPAGATE).
+    - Most events return EVENT_HANDLED even if they did not change anything
+      in current situations. I would expect specifically for stack base cards
+      that they return HANDLE_PROPAGATE if nothing happened.
+    LB241111.
+    '''
+
     def send_event_pressed_n(self, event, n):
+        r = EVENT_PROPAGATE
         if self.group and n in self.group.bindings:
-            self.group.bindings[n](event)
+            r = self.group.bindings[n](event)
+        return r
 
     def send_event_pressed(self, touch, event):
 
+        r = EVENT_PROPAGATE
         if touch.is_double_tap:
-            self.send_event_pressed_n(event, '<Double-1>')
+            r = self.send_event_pressed_n(event, '<Double-1>')
         else:
             button = 'left'
             if 'button' in touch.profile:
                 button = touch.button
             if button == 'left':
-                self.send_event_pressed_n(event, '<1>')
-                return
+                r = self.send_event_pressed_n(event, '<1>')
             if button == 'middle':
-                self.send_event_pressed_n(event, '<2>')
-                return
+                r = self.send_event_pressed_n(event, '<2>')
             if button == 'right':
-                self.send_event_pressed_n(event, '<3>')
-                return
+                r = self.send_event_pressed_n(event, '<3>')
+        return r
 
     def on_touch_down(self, touch):
 
@@ -825,9 +843,6 @@ class LImageItem(BoxLayout, LBase):
                         if stack.cards[i] == self.card:
                             print('LCardImage: stack = %s' % stack)
                             print('LCardImage: touch = %s' % str(touch))
-                            print('grab')
-                            # grab the touch!
-                            touch.grab(self)
                             ppos, psize = self.game.canvas.KivyToCore(
                                 touch.pos, self.size)
                             event = LEvent()
@@ -835,9 +850,14 @@ class LImageItem(BoxLayout, LBase):
                             event.y = ppos[1]
                             self.dragstart = touch.pos
                             event.cardid = i
-                            self.send_event_pressed(touch, event)
-                            AndroidScreenRotation.lock(toaster=False)
-                            return True
+                            r = self.send_event_pressed(touch, event)
+                            # print("********* event return = ",r)
+                            if r == EVENT_HANDLED:
+                                AndroidScreenRotation.lock(toaster=False)
+                                print('grab')
+                                touch.grab(self)
+                                return True
+                            return False
 
             if self.group is not None:
                 print('LCardImage: self=%s group=%s' % (self, self.group))
@@ -847,8 +867,10 @@ class LImageItem(BoxLayout, LBase):
                     event = LEvent()
                     event.x = ppos[0]
                     event.y = ppos[1]
-                    self.group.bindings['<1>'](event)
-                    return True
+                    r = self.group.bindings['<1>'](event)
+                    if r == EVENT_HANDLED:
+                        return True
+                    return False
 
             if self.card is None:
                 return False
@@ -859,12 +881,14 @@ class LImageItem(BoxLayout, LBase):
         return False
 
     def send_event_released_1(self, event):
+        r = EVENT_PROPAGATE
         if self.group and '<ButtonRelease-1>' in self.group.bindings:
-            self.group.bindings['<ButtonRelease-1>'](event)
+            r = self.group.bindings['<ButtonRelease-1>'](event)
+        return r
 
     def on_touch_up(self, touch):
         if touch.grab_current is self:
-            # release my grabbed touch!
+            # ungrab. this stops move events after a drag.
             print('ungrab')
             touch.ungrab(self)
             return True
@@ -882,8 +906,11 @@ class LImageItem(BoxLayout, LBase):
                             event.x = ppos[0]
                             event.y = ppos[1]
                             event.cardid = i
-                            self.send_event_released_1(event)
-                            return True
+                            r = self.send_event_released_1(event)
+                            # print("********* event return = ",r)
+                            if r == EVENT_HANDLED:
+                                return True
+                            return False
 
             if self.group is not None:
                 print('LCardImage: self=%s group=%s' % (self, self.group))
@@ -893,8 +920,10 @@ class LImageItem(BoxLayout, LBase):
                     event = LEvent()
                     event.x = ppos[0]
                     event.y = ppos[1]
-                    self.group.bindings['<ButtonRelease-1>'](event)
-                    return True
+                    r = self.group.bindings['<ButtonRelease-1>'](event)
+                    if r == EVENT_HANDLED:
+                        return True
+                    return False
 
             if self.card is None:
                 return False

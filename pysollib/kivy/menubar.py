@@ -387,6 +387,9 @@ class EditMenuDialog(LMenuDialog):  # Tools
             text=_('Shuffle tiles'), command=self.menubar.mShuffle))
         tv.add_node(LTreeNode(
             text=_('Deal cards'), command=self.menubar.mDeal))
+        tv.add_node(LTreeNode(
+            text=_('Reset zoom'),
+            command=self.auto_close(self.menubar.mResetZoom)))
 
         self.addCheckNode(tv, None,
                           _('Pause'),
@@ -2140,6 +2143,9 @@ class PysolMenubarTk:
                 toast = Toast(text=text)
                 toast.show(parent=baseWindow, duration=5.0)
             self.updateMenus()
+
+    def mResetZoom(self, *args):
+        self.tkopt.table_zoom.value = [1.0, 0.0, 0.0]
 
     def mPause(self, *args):
         if not self.game:

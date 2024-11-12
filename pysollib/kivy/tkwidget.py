@@ -397,6 +397,10 @@ class LScatterFrame(Scatter):
         yoff = zoom[2]
         self.offset = (xoff,yoff)
 
+    def _change_command(self,inst,val):
+        if self.lock_pos is None:
+            self.set_scale(val)
+
     def _update(self):
         # initialisation
         if self.tkopt is None:
@@ -407,6 +411,7 @@ class LScatterFrame(Scatter):
                 self.tkopt = tkopt
                 self.set_scale(tkopt.table_zoom.value)
                 print("table_zoom",tkopt.table_zoom.value)
+                tkopt.table_zoom.bind(value=self._change_command)
 
         # update
         if self.lock_pos is None:

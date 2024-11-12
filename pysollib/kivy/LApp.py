@@ -806,6 +806,10 @@ class LImageItem(BoxLayout, LBase):
     - Most events return EVENT_HANDLED even if they did not change anything
       in current situations. I would expect specifically for stack base cards
       that they return HANDLE_PROPAGATE if nothing happened.
+    - stack __defaultclickhandler__ returns EVENT_HANDLED in any case so some
+      code here is obsolete or for future.
+    - A pragmatic way to handle this: If an empty stack is still empty
+      after the click then we propagate otherwise not.
     LB241111.
     '''
 
@@ -851,7 +855,6 @@ class LImageItem(BoxLayout, LBase):
                             self.dragstart = touch.pos
                             event.cardid = i
                             r = self.send_event_pressed(touch, event)
-                            # print("********* event return = ",r)
                             if r == EVENT_HANDLED:
                                 AndroidScreenRotation.lock(toaster=False)
                                 print('grab')
@@ -869,7 +872,8 @@ class LImageItem(BoxLayout, LBase):
                     event.y = ppos[1]
                     r = self.group.bindings['<1>'](event)
                     if r == EVENT_HANDLED:
-                        return True
+                        if len(self.group.stack.cards) > 0:
+                            return True
                     return False
 
             if self.card is None:
@@ -907,7 +911,6 @@ class LImageItem(BoxLayout, LBase):
                             event.y = ppos[1]
                             event.cardid = i
                             r = self.send_event_released_1(event)
-                            # print("********* event return = ",r)
                             if r == EVENT_HANDLED:
                                 return True
                             return False
@@ -922,7 +925,8 @@ class LImageItem(BoxLayout, LBase):
                     event.y = ppos[1]
                     r = self.group.bindings['<ButtonRelease-1>'](event)
                     if r == EVENT_HANDLED:
-                        return True
+                        if len(self.group.stack.cards) > 0:
+                            return True
                     return False
 
             if self.card is None:

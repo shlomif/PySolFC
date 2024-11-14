@@ -23,6 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
 from pysollib.stack import \
         OpenTalonStack, \
@@ -34,6 +35,20 @@ from pysollib.stack import \
 # ************************************************************************
 # * Crossword
 # ************************************************************************
+
+
+class Crossword_Hint(AbstractHint):
+
+    def computeHints(self):
+        game = self.game
+        rows = game.s.rows
+        for i in range(len(rows)):
+            r = rows[i]
+            if r.cards:
+                continue
+            if game.isValidPlay(r.id, game.s.talon.getCard().rank + 1):
+                # TODO: Check a few moves ahead to get better hints.
+                self.addHint(5000, 1, game.s.talon, r)
 
 
 class Crossword_RowStack(ReserveStack):
@@ -85,7 +100,7 @@ class Crossword(Game):
     Talon_Class = OpenTalonStack
     RowStack_Class = StackWrapper(Crossword_RowStack, max_move=0)
     FinalCards_Class = StackWrapper(Crossword_FinalCard, max_move=0)
-    Hint_Class = None
+    Hint_Class = Crossword_Hint
 
     #
     # game layout

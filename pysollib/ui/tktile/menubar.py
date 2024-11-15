@@ -1119,8 +1119,8 @@ class PysolMenubarTkCommon:
             if not mahjongg_games[n:n + d]:
                 break
             m = min(n + d - 1, len(mahjongg_games) - 1)
-            label = mahjongg_games[n].short_name[:3] + ' - ' + \
-                mahjongg_games[m].short_name[:3]
+            label = mahjongg_games[n].short_name[:3].strip() + ' - ' + \
+                mahjongg_games[m].short_name[:3].strip()
             submenu = MfxMenu(menu, label=label, name=None)
             self._addSelectGameSubSubMenu(mahjongg_games[n:n + d], submenu,
                                           command, variable, short_name=True)
@@ -1182,7 +1182,8 @@ class PysolMenubarTkCommon:
             if not games[n:n+d]:
                 break
             m = min(n+d-1, len(games)-1)
-            label = games[n].name[:3] + ' - ' + games[m].name[:3]
+            label = games[n].name[:3].strip() + ' - ' + \
+                games[m].name[:3].strip()
             submenu = MfxMenu(menu, label=label, name=None)
             self._addSelectGameSubSubMenu(games[n:n+d], submenu,
                                           command, variable)

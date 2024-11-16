@@ -344,6 +344,10 @@ class SelectTileDialogWithPreview(MfxDialog):
         d = SelectTileAdvancedSearch(self.top, _("Advanced search"),
                                      self.criteria)
         if d.status == 0 and d.button == 0:
+            self.criteria = SearchCriteria()
+            self.performSearch()
+
+        if d.status == 0 and d.button == 1:
             self.criteria.name = d.name.get()
 
             self.list_searchtext.delete(0, "end")
@@ -461,13 +465,15 @@ class SelectTileAdvancedSearch(MfxDialog):
                           padx=1, pady=1)
             row += 1
 
+        top_frame.columnconfigure(4, weight=1)
+
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"), _("&Cancel")), default=0,
-                      padx=10, pady=10,
+                      strings=(_("C&lear"), 'sep', _("&OK"), _("&Cancel")),
+                      default=1, padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)

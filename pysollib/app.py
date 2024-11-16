@@ -567,6 +567,7 @@ class Application:
                 (_('&Next number'), 'next'),
                 (_('&Play'), 'next'),
                 (_('&Play this game'), 'next'),
+                (_('C&lear'), 'clear'),
                 (_('&Solid color...'), 'color'),
                 (_('&Save to file'), 'save'),
                 (_('&Statistics...'), 'statistics'),

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-11-10 18:25-0500\n"
+"PO-Revision-Date: 2024-11-16 11:22-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -116,6 +116,9 @@ msgstr "&Następny numer"
 #: pysollib/ui/tktile/edittextdialog.py:38
 msgid "&Cancel"
 msgstr "Anuluj"
+
+msgid "C&lear"
+msgstr ""
 
 #: pysollib/actions.py:311
 msgid "Select random game"

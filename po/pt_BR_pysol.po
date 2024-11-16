@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-11-10 18:26-0500\n"
+"PO-Revision-Date: 2024-11-16 11:23-0500\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -115,6 +115,9 @@ msgstr "&próximo número"
 #: pysollib/ui/tktile/edittextdialog.py:38
 msgid "&Cancel"
 msgstr "&Cancelar"
+
+msgid "C&lear"
+msgstr ""
 
 #: pysollib/actions.py:311
 msgid "Select random game"

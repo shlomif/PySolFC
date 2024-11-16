@@ -154,7 +154,7 @@ class MfxDialog:  # ex. _ToplevelDialog
             separator = ttk.Separator(self._frame)
             separator.pack(side='bottom', fill='x')
         top_frame = ttk.Frame(self._frame)
-        top_frame.pack(side='top', fill='both', expand=1)
+        top_frame.pack(side='top', fill='both', expand=True)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):

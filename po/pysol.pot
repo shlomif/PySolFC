@@ -113,6 +113,9 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
+msgid "C&lear"
+msgstr ""
+
 #: pysollib/actions.py:311
 msgid "Select random game"
 msgstr ""

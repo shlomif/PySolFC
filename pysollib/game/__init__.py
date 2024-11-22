@@ -2631,6 +2631,7 @@ class Game(object):
         self.canvas.setTopImage(None)
         self.demo_logo = None
         self.demo = None
+        self.busy = False
         self.updateMenus()
 
     # demo event - play one demo move and check for win/loss

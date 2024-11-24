@@ -23,7 +23,7 @@ from pysollib.ui.tktile.tkutil import after_idle, bind
 def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
-    submenu = MfxMenu(menu, label=n_('Icon Style'), tearoff=tearoff)
+    submenu = MfxMenu(menu, label=n_('Icon style'), tearoff=tearoff)
     styledirs = os.listdir(data_dir)
     styledirs.sort()
     for f in styledirs:
@@ -34,7 +34,7 @@ def createToolbarMenu(menubar, menu):
               label=name,
               variable=menubar.tkopt.toolbar_style,
               value=f, command=menubar.mOptToolbarStyle)
-    submenu = MfxMenu(menu, label=n_('Icon Size'), tearoff=tearoff)
+    submenu = MfxMenu(menu, label=n_('Icon size'), tearoff=tearoff)
     submenu.add_radiobutton(label=n_("Small icons"),
                             variable=menubar.tkopt.toolbar_size, value=0,
                             command=menubar.mOptToolbarSize)
@@ -911,7 +911,7 @@ class PysolMenubarTkCommon:
             label=n_("What's &new?"),
             command=self.mHelpNews)
         menu.add_command(
-            label=n_("R&eport a Bug"),
+            label=n_("R&eport a bug"),
             command=self.mHelpReportBug)
         menu.add_command(
             label=n_("&License terms"),

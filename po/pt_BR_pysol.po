@@ -5044,10 +5044,10 @@ msgstr "Encontrar carta"
 msgid "Full picture"
 msgstr ""
 
-msgid "Icon Style"
+msgid "Icon style"
 msgstr ""
 
-msgid "Icon Size"
+msgid "Icon size"
 msgstr ""
 
 msgid "Small icons"
@@ -5613,8 +5613,8 @@ msgstr "&Regras desse jogo"
 msgid "What's &new?"
 msgstr "&Novidades"
 
-msgid "R&eport a Bug"
-msgstr "R&eportar um Bug"
+msgid "R&eport a bug"
+msgstr "R&eportar um bug"
 
 #: pysollib/ui/tktile/menubar.py:660
 msgid "&License terms"

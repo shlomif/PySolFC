@@ -5042,10 +5042,10 @@ msgstr "Znajdź kartę"
 msgid "Full picture"
 msgstr ""
 
-msgid "Icon Style"
+msgid "Icon style"
 msgstr "Wygląd ikon"
 
-msgid "Icon Size"
+msgid "Icon size"
 msgstr "Rozmiar ikon"
 
 msgid "Small icons"
@@ -5605,7 +5605,7 @@ msgstr "Zasady tej g&ry"
 msgid "What's &new?"
 msgstr "Co &nowego?"
 
-msgid "R&eport a Bug"
+msgid "R&eport a bug"
 msgstr "Zgłoś błąd"
 
 #: pysollib/ui/tktile/menubar.py:660

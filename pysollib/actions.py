@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-import locale
 import os
 
 from pysollib.gamedb import GI
@@ -566,20 +565,17 @@ class PysolMenubar(PysolMenubarTk):
                 fn = os.path.normpath(fn)
                 if not text.endswith(os.linesep):
                     text += os.linesep
-                enc = locale.getpreferredencoding()
                 try:
                     with open(fn, 'at') as fh:
-                        fh.write(text.encode(enc, 'replace'))
+                        fh.write(d.text)
                 except Exception as err:
-                    d = MfxExceptionDialog(
-                        self.top, err,
-                        text=_("Error while writing to file"))
+                    MfxExceptionDialog(
+                        self.top, err, text=_("Error while writing to file"))
                 else:
-                    d = MfxMessageDialog(
+                    MfxMessageDialog(
                         self.top, title=_("%s Info") % TITLE, bitmap="info",
                         text=_("Comments were appended to\n\n%(filename)s")
                         % {'filename': fn})
-        self._setCommentMenu(bool(game.gsaveinfo.comment))
 
     #
     # Game menu - statistics

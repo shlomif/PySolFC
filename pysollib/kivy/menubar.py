@@ -2059,9 +2059,6 @@ class PysolMenubarTk:
         # LB: not used
         return
 
-    def _setCommentMenu(self, v):
-        return
-
     def _setPauseMenu(self, v):
         self.tkopt.pause.value = v
 

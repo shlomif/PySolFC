@@ -291,7 +291,6 @@ class PysolMenubarTkCommon:
         self.tkopt = Struct(
             gameid=tkinter.IntVar(),
             gameid_popular=tkinter.IntVar(),
-            comment=tkinter.BooleanVar(),
             autofaceup=tkinter.BooleanVar(),
             autodrop=tkinter.BooleanVar(),
             autodeal=tkinter.BooleanVar(),
@@ -438,7 +437,6 @@ class PysolMenubarTkCommon:
         tkopt = self.tkopt
         tkopt.gameid.set(game.id)
         tkopt.gameid_popular.set(game.id)
-        tkopt.comment.set(bool(game.gsaveinfo.comment))
         tkopt.pause.set(self.game.pause)
         if game.canFindCard():
             self._connect_game_find_card_dialog(game)
@@ -621,8 +619,8 @@ class PysolMenubarTkCommon:
             label=n_("Log..."),
             command=lambda: self.mPlayerStats(mode=103))
         menu.add_separator()
-        menu.add_checkbutton(
-            label=n_("&Comments..."), variable=self.tkopt.comment,
+        menu.add_command(
+            label=n_("&Comments..."),
             command=self.mEditGameComment)
 
         menu = MfxMenu(self.menubar, label=n_("&Assist"))
@@ -1399,9 +1397,6 @@ class PysolMenubarTkCommon:
         s = self._getEnabledState(state)
         w = getattr(self.app.toolbar, path + "_button")
         w["state"] = s
-
-    def _setCommentMenu(self, v):
-        self.tkopt.comment.set(v)
 
     def _setPauseMenu(self, v):
         self.tkopt.pause.set(v)

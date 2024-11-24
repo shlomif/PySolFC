@@ -781,7 +781,7 @@ class Game(object):
     def getGameNumber(self, format):
         s = self.random.getSeedAsStr()
         if format:
-            return "# " + s
+            return "#" + s
         return s
 
     # this is called from within createGame()

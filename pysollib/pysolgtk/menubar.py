@@ -762,10 +762,6 @@ class PysolMenubarTk:
     def updateAll(self, *event):
         self.app.canvas.updateAll()
 
-    def _setCommentMenu(self, v):
-        # FIXME
-        pass
-
     def _setPauseMenu(self, v):
         # FIXME
         pass

@@ -2274,6 +2274,8 @@ class Game(object):
                     self.finishMove()
                     if self.checkForWin():
                         return 1
+            self.top.update_idletasks()
+            self.top.busyUpdate()
         return 0
 
     def _autoDeal(self, sound=True):

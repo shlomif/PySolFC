@@ -40,7 +40,7 @@ class LObjWrap(EventDispatcher):
             self.bind(value=command)
 
     def on_value(self,inst,val):
-        logging.info("LObjWrap: %s = %s" % (self.ref,val))
+        # logging.info("LObjWrap: %s = %s" % (self.ref,val))
         if self.ref is not None:
             setattr(self.obj,self.ref,val)
 

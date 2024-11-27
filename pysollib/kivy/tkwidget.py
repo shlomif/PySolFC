@@ -387,6 +387,7 @@ class LScatterFrame(Scatter):
         self.scale_min = 1.0
         self.scale_max = 2.2
         self.lock_pos = None
+        self.lock_chk = None
         self.offset = None
         self.tkopt = None
 
@@ -420,8 +421,10 @@ class LScatterFrame(Scatter):
                 dx = round(self.offset[0] * (self.bbox[1][0] - self.size[0]))
                 dy = round(self.offset[1] * (self.bbox[1][1] - self.size[1]))
                 self.pos = (self.parent.pos[0]-dx,self.parent.pos[1]-dy)
+                if self.lock_chk is None:
+                    Clock.schedule_once(lambda dt: self.chk_bnd()) # noqa
             self.lock_pos = None
-            print("_update",self.pos,self.size)
+            # print("_update",self.pos,self.size)
 
     def _updatesize(self,instance,value):
         self.inner.size = self.size
@@ -466,6 +469,10 @@ class LScatterFrame(Scatter):
     def chk_bnd(self):
         # Keep the game on the screen.
 
+        # check and set lock
+        if self.lock_chk is not None: return
+        self.lock_chk = "locked"
+
         # limiting parameters:
         pos,size = self.bbox
         w,h = size
@@ -501,6 +508,9 @@ class LScatterFrame(Scatter):
         else:
             zoominfo = [zoom, 0.0, 0.0]
         self.tkopt.table_zoom.value = zoominfo
+
+        # remove lock
+        self.lock_chk = None
 
 
 class LScrollFrame(BoxLayout,StencilView):

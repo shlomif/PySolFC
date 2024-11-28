@@ -37,6 +37,7 @@ from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
+from pysollib.kivy.LApp import LTreeSliderNode
 from pysollib.kivy.LObjWrap import LBoolWrap
 from pysollib.kivy.LObjWrap import LListWrap
 from pysollib.kivy.LObjWrap import LNumWrap
@@ -131,6 +132,11 @@ class LMenuBase(object):
             LTreeNode(text=title,
                       command=command,
                       variable=auto_var, value=auto_val), rg)
+        return rg1
+
+    def addSliderNode(self, tv, rg, auto_var, auto_setup):
+        rg1 = tv.add_node(
+            LTreeSliderNode(variable=auto_var, setup=auto_setup), rg)
         return rg1
 
 # ************************************************************************
@@ -1259,6 +1265,38 @@ class LOptionsMenuGenerator(LTreeGenerator):
         # -------------------------------------------
         # general options
 
+        rg = tv.add_node(
+            LTreeNode(text=_('Font size')))
+        if rg:
+            self.addRadioNode(tv, rg,
+                              _('default'),
+                              self.menubar.tkopt.fontscale, 'default',
+                              None)
+            self.addRadioNode(tv, rg,
+                              _('tiny'),
+                              self.menubar.tkopt.fontscale, 'tiny',
+                              None)
+            self.addRadioNode(tv, rg,
+                              _('small'),
+                              self.menubar.tkopt.fontscale, 'small',
+                              None)
+            self.addRadioNode(tv, rg,
+                              _('normal'),
+                              self.menubar.tkopt.fontscale, 'normal',
+                              None)
+            self.addRadioNode(tv, rg,
+                              _('large'),
+                              self.menubar.tkopt.fontscale, 'large',
+                              None)
+            self.addRadioNode(tv, rg,
+                              _('huge'),
+                              self.menubar.tkopt.fontscale, 'huge',
+                              None)
+            '''
+            self.addSliderNode(tv, rg, self.menubar.tkopt.fontsizefactor,
+                               (0.7, 2.0, 0.1))
+            '''
+
         # self.addCheckNode(tv, None,
         #   'Save games geometry',
         #   self.menubar.tkopt.save_games_geometry,
@@ -1433,6 +1471,25 @@ class PysolMenubarTk:
         AndroidScreenRotation.unlock(toaster=False)
         print('unlock screen rotation')
 
+    def setFontScale(self, obj, val):
+        from kivy.metrics import Metrics
+        vals = {
+            'tiny':   0.833,
+            'small':  1.0,
+            'normal': 1.2,
+            'large':  1.44,
+            'huge':   1.728
+        }
+        if val == 'default':
+            Metrics.reset_metrics()
+        else:
+            Metrics.fontscale = vals[val]
+    '''
+    def setFontSize(self, obj, val):
+        from kivy.metrics import Metrics
+        Metrics.fontscale = val
+    '''
+
     def _createTkOpt(self):
         opt = self.app.opt
 
@@ -1536,6 +1593,8 @@ class PysolMenubarTk:
             save_games_geometry=LBoolWrap(opt, "save_games_geometry"),
             pause=LBoolWrap(self, "pause"),
             table_zoom=LListWrap(opt, "table_zoom"),
+            fontscale=LStringWrap(opt, "fontscale", self.setFontScale),
+            # fontsizefactor=LNumWrap(opt, "fontsizefactor", self.setFontSize),
             # cards
             cardset=LNumWrap(self, "cardset"),
             cardback=LNumWrap(self, "cardback"),
@@ -1554,9 +1613,10 @@ class PysolMenubarTk:
             self.tkopt.color_vars[k] = LStringWrap(self.cvo, k)
 
     def _setOptions(self):
-        # not supported
         self.tkopt.save_games_geometry.value = False
         self.getToolbarPos(None, Window.size)
+        self.setFontScale(None, self.tkopt.fontscale.value)
+        # self.setFontSize(None, self.tkopt.fontsizefactor.value)
         Window.bind(size=self.getToolbarPos)
 
     def getToolbarPos(self, obj, size):

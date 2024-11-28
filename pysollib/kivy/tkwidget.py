@@ -441,11 +441,21 @@ class LScatterFrame(Scatter):
         return False
 
     def on_touch_down(self, touch):
-        if touch.is_double_tap: return False
+        ret = False
         x,y = touch.pos
         if self.collide_point(x,y):
-            return super(LScatterFrame, self).on_touch_down(touch)
-        return False
+            if touch.is_double_tap:
+                # Do not use the event handling of scatter because scatter
+                # does not allow to propagate an unhandled double tap back
+                # to parent (it grabs the touch unseen if not
+                # handled by a child!).
+                touch.push()
+                touch.apply_transform_2d(self.to_local)
+                ret = self.inner.on_touch_down(touch)
+                touch.pop()
+            else:
+                ret = super(LScatterFrame, self).on_touch_down(touch)
+        return ret
 
     def on_touch_up(self, touch):
         if touch.grab_current == self:

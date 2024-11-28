@@ -48,8 +48,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.slider import Slider
 from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
+from kivy.uix.treeview import TreeViewNode
 from kivy.uix.widget import Widget
 from kivy.utils import platform
 
@@ -986,6 +988,31 @@ class LTreeRoot(TreeView, LBase):
 
         return ret
 
+class LTreeSliderNode(Slider, TreeViewNode, LBase):
+
+    def __init__(self, **kw):
+        self.variable = None
+        if 'variable' in kw:
+            self.variable = kw['variable']
+            del kw['variable']
+        if 'setup' in kw:
+            self.min  = kw['setup'][0]
+            self.max  = kw['setup'][1]
+            self.step = kw['setup'][2]
+            del kw['setup']
+
+        super(LTreeSliderNode, self).__init__(markup=True, **kw)
+        self.value = self.variable.value
+        self.height = '24sp'
+        self.background_width = '12sp'
+        self.background_height = '12sp'
+        self.cursor_height = '12sp'
+        self.cursor_width = '12sp'
+
+    def on_value(self,obj,val):
+        print (val)
+        self.variable.value = val
+
 
 class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
 
@@ -1710,13 +1737,12 @@ class LMainWindow(BoxLayout, LTkBase):
             # print(' - interval is', touch.double_tap_time)
             # print(' - distance betw. previous is', touch.double_tap_distance)
             AndroidScreenRotation.unlock()
-
         '''
         if touch.is_triple_tap:
             print('Touch is a triple tap !')
-            print(' - interval is', touch.triple_tap_time)
-            print(' - distance between previous is', touch.triple_tap_distance)
+            AndroidScreenRotation.unlock()
         '''
+
         # (Eventloop reentrancy check)
         if self.in_loop:
             return ret

@@ -324,6 +324,8 @@ class Options:
         ('display_win_message', 'bool'),
         ('language', 'str'),
         # ('table_zoom', 'list'),
+        ('fontscale', 'str'),
+        # ('fontsizefactor', 'float'),
         ]
 
     def __init__(self):
@@ -420,6 +422,8 @@ class Options:
         self.display_win_message = True
         self.language = ''
         self.table_zoom = [1.0, 0.0, 0.0]
+        self.fontscale = 'default'        # (kivy,  platform defaults)
+        # self.fontsizefactor = 1.0
         # sound
         self.sound = True
         self.sound_mode = 1

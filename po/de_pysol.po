@@ -2549,7 +2549,7 @@ msgstr "Hinweise"
 
 #: pysollib/kivy/menubar.py:202 pysollib/kivy/menubar.py:1663
 msgid "Options"
-msgstr "Optionen"
+msgstr "Einstellungen"
 
 #: pysollib/kivy/menubar.py:207 pysollib/kivy/menubar.py:321
 #: pysollib/kivy/menubar.py:1671
@@ -3013,16 +3013,16 @@ msgid "Right"
 msgstr "Rechts"
 
 msgid "Other graphics"
-msgstr ""
+msgstr "Graphik Varianten"
 
 msgid "Demo logo"
-msgstr ""
+msgstr "Demo Logo"
 
 msgid "Pause text"
-msgstr ""
+msgstr "Pause Text"
 
 msgid "Redeal icons"
-msgstr ""
+msgstr "Redeal Icons"
 
 #: pysollib/kivy/menubar.py:1062
 msgid "Startup splash screen"
@@ -3038,7 +3038,7 @@ msgstr "Inhalt"
 
 #: pysollib/kivy/menubar.py:1094
 msgid "How to use PySol"
-msgstr ""
+msgstr "Bedienung"
 
 #: pysollib/kivy/menubar.py:1098 pysollib/kivy/toolbar.py:204
 #: pysollib/tile/toolbar.py:189 pysollib/tk/toolbar.py:189

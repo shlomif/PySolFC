@@ -338,6 +338,7 @@ class Application:
                     self.nextgame.loadedgame = tmpgame._loadGame(
                         self.commandline.loadgame, self)
                     self.nextgame.loadedgame.gstats.holded = 0
+                    self.nextgame.id = self.nextgame.loadedgame.id
                 except Exception:
                     traceback.print_exc()
                     self.nextgame.loadedgame = None

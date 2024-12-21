@@ -192,6 +192,22 @@ class AbstractHint(HintInterface):
         if self.level >= 2:
             if game.canDealCards():
                 self.addHint(self.SCORE_DEAL, 0, game.s.talon, None)
+            # A few games have multiple waste stacks.  In these games,
+            # reserves are used for the waste stacks.  This logic will
+            # handle for those games.
+            if (not game.canDealCards() and game.s.waste is not None and
+                    len(game.s.waste.cards) > 0 and len(game.s.reserves) > 0):
+                max_cards = 0
+                reserve = None
+                for r in game.s.reserves:
+                    if r.acceptsCards(game.s.waste, game.s.waste.cards):
+                        if len(r.cards) < max_cards or reserve is None:
+                            max_cards = len(r.cards)
+                            reserve = r
+
+                if reserve is not None:
+                    self.addHint(self.SCORE_DEAL, 1, game.s.waste, reserve)
+
         return self._returnHints()
 
     # subclass

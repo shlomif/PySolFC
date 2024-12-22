@@ -515,8 +515,8 @@ class Application:
         self.opt.wm_fullscreen = not self.opt.wm_fullscreen
         self.top.attributes("-fullscreen", self.opt.wm_fullscreen)
         # Topmost dialogs need to be reset when toggling fullscreen.
-        raise_find_card_dialog()
-        raise_full_picture_dialog()
+        raise_find_card_dialog(self.game)
+        raise_full_picture_dialog(self.game)
         self.top.attributes('-topmost', False)
 
     def loadImages1(self):

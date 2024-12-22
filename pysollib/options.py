@@ -123,6 +123,7 @@ use_cardset_bottoms = boolean
 dragcursor = boolean
 save_games_geometry = boolean
 game_geometry = int_list(min=2, max=2)
+topmost_dialogs = boolean
 sound = boolean
 sound_mode = integer(0, 1)
 sound_sample_volume = integer(0, 128)
@@ -300,6 +301,7 @@ class Options:
         # ('save_cardsets', 'bool'),
         ('dragcursor', 'bool'),
         ('save_games_geometry', 'bool'),
+        ('topmost_dialogs', 'bool'),
         ('sound', 'bool'),
         ('sound_mode', 'int'),
         ('sound_sample_volume', 'int'),
@@ -501,6 +503,7 @@ class Options:
         self.wm_maximized = 1
         self.wm_fullscreen = 0
         self.save_games_geometry = False
+        self.topmost_dialogs = True
         # saved games geometry (gameid: (width, height))
         self.games_geometry = {}
         self.game_geometry = (0, 0)  # game geometry before exit

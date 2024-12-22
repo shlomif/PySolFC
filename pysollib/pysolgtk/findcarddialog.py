@@ -50,7 +50,7 @@ def connect_game_find_card_dialog(game):
     pass
 
 
-def raise_find_card_dialog():
+def raise_find_card_dialog(game):
     pass
 
 

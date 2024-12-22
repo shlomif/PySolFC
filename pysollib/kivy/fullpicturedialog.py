@@ -108,7 +108,7 @@ def connect_game_full_picture_dialog(game):
     '''
 
 
-def raise_full_picture_dialog():
+def raise_full_picture_dialog(game):
     pass
 
 

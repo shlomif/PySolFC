@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-11-16 11:22-0500\n"
+"PO-Revision-Date: 2024-12-22 17:13-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5415,7 +5415,7 @@ msgstr ""
 msgid "&Hamming"
 msgstr ""
 
-msgid "Card la&yout"
+msgid "Game la&yout"
 msgstr ""
 
 msgid "&Spread stacks"
@@ -5559,6 +5559,9 @@ msgstr "Pokaż pasek pomocy"
 #: pysollib/ui/tktile/menubar.py:633
 msgid "Save games &geometry"
 msgstr "Zapisz układ &gier"
+
+msgid "&Keep dialogs on top"
+msgstr ""
 
 msgid "Othe&r graphics"
 msgstr ""

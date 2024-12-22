@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-11-16 11:21-0500\n"
+"PO-Revision-Date: 2024-12-22 17:14-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5399,7 +5399,7 @@ msgstr ""
 msgid "&Hamming"
 msgstr ""
 
-msgid "Card la&yout"
+msgid "Game la&yout"
 msgstr ""
 
 msgid "&Spread stacks"
@@ -5543,6 +5543,9 @@ msgstr "Barre d'&aide"
 #: pysollib/ui/tktile/menubar.py:633
 msgid "Save games &geometry"
 msgstr "Enregistrer la &géométrie du jeu"
+
+msgid "&Keep dialogs on top"
+msgstr ""
 
 msgid "Othe&r graphics"
 msgstr ""

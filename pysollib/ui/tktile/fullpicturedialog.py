@@ -135,10 +135,13 @@ def connect_game_full_picture_dialog(game):
         pass
 
 
-def raise_full_picture_dialog():
+def raise_full_picture_dialog(game):
     try:
-        full_picture_dialog.tkraise()
-        full_picture_dialog.attributes("-topmost", True)
+        if game.app.opt.topmost_dialogs:
+            full_picture_dialog.tkraise()
+            full_picture_dialog.attributes("-topmost", True)
+        else:
+            full_picture_dialog.attributes("-topmost", False)
     except Exception:
         pass
 

@@ -317,6 +317,7 @@ class PysolMenubarTkCommon:
             spread_stacks=tkinter.BooleanVar(),
             center_layout=tkinter.BooleanVar(),
             save_games_geometry=tkinter.BooleanVar(),
+            topmost_dialogs=tkinter.BooleanVar(),
             cardback=tkinter.IntVar(),
             tabletile=tkinter.IntVar(),
             animations=tkinter.IntVar(),
@@ -392,6 +393,7 @@ class PysolMenubarTkCommon:
         tkopt.spread_stacks.set(opt.spread_stacks)
         tkopt.center_layout.set(opt.center_layout)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
+        tkopt.topmost_dialogs.set(opt.topmost_dialogs)
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
         tkopt.animations.set(opt.animations)
@@ -756,7 +758,7 @@ class PysolMenubarTkCommon:
                 command=self.mOptPreserveAspectRatio)
             submenu.add_separator()
             createResamplingMenu(self, submenu)
-            submenu = MfxMenu(menu, label=n_("Card la&yout"))
+            submenu = MfxMenu(menu, label=n_("Game la&yout"))
             submenu.add_checkbutton(
                 label=n_("&Spread stacks"), variable=self.tkopt.spread_stacks,
                 command=self.mOptSpreadStacks)
@@ -767,6 +769,10 @@ class PysolMenubarTkCommon:
                 label=n_("Save games &geometry"),
                 variable=self.tkopt.save_games_geometry,
                 command=self.mOptSaveGamesGeometry)
+            submenu.add_checkbutton(
+                label=n_("&Keep dialogs on top"),
+                variable=self.tkopt.topmost_dialogs,
+                command=self.mOptTopmostDialogs)
         # manager = self.app.cardset_manager
         # n = manager.len()
         menu.add_command(
@@ -877,6 +883,10 @@ class PysolMenubarTkCommon:
                 label=n_("Save games &geometry"),
                 variable=self.tkopt.save_games_geometry,
                 command=self.mOptSaveGamesGeometry)
+            submenu.add_checkbutton(
+                label=n_("&Keep dialogs on top"),
+                variable=self.tkopt.topmost_dialogs,
+                command=self.mOptTopmostDialogs)
 
         # menu.add_checkbutton(
         #     label=n_("Startup splash sc&reen"),
@@ -1878,6 +1888,12 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.save_games_geometry = self.tkopt.save_games_geometry.get()
+
+    def mOptTopmostDialogs(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.topmost_dialogs = self.tkopt.topmost_dialogs.get()
+        self.raiseAll()
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False):

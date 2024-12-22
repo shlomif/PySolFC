@@ -5147,7 +5147,7 @@ msgstr ""
 msgid "&Hamming"
 msgstr ""
 
-msgid "Card la&yout"
+msgid "Game la&yout"
 msgstr ""
 
 msgid "&Spread stacks"
@@ -5290,6 +5290,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:633
 msgid "Save games &geometry"
+msgstr ""
+
+msgid "&Keep dialogs on top"
 msgstr ""
 
 msgid "Othe&r graphics"

@@ -535,12 +535,12 @@ class PysolMenubar(PysolMenubarTk):
         if self.game.canFindCard():
             create_find_card_dialog(self.game.top, self.game,
                                     self.app.getFindCardImagesDir())
-            raise_find_card_dialog()
+            raise_find_card_dialog(self.game)
 
     def mFullPicture(self, *args):
         if self.game.canShowFullPicture():
             create_full_picture_dialog(self.game.top, self.game)
-            raise_full_picture_dialog()
+            raise_full_picture_dialog(self.game)
 
     def mSolver(self, *args):
         create_solver_dialog(self.game.top, self.app)
@@ -831,6 +831,10 @@ class PysolMenubar(PysolMenubarTk):
                 d.highlight_cards_timeout
             self.app.opt.timeouts['highlight_samerank'] = \
                 d.highlight_samerank_timeout
+
+    def raiseAll(self):
+        raise_find_card_dialog(self.game)
+        raise_full_picture_dialog(self.game)
 
     #
     # Help menu

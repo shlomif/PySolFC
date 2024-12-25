@@ -1893,7 +1893,7 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.topmost_dialogs = self.tkopt.topmost_dialogs.get()
-        self.raiseAll()
+        self.app.raiseAll()
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False):

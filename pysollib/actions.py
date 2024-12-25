@@ -834,11 +834,6 @@ class PysolMenubar(PysolMenubarTk):
             self.app.opt.timeouts['highlight_samerank'] = \
                 d.highlight_samerank_timeout
 
-    def raiseAll(self):
-        raise_find_card_dialog(self.game)
-        raise_full_picture_dialog(self.game)
-        raise_solver_dialog(self.game)
-
     #
     # Help menu
     #

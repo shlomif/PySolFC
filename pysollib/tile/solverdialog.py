@@ -84,3 +84,14 @@ def create_solver_dialog(parent, game):
     except Exception:
         # traceback.print_exc()
         solver_dialog = SolverDialog(parent, game)
+
+
+def raise_solver_dialog(game):
+    try:
+        if game.app.opt.topmost_dialogs:
+            solver_dialog.top.tkraise()
+            solver_dialog.top.attributes("-topmost", True)
+        else:
+            solver_dialog.top.attributes("-topmost", False)
+    except Exception:
+        pass

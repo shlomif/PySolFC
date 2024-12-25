@@ -47,6 +47,7 @@ from pysollib.pysoltk import create_full_picture_dialog
 from pysollib.pysoltk import create_solver_dialog
 from pysollib.pysoltk import raise_find_card_dialog
 from pysollib.pysoltk import raise_full_picture_dialog
+from pysollib.pysoltk import raise_solver_dialog
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE_URL, TITLE
 from pysollib.settings import TOP_SIZE
@@ -544,6 +545,7 @@ class PysolMenubar(PysolMenubarTk):
 
     def mSolver(self, *args):
         create_solver_dialog(self.game.top, self.app)
+        raise_solver_dialog(self.game)
 
     def mEditGameComment(self, *args):
         if self._cancelDrag(break_pause=False):
@@ -835,6 +837,7 @@ class PysolMenubar(PysolMenubarTk):
     def raiseAll(self):
         raise_find_card_dialog(self.game)
         raise_full_picture_dialog(self.game)
+        raise_solver_dialog(self.game)
 
     #
     # Help menu

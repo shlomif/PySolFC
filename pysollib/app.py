@@ -57,6 +57,7 @@ from pysollib.pysoltk import destroy_full_picture_dialog
 from pysollib.pysoltk import loadImage, wm_withdraw
 from pysollib.pysoltk import raise_find_card_dialog
 from pysollib.pysoltk import raise_full_picture_dialog
+from pysollib.pysoltk import raise_solver_dialog
 from pysollib.resource import CSI, CardsetManager
 from pysollib.resource import Music, MusicManager
 from pysollib.resource import Sample, SampleManager
@@ -517,6 +518,7 @@ class Application:
         # Topmost dialogs need to be reset when toggling fullscreen.
         raise_find_card_dialog(self.game)
         raise_full_picture_dialog(self.game)
+        raise_solver_dialog(self.game)
         self.top.attributes('-topmost', False)
 
     def loadImages1(self):

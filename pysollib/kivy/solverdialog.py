@@ -46,6 +46,10 @@ def connect_game_solver_dialog(game):
     pass
 
 
+def raise_solver_dialog(game):
+    pass
+
+
 def destroy_solver_dialog():
     global solver_dialog
     solver_dialog = None

@@ -2435,6 +2435,9 @@ msgstr ""
 msgid "Favorite games"
 msgstr ""
 
+msgid "Random game"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:244
 msgid "<Add>"
 msgstr ""

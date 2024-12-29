@@ -357,6 +357,9 @@ class FileMenuDialog(LMenuDialog):
             self.make_favid_list(tv, rg)
 
         tv.add_node(LTreeNode(
+            text=_('Random game'),
+            command=self.make_command(self.menubar.mSelectRandomGame)))
+        tv.add_node(LTreeNode(
             text=_('Load'), command=self.make_command(self.menubar.mOpen)))
         tv.add_node(LTreeNode(
             text=_('Save'), command=self.make_command(self.menubar.mSaveAs)))

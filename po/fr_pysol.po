@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-12-22 17:14-0500\n"
+"PO-Revision-Date: 2024-12-28 19:10-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -2604,6 +2604,9 @@ msgstr "Jeux récents"
 #: pysollib/kivy/menubar.py:241
 msgid "Favorite games"
 msgstr "Jeux favoris"
+
+msgid "Random game"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:244
 msgid "<Add>"

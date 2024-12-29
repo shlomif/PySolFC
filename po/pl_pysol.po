@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-12-22 17:13-0500\n"
+"PO-Revision-Date: 2024-12-28 19:11-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -2617,6 +2617,9 @@ msgstr "Ostatni&e gry"
 #: pysollib/kivy/menubar.py:241
 msgid "Favorite games"
 msgstr "Ulubione gry"
+
+msgid "Random game"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:244
 msgid "<Add>"

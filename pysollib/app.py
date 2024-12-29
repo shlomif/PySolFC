@@ -35,7 +35,7 @@ from pysollib.app_stat_result import GameStatResult
 from pysollib.app_statistics import Statistics
 from pysollib.cardsetparser import read_cardset_config
 from pysollib.gamedb import GAME_DB, GI, loadGame
-from pysollib.help import destroy_help_html, help_about
+from pysollib.help import destroy_help_html, help_about, raise_help_html
 from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import Struct, destruct
 from pysollib.mfxutil import USE_PIL
@@ -523,6 +523,7 @@ class Application:
         raise_find_card_dialog(self.game)
         raise_full_picture_dialog(self.game)
         raise_solver_dialog(self.game)
+        raise_help_html(self.game)
 
     def loadImages1(self):
         # load dialog images

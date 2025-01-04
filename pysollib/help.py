@@ -56,7 +56,7 @@ def help_about(app, timeout=0, sound=True):
 Copyright (C) 1998 - 2003 Markus F.X.J. Oberhumer.
 Copyright (C) 2003 Mt. Hood Playing Card Co.
 Copyright (C) 2005 - 2009 Skomoroh.
-Copyright (C) 2020 - 2024 PySolFC.
+Copyright (C) 2020 - 2025 PySolFC.
 All Rights Reserved.
 
 PySol is free software distributed under the terms

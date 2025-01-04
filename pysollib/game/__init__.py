@@ -3368,7 +3368,7 @@ class Game(object):
         state = pload()
         if (game.random is not None and
                 not isinstance(game.random, random.Random) and
-                isinstance(state, int)):
+                isinstance(state, tuple)):
             game.random.setstate(state)
         # if not hasattr(game.random, "origin"):
         # game.random.origin = game.random.ORIGIN_UNKNOWN

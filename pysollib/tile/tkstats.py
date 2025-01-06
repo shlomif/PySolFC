@@ -514,6 +514,8 @@ class LogDialog(MfxDialog):
         title = _('Log')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
+        self.top.wm_minsize(400, 200)
+
         self.selected_game = None
         self.selected_game_num = None
 

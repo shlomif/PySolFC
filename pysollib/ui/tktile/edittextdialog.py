@@ -11,6 +11,8 @@ class BaseEditTextDialog:
             self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
+        self.top.wm_minsize(300, 150)
+
         #
         self.text_w = tkinter.Text(top_frame, bd=1, relief="sunken",
                                    wrap="word", width=64, height=16)

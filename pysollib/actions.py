@@ -555,7 +555,8 @@ class PysolMenubar(PysolMenubarTk):
               'id': game.getGameNumber(format=1)}
         cc = _("Comments for %(game)s %(id)s:\n\n") % kw
         c = game.gsaveinfo.comment or cc
-        d = EditTextDialog(game.top, _("Comments for %(id)s") % kw, text=c)
+        d = EditTextDialog(game.top, _("Comments for %(id)s") % kw, text=c,
+                           resizable=True)
         if d.status == 0 and d.button == 0:
             text = d.text
             if text.strip() == cc.strip():
@@ -644,13 +645,15 @@ class PysolMenubar(PysolMenubarTk):
             elif mode == 103:
                 header = (_("%(app)s Demo Full log") if demo
                           else _("Full log for %(player)s")) % transkw
-                d = FullLog_StatsDialog(self.top, header, self.app, player)
+                d = FullLog_StatsDialog(self.top, header, self.app, player,
+                                        resizable=True)
                 gameid = d.selected_game
                 gamenum = d.selected_game_num
             elif mode == 104:
                 header = (_("%(app)s Demo Session log") if demo
                           else _("Session log for %(player)s")) % transkw
-                d = SessionLog_StatsDialog(self.top, header, self.app, player)
+                d = SessionLog_StatsDialog(self.top, header, self.app, player,
+                                           resizable=True)
                 gameid = d.selected_game
                 gamenum = d.selected_game_num
             elif mode == 105:

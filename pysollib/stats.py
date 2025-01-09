@@ -107,6 +107,7 @@ class PysolStatsFormatter:
 
     def getLogResults(self, player, prev_games):
         t_won, tlost = 0, 0
+        stats = []
         for pg in prev_games:
             if not isinstance(pg, tuple):
                 continue
@@ -147,7 +148,8 @@ class PysolStatsFormatter:
                           _("Won"), _("Perfect"))[pg[2]+2]
             # writer.plog(name, gamenumber, date, status, gameid=gameid,
             #   won=pg[2])
-            yield [name, gamenumber, date, status, pg[2], gameid]
+            stats.append([name, gamenumber, date, status, pg[2], gameid])
+        return stats
 
     #
     #

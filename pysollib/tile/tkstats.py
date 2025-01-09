@@ -376,11 +376,18 @@ class TreeFormatter(PysolStatsFormatter):
         self.parent_window.tree_items.append(id)
         return 1
 
-    def writeLog(self, player, prev_games):
+    def writeLog(self, player, prev_games, sort_by='date'):
         if not player or not prev_games:
             return 0
         num_rows = 0
-        for result in self.getLogResults(player, prev_games):
+        results = self.getLogResults(player, prev_games)
+        if sort_by == 'gamenumber':
+            results.sort(key=lambda x: x[1])
+        elif sort_by == 'name':
+            results.sort(key=lambda x: x[0])
+        elif sort_by == 'status':
+            results.sort(key=lambda x: x[3])
+        for result in results:
             t1, t2, t3, t4, t5, t6 = result
             id = self.tree.insert("", "end", text=t1, values=(t2, t3, t4))
             self.parent_window.tree_items.append(id)
@@ -388,15 +395,16 @@ class TreeFormatter(PysolStatsFormatter):
             num_rows += 1
             if num_rows > self.MAX_ROWS:
                 break
+
         return 1
 
-    def writeFullLog(self, player):
+    def writeFullLog(self, player, sort_by='date'):
         prev_games = self.app.stats.prev_games.get(player)
-        return self.writeLog(player, prev_games)
+        return self.writeLog(player, prev_games, sort_by=sort_by)
 
-    def writeSessionLog(self, player):
+    def writeSessionLog(self, player, sort_by='date'):
         prev_games = self.app.stats.session_games.get(player)
-        return self.writeLog(player, prev_games)
+        return self.writeLog(player, prev_games, sort_by=sort_by)
 
 
 # ************************************************************************
@@ -600,6 +608,7 @@ class FullLogFrame(AllGamesFrame):
                   'XXXXXXXXXXXX')
         self.games = {}
         self.formatter.resizeHeader(player, header)
+        self.sort_by = 'date'
 
     def createHeader(self, player):
         header = self.formatter.getLogHeader()
@@ -607,11 +616,10 @@ class FullLogFrame(AllGamesFrame):
 
     def fillTreeview(self, player):
         if self.tree_items:
-            return
-        self.formatter.writeFullLog(player)
-
-    def headerClick(self, column):
-        pass
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+            self.tree_items = []
+        self.formatter.writeFullLog(player, sort_by=self.sort_by)
 
     def getSelectedGame(self):
         sel = self.tree.selection()
@@ -624,8 +632,10 @@ class FullLogFrame(AllGamesFrame):
 class SessionLogFrame(FullLogFrame):
     def fillTreeview(self, player):
         if self.tree_items:
-            return
-        self.formatter.writeSessionLog(player)
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+            self.tree_items = []
+        self.formatter.writeSessionLog(player, sort_by=self.sort_by)
 
 
 # ************************************************************************

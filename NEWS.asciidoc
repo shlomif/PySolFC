@@ -1,5 +1,11 @@
 [[news]]
 === News
+* _11 January, 2025:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.2.0/[PySolFC
+v3.2.0]. New in this release:
+** New fullscreen mode, accessible by pressing F11.
+** Easy option to clear advanced search options.
+** Lots of bugfixes and enhancements.
 * _19 October, 2024:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.1.0/[PySolFC
 v3.1.0]. New in this release:

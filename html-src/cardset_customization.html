@@ -1,4 +1,25 @@
     <h1>Cardset Customization Tutorial</h1>
+      <h2>Setting up a Cardset</h2>
+          <p>The easiest way to create a cardset would be to copy an existing cardset folder
+          of the same type in your cardsets directory.  All cardsets need a number of files to work.
+          <ul>
+          <li>An image for each card - these images should be the same format and the same size, as defined in the config.txt file (described below).
+          These files should be named something like 01s.png for the ace of spades.  The first two (or more) digits represent the rank, and the letter
+          after represents the suit.  The suits are labeled hcds in French decks or decks that use French suits (i.e. Hex A or Tarock decks), and
+          the suits are alphabetical for other decks.  The suit letter z is used for jokers or trumps.</li>
+          <li>A shade file - shade.png, for example.</li>
+          <li>At least one back image, as defined in the config.txt file below.</li>
+          <li>A config.txt file, the format described below.</li>
+          <li>A copyright file, containing copyright info.</li>
+          </ul>
+          <p>The following optional files may also be added, but are only used under certain circumstances.
+          <ul>
+          <li>Bottom images.  A number of images for the bottoms of stacks.  These are not used unless your PySol install
+          does not support generating stack bottoms, or you enable them manually (currently only possible through editing the
+          options.cfg file).  Which bottoms are used depend on the cardset type.  Each bottom has a version with a suffix of
+          -n, indicating the negative bottom that gets used if the appropriate option is enabled.</li>
+          <li>Shadow images.  These will only be used if your PySol install does not support auto-generated shadows.</li>
+          </ul>
       <h2>config.txt template</h2>
             <pre>PySolFC solitaire cardset;$A;$FMT;$B;$C;$D,$E;$F;$G;$H
 &lt;internal_name&gt;;&lt;cardset_name&gt;

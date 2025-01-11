@@ -3,6 +3,20 @@ Cardset Customization Tutorial
 :Author: Eric Rausch
 :Email: <neelix570@gmail.com>
 
+Setting up a Cardset
+--------------------
+The easiest way to create a cardset would be to copy an existing cardset folder of the same type in your cardsets directory.  All cardsets need a number of files to work.
+
+* An image for each card - these images should be the same format and the same size, as defined in the config.txt file (described below).  These files should be named something like 01s.png for the ace of spades.  The first two (or more) digits represent the rank, and the letter after represents the suit.  The suits are labeled hcds in French decks or decks that use French suits (i.e. Hex A or Tarock decks), and the suits are alphabetical for other decks.  The suit letter z is used for jokers or trumps.
+* A shade file - shade.png, for example.
+* At least one back image, as defined in the config.txt file below.
+* A config.txt file, the format described below.
+* A copyright file, containing copyright info.
+
+The following optional files may also be added, but are only used under certain circumstances.
+
+* Bottom images.  A number of images for the bottoms of stacks.  These are not used unless your PySol install does not support generating stack bottoms, or you enable them manually (currently only possible through editing the options.cfg file).  Which bottoms are used depend on the cardset type.  Each bottom has a version with a suffix of -n, indicating the negative bottom that gets used if the appropriate option is enabled.
+* Shadow images.  These will only be used if your PySol install does not support auto-generated shadows.
 
 config.txt template
 -------------------

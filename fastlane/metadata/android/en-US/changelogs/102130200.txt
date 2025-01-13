@@ -1,0 +1,3 @@
+
+- menu entry to select random games.
+- enhancements and bug fixes (see https://pysolfc.sourceforge.io)

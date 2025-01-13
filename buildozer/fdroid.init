@@ -6,7 +6,7 @@ then
   exit 1
 fi
 
-virtualenv FINIT
+python3 -m venv FINIT
 source FINIT/bin/activate
 
 pip3 install attrs
@@ -43,7 +43,7 @@ sed -r "s:#? ?source\.exclude_patterns =.*:source.exclude_patterns = README.*,AU
 sed -r "s:#? ?android\.skip_update =.*:android.skip_update = True:" -i buildozer.spec
 sed -r "s:#? ?android\.accept_sdk_license =.*:android.accept_sdk_license = False:" -i buildozer.spec
 sed -r "s:#? ?log_level =.*:log_level = 2:" -i buildozer.spec
-
+sed -r "s:#? ?warn_on_root =.*:warn_on_root = 0:" -i buildozer.spec
 
 echo '### end init'
 

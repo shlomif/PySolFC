@@ -265,6 +265,22 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
     return r
 
 
+def _highlightEmptyStack__calc_item(canvas, delta, cw, ch, s, color):
+    x1, y1 = s.x, s.y
+    x2, y2 = x1 + cw, y1 + ch
+    if TOOLKIT == 'tk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+    elif TOOLKIT == 'kivy':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+    elif TOOLKIT == 'gtk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color,
+                               group=s.group)
+    return r
+
+
 class random_dummy:
     seed = {}
 
@@ -546,6 +562,9 @@ class Game(object):
         self.snapshots = []
         self.failed_snapshots = []
         self.stackdesc_list = []
+        self.keyboard_selected_stack = None
+        self.keyboard_select_count = 1
+        self.keyboard_selector = None
         self.demo_logo = None
         self.pause_logo = None
         self.s = GameStacks()
@@ -1264,6 +1283,116 @@ class Game(object):
                 new.append(c)
             i -= 1
         return new, [x[2] for x in reversed(sorted(extracted))]
+
+    def keyboardSelect(self, direction):
+        col = self.app.opt.colors['keyboard_sel']
+        oldstack = self.keyboard_selected_stack
+        self._getKeyboardSelectStack(direction)
+        stack = self.keyboard_selected_stack
+        if oldstack != stack:
+            self.keyboard_select_count = 1
+        if self.keyboard_selector is not None:
+            for r in self.keyboard_selector:
+                r.delete()
+        if len(stack.cards) > 0:
+            hi = [(stack, stack.cards[-1], stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+        else:
+            hi = [(stack, col)]
+            self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
+
+    def keyboardSelectMoreCards(self):
+        stack = self.keyboard_selected_stack
+        col = self.app.opt.colors['keyboard_sel']
+        nextcard = -1 * (self.keyboard_select_count + 1)
+        if stack.CARD_XOFFSET[0] == 0 and stack.CARD_YOFFSET[0] == 0:
+            return
+        if (len(stack.cards) >= (-1 * nextcard) and
+                stack.cards[nextcard].face_up):
+            self.keyboard_select_count += 1
+            if self.keyboard_selector is not None:
+                for r in self.keyboard_selector:
+                    r.delete()
+            hi = [(stack, stack.cards[nextcard], stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+
+    def keyboardSelectLessCards(self):
+        stack = self.keyboard_selected_stack
+        col = self.app.opt.colors['keyboard_sel']
+        if self.keyboard_select_count > 1:
+            self.keyboard_select_count -= 1
+            if self.keyboard_selector is not None:
+                for r in self.keyboard_selector:
+                    r.delete()
+            hi = [(stack, stack.cards[(-1 * self.keyboard_select_count)],
+                   stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+
+    def keyboardAction(self):
+        stack = self.keyboard_selected_stack
+        col = self.app.opt.colors['keyboard_sel']
+        if stack is None:
+            return
+        if self.keyboard_selector is not None:
+            for r in self.keyboard_selector:
+                r.delete()
+        if len(stack.cards) > 0:
+            card = stack.cards[-1 * self.keyboard_select_count]
+            event = FauxEvent(card.x + 1, card.y + 1)
+            index = (-1 * self.keyboard_select_count) + len(stack.cards)
+            self.keyboard_selected_stack.keyboardAction(index, event)
+            hi = [(stack, stack.cards[(-1 * self.keyboard_select_count)],
+                   stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+        else:
+            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0))
+            hi = [(stack, col)]
+            self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
+
+    def _getKeyboardSelectStack(self, direction):
+        if self.keyboard_selected_stack is None:
+            self.keyboard_selected_stack = self.allstacks[0]
+            return
+
+        currentstack = None
+        cw, ch = self.app.images.getSize()
+        cw -= 1
+        ch -= 1
+        for stack in self.allstacks:
+            if (stack in self.s.internals or
+                    stack == self.keyboard_selected_stack):
+                continue
+            if direction == 0:  # up
+                if ((stack.y >= self.keyboard_selected_stack.y) or
+                        (stack.x < self.keyboard_selected_stack.x - cw or
+                         stack.x > self.keyboard_selected_stack.x + cw) or
+                        (currentstack is not None and
+                         stack.y < currentstack.y)):
+                    continue
+            elif direction == 1:  # down
+                if ((stack.y <= self.keyboard_selected_stack.y) or
+                        (stack.x < self.keyboard_selected_stack.x - cw or
+                         stack.x > self.keyboard_selected_stack.x + cw) or
+                        (currentstack is not None and
+                         stack.y > currentstack.y)):
+                    continue
+            elif direction == 2:  # left
+                if ((stack.x >= self.keyboard_selected_stack.x) or
+                        (stack.y < self.keyboard_selected_stack.y - ch or
+                         stack.y > self.keyboard_selected_stack.y + ch) or
+                        (currentstack is not None and
+                         stack.x < currentstack.x)):
+                    continue
+            elif direction == 3:  # right
+                if ((stack.x <= self.keyboard_selected_stack.x) or
+                        (stack.y < self.keyboard_selected_stack.y - ch or
+                         stack.y > self.keyboard_selected_stack.y + ch) or
+                        (currentstack is not None and
+                         stack.x > currentstack.x)):
+                    continue
+            currentstack = stack
+        if currentstack is not None:
+            self.keyboard_selected_stack = currentstack
 
     def _finishDrag(self):
         if self.demo:
@@ -2325,6 +2454,32 @@ class Game(object):
             items.append(
                 _highlightCards__calc_item(
                     self.canvas, delta, cw, ch, s, c1, c2, color))
+        if not items:
+            return 0
+        self.canvas.update_idletasks()
+        if sleep:
+            self.sleep(sleep)
+            items.reverse()
+            for r in items:
+                r.delete()
+            self.canvas.update_idletasks()
+            return EVENT_HANDLED
+        else:
+            # remove items later (find_card_dialog)
+            return items
+
+    def _highlightEmptyStack(self, info, sleep=1.5, delta=(1, 1, 1, 1)):
+        if not info:
+            return 0
+        if self.pause:
+            return 0
+        self.stopWinAnimation()
+        cw, ch = self.app.images.getSize()
+        items = []
+        for s, color in info:
+            items.append(
+                _highlightEmptyStack__calc_item(
+                    self.canvas, delta, cw, ch, s, color))
         if not items:
             return 0
         self.canvas.update_idletasks()
@@ -3554,3 +3709,9 @@ class Game(object):
 class StartDealRowAndCards(object):
     def startGame(self):
         self._startAndDealRowAndCards()
+
+
+class FauxEvent(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y

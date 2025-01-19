@@ -5107,6 +5107,9 @@ msgstr "Стрелка подсказки:"
 msgid "Highlight not matching:"
 msgstr "Подсветка отсутствия совпадения:"
 
+msgid "Keyboard selector:"
+msgstr ""
+
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"
 msgstr "Найти карту"

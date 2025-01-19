@@ -5084,6 +5084,9 @@ msgstr "Freccia suggerimenti;"
 msgid "Highlight not matching:"
 msgstr "Evidenzia non corrispondenti:"
 
+msgid "Keyboard selector:"
+msgstr ""
+
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"
 msgstr "Trova carta"

@@ -4967,6 +4967,9 @@ msgstr "Hinweispfeil:"
 msgid "Highlight not matching:"
 msgstr "Keine passenden hervorheben:"
 
+msgid "Keyboard selector:"
+msgstr ""
+
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"
 msgstr "Karte suchen"

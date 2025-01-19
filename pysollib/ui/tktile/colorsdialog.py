@@ -65,6 +65,8 @@ class BaseColorsDialog:
         self.hintarrow_var.set(app.opt.colors['hintarrow'])
         self.not_matching_var = tkinter.StringVar()
         self.not_matching_var.set(app.opt.colors['not_matching'])
+        self.keyboard_sel_var = tkinter.StringVar()
+        self.keyboard_sel_var.set(app.opt.colors['keyboard_sel'])
         #
         row = 0
         for title, var in (
@@ -76,6 +78,7 @@ class BaseColorsDialog:
             (_('Highlight same rank 2:'),  self.samerank_2_var),
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
+            (_('Keyboard selector:'),      self.keyboard_sel_var),
                 ):
             self._calcLabel()(
                 frame, text=title, anchor='w',).grid(
@@ -100,6 +103,7 @@ class BaseColorsDialog:
         self.samerank_2_color = self.samerank_2_var.get()
         self.hintarrow_color = self.hintarrow_var.get()
         self.not_matching_color = self.not_matching_var.get()
+        self.keyboard_sel_color = self.keyboard_sel_var.get()
 
     def selectColor(self, label):
         try:

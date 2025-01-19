@@ -5040,6 +5040,9 @@ msgstr "Seta de dica:"
 msgid "Highlight not matching:"
 msgstr "Sem correspondência:"
 
+msgid "Keyboard selector:"
+msgstr ""
+
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"
 msgstr "Encontrar carta"

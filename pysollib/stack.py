@@ -259,6 +259,8 @@ class Stack:
         view.max_shadow_cards = -1
         view.current_cursor = ''
         view.cursor_changed = False
+        view.keyboard_movement = False
+        view.keyboard_card = None
 
     def destruct(self):
         # help breaking circular references
@@ -480,6 +482,8 @@ class Stack:
     # find card
     def _findCard(self, event):
         model, view = self, self
+        if self.keyboard_card is not None:
+            return self.keyboard_card
         if event is not None and model.cards:
             # ask the canvas
             return view.canvas.findCard(self, event)
@@ -1093,10 +1097,12 @@ class Stack:
         if drag.cards:
             if sound:
                 self.game.playSample("nomove")
-            if self.game.app.opt.mouse_type == 'point-n-click':
+            if (self.game.app.opt.mouse_type == 'point-n-click'
+                    or self.keyboard_movement):
                 drag.stack.moveCardsBackHandler(event, drag)
             else:
                 self.moveCardsBackHandler(event, drag)
+            self.keyboard_movement = False
 
     def moveCardsBackHandler(self, event, drag):
         if self.game.app.opt.animations:
@@ -1124,6 +1130,11 @@ class Stack:
 
     def __defaultClickEventHandler(self, event, handler,
                                    start_drag=0, cancel_drag=1):
+        if (not self.keyboard_movement and
+                self.game.keyboard_selector is not None):
+            for r in self.game.keyboard_selector:
+                r.delete()
+            self.game.keyboard_selector = None
         self.game.event_handled = True  # for Game.undoHandler
         if self.game.demo:
             self.game.stopDemo(event)
@@ -1148,8 +1159,15 @@ class Stack:
         def _motionEventHandler(self, event):
             return self.__motionEventHandler(event)
 
+    def keyboardAction(self, card, event):
+        self.keyboard_movement = True
+        self.keyboard_card = card
+        self.__clickEventHandler(event)
+        self.keyboard_card = None
+
     def __clickEventHandler(self, event):
-        if self.game.app.opt.mouse_type == 'drag-n-drop':
+        if (self.game.app.opt.mouse_type == 'drag-n-drop'
+                and not self.keyboard_movement):
             cancel_drag = 1
             start_drag = 1
             handler = self.clickHandler
@@ -1193,7 +1211,8 @@ class Stack:
             self.game.stopDemo(event)
         if self.game.busy:
             return EVENT_HANDLED
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             return EVENT_HANDLED
         self.keepDrag(event)
         #  if self.game.app.opt.mouse_type == 'drag-n-drop' \
@@ -1215,7 +1234,8 @@ class Stack:
         self.game.interruptSleep()
         if self.game.busy:
             return EVENT_HANDLED
-        if self.game.app.opt.mouse_type == 'drag-n-drop':
+        if (self.game.app.opt.mouse_type == 'drag-n-drop'
+                and not self.keyboard_movement):
 
             if TOOLKIT == 'kivy':
                 drag = self.game.drag
@@ -1230,7 +1250,8 @@ class Stack:
 
     def __enterEventHandler(self, event):
         if self.game.drag.stack:
-            if self.game.app.opt.mouse_type == 'point-n-click':
+            if (self.game.app.opt.mouse_type == 'point-n-click'
+                    or self.keyboard_movement):
                 if self.acceptsCards(self.game.drag.stack,
                                      self.game.drag.cards):
                     self.canvas.config(cursor=CURSOR_DOWN_ARROW)
@@ -1248,7 +1269,8 @@ class Stack:
     def __leaveEventHandler(self, event):
         if not self.game.drag.stack:
             after_idle(self.canvas, self.game.showHelp)
-        if self.game.app.opt.mouse_type == 'drag-n-drop':
+        if (self.game.app.opt.mouse_type == 'drag-n-drop'
+                and not self.keyboard_movement):
             return EVENT_HANDLED
         if self.cursor_changed:
             self.canvas.config(cursor='')
@@ -1300,7 +1322,8 @@ class Stack:
         drag.noshade_stacks = [self]
         drag.cards = self.getDragCards(i)
         drag.index = i
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             self._markCards(drag)
             return
         # if TOOLKIT == 'gtk':
@@ -1581,30 +1604,35 @@ class Stack:
         if self.game.app.opt.dragcursor:
             self.canvas.config(cursor='')
         drag = self.game.drag.copy()
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             drag.stack._stopDrag()
         else:
             self._stopDrag()
         if drag.cards:
-            if self.game.app.opt.mouse_type == 'point-n-click':
+            if (self.game.app.opt.mouse_type == 'point-n-click'
+                    or self.keyboard_movement):
                 self.releaseHandler(event, drag)
             else:
                 assert drag.stack is self
                 self.releaseHandler(event, drag)
+        self.keyboard_movement = False
 
     # cancel a drag operation
     def cancelDrag(self, event=None):
         if self.game.app.opt.dragcursor:
             self.canvas.config(cursor='')
         drag = self.game.drag.copy()
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             drag.stack._stopDrag()
         else:
             self._stopDrag()
         if drag.cards:
             assert drag.stack is self
             self.moveCardsBackHandler(event, drag)
-
+        self.keyboard_movement = False
+        
     def getHelp(self):
         return str(self)  # debug
 
@@ -2216,7 +2244,8 @@ class OpenStack(Stack):
         return 0
 
     def dragMove(self, drag, stack, sound=True):
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             self.playMoveMove(len(drag.cards), stack, sound=sound)
         else:
             # self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
@@ -2233,7 +2262,8 @@ class OpenStack(Stack):
                 return
             # print dx, dy
         # get destination stack
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             from_stack = drag.stack
             to_stack = self
         else:
@@ -3238,7 +3268,8 @@ class ArbitraryStack(OpenStack):
 
     def startDrag(self, event, sound=True):
         OpenStack.startDrag(self, event, sound=sound)
-        if self.game.app.opt.mouse_type == 'point-n-click':
+        if (self.game.app.opt.mouse_type == 'point-n-click'
+                or self.keyboard_movement):
             self.cards[self.game.drag.index].tkraise()
             self.game.drag.shadows[0].tkraise()
         else:

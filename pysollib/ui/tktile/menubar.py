@@ -1000,6 +1000,18 @@ class PysolMenubarTkCommon:
                 ctrl, str(i+1),
                 lambda e, i=i: self.mGotoBookmark(i, confirm=0))
 
+        # keyboard play
+        self._bindKey("", "Up", lambda e: self.mKeyboardSelect(dir=0))
+        self._bindKey("", "Down", lambda e: self.mKeyboardSelect(dir=1))
+        self._bindKey("", "Left", lambda e: self.mKeyboardSelect(dir=2))
+        self._bindKey("", "Right", lambda e: self.mKeyboardSelect(dir=3))
+
+        self._bindKey("", "plus", self.mKeyboardSelectMore)
+        self._bindKey("", "equal", self.mKeyboardSelectMore)
+        self._bindKey("", "minus", self.mKeyboardSelectLess)
+
+        self._bindKey("", "Return", self.mKeyboardAction)
+
         # undocumented, devel
         self._bindKey(ctrl, "End", self.mPlayNextMusic)
         self._bindKey(ctrl, "Prior", self.mSelectPrevGameByName)

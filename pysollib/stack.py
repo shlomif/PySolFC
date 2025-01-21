@@ -1632,7 +1632,7 @@ class Stack:
             assert drag.stack is self
             self.moveCardsBackHandler(event, drag)
         self.keyboard_movement = False
-        
+
     def getHelp(self):
         return str(self)  # debug
 

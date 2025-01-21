@@ -26,6 +26,8 @@ import os
 import re
 import subprocess
 import time
+from collections import OrderedDict
+
 from io import BytesIO
 
 from pysollib.mfxutil import destruct
@@ -995,6 +997,72 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 [solver.card2str1(c) for c in cards()],
                 -1
             )
+
+    def calcBoardXML(self):
+        from io import StringIO
+        from xml.sax.saxutils import XMLGenerator
+        game = self.game
+        self.board = ''
+        is_simple_simon = self._isSimpleSimon()
+        b = []
+        for s in game.s.foundations:
+            if s.cards:
+                b.append(s.cards[0 if is_simple_simon else -1])
+        assert len(b) == 0
+
+        b = []
+        for s in game.s.reserves:
+            b.append((s.cards[-1]) if s.cards else None)
+        assert all(x is None for x in b)
+
+        nextid = 1
+        ids = {}
+        out = StringIO("")
+        xmler = XMLGenerator(out=out, encoding='UTF-8')
+        xmler.startDocument()
+        xmler.startElement(name='state', attrs={})
+        for row_idx, s in enumerate(game.s.rows):
+            moveattrs = []
+            moveattrs.append(('pile', 'store{}'.format(row_idx)))
+            moveattrs.append(('position', '{}'.format(0)))
+            moveattrs.sort()
+            dmoveattrs = OrderedDict(moveattrs)
+
+            xmler.startElement(name='move', attrs=dmoveattrs)
+            b = []
+            for c in s.cards:
+                cardattrs = []
+                cs = self.card2str1(c)
+                if cs in ids:
+                    this_id = ids[cs]
+                else:
+                    this_id = nextid
+                    nextid += 1
+                    ids[cs] = this_id
+                cardattrs.append(('id', '{}'.format(this_id)))
+                this_rank = [
+                    "ace", "two", "three", "four", "five", "six", "seven",
+                    "eight", "nine", "ten", "jack", "queen", "king"
+                ][c.rank]
+                cardattrs.append(('rank', '{}'.format(this_rank)))
+                this_suit = [
+                    "clubs", "spades", "hearts", "diamonds",
+                ][c.suit]
+                cardattrs.append(('suit', '{}'.format(this_suit)))
+                cardattrs.append(('turn', '{}'.format("face-up")))
+                cardattrs.sort()
+                dcardattrs = OrderedDict(cardattrs)
+
+                xmler.startElement(name='card', attrs=dcardattrs)
+                if not c.face_up:
+                    cs = '<%s>' % cs
+                xmler.endElement(name='card')
+            xmler.endElement(name='move')
+        xmler.endElement(name='state')
+        xmler.endDocument()
+
+        ret = out.getvalue()
+        return ret
 
     def calcBoardString(self):
         game = self.game

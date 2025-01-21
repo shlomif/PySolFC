@@ -505,7 +505,7 @@ class MaineCoon(TabbyCat):
 # register the game
 registerGame(GameInfo(903, AcesUp, "Aces Up",                   # was: 52
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=("Aces High", "Drivel")))
+                      altnames=("Aces High", "Drivel", "Discard")))
 registerGame(GameInfo(206, Fortunes, "Fortunes",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(213, RussianAces, "Russian Aces",

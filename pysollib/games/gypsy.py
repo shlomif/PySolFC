@@ -1125,7 +1125,8 @@ registerGame(GameInfo(666, TrapdoorSpider, "Trapdoor Spider",
 registerGame(GameInfo(712, Leprechaun, "Leprechaun",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(718, LockedCards, "Locked Cards",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
+                      altnames=("Prisoners",)))
 registerGame(GameInfo(721, Thirty, "Thirty",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
                       GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
@@ -1133,7 +1134,7 @@ registerGame(GameInfo(725, TopsyTurvyQueens, "Topsy-Turvy Queens",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(792, KingsSecrets, "King's Secrets",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
-                      altnames=('Royal Secrets',)))
+                      altnames=('Royal Secrets', "King's Captives")))
 registerGame(GameInfo(842, SwissPatience, "Swiss Patience",
                       GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(890, YeastDough, "Yeast Dough",

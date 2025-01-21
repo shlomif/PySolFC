@@ -1895,7 +1895,7 @@ registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
                       GI.GT_PAIRING_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(700, Triangle, "Triangle",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
-                      altnames=('Yield',)))
+                      altnames=('Yield', 'Funnel')))
 registerGame(GameInfo(701, UpAndDown, "Up and Down",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
                       GI.SL_MOSTLY_LUCK))

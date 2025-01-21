@@ -1158,6 +1158,7 @@ class Tarantula(Spider):
 
 # ************************************************************************
 # * Fechter's Game
+# * Microbe
 # ************************************************************************
 
 class FechtersGame_Talon(TalonStack):
@@ -1180,14 +1181,7 @@ class FechtersGame_Talon(TalonStack):
 
 
 class FechtersGame_RowStack(AC_RowStack):
-    def canDropCards(self, stacks):
-        if len(self.cards) < 13:
-            return (None, 0)
-        cards = self.cards[-13:]
-        for s in stacks:
-            if s is not self and s.acceptsCards(self, cards):
-                return (s, 13)
-        return (None, 0)
+    canDropCards = BasicRowStack.spiderCanDropCards
 
 
 class FechtersGame(RelaxedSpider):
@@ -1206,6 +1200,17 @@ class FechtersGame(RelaxedSpider):
         self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class Microbe(FechtersGame):
+    Talon_Class = DealRowTalonStack
+    RowStack_Class = StackWrapper(FechtersGame_RowStack, base_rank=ANY_RANK)
+
+    def createGame(self):
+        RelaxedSpider.createGame(self, rows=11)
+
+    def shuffle(self):
+        self.shuffleSeparateDecks()
 
 
 # ************************************************************************
@@ -1663,3 +1668,5 @@ registerGame(GameInfo(870, FairMaids, "Fair Maids",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(917, Astrocyte, "Astrocyte",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(971, Microbe, "Microbe",
+                      GI.GT_SPIDER | GI.GT_SEPARATE_DECKS, 2, 0, GI.SL_MOSTLY_SKILL))

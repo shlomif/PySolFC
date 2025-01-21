@@ -1669,4 +1669,5 @@ registerGame(GameInfo(870, FairMaids, "Fair Maids",
 registerGame(GameInfo(917, Astrocyte, "Astrocyte",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(971, Microbe, "Microbe",
-                      GI.GT_SPIDER | GI.GT_SEPARATE_DECKS, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER | GI.GT_SEPARATE_DECKS, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

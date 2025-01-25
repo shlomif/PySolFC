@@ -600,8 +600,7 @@ class GI:
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
     # in the registerGame() call
-    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 328, 329, 862, 865,
-                       886, 903, ]
+    _CHILDREN_GAMES = []
 
     _OPEN_GAMES = []
 

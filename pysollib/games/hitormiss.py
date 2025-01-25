@@ -170,5 +170,5 @@ registerGame(GameInfo(774, HitOrMiss, "Hit or Miss",
                       GI.GT_1DECK_TYPE, 1, VARIABLE_REDEALS,
                       GI.SL_LUCK, altnames=("Roll Call",)))
 registerGame(GameInfo(865, HitOrMissUnlimited, "Hit or Miss Unlimited",
-                      GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS,
+                      GI.GT_1DECK_TYPE | GI.GT_CHILDREN, 1, UNLIMITED_REDEALS,
                       GI.SL_LUCK))

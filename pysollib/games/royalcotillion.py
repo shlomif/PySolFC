@@ -1573,13 +1573,14 @@ registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK,
                       altnames=("Lords and Ladies",)))
 registerGame(GameInfo(55, OddAndEven, "Odd and Even",
-                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK))
+                      GI.GT_2DECK_TYPE | GI.GT_CHILDREN, 2, 1, GI.SL_LUCK))
 registerGame(GameInfo(143, Kingdom, "Kingdom",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(234, Alhambra, "Alhambra",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(97, Carpet, "Carpet",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(391, BritishConstitution, "British Constitution",
                       GI.GT_2DECK_TYPE | GI.GT_STRIPPED, 2, 0, GI.SL_BALANCED,
                       ranks=list(range(11)),  # without Queens and Kings

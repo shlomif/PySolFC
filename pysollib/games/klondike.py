@@ -1640,7 +1640,8 @@ registerGame(GameInfo(66, Eastcliff, "Eastcliff",
 registerGame(GameInfo(224, Easthaven, "Easthaven",
                       GI.GT_GYPSY, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(33, Westcliff, "Westcliff",
-                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_KLONDIKE | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(225, Westhaven, "Westhaven",
                       GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(107, PasSeul, "Pas Seul",

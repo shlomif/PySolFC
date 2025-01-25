@@ -1118,15 +1118,16 @@ registerGame(GameInfo(216, MonteCarlo2Decks, "Monte Carlo (2 Decks)",
 registerGame(GameInfo(212, Weddings, "Weddings",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(90, SimpleCarlo, "Simple Carlo",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(91, SimplePairs, "Simple Pairs",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=("Jamestown", "Pirate Gold", "Treasure Hunt",
-                                "Hunter")))
+                      GI.GT_PAIRING_TYPE | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_LUCK, altnames=("Jamestown", "Pirate Gold",
+                                            "Treasure Hunt", "Hunter")))
 registerGame(GameInfo(92, Neighbour, "Neighbour",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(96, Fourteen, "Fourteen",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_CHILDREN, 1, 0,
                       GI.SL_MOSTLY_LUCK, altnames=("Fourteen Out",
                                                    "Fourteen Puzzle",
                                                    "Take Fourteen")))
@@ -1137,12 +1138,13 @@ registerGame(GameInfo(152, DerLetzteMonarch, "The Last Monarch",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Der letzte Monarch",)))
 registerGame(GameInfo(328, TheWish, "The Wish",
-                      GI.GT_PAIRING_TYPE | GI.GT_STRIPPED, 1, 0,
-                      GI.SL_MOSTLY_LUCK, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+                      GI.GT_PAIRING_TYPE | GI.GT_STRIPPED | GI.GT_CHILDREN,
+                      1, 0, GI.SL_MOSTLY_LUCK,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(329, TheWishOpen, "The Wish (Open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL |
-                      GI.GT_STRIPPED, 1, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      GI.GT_STRIPPED | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       rules_filename="thewish.html"))
 registerGame(GameInfo(368, Vertical, "Vertical",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
@@ -1162,8 +1164,8 @@ registerGame(GameInfo(810, Quatorze, "Quatorze",
 registerGame(GameInfo(829, BlockTen, "Block Ten",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(862, SimpleTens, "Simple Tens",
-                      GI.GT_PAIRING_TYPE | GI.GT_STRIPPED, 1, 0, GI.SL_LUCK,
-                      ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8),
+                      GI.GT_PAIRING_TYPE | GI.GT_STRIPPED | GI.GT_CHILDREN,
+                      1, 0, GI.SL_LUCK, ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8),
                       altnames=("Add Up Tens",)))
 registerGame(GameInfo(867, DoubleFourteen, "Double Fourteen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,

@@ -776,11 +776,11 @@ registerGame(GameInfo(697, BigBen, "Big Ben",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("Father Time")))
 registerGame(GameInfo(737, Clock, "Clock",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
+                      GI.GT_1DECK_TYPE | GI.GT_CHILDREN, 1, 0, GI.SL_LUCK,
                       altnames=("Travellers", "Sundial")))
 registerGame(GameInfo(827, GermanClock, "German Clock",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK,
                       altnames=("Die Uhr",)))
 registerGame(GameInfo(915, RelaxedClock, "Relaxed Clock",
-                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_LUCK,
-                      altnames=("Watch")))
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED | GI.GT_CHILDREN, 1, 0,
+                      GI.SL_LUCK, altnames=("Watch")))

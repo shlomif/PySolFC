@@ -68,6 +68,7 @@ from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
+from pysollib.util import COLORS, RANKS, SUITS_PL
 
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import reset_solver_dialog
@@ -1297,9 +1298,11 @@ class Game(object):
         if len(stack.cards) > 0:
             hi = [(stack, stack.cards[-1], stack.cards[-1], col)]
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
+            self.app.speech.speak(self.parseCard(stack.cards[-1]))
         else:
             hi = [(stack, col)]
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
+            self.app.speech.speak(self.parseEmptyStack(stack))
 
     def keyboardSelectMoreCards(self):
         stack = self.keyboard_selected_stack
@@ -1314,6 +1317,7 @@ class Game(object):
                 for r in self.keyboard_selector:
                     r.delete()
             hi = [(stack, stack.cards[nextcard], stack.cards[-1], col)]
+            self.app.speech.speak(self.parseCard(stack.cards[nextcard]))
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardSelectLessCards(self):
@@ -1326,6 +1330,8 @@ class Game(object):
                     r.delete()
             hi = [(stack, stack.cards[(-1 * self.keyboard_select_count)],
                    stack.cards[-1], col)]
+            self.app.speech.speak(self.parseCard(
+                stack.cards[(-1 * self.keyboard_select_count)]))
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardAction(self):
@@ -1540,6 +1546,29 @@ class Game(object):
                 self.playSample("deal04", priority=100, loop=loop)
             elif a == 5:
                 self.playSample("deal08", priority=100, loop=loop)
+
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        if self.gameinfo.category == GI.GC_FRENCH:
+            if card.suit > 3:
+                return COLORS[card.rank] + " " + _("Joker")
+            suit = SUITS_PL[card.suit]
+            rank = RANKS[card.rank]
+            return rank + " - " + suit
+        return _("Unknown")
+
+    def parseEmptyStack(self, stack):
+        if self.gameinfo.category == GI.GC_FRENCH:
+            if stack in self.s.foundations:
+                if stack.cap.base_suit == -1:
+                    return _("Foundation")
+                elif stack.cap.base_suit == 4:
+                    return _("Foundation") + " - " + _("Joker")
+                else:
+                    return (_("Foundation") + " - " +
+                            SUITS_PL[stack.cap.base_suit])
+        return _("Empty stack")
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if TOOLKIT == 'kivy':

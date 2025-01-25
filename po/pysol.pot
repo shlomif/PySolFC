@@ -1173,6 +1173,9 @@ msgstr ""
 msgid "Ace"
 msgstr ""
 
+msgid "Face-down"
+msgstr ""
+
 #: pysollib/stack.py:1612
 msgid "No cards"
 msgstr ""

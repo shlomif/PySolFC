@@ -1347,11 +1347,15 @@ class Game(object):
             event = FauxEvent(card.x + 1, card.y + 1)
             index = (-1 * self.keyboard_select_count) + len(stack.cards)
             self.keyboard_selected_stack.keyboardAction(index, event)
-            hi = [(stack, stack.cards[(-1 * self.keyboard_select_count)],
+        else:
+            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0))
+        # As the number of cards may have changed, check again.
+        if len(stack.cards) > 0:
+            hi = [(stack, stack.cards[max(-1 * self.keyboard_select_count,
+                                          -1 * len(stack.cards))],
                    stack.cards[-1], col)]
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
         else:
-            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0))
             hi = [(stack, col)]
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
 

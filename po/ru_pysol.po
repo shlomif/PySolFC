@@ -4494,6 +4494,9 @@ msgstr "Текущая сессия"
 msgid "Log"
 msgstr "Лог"
 
+msgid "Demo Log"
+msgstr ""
+
 #: pysollib/tile/tkstats.py:523 data/pysolfc.glade:1404
 msgid "Full log"
 msgstr "Полный лог"
@@ -5310,6 +5313,9 @@ msgstr "&Комментарии..."
 #: pysollib/ui/tktile/menubar.py:423
 msgid "Log..."
 msgstr "Лог..."
+
+msgid "Demo Log..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427
 msgid "D&emo statistics..."

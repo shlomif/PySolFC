@@ -620,6 +620,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("Log..."),
             command=lambda: self.mPlayerStats(mode=103))
+        menu.add_command(
+            label=n_("Demo Log..."),
+            command=lambda: self.mPlayerStats(mode=1103))
         menu.add_separator()
         menu.add_command(
             label=n_("&Comments..."),

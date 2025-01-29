@@ -4421,6 +4421,9 @@ msgstr "Session en cours"
 msgid "Log"
 msgstr "Journal"
 
+msgid "Demo Log"
+msgstr ""
+
 #: pysollib/tile/tkstats.py:523 data/pysolfc.glade:1404
 msgid "Full log"
 msgstr "Journal complet"
@@ -5221,6 +5224,9 @@ msgstr "&Commentaires..."
 #: pysollib/ui/tktile/menubar.py:423
 msgid "Log..."
 msgstr "Journal..."
+
+msgid "Demo Log..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427
 msgid "D&emo statistics..."

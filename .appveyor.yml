@@ -2,7 +2,7 @@
 image: Visual Studio 2022
 environment:
     matrix:
-        - PYTHON: "C:\\Python312"
+        - PYTHON: "C:\\Python313"
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:

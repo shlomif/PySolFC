@@ -50,6 +50,19 @@ class ImportFileTests(unittest.TestCase):
     def _successful_import(self, fn, want_s, blurb):
         self.assertEqual(self._calc_hint(fn).calcBoardString(), want_s, blurb)
 
+    def _successful_import__XML_test(self, fn, expected_regex, blurb):
+        hint = self._calc_hint(fn)
+        xml_output = hint.calcBoardXML()
+        # import sys
+        # print(xml_output, file=sys.stderr)
+        self.assertRegex(
+            text=xml_output, expected_regex=expected_regex, msg=blurb)
+
+    def test_import_XML(self):
+        return self._successful_import__XML_test(
+            fn='tests/unit/data/with-10-for-rank.txt',
+            expected_regex='''<state>''', blurb='xml import worked')
+
     def test_import(self):
         return self._successful_import('tests/unit/data/with-10-for-rank.txt',
                                        '''FC: - - - -

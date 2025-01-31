@@ -61,7 +61,8 @@ class ImportFileTests(unittest.TestCase):
     def test_import_XML(self):
         return self._successful_import__XML_test(
             fn='tests/unit/data/with-10-for-rank.txt',
-            expected_regex='''<state>''', blurb='xml import worked')
+            expected_regex='''<state><move pile="store0" position="0">''',
+            blurb='xml import worked')
 
     def test_import(self):
         return self._successful_import('tests/unit/data/with-10-for-rank.txt',

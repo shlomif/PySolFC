@@ -1159,10 +1159,13 @@ class Stack:
         def _motionEventHandler(self, event):
             return self.__motionEventHandler(event)
 
-    def keyboardAction(self, card, event):
+    def keyboardAction(self, card, event, type=1):
         self.keyboard_movement = True
         self.keyboard_card = card
-        self.__clickEventHandler(event)
+        if type == 1:
+            self.__clickEventHandler(event)
+        else:
+            self.__rightclickEventHandler(event)
         self.keyboard_card = None
 
     def __clickEventHandler(self, event):

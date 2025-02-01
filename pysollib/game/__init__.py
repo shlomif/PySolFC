@@ -1304,6 +1304,48 @@ class Game(object):
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
             self.app.speech.speak(self.parseEmptyStack(stack))
 
+    def keyboardSelectNextType(self):
+        col = self.app.opt.colors['keyboard_sel']
+        oldstack = self.keyboard_selected_stack
+        stacktype = 0
+        if oldstack == self.s.talon:
+            stacktype = 1
+        elif oldstack == self.s.waste:
+            stacktype = 2
+        elif oldstack in self.s.rows:
+            stacktype = 3
+        elif oldstack in self.s.reserves:
+            stacktype = 4
+        elif oldstack in self.s.foundations:
+            stacktype = 0
+        stack = None
+        while stack is None:
+            if stacktype == 0 and self.s.talon is not None:
+                stack = self.s.talon
+            if stacktype == 1 and self.s.waste is not None:
+                stack = self.s.waste
+            if stacktype == 2 and len(self.s.rows) > 0:
+                stack = self.s.rows[0]
+            if stacktype == 3 and len(self.s.reserves) > 0:
+                stack = self.s.reserves[0]
+            if stacktype == 4 and len(self.s.foundations) > 0:
+                stack = self.s.foundations[0]
+            stacktype += 1
+        self.keyboard_selected_stack = stack
+        if oldstack != stack:
+            self.keyboard_select_count = 1
+        if self.keyboard_selector is not None:
+            for r in self.keyboard_selector:
+                r.delete()
+        if len(stack.cards) > 0:
+            hi = [(stack, stack.cards[-1], stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+            self.app.speech.speak(self.parseCard(stack.cards[-1]))
+        else:
+            hi = [(stack, col)]
+            self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
+            self.app.speech.speak(self.parseEmptyStack(stack))
+
     def keyboardSelectMoreCards(self):
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
@@ -1334,7 +1376,7 @@ class Game(object):
                 stack.cards[(-1 * self.keyboard_select_count)]))
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
-    def keyboardAction(self):
+    def keyboardAction(self, type=1):
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
         if stack is None:
@@ -1346,9 +1388,10 @@ class Game(object):
             card = stack.cards[-1 * self.keyboard_select_count]
             event = FauxEvent(card.x + 1, card.y + 1)
             index = (-1 * self.keyboard_select_count) + len(stack.cards)
-            self.keyboard_selected_stack.keyboardAction(index, event)
+            self.keyboard_selected_stack.keyboardAction(index, event, type)
         else:
-            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0))
+            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0),
+                                                        type)
         # As the number of cards may have changed, check again.
         if len(stack.cards) > 0:
             hi = [(stack, stack.cards[max(-1 * self.keyboard_select_count,

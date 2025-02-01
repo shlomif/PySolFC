@@ -942,9 +942,15 @@ class PysolMenubar(PysolMenubarTk):
     def mKeyboardSelectLess(self, *args):
         self.game.keyboardSelectLessCards()
 
+    def mKeyboardSelectNextType(self, *args):
+        self.game.keyboardSelectNextType()
+        return "break"
+
     def mKeyboardAction(self, *args):
         self.game.keyboardAction()
 
+    def mKeyboardAction2(self, *args):
+        self.game.keyboardAction(type=2)
 
 # ************************************************************************
 # * toolbar

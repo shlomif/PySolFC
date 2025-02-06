@@ -11,7 +11,7 @@ install:
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order
         pycotap pygame pyinstaller pysol-cards setuptools six
-        ttkthemes accessible-output2
+        ttkthemes accessible-output3
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
     - SET PERL5LIB=C:/_P5/lib/perl5

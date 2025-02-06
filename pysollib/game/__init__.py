@@ -1298,11 +1298,11 @@ class Game(object):
         if len(stack.cards) > 0:
             hi = [(stack, stack.cards[-1], stack.cards[-1], col)]
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
-            self.app.speech.speak(self.parseCard(stack.cards[-1]))
+            self.app.speech.speak(self.getStackSpeech(stack, -1))
         else:
             hi = [(stack, col)]
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
-            self.app.speech.speak(self.parseEmptyStack(stack))
+            self.app.speech.speak(self.getStackSpeech(stack, 0))
 
     def keyboardSelectNextType(self):
         col = self.app.opt.colors['keyboard_sel']
@@ -1340,11 +1340,11 @@ class Game(object):
         if len(stack.cards) > 0:
             hi = [(stack, stack.cards[-1], stack.cards[-1], col)]
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
-            self.app.speech.speak(self.parseCard(stack.cards[-1]))
+            self.app.speech.speak(self.getStackSpeech(stack, -1))
         else:
             hi = [(stack, col)]
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
-            self.app.speech.speak(self.parseEmptyStack(stack))
+            self.app.speech.speak(self.getStackSpeech(stack, 0))
 
     def keyboardSelectMoreCards(self):
         stack = self.keyboard_selected_stack
@@ -1359,7 +1359,7 @@ class Game(object):
                 for r in self.keyboard_selector:
                     r.delete()
             hi = [(stack, stack.cards[nextcard], stack.cards[-1], col)]
-            self.app.speech.speak(self.parseCard(stack.cards[nextcard]))
+            self.app.speech.speak(self.getStackSpeech(stack, nextcard))
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardSelectLessCards(self):
@@ -1372,8 +1372,8 @@ class Game(object):
                     r.delete()
             hi = [(stack, stack.cards[(-1 * self.keyboard_select_count)],
                    stack.cards[-1], col)]
-            self.app.speech.speak(self.parseCard(
-                stack.cards[(-1 * self.keyboard_select_count)]))
+            self.app.speech.speak(self.getStackSpeech(
+                stack, (-1 * self.keyboard_select_count)))
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardAction(self, type=1):
@@ -1593,6 +1593,22 @@ class Game(object):
                 self.playSample("deal04", priority=100, loop=loop)
             elif a == 5:
                 self.playSample("deal08", priority=100, loop=loop)
+
+    def getStackSpeech(self, stack, cardindex):
+        if len(stack.cards) > 0:
+            message = self.parseCard(stack.cards[cardindex])
+            if stack == self.s.talon:
+                if not stack.cards[cardindex].face_up:
+                    return _("Talon") + " - " + stack.getNumCards()
+                else:
+                    message += " - " + _("Talon") + " - " + stack.getNumCards()
+            if stack == self.s.waste:
+                message += " - " + _("Waste") + " - " + stack.getNumCards()
+            if stack in self.s.foundations:
+                message += " - " + _("Foundation")
+            return message
+        else:
+            return self.parseEmptyStack(stack)
 
     def parseCard(self, card):
         if not card.face_up:

@@ -21,27 +21,32 @@
 #
 # ---------------------------------------------------------------------------
 
-try:
-    import accessible_output2.outputs.auto
-    use_speech = True
-except ImportError:
-    auto = None
-    use_speech = False
+class AccessibleOutput:
+    try:
+        import accessible_output3.outputs.auto as accessible_output
+    except ImportError:
+        try:
+            import accessible_output2.outputs.auto as accessible_output
+        except ImportError:
+            accessible_output = None
 
-
-class AccessibleOutput2:
     def isSupported(self):
-        if not use_speech:
+        if self.accessible_output is None:
             return False
-        return True
+        o = self.accessible_output.Auto()
+        for output in o.outputs:
+            if output.is_active() and not output.name.startswith('sapi'):
+                return True
+        return False
 
     def speak(self, text):
-        o = accessible_output2.outputs.auto.Auto()
+        o = self.accessible_output.Auto()
         o.output(text)
 
 
 class Speech:
-    speechClass = AccessibleOutput2()
+    speechClass = AccessibleOutput()
+    isEnabled = True
 
     def speak(self, text):
         if self.speechClass.isSupported():

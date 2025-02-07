@@ -571,7 +571,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
             LTreeNode(text=_('Automatic play')))
         if rg:
             self.addCheckNode(tv, rg,
-                              _('Auto face up'),
+                              _('Auto face-up'),
                               self.menubar.tkopt.autofaceup,
                               self.menubar.mOptAutoFaceUp)
 

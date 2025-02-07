@@ -621,7 +621,7 @@ class PysolMenubarTkCommon:
             label=n_("Log..."),
             command=lambda: self.mPlayerStats(mode=103))
         menu.add_command(
-            label=n_("Demo Log..."),
+            label=n_("Demo log..."),
             command=lambda: self.mPlayerStats(mode=1103))
         menu.add_separator()
         menu.add_command(
@@ -666,7 +666,7 @@ class PysolMenubarTkCommon:
             command=self.mOptPlayerOptions, accelerator=m+'P')
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
         submenu.add_checkbutton(
-            label=n_("Auto &face up"), variable=self.tkopt.autofaceup,
+            label=n_("Auto &face-up"), variable=self.tkopt.autofaceup,
             command=self.mOptAutoFaceUp)
         submenu.add_checkbutton(
             label=n_("A&uto drop"), variable=self.tkopt.autodrop,

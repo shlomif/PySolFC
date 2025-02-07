@@ -259,7 +259,7 @@ class PysolMenubarTk:
             ]
         for label, action, opt_name, update_game in (
             ('A&uto drop',   'optautodrop', 'autodrop',               False),
-            ('Auto &face up',           '', 'autofaceup',             False),
+            ('Auto &face-up',           '', 'autofaceup',             False),
             ('Auto &deal',              '', 'autodeal',               False),
             ('&Quick play',             '', 'quickplay',              False),
             ('Enable &undo',            '', 'undo',                   False),

@@ -2713,7 +2713,7 @@ msgstr "Настройки &автоматической игры"
 
 #: pysollib/kivy/menubar.py:513
 #, fuzzy
-msgid "Auto face up"
+msgid "Auto face-up"
 msgstr "Автоматически &переворачивать"
 
 #: pysollib/kivy/menubar.py:523
@@ -5314,7 +5314,7 @@ msgstr "&Комментарии..."
 msgid "Log..."
 msgstr "Лог..."
 
-msgid "Demo Log..."
+msgid "Demo log..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427

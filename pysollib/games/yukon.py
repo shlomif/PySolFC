@@ -472,6 +472,7 @@ class Panopticon(TenAcross):
 
 # ************************************************************************
 # * Australian Patience
+# * Outback Patience
 # * Tasmanian Patience
 # * Canberra
 # * Raw Prawn
@@ -482,9 +483,9 @@ class AustralianPatience(RussianSolitaire):
 
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
-    def createGame(self, rows=7, max_rounds=1, num_deal=1):
+    def createGame(self, rows=7, max_rounds=1, num_deal=1, playcards=16):
         l, s = Layout(self), self.s
-        Layout.klondikeLayout(l, rows=rows, waste=1)
+        Layout.klondikeLayout(l, rows=rows, waste=1, playcards=playcards)
         self.setSize(l.size[0], l.size[1])
         s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self,
                                   max_rounds=max_rounds, num_deal=num_deal)
@@ -498,6 +499,14 @@ class AustralianPatience(RussianSolitaire):
 
     def startGame(self):
         self._startDealNumRowsAndDealRowAndCards(3)
+
+
+class OutbackPatience(AustralianPatience):
+    def createGame(self):
+        AustralianPatience.createGame(self, rows=8, playcards=25)
+
+    def startGame(self):
+        self._startDealNumRowsAndDealRowAndCards(6)
 
 
 class TasmanianPatience(AustralianPatience):
@@ -895,8 +904,7 @@ registerGame(GameInfo(387, Roslin, "Roslin",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Roslyn",)))
 registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
-                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED,
-                      altnames=('Outback Patience',)))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
@@ -909,6 +917,8 @@ registerGame(GameInfo(492, Geoffrey, "Geoffrey",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(525, Queensland, "Queensland",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(526, OutbackPatience, "Outback Patience",
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(530, RussianSpider, "Russian Spider",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
                       altnames=('Ukrainian Solitaire',)))

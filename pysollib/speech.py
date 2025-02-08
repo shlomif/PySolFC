@@ -35,7 +35,8 @@ class AccessibleOutput:
             return False
         o = self.accessible_output.Auto()
         for output in o.outputs:
-            if output.is_active() and not output.name.startswith('sapi'):
+            if (output is not None and output.is_active() and
+                    not output.name.startswith('sapi')):
                 return True
         return False
 

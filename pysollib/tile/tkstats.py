@@ -377,7 +377,7 @@ class TreeFormatter(PysolStatsFormatter):
         return 1
 
     def writeLog(self, player, prev_games, sort_by='date'):
-        if not player or not prev_games:
+        if not prev_games:
             return 0
         num_rows = 0
         results = self.getLogResults(player, prev_games)
@@ -520,6 +520,8 @@ class LogDialog(MfxDialog):
 
         kw = self.initKw(kw)
         title = _('Log')
+        if player is None:
+            title = _('Demo Log')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         self.top.wm_minsize(400, 200)

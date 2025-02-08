@@ -2527,7 +2527,7 @@ msgid "Automatic play"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:513
-msgid "Auto face up"
+msgid "Auto face-up"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:523
@@ -4227,6 +4227,9 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Demo Log"
+msgstr ""
+
 #: pysollib/tile/tkstats.py:523 data/pysolfc.glade:1404
 msgid "Full log"
 msgstr ""
@@ -4978,6 +4981,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:423
 msgid "Log..."
+msgstr ""
+
+msgid "Demo log..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427

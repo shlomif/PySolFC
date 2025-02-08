@@ -392,12 +392,12 @@ class MemorySequence(Memory24):
 
 # register the game
 registerGame(GameInfo(886, Memory16, "Memory 16",
-                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      category=GI.GC_MATCHING,
+                      GI.GT_MEMORY | GI.GT_SCORE | GI.GT_CHILDREN, 2, 0,
+                      GI.SL_SKILL, category=GI.GC_MATCHING,
                       suits=(), ranks=(), trumps=list(range(8))))
 registerGame(GameInfo(176, Memory24, "Memory 24",
-                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      category=GI.GC_MATCHING,
+                      GI.GT_MEMORY | GI.GT_SCORE | GI.GT_CHILDREN, 2, 0,
+                      GI.SL_SKILL, category=GI.GC_MATCHING,
                       suits=(), ranks=(), trumps=list(range(12))))
 registerGame(GameInfo(219, Memory30, "Memory 30",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,

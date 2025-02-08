@@ -2707,7 +2707,7 @@ msgstr "Gioco automatico"
 
 #: pysollib/kivy/menubar.py:513
 #, fuzzy
-msgid "Auto face up"
+msgid "Auto face-up"
 msgstr "Auto &scopri"
 
 #: pysollib/kivy/menubar.py:523
@@ -4485,6 +4485,9 @@ msgstr "Questa sessione"
 msgid "Log"
 msgstr "Log"
 
+msgid "Demo Log"
+msgstr ""
+
 #: pysollib/tile/tkstats.py:523 data/pysolfc.glade:1404
 msgid "Full log"
 msgstr "Log completo"
@@ -5290,6 +5293,9 @@ msgstr "&Commenti..."
 #: pysollib/ui/tktile/menubar.py:423
 msgid "Log..."
 msgstr "Log..."
+
+msgid "Demo log..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427
 msgid "D&emo statistics..."

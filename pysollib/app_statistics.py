@@ -115,18 +115,13 @@ class Statistics:
                game.GAME_VERSION)
         # full log
         if status >= 0:
-            if player is None:
-                # demo
-                ret = self.updateGameStat(player, game, status)
-            else:
-                # player
-                if player not in self.prev_games:
-                    self.prev_games[player] = []
-                self.prev_games[player].append(log)
-                if player not in self.all_prev_games:
-                    self.all_prev_games[player] = []
-                self.all_prev_games[player].append(log)
-                ret = self.updateGameStat(player, game, status)
+            if player not in self.prev_games:
+                self.prev_games[player] = []
+            self.prev_games[player].append(log)
+            if player not in self.all_prev_games:
+                self.all_prev_games[player] = []
+            self.all_prev_games[player].append(log)
+            ret = self.updateGameStat(player, game, status)
         # session log
         if player not in self.session_games:
             self.session_games[player] = []

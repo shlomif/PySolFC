@@ -2715,7 +2715,7 @@ msgid "Automatic play"
 msgstr "Jogar automaticamente"
 
 #: pysollib/kivy/menubar.py:513
-msgid "Auto face up"
+msgid "Auto face-up"
 msgstr "Virar pra cima automaticamente"
 
 #: pysollib/kivy/menubar.py:523
@@ -4444,6 +4444,9 @@ msgstr "Sessão atual"
 msgid "Log"
 msgstr "registro"
 
+msgid "Demo Log"
+msgstr ""
+
 #: pysollib/tile/tkstats.py:523 data/pysolfc.glade:1404
 msgid "Full log"
 msgstr "Registro completo"
@@ -5246,6 +5249,9 @@ msgstr "&Comentários..."
 #: pysollib/ui/tktile/menubar.py:423
 msgid "Log..."
 msgstr "Registro"
+
+msgid "Demo log..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427
 msgid "D&emo statistics..."

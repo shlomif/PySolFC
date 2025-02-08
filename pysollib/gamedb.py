@@ -320,7 +320,6 @@ class GI:
          904: 68,               # Lexington Harp
          237: 22231,            # Three Peaks
          297: 631,              # Alternation/Alternations
-         526: 447,              # Australian/Outback Patience
          640: 566,              # Hypotenuse/Brazilian Patience
 
          # Lost Mahjongg Layouts
@@ -575,7 +574,7 @@ class GI:
         ('fc-0.9.0', tuple(range(323, 421))),
         ('fc-0.9.1', tuple(range(421, 441))),
         ('fc-0.9.2', tuple(range(441, 466))),
-        ('fc-0.9.3', tuple(range(466, 661))),
+        ('fc-0.9.3', tuple(range(466, 526)) + tuple(range(527, 661))),
         ('fc-0.9.4', tuple(range(661, 671))),
         ('fc-1.0',   tuple(range(671, 711))),
         ('fc-1.1',   tuple(range(711, 759))),
@@ -595,12 +594,12 @@ class GI:
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
         ('fc-3.1', tuple(range(961, 971))),
+        ('dev', tuple(range(971, 973)) + tuple(range(18005, 18007)) + (526,)),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
     # in the registerGame() call
-    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 328, 329, 862, 865,
-                       886, 903, ]
+    _CHILDREN_GAMES = []
 
     _OPEN_GAMES = []
 

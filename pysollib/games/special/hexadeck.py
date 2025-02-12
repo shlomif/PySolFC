@@ -1605,11 +1605,11 @@ class MagicMontana(Montana):
 # ************************************************************************
 
 
-def r(id, gameclass, name, game_type, decks, redeals, skill_level):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level, altnames=()):
     game_type = game_type | GI.GT_HEXADECK
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   suits=list(range(4)), ranks=list(range(16)),
-                  trumps=list(range(4)))
+                  trumps=list(range(4)), altnames=altnames)
     registerGame(gi)
     return gi
 
@@ -1633,7 +1633,7 @@ r(16674, HiddenPassages, 'Hidden Passages', GI.GT_HEXADECK, 1, 1,
 r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0,
   GI.SL_BALANCED)
 r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2,
-  GI.SL_BALANCED)
+  GI.SL_BALANCED, altnames=('Merlin\'s Coil'))
 r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK | GI.GT_OPEN, 1, 0,
   GI.SL_BALANCED)
 r(16678, Convolution, 'Convolution', GI.GT_HEXADECK | GI.GT_OPEN, 2, 0,

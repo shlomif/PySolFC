@@ -220,6 +220,9 @@ class Canfield(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 
+    def parseGameInfo(self):
+        return _("Base rank: ") + RANKS[self.base_card.rank]
+
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]
         for s in self.s.foundations:
@@ -288,6 +291,9 @@ class Storehouse(Canfield):
 
     def updateText(self):
         pass
+
+    def parseGameInfo(self):
+        return ""
 
 
 # ************************************************************************
@@ -358,6 +364,9 @@ class VariegatedCanfield(Canfield):
 
     def updateText(self):
         pass
+
+    def parseGameInfo(self):
+        return ""
 
 
 # ************************************************************************
@@ -695,6 +704,9 @@ class Acme(Canfield):
     def updateText(self):
         pass
 
+    def parseGameInfo(self):
+        return ""
+
     def _restoreGameHook(self, game):
         pass
 
@@ -1019,6 +1031,9 @@ class Beehive(Canfield):
 
     def _saveGameHook(self, p):
         pass
+
+    def parseGameInfo(self):
+        return ""
 
 
 # ************************************************************************

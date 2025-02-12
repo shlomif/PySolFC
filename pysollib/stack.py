@@ -3183,6 +3183,8 @@ class FaceUpWasteTalonStack(WasteTalonStack):
         retval = WasteTalonStack.dealCards(self, sound=sound)
         if self.canFlipCard():
             self.flipMove()
+        self.game.app.speech.speak(
+            self.game.parseCard(self.cards[-1]))
         return retval
 
 

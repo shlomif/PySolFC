@@ -747,6 +747,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 menubar=None,
                 miscrandom=self.app.miscrandom,
                 opt=self.app.opt.copy(),
+                speech=self.app.speech,
                 startup_opt=self.app.startup_opt,
                 stats=self.app.stats.new(),
                 top=None,

@@ -946,11 +946,19 @@ class PysolMenubar(PysolMenubarTk):
         self.game.keyboardSelectNextType()
         return "break"
 
+    def mKeyboardSelectPrevType(self, *args):
+        self.game.keyboardSelectNextType(dir=-1)
+        return "break"
+
     def mKeyboardAction(self, *args):
         self.game.keyboardAction()
 
     def mKeyboardAction2(self, *args):
         self.game.keyboardAction(type=2)
+
+    def mKeyboardGameInfo(self, *args):
+        self.game.speakGameInfo()
+
 
 # ************************************************************************
 # * toolbar

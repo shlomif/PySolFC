@@ -1304,22 +1304,27 @@ class Game(object):
             self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
             self.app.speech.speak(self.getStackSpeech(stack, 0))
 
-    def keyboardSelectNextType(self):
+    def keyboardSelectNextType(self, dir=1):
         col = self.app.opt.colors['keyboard_sel']
         oldstack = self.keyboard_selected_stack
         stacktype = 0
         if oldstack == self.s.talon:
-            stacktype = 1
-        elif oldstack == self.s.waste:
-            stacktype = 2
-        elif oldstack in self.s.rows:
-            stacktype = 3
-        elif oldstack in self.s.reserves:
-            stacktype = 4
-        elif oldstack in self.s.foundations:
             stacktype = 0
+        elif oldstack == self.s.waste:
+            stacktype = 1
+        elif oldstack in self.s.rows:
+            stacktype = 2
+        elif oldstack in self.s.reserves:
+            stacktype = 3
+        elif oldstack in self.s.foundations:
+            stacktype = 4
         stack = None
         while stack is None:
+            stacktype += dir
+            if stacktype > 4:
+                stacktype = 0
+            if stacktype < 0:
+                stacktype = 4
             if stacktype == 0 and self.s.talon is not None:
                 stack = self.s.talon
             if stacktype == 1 and self.s.waste is not None:
@@ -1330,7 +1335,6 @@ class Game(object):
                 stack = self.s.reserves[0]
             if stacktype == 4 and len(self.s.foundations) > 0:
                 stack = self.s.foundations[0]
-            stacktype += 1
         self.keyboard_selected_stack = stack
         if oldstack != stack:
             self.keyboard_select_count = 1
@@ -1350,6 +1354,8 @@ class Game(object):
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
         nextcard = -1 * (self.keyboard_select_count + 1)
+        if stack is None:
+            return
         if stack.CARD_XOFFSET[0] == 0 and stack.CARD_YOFFSET[0] == 0:
             return
         if (len(stack.cards) >= (-1 * nextcard) and
@@ -1365,6 +1371,8 @@ class Game(object):
     def keyboardSelectLessCards(self):
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
+        if stack is None:
+            return
         if self.keyboard_select_count > 1:
             self.keyboard_select_count -= 1
             if self.keyboard_selector is not None:
@@ -1613,13 +1621,11 @@ class Game(object):
     def parseCard(self, card):
         if not card.face_up:
             return _("Face-down")
-        if self.gameinfo.category == GI.GC_FRENCH:
-            if card.suit > 3:
-                return COLORS[card.rank] + " " + _("Joker")
-            suit = SUITS_PL[card.suit]
-            rank = RANKS[card.rank]
-            return rank + " - " + suit
-        return _("Unknown")
+        if card.suit > 3:
+            return COLORS[card.rank] + " " + _("Joker")
+        suit = SUITS_PL[card.suit]
+        rank = RANKS[card.rank]
+        return rank + " - " + suit
 
     def parseEmptyStack(self, stack):
         if self.gameinfo.category == GI.GC_FRENCH:
@@ -1632,6 +1638,12 @@ class Game(object):
                     return (_("Foundation") + " - " +
                             SUITS_PL[stack.cap.base_suit])
         return _("Empty stack")
+
+    def parseGameInfo(self):
+        return ""
+
+    def speakGameInfo(self):
+        self.app.speech.speak(self.parseGameInfo())
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if TOOLKIT == 'kivy':

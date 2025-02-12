@@ -1605,7 +1605,8 @@ class MagicMontana(Montana):
 # ************************************************************************
 
 
-def r(id, gameclass, name, game_type, decks, redeals, skill_level, altnames=()):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level,
+      altnames=()):
     game_type = game_type | GI.GT_HEXADECK
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   suits=list(range(4)), ranks=list(range(16)),

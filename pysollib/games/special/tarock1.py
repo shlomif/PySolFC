@@ -504,8 +504,8 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level,
       numcards=78, altnames=()):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  ranks=list(range(14)), trumps=list(range(22)), altnames=altnames,
-                  si={"ncards": numcards})
+                  ranks=list(range(14)), trumps=list(range(22)),
+                  altnames=altnames, si={"ncards": numcards})
     registerGame(gi)
     return gi
 

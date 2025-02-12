@@ -1157,10 +1157,12 @@ class AshtaDikapala(Game):
 # *
 # ************************************************************************
 
-def r(id, gameclass, name, game_type, decks, redeals, skill_level, altnames=()):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level,
+      altnames=()):
     game_type = game_type | GI.GT_MUGHAL_GANJIFA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=list(range(8)), ranks=list(range(12)), altnames=altnames)
+                  suits=list(range(8)), ranks=list(range(12)),
+                  altnames=altnames)
     registerGame(gi)
     return gi
 

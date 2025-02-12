@@ -1266,10 +1266,12 @@ class Dashavatara(Game):
 #  *
 #  ***********************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals, skill_level, altnames=()):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level,
+      altnames=()):
     game_type = game_type | GI.GT_DASHAVATARA_GANJIFA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=list(range(10)), ranks=list(range(12)), altnames=altnames)
+                  suits=list(range(10)), ranks=list(range(12)),
+                  altnames=altnames)
     registerGame(gi)
     return gi
 
@@ -1301,6 +1303,6 @@ r(15420, AppachansWaterfall, "Appachan's Waterfall", GI.GT_DASHAVATARA_GANJIFA,
 r(15421, Hiranyaksha, 'Hiranyaksha', GI.GT_DASHAVATARA_GANJIFA, 1, 0,
   GI.SL_MOSTLY_SKILL)
 r(15422, Dashavatara, 'Dashavatara', GI.GT_DASHAVATARA_GANJIFA, 1, 0,
-  GI.SL_BALANCED, altnames=('Ten Avatars'))
+  GI.SL_BALANCED)
 
 del r

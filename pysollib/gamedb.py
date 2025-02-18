@@ -112,7 +112,7 @@ class GI:
 
     # extra flags
     GT_BETA = 1 << 12      # beta version of game driver
-    GT_CHILDREN = 1 << 13      # *not used*
+    GT_CHILDREN = 1 << 13
     GT_CONTRIB = 1 << 14      # contributed games under the GNU GPL
     GT_HIDDEN = 1 << 15      # not visible in menus, but games can be loaded
     GT_OPEN = 1 << 16

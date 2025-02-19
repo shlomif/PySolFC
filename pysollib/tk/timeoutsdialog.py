@@ -71,7 +71,7 @@ class TimeoutsDialog(MfxDialog):
                           ).grid(row=row, column=0, sticky='we')
             widget = tkinter.Scale(frame, from_=0.2, to=9.9,
                                    resolution=0.1, orient='horizontal',
-                                   length="3i", variable=var, takefocus=0)
+                                   length="3i", variable=var)
             widget.grid(row=row, column=1)
             row += 1
         #

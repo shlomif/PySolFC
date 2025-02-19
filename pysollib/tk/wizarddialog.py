@@ -94,7 +94,7 @@ class WizardDialog(MfxDialog):
                 if w.variable is None:
                     w.variable = tkinter.BooleanVar()
                 ch = tkinter.Checkbutton(frame, variable=w.variable,
-                                         takefocus=False, anchor='w')
+                                         anchor='w')
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:

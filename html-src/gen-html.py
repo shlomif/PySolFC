@@ -46,6 +46,7 @@ fix_gettext()
 files = [
     ('credits.html', 'PySol Credits'),
     ('credits_old.html', 'PySol Credits'),
+    ('faq.html', 'PySol - FAQ'),
     ('ganjifa.html', 'PySol - General Ganjifa Card Rules'),
     ('general_rules.html', 'PySol - General Rules'),
     ('glossary.html', 'PySol - Glossary'),

@@ -55,27 +55,6 @@ disable certain features as they would be trivial otherwise.
 The logic involved is not too clever on purpose (i.e. it does not consult the hint system).
 </ul>
 
-<h2>The animation is too slow...</h2>
-<p>
-Unfortunately the Tcl/Tk toolkit lacks a sprite concept, so
-there is a lot of (invisible double-buffered) redraw going on
-when dragging cards around.
-<p>
-Disabling <i>Card shadow</i>, <i>Shade legal moves</i>,
-background table tiles and sound will somewhat improve the display speed.
-
-
-<h2>The table tiles look strange</h2>
-<p>
-Background table tiles should only be enabled when using
-a true-color video mode - otherwise they may look bad
-because of dithering.
-<p>
-BTW, you can add your own background tiles by copying the images
-to the main <i>data/tiles</i> or your home <i>~/.PySolFC/tiles</i> directory.
-<!-- They must be in GIF or PPM format. -->
-
-
 <h2>Some notes about scoring</h2>
 <p>
 <ul type="disc">

@@ -501,11 +501,11 @@ class TrumpsRow(Montana):
 # ************************************************************************
 
 def r(id, gameclass, name, game_type, decks, redeals, skill_level,
-      numcards=78):
+      numcards=78, altnames=()):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   ranks=list(range(14)), trumps=list(range(22)),
-                  si={"ncards": numcards})
+                  altnames=altnames, si={"ncards": numcards})
     registerGame(gi)
     return gi
 
@@ -519,7 +519,8 @@ r(13166, Serpent, 'Serpent', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
 r(13167, Rambling, 'Rambling', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
-r(13168, FoolsUp, "Fool's Up", GI.GT_TAROCK, 1, 0, GI.SL_LUCK)
+r(13168, FoolsUp, "Fool's Up", GI.GT_TAROCK, 1, 0, GI.SL_LUCK,
+  altnames=('Solitairot'))
 r(13169, TrumpsRow, "Trumps Row", GI.GT_TAROCK, 1, 4, GI.SL_MOSTLY_SKILL,
   numcards=73)
 r(22232, LeGrandeTeton, 'Le Grande Teton', GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)

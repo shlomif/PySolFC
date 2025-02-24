@@ -1164,10 +1164,12 @@ class AshtaDikapala(AbstractMughalGame):
 # *
 # ************************************************************************
 
-def r(id, gameclass, name, game_type, decks, redeals, skill_level):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level,
+      altnames=()):
     game_type = game_type | GI.GT_MUGHAL_GANJIFA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=list(range(8)), ranks=list(range(12)))
+                  suits=list(range(8)), ranks=list(range(12)),
+                  altnames=altnames)
     registerGame(gi)
     return gi
 
@@ -1194,6 +1196,6 @@ r(16001, Danda, 'Danda', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(16002, Khadga, 'Khadga', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(16003, Makara, 'Makara', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(16004, AshtaDikapala, 'Ashta Dikapala', GI.GT_MUGHAL_GANJIFA, 1, 0,
-  GI.SL_BALANCED)
+  GI.SL_BALANCED, altnames=('Eight Guardians'))
 
 del r

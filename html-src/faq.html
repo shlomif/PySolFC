@@ -1,0 +1,64 @@
+<h1>FAQ</h1>
+<h2>The animation is too slow...</h2>
+<p>
+Unfortunately the Tcl/Tk toolkit lacks a sprite concept, so
+there is a lot of (invisible double-buffered) redraw going on
+when dragging cards around.
+<p>
+Disabling <i>Card shadow</i>, <i>Shade legal moves</i>,
+background table tiles and sound will somewhat improve the display speed.
+
+<h2>The table tiles look strange</h2>
+<p>
+Background table tiles should only be enabled when using
+a true-color video mode - otherwise they may look bad
+because of dithering.
+<p>
+BTW, you can add your own background tiles by copying the images
+to the main <i>data/tiles</i> or your home <i>~/.PySolFC/tiles</i> directory.
+<!-- They must be in GIF or PPM format. -->
+
+<h2>My antivirus app says the Windows installer contains a virus.</h2>
+<p>
+We have been asked about the fact that some anti viruses, including those
+on <a href="https://www.virustotal.com/">VirusTotal</a>, have identified the Microsoft
+Windows downloads as containing malware. What we know is that they are generated from
+the <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">open source</a>
+source code by <a href="https://www.appveyor.com/">AppVeyor</a>, are checked using
+VirusTotal before they are uploaded, and at that point were considered to be malware clean.
+<p>
+However, as time passes, they seem to accumulate classifyings as containing malware
+in what appears to be <a href="https://en.wikipedia.org/wiki/False_positives_and_false_negatives">false positives</a>. So we believe the downloads are nonetheless safe and free of
+malware.
+<p>
+Furthermore, note that we believe that many anti-malware applications are harmful
+by themselves, and that they are all an incomplete (non-)solution to an
+issue that does not exist in <a href="https://en.wikipedia.org/wiki/Linux#Desktop">Linux</a> and the <a href="https://en.wikipedia.org/wiki/List_of_BSD_operating_systems">BSDs operating systems</a>.
+<p>
+For more information, see:
+<ol>
+<li><a href="https://sourceforge.net/p/pysolfc/discussion/503709/thread/d841b6a1/">Forum discussion</a></li>
+<li><a href="http://linuxmafia.com/~rick/faq/">Viruses on Linux</a></li>
+<li><a href="https://www.mail-archive.com/wikimedia-l@lists.wikimedia.org/msg30001.html">Discussion about anti-viruses.</a></li>
+</ol>
+
+<h2>I received an error that there is no module named "formatter".</h2>
+<p>
+This error occurs if you're trying to run an older version of PySolFC
+with Python 3.10.  If you are using Python 3.10 or later, please upgrade your
+version of PySolFC to 2.14.0 or later - older versions are not compatible with
+Python 3.10.
+<p>
+If you are getting your copy from your Linux distribution's package manager,
+please contact the people who maintain the packages for your distribution.
+You can always get the latest version from the PySolFC website or from
+Flathub.
+
+<h2>It won't let me deal more cards in Spider.</h2>
+<p>
+When playing Spider, you are not allowed to deal more cards if there are any
+empty piles.  If there aren't enough cards left to put one in each pile, the
+game is lost.  Part of the game is planning ahead when to deal more cards to
+avoid this situation.
+<p>
+If you want a variation without this rule, you can play Relaxed Spider instead.

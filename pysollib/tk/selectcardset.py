@@ -271,7 +271,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             check = tkinter.Checkbutton(
                 left_frame, text=_('Auto scaling'),
                 variable=self.auto_scale,
-                takefocus=False,
                 command=self._updateAutoScale
                 )
             check.grid(row=3, column=0, columnspan=2, sticky='w',
@@ -282,7 +281,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.aspect_check = tkinter.Checkbutton(
                 left_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
-                takefocus=False,
                 # command=self._updateScale
                 )
             self.aspect_check.grid(row=4, column=0, sticky='w',

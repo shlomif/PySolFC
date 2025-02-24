@@ -615,11 +615,12 @@ class PysolMenubarTkCommon:
             label=n_("&Statistics..."),
             command=self.mPlayerStats, accelerator=m+"T")
         menu.add_command(
-            label=n_("D&emo statistics..."),
-            command=lambda: self.mPlayerStats(mode=1101))
-        menu.add_command(
             label=n_("Log..."),
             command=lambda: self.mPlayerStats(mode=103))
+        menu.add_separator()
+        menu.add_command(
+            label=n_("D&emo statistics..."),
+            command=lambda: self.mPlayerStats(mode=1101))
         menu.add_command(
             label=n_("Demo log..."),
             command=lambda: self.mPlayerStats(mode=1103))

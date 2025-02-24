@@ -456,7 +456,7 @@ class AShuffleStackMove(AtomicMove):
     def redo(self, game):
         stack = game.allstacks[self.stack_id]
         # paranoia
-        assert stack is game.s.talon
+        assert stack is game.s.talon or stack in game.s.internals
         # shuffle (see random)
         game.random.setstate(self.state)
         seq = stack.cards

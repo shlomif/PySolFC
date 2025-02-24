@@ -400,51 +400,18 @@ class PyramidDozen(Giza):
 
 
 # ************************************************************************
-# * Thirteen
-# * FIXME: UNFINISHED
-# * (this doesn't work yet as 2 cards of the Waste should be playable)
+# * Pyramid Thirteen
 # ************************************************************************
 
+# Previous comments suggest there would need to be two waste piles.  This
+# is not true.  Based on AisleRiot's rules, the two waste cards can only
+# be played with each other, which is the same as how PySol's traditional
+# version works.  So the remaining AisleRiot differences are captured
+# in "Pyramid Thirteen", renamed from "Thirteen" to avoid confusion with
+# "Thirteens"
+
 class Thirteen(Pyramid):
-
-    #
-    # game layout
-    #
-
-    def createGame(self):
-        # create layout
-        layout, s = Layout(self), self.s
-
-        # set window
-        self.setSize(7*layout.XS+layout.XM, 5*layout.YS+layout.YM)
-
-        # create stacks
-        for i in range(7):
-            x = layout.XM + (6-i) * layout.XS // 2
-            y = layout.YM + layout.YS + i * layout.YS // 2
-            for j in range(i+1):
-                s.rows.append(Pyramid_RowStack(x, y, self))
-                x = x + layout.XS
-        x, y = layout.XM, layout.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        layout.createText(s.talon, "s")
-        x = x + layout.XS
-        s.waste = Pyramid_Waste(x, y, self, max_accept=1)
-        layout.createText(s.waste, "s")
-        s.waste.CARD_XOFFSET = 14
-        x, y = self.width - layout.XS, layout.YM
-        s.foundations.append(Pyramid_Foundation(x, y, self,
-                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
-                             max_move=0, max_cards=52))
-
-        # define stack-groups
-        self.sg.talonstacks = [s.talon] + [s.waste]
-        self.sg.openstacks = s.rows + self.sg.talonstacks
-        self.sg.dropstacks = s.rows + self.sg.talonstacks
-
-    #
-    # game overrides
-    #
+    Talon_Class = StackWrapper(Pyramid_Talon, max_rounds=1, max_accept=1)
 
     def startGame(self):
         self.startDealSample()
@@ -1808,6 +1775,8 @@ class Hurricane_Reserve(Hurricane_StackMethods, OpenStack):
 
 class Hurricane(Pyramid):
     Hint_Class = Hurricane_Hint
+    RowStack_Class = Hurricane_RowStack
+    Reserve_Class = Hurricane_Reserve
 
     def createGame(self):
         # create layout
@@ -1825,7 +1794,7 @@ class Hurricane(Pyramid):
                         (0, 2), (1, 2), (2, 2), (3, 2),
                         ):
             x, y = layout.XM + 1.5*layout.XS + ww*xx, layout.YM + layout.YS*yy
-            stack = Hurricane_Reserve(x, y, self, max_accept=1)
+            stack = self.Reserve_Class(x, y, self, max_accept=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = layout.XOFFSET, 0
             s.reserves.append(stack)
 
@@ -1833,7 +1802,7 @@ class Hurricane(Pyramid):
         x = layout.XM + 1.5*layout.XS + layout.XS+2*layout.XOFFSET + d//2
         y = layout.YM+layout.YS
         for i in range(3):
-            stack = Hurricane_RowStack(x, y, self, max_accept=1)
+            stack = self.RowStack_Class(x, y, self, max_accept=1)
             s.rows.append(stack)
             x += layout.XS
 
@@ -1864,6 +1833,38 @@ class Hurricane(Pyramid):
             self.leaveState(old_state)
 
 
+# ************************************************************************
+# * Ides of March
+# ************************************************************************
+
+class IdesOfMarch_StackMethods(Pyramid_StackMethods):
+
+    def acceptsCards(self, from_stack, cards):
+        if from_stack is self:
+            return False
+        if len(cards) != 1:
+            return False
+        if not self.cards:
+            return False
+        c1 = self.cards[-1]
+        c2 = cards[0]
+        return (c1.face_up and c2.face_up and
+                (c1.rank + c2.rank == 13 or c1.rank + c2.rank == 0))
+
+
+class IdesOfMarch_RowStack(IdesOfMarch_StackMethods, BasicRowStack):
+    pass
+
+
+class IdesOfMarch_Reserve(IdesOfMarch_StackMethods, OpenStack):
+    pass
+
+
+class IdesOfMarch(Hurricane):
+    RowStack_Class = IdesOfMarch_RowStack
+    Reserve_Class = IdesOfMarch_Reserve
+
+
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
@@ -1871,8 +1872,8 @@ registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
                       GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2,
                       GI.SL_MOSTLY_LUCK,
                       altnames=("Pyramid's Stones", "Pyramid Clear")))
-# registerGame(GameInfo(44, Thirteen, "Thirteen",
-#                       GI.GT_PAIRING_TYPE, 1, 0))
+registerGame(GameInfo(44, Thirteen, "Pyramid Thirteen",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(593, Thirteens, "Thirteens",
@@ -1944,3 +1945,6 @@ registerGame(GameInfo(961, Nines, "Nines",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(969, ElevenTriangle, "Eleven Triangle",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(974, IdesOfMarch, "Ides of March",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("XV",)))

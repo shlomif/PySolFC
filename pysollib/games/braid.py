@@ -646,7 +646,8 @@ registerGame(GameInfo(376, Backbone, "Backbone",
 registerGame(GameInfo(377, BackbonePlus, "Backbone +",
                       GI.GT_NAPOLEON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(510, BigBraid, "Big Braid",
-                      GI.GT_NAPOLEON | GI.GT_ORIGINAL, 3, 2, GI.SL_BALANCED))
+                      GI.GT_NAPOLEON | GI.GT_ORIGINAL, 3, 2, GI.SL_BALANCED,
+                      altnames=("Der grose Zopf",)))
 registerGame(GameInfo(694, Casket, "Casket",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(717, Well, "Well",

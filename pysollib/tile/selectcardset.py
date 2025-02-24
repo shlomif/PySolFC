@@ -353,7 +353,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             check = ttk.Checkbutton(
                 size_frame, text=_('Auto scaling'),
                 variable=self.auto_scale,
-                takefocus=False,
                 command=self._updateAutoScale
                 )
             check.grid(row=5, column=0, columnspan=2, sticky='ew',
@@ -364,7 +363,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.aspect_check = ttk.Checkbutton(
                 size_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
-                takefocus=False,
                 # command=self._updateScale
                 )
             self.aspect_check.grid(row=6, column=0, sticky='ew',

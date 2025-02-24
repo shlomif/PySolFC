@@ -51,10 +51,18 @@ class StHelena_Talon(TalonStack):
         # move all cards to the Talon and redeal
         lr = len(self.game.s.rows)
         num_cards = 0
-        assert len(self.cards) == 0
+        if len(self.cards) > 0:
+            num_cards = len(self.cards)
+            self.game.startDealSample()
+            for i in range(lr):
+                k = min(lr, len(self.cards))
+                for j in range(k):
+                    self.game.flipAndMoveMove(self, self.game.s.rows[j], 4)
+            self.game.stopSamples()
+            return num_cards
         for r in self.game.s.rows[::-1]:
             for i in range(len(r.cards)):
-                num_cards = num_cards + 1
+                num_cards += 1
                 self.game.moveMove(1, r, self, frames=0)
         assert len(self.cards) == num_cards
         if num_cards == 0:          # game already finished
@@ -168,6 +176,32 @@ class BoxKite(StHelena):
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, mod=13)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+# ************************************************************************
+# * Louis
+# ************************************************************************
+
+
+class Louis(StHelena):
+    Foundation_Class = SS_FoundationStack
+    RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=NO_RANK, mod=13)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(self.s.foundations)
+        self.s.talon.dealRow()
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.deck == 0 and c.rank in (0, 12),
+                              (-c.rank, c.suit)), 8)
+
+    def fillStack(self, stack):
+        if (self.s.talon.cards and stack in self.s.rows
+                and len(stack.cards) == 0):
+            self.s.talon.dealRow(rows=[stack])
 
 
 # ************************************************************************
@@ -452,3 +486,5 @@ registerGame(GameInfo(621, RegalFamily, "Regal Family",
 registerGame(GameInfo(859, KingsAudience, "King's Audience",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Queen's Audience")))
+registerGame(GameInfo(975, Louis, "Louis",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))

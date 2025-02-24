@@ -75,7 +75,7 @@ class Memory_RowStack(OpenStack):
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
         game.playSample("droppair", priority=200)
-        game.closed_cards = game.closed_cards - 2
+        game.closed_cards -= 2
         game.score = game.score + 5
 
     rightclickHandler = clickHandler
@@ -112,6 +112,7 @@ class Memory24(Game):
 
         # game extras
         self.other_stack = None
+        self.other_stack2 = None
         self.closed_cards = -1
         self.score = 0
 
@@ -262,7 +263,7 @@ class Concentration_RowStack(Memory_RowStack):
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
         game.playSample("droppair", priority=200)
-        game.closed_cards = game.closed_cards - 2
+        game.closed_cards -= 2
         game.score = game.score + 5
         #
         old_state = game.enterState(game.S_FILL)
@@ -278,6 +279,8 @@ class Concentration(Memory24):
     WIN_SCORE = 50
     PERFECT_SCORE = 130     # 5 * (13*4)/2
 
+    RowStack_Class = Concentration_RowStack
+
     #
     # game layout
     #
@@ -288,6 +291,7 @@ class Concentration(Memory24):
 
         # game extras
         self.other_stack = None
+        self.other_stack2 = None
         self.closed_cards = -1
         self.score = 0
 
@@ -298,11 +302,12 @@ class Concentration(Memory24):
         for i in range(self.ROWS):
             for j in range(self.COLUMNS):
                 x, y = l.XM + j*l.XS, l.YM + i*l.YS
-                s.rows.append(Concentration_RowStack(x, y, self,
+                s.rows.append(self.RowStack_Class(x, y, self,
                               max_move=0, max_accept=0, max_cards=1))
         x, y = l.XM + self.COLUMNS*l.XS//2, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         l.createText(s.talon, dx=-10, anchor="sw", text_format="%D")
+        s.internals.append(InvisibleStack(self))
 
         # create text
         x, y = l.XM, self.height - l.YM
@@ -401,6 +406,151 @@ class MemorySequence(Memory24):
         return card1.suit == card2.suit and card1.rank == card2.rank + 1
 
 
+# ************************************************************************
+# * Families
+# ************************************************************************
+
+class Families_RowStack(Memory_RowStack):
+    def clickHandler(self, event):
+        game = self.game
+        if (game.score == -1):
+            return 1
+        if len(self.cards) != 1 or self.cards[-1].face_up:
+            return 1
+        if game.other_stack is None:
+            game.playSample("flip", priority=5)
+            self.flipMove()
+            game.other_stack = self
+        elif game.other_stack2 is None:
+            game.playSample("flip", priority=5)
+            self.flipMove()
+            game.other_stack2 = self
+        else:
+            assert len(game.other_stack.cards) == 1 and \
+                game.other_stack.cards[-1].face_up
+            c1, c2, c3 = self, game.other_stack, game.other_stack2
+            self.flipMove()
+            if not self.game.handleMatch(c1, c2, c3):
+                game.playSample("flip", priority=5)
+                game.updateStatus(moves=game.moves.index+1)  # update moves now
+                game.updateText()
+                game.canvas.update_idletasks()
+                game.sleep(0.5)
+                game.other_stack.flipMove()
+                game.canvas.update_idletasks()
+                game.sleep(0.2)
+                game.other_stack2.flipMove()
+                game.canvas.update_idletasks()
+                game.sleep(0.2)
+                self.flipMove()
+            game.other_stack = None
+            game.other_stack2 = None
+        self.game.finishMove()
+        self.game.checkForWin()
+        return 1
+
+
+class Families(Concentration):
+    Hint_Class = None
+
+    COLUMNS = 8
+    ROWS = 4
+
+    RowStack_Class = Families_RowStack
+
+    def updateText(self):
+        pass
+
+    def _restoreGameHook(self, game):
+        if game.loadinfo.other_stack_id >= 0:
+            self.other_stack = self.allstacks[game.loadinfo.other_stack_id]
+        else:
+            self.other_stack = None
+        if game.loadinfo.other_stack2_id >= 0:
+            self.other_stack2 = self.allstacks[game.loadinfo.other_stack2_id]
+        else:
+            self.other_stack2 = None
+        self.closed_cards = game.loadinfo.closed_cards
+        self.score = game.loadinfo.score
+
+    def handleMatch(self, stack1, stack2, stack3):
+        card1 = stack1.cards[-1]
+        card2 = stack2.cards[-1]
+        card3 = stack3.cards[-1]
+        if (card1.suit == card2.suit and card2.suit == card3.suit and
+                card1.rank != card2.rank and card2.rank != card3.rank and
+                card1.rank != card3.rank):
+            self.playSample("droppair", priority=200)
+            self.closed_cards -= 3
+            #
+            old_state = self.enterState(self.S_FILL)
+            f = self.s.talon
+            self.moveMove(1, stack1, f)
+            self.moveMove(1, stack2, f)
+            self.moveMove(1, stack3, f)
+            self.leaveState(old_state)
+            return True
+        else:
+            redjokers = 0
+            blackjokers = 0
+            if card1.suit == 4 and card1.rank == 0:
+                blackjokers += 1
+            if card2.suit == 4 and card2.rank == 0:
+                blackjokers += 1
+            if card3.suit == 4 and card3.rank == 0:
+                blackjokers += 1
+            if card1.suit == 4 and card1.rank == 1:
+                redjokers += 1
+            if card2.suit == 4 and card2.rank == 1:
+                redjokers += 1
+            if card3.suit == 4 and card3.rank == 1:
+                redjokers += 1
+            if blackjokers > 1:
+                self.score = -1
+                return True
+            if redjokers > 0:
+                self.reshuffle()
+
+    def reshuffle(self):
+        old_state = self.enterState(self.S_FILL)
+        stacks = ()
+        for r in self.s.rows:
+            if r.cards and not r.cards[-1].face_up:
+                stacks += (r,)
+                self.moveMove(len(r.cards), r, self.s.internals[0],
+                              frames=0)
+        self.shuffleStackMove(self.s.internals[0])
+        self.startDealSample()
+        for r in stacks:
+            self.moveMove(1, self.s.internals[0], r)
+        self.stopSamples()
+        self.leaveState(old_state)
+
+    def isGameWon(self):
+        return self.closed_cards == 8 and self.score > -1
+
+    def getStuck(self):
+        return self.score == -1
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(other_stack_id=p.load())
+        self.loadinfo.addattr(other_stack2_id=p.load())
+        self.loadinfo.addattr(closed_cards=p.load())
+        self.loadinfo.addattr(score=p.load())
+
+    def _saveGameHook(self, p):
+        if self.other_stack:
+            p.dump(self.other_stack.id)
+        else:
+            p.dump(-1)
+        if self.other_stack2:
+            p.dump(self.other_stack2.id)
+        else:
+            p.dump(-1)
+        p.dump(self.closed_cards)
+        p.dump(self.score)
+
+
 # register the game
 registerGame(GameInfo(886, Memory16, "Memory 16",
                       GI.GT_MEMORY | GI.GT_SCORE | GI.GT_CHILDREN, 2, 0,
@@ -428,3 +578,7 @@ registerGame(GameInfo(178, Concentration, "Concentration",
 registerGame(GameInfo(843, MemorySequence, "Memory Sequence",
                       GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL,
                       suits=(1,), altnames=('Ace Through King',)))
+registerGame(GameInfo(973, Families, "Families",
+                      GI.GT_MEMORY, 2, 0, GI.SL_MOSTLY_SKILL,
+                      ranks=(10, 11, 12), subcategory=GI.GS_JOKER_DECK,
+                      trumps=(0, 0, 0, 1)))

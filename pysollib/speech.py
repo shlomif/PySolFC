@@ -45,6 +45,15 @@ class AccessibleOutput:
         o.output(text)
 
 
+class ConsoleSpeech:
+    # Output speech text to the console.  Mostly for ease of testing.
+    def isSupported(self):
+        return True
+
+    def speak(self, text):
+        print(text)
+
+
 class Speech:
     speechClass = AccessibleOutput()
     isEnabled = True

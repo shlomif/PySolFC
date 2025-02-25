@@ -173,6 +173,9 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
         OpenStack.copyModel(self, clone)
         clone.blockmap = self.blockmap
 
+    def canSelect(self):
+        return len(self.cards) > 0 and self.cards[-1].face_up
+
 
 # ************************************************************************
 # * Pyramid

@@ -594,6 +594,10 @@ class Stack:
         # Can we drop the top cards onto one of the foundation stacks ?
         return (None, 0)    # return the stack and the number of cards
 
+    def canSelect(self):
+        # Can the stack be selected (for keyboard movement)
+        return True
+
     #
     # State {model}
     #
@@ -2063,6 +2067,9 @@ class InitialDealTalonStack(TalonStack):
         pass
     # no bottom
     getBottomImage = Stack._getNoneBottomImage
+
+    def canSelect(self):
+        return False
 
 
 class RedealTalonStack(TalonStack, RedealCards_StackMethods):

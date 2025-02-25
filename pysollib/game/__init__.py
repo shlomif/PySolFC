@@ -1325,16 +1325,24 @@ class Game(object):
                 stacktype = 0
             if stacktype < 0:
                 stacktype = 4
-            if stacktype == 0 and self.s.talon is not None:
+            if (stacktype == 0 and self.s.talon is not None
+                    and self.s.talon.canSelect()):
                 stack = self.s.talon
-            if stacktype == 1 and self.s.waste is not None:
+            if (stacktype == 1 and self.s.waste is not None
+                    and self.s.waste.canSelect()):
                 stack = self.s.waste
             if stacktype == 2 and len(self.s.rows) > 0:
-                stack = self.s.rows[0]
+                for s in self.s.rows:
+                    if s.canSelect():
+                        stack = s
             if stacktype == 3 and len(self.s.reserves) > 0:
-                stack = self.s.reserves[0]
+                for s in self.s.reserves:
+                    if s.canSelect():
+                        stack = s
             if stacktype == 4 and len(self.s.foundations) > 0:
-                stack = self.s.foundations[0]
+                for s in self.s.foundations:
+                    if s.canSelect():
+                        stack = s
         self.keyboard_selected_stack = stack
         if oldstack != stack:
             self.keyboard_select_count = 1
@@ -1421,7 +1429,8 @@ class Game(object):
         ch -= 1
         for stack in self.allstacks:
             if (stack in self.s.internals or
-                    stack == self.keyboard_selected_stack):
+                    stack == self.keyboard_selected_stack or
+                    not stack.canSelect()):
                 continue
             if direction == 0:  # up
                 if ((stack.y >= self.keyboard_selected_stack.y) or
@@ -1613,7 +1622,8 @@ class Game(object):
             if stack == self.s.waste:
                 message += " - " + _("Waste") + " - " + stack.getNumCards()
             if stack in self.s.foundations:
-                message += " - " + _("Foundation")
+                message += (" - " + _("Foundation") + " - " +
+                            stack.getNumCards())
             return message
         else:
             return self.parseEmptyStack(stack)

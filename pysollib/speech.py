@@ -56,6 +56,7 @@ class ConsoleSpeech:
 
 class Speech:
     speechClass = AccessibleOutput()
+    # speechClass = ConsoleSpeech()
     isEnabled = True
 
     def speak(self, text):

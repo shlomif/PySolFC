@@ -32,6 +32,7 @@ import traceback
 from pysollib.mfxutil import KwStruct, destruct, kwdefault, openURL
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
+from pysollib.speech import Speech
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
@@ -214,9 +215,9 @@ class MfxDialog:  # ex. _ToplevelDialog
                 button_img = MfxDialog.button_img.get(s)
             s = s.replace('&', '')
             if button < 0:
-                widget = ttk.Button(frame, text=s, state="disabled")
+                widget = PysolButton(frame, text=s, state="disabled")
             else:
-                widget = ttk.Button(
+                widget = PysolButton(
                     frame, text=s, default="normal",
                     command=lambda self=self, button=button:
                     self.mDone(button))
@@ -793,6 +794,13 @@ class MyPysolScale:
         else:
             self.label_text = None
             width = 3
+        if 'fieldname' in kw:
+            self.field_name = kw['fieldname']
+            del kw['fieldname']
+        else:
+            self.field_name = ''
+
+        self.speech = Speech()
 
         # create widgets
         side = 'left'  # 'top'
@@ -802,6 +810,7 @@ class MyPysolScale:
         self.label.pack(side=side, expand=False, fill='x')
         self.scale = ttk.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
+        self.scale.bind("<FocusIn>", self._scale_focus)
 
         if self.variable:
             self.variable.trace('w', self._trace_var)
@@ -828,9 +837,14 @@ class MyPysolScale:
         v = self._round(float(value)*self.resolution)
         self._set_text(v)
         self.variable.set(v)
-        if value != self.value and self.command:
-            self.command(value)
+        if value != self.value:
+            self.speech.speak(value)
+            if self.command:
+                self.command(value)
         self.value = value
+
+    def _scale_focus(self, event):
+        self.speech.speak(self.field_name + " " + self.value)
 
     def pack(self, **kw):
         self.frame.pack(**kw)
@@ -883,3 +897,35 @@ class PysolCombo(ttk.Combobox):
         if self._command is not None:
             return self._command(*args)
         return None
+
+
+# ************************************************************************
+# * Other components (speech support)
+# ************************************************************************
+
+class PysolCheckbutton(ttk.Checkbutton):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        ttk.Checkbutton.__init__(self, master, **kw)
+        if 'text' in kw:
+            self.field_name = kw['text']
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name)
+
+
+class PysolButton(ttk.Button):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        ttk.Button.__init__(self, master, **kw)
+        if 'text' in kw:
+            self.field_name = kw['text']
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name)

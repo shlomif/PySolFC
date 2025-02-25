@@ -32,7 +32,7 @@ from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 
 from .tkwidget import MfxDialog, MfxMessageDialog
-from .tkwidget import PysolScale
+from .tkwidget import PysolCheckbutton, PysolScale
 
 
 class SoundOptionsDialog(MfxDialog):
@@ -93,15 +93,15 @@ class SoundOptionsDialog(MfxDialog):
         frame.columnconfigure(1, weight=1)
         #
         row = 0
-        w = ttk.Checkbutton(frame, variable=self.sound,
-                            text=_("Sound enabled"))
+        w = PysolCheckbutton(frame, variable=self.sound,
+                             text=_("Sound enabled"))
         w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if os.name == "nt" and pysolsoundserver:
             row += 1
-            w = ttk.Checkbutton(frame, variable=self.sound_mode,
-                                text=_("Use DirectX for sound playing"),
-                                command=self.mOptSoundDirectX)
+            w = PysolCheckbutton(frame, variable=self.sound_mode,
+                                 text=_("Use DirectX for sound playing"),
+                                 command=self.mOptSoundDirectX)
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if app.audio.CAN_PLAY_MUSIC:  # and app.startup_opt.sound_mode > 0:
@@ -110,12 +110,12 @@ class SoundOptionsDialog(MfxDialog):
                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal',
-                           length="3i",  # label=_('Sample volume'),
+                           length="3i", fieldname=_('Sample volume'),
                            variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
-            w = ttk.Checkbutton(frame, variable=self.music,
-                                text=_("Music enabled"))
+            w = PysolCheckbutton(frame, variable=self.music,
+                                 text=_("Music enabled"))
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
 
             row += 1
@@ -123,7 +123,7 @@ class SoundOptionsDialog(MfxDialog):
                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal',
-                           length="3i",  # label=_('Music volume'),
+                           length="3i", fieldname=_('Music volume'),
                            variable=self.music_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
 
@@ -140,7 +140,7 @@ class SoundOptionsDialog(MfxDialog):
         col = 0
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
-            w = ttk.Checkbutton(frame, text=t, variable=v)
+            w = PysolCheckbutton(frame, text=t, variable=v)
             w.grid(row=row, column=col, sticky='ew', padx=3, pady=1)
             if col == 1:
                 col = 0

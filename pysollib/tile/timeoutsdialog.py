@@ -72,7 +72,7 @@ class TimeoutsDialog(MfxDialog):
                     row=row, column=0, sticky='we')
             widget = PysolScale(lframe, from_=0.2, to=9.9, value=var.get(),
                                 resolution=0.1, orient='horizontal',
-                                length="3i", variable=var)
+                                length="3i", variable=var, fieldname=title)
             widget.grid(row=row, column=1)
             row += 1
         #

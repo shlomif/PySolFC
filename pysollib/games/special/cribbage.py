@@ -177,6 +177,9 @@ class CribbageSquare(Game):
             t += _("Total: %d") % score
         self.texts.score.config(text=t)
 
+    def parseGameInfo(self):
+        return _("Points: %d") % self.getGameScore()
+
     def getGameScore(self):
         score = 0
         for hand in self.cribbage_hands:

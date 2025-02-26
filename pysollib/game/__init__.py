@@ -1420,7 +1420,10 @@ class Game(object):
 
     def _getKeyboardSelectStack(self, direction):
         if self.keyboard_selected_stack is None:
-            self.keyboard_selected_stack = self.allstacks[0]
+            for s in self.allstacks:
+                if s.canSelect():
+                    self.keyboard_selected_stack = s
+                    break
             return
 
         currentstack = None

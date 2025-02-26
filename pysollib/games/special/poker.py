@@ -209,6 +209,9 @@ One Pair'''))
             t += _("Total: %d") % score
         self.texts.score.config(text=t)
 
+    def parseGameInfo(self):
+        return _("Points: %d") % self.getGameScore()
+
     def getGameScore(self):
         score = 0
         for hand in self.poker_hands:
@@ -348,6 +351,9 @@ class Maverick(PokerShuffle):
                   75: "Straight Flush",
                   100: "Royal Flush"}
         return scores[score]
+
+    def parseGameInfo(self):
+        return ''
 
     def isGameWon(self):
         for i in range(5):

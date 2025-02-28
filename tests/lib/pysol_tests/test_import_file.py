@@ -65,6 +65,14 @@ class ImportFileTests(unittest.TestCase):
                 '''<state><move pile="store0" position="0">'''
                 '''<card id="[0-9]+" rank="four"'''
                 ''' suit="clubs" turn="face-up"></card>'''
+                '''<card id="[0-9]+" rank="two"'''
+                ''' suit="clubs" turn="face-up"></card>'''
+                '''<card id="[0-9]+" rank="nine"'''
+                ''' suit="clubs" turn="face-up"></card>'''
+                '''<card id="[0-9]+" rank="eight"'''
+                ''' suit="clubs" turn="face-up"></card>'''
+                '''<card id="[0-9]+" rank="queen"'''
+                ''' suit="spades" turn="face-up"></card>'''
             ),
             blurb='xml import worked')
 

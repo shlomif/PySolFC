@@ -356,6 +356,50 @@ r(5418, "Zigzag", layout="0aabaajaaracahcb" +
     "ynvyniyoaypaAehA" +
     "faAgaAmhAnaAoaCa" +
     "aCfaCnaCs")
+r(5419, "Lizard", layout="0aadaafaahaajhbe" +
+    "hbghbibccaceacga" +
+    "ciackidjbebaejae" +
+    "laeqheraesifkbga" +
+    "agehgfaggagkagmb" +
+    "grihlaiabifailai" +
+    "nbirijmojqakaakg" +
+    "hkhakiokihkjakko" +
+    "kkvklakmvknakook" +
+    "ohkpakqhllolmhln" +
+    "amaamkammamohnlo" +
+    "nmhnnaokaomaoohp" +
+    "lopmhpnaqjaqlaqn" +
+    "hrkorlhrmasjasla" +
+    "snhtkotlhtmaujau" +
+    "launhvkovlhvmawi" +
+    "awkawmhxjpxkhxla" +
+    "yiaykaymazehzfaz" +
+    "gozghzhozihzjvzj" +
+    "ozkhzlvzlozmhzna" +
+    "zoozohzpazqaAiaA" +
+    "kaAmbBdiBkbBraCj" +
+    "aClaDchDdaDehDka" +
+    "DqhDraDsaEjaElaF" +
+    "daFraGk")
+r(5420, "Candy", layout="0daadaccaebagbai" +
+    "aakdcbccdbcfbcha" +
+    "cjcecbeebegaeibg" +
+    "dbgfaghbieaigakd" +
+    "akfakhhlfambamda" +
+    "mfamhamjhnchneon" +
+    "fhnghniaobaodaof" +
+    "aohaojhpcipeipgh" +
+    "piaqbaqdaqfvqfaq" +
+    "haqjhrcireirghri" +
+    "asbasdasfashasjh" +
+    "tchteotfhtghtiau" +
+    "baudaufauhaujhvf" +
+    "awdawfawhayebyga" +
+    "AdbAfbAhaCcbCebC" +
+    "gcCiaEbbEdbEfcEh" +
+    "dEjaGabGcbGecGgd" +
+    "GidGk")
+
 
 # ----------------------------------------------------------------------
 

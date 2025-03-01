@@ -407,7 +407,7 @@ class AbstractMahjonggGame(Game):
 
         # width of self.texts.info
         # ti_width = Font(self.canvas, font).measure(_('Remaining'))
-        ti_width = 80
+        ti_width = max(80, l.CW)
 
         # set window size
         dxx, dyy = abs(dx) * (max_tl+1), abs(dy) * (max_tl+1)

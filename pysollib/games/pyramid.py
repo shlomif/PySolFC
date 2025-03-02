@@ -583,8 +583,8 @@ class Elevens(Pyramid):
         self.leaveState(old_state)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        # FIXME
-        return False
+        return (card1.rank + card2.rank == 9 or
+                (9 < card1.rank != card2.rank > 9))
 
 
 class ElevensToo(Elevens):
@@ -633,6 +633,11 @@ class SuitElevens(Elevens):
     def createGame(self):
         Elevens.createGame(self, rows=3, cols=5)
 
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (Elevens.shallHighlightMatch(self, stack1, card1,
+                                            stack2, card2)
+                and card1.suit == card2.suit)
+
 
 # ************************************************************************
 # * Tens
@@ -664,6 +669,10 @@ class Tens(ElevensToo):
 
     def createGame(self):
         Elevens.createGame(self, rows=2, cols=7, maxpiles=13, reserves=4)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 8 or
+                (8 < card1.rank == card2.rank > 8))
 
 
 class Nines_RowStack(Elevens_RowStack):
@@ -708,6 +717,10 @@ class Nines(Tens):
 
     def createGame(self):
         Elevens.createGame(self, rows=3, cols=3, reserves=4)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 7 or
+                (8 < card1.rank != card2.rank > 8))
 
 
 # ************************************************************************

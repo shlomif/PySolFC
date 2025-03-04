@@ -46,6 +46,11 @@ class Crossword_Hint(AbstractHint):
             r = rows[i]
             if r.cards:
                 continue
+            if len(game.s.talon.cards) == 0:
+                for s in game.s.reserves:
+                    if game.isValidPlay(r.id, s.getCard().rank + 1):
+                        self.addHint(5000, 1, s, r)
+                continue
             if game.isValidPlay(r.id, game.s.talon.getCard().rank + 1):
                 # TODO: Check a few moves ahead to get better hints.
                 self.addHint(5000, 1, game.s.talon, r)

@@ -190,6 +190,11 @@ class Bits_RowStack(ReserveStack):
         return ((self.game.s.foundations[i].cards[-1].rank + 1 >>
                  (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
 
+    def getBit(self):
+        i = int(self.id // 4)
+        return (self.game.s.foundations[i].cards[-1].rank + 1 >>
+                (self.id % 4)) % 2
+
 
 class Bytes_RowStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
@@ -204,6 +209,11 @@ class Bytes_RowStack(ReserveStack):
             if not r.cards:
                 return 0
         return self.game.s.foundations[i].cards[-1].rank == cards[0].rank
+
+    def getByte(self):
+        id = self.id - 16
+        i = int(id // 2)
+        return (self.game.s.foundations[i].cards[-1].rank)
 
 
 class HexAKlon_RowStack(AC_RowStack):
@@ -404,6 +414,13 @@ class BitsNBytes(AbstractHexADeckGame):
             if not s.cards:
                 return 0
         return 1
+
+    def parseEmptyStack(self, stack):
+        if type(stack) is Bits_RowStack:
+            return _("Bit stack") + " - " + str(stack.getBit())
+        elif type(stack) is Bytes_RowStack:
+            return _("Byte stack") + " - " + self.RANKS[stack.getByte()]
+        return Game.parseEmptyStack(self, stack)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return 0

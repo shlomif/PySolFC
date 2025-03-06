@@ -330,10 +330,10 @@ class PysolAboutDialog(MfxMessageDialog):
 
         self.splashscreen = tkinter.BooleanVar()
         self.splashscreen.set(app.opt.splashscreen)
-        show_on_start = ttk.Checkbutton(bottom_frame,
-                                        variable=self.splashscreen,
-                                        command=self._splashUpdate,
-                                        text=_("Show this on startup"))
+        show_on_start = PysolCheckbutton(bottom_frame,
+                                         variable=self.splashscreen,
+                                         command=self._splashUpdate,
+                                         text=_("Show this on startup"))
         show_on_start.grid(row=0, column=0, sticky='w',
                            padx=1, pady=1)
 

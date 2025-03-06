@@ -1286,6 +1286,9 @@ class Game(object):
         return new, [x[2] for x in reversed(sorted(extracted))]
 
     def keyboardSelect(self, direction):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
         col = self.app.opt.colors['keyboard_sel']
         oldstack = self.keyboard_selected_stack
         self._getKeyboardSelectStack(direction)
@@ -1305,6 +1308,9 @@ class Game(object):
             self.app.speech.speak(self.getStackSpeech(stack, 0))
 
     def keyboardSelectNextType(self, dir=1):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
         col = self.app.opt.colors['keyboard_sel']
         oldstack = self.keyboard_selected_stack
         stacktype = 0
@@ -1359,6 +1365,9 @@ class Game(object):
             self.app.speech.speak(self.getStackSpeech(stack, 0))
 
     def keyboardSelectMoreCards(self):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
         nextcard = -1 * (self.keyboard_select_count + 1)
@@ -1377,6 +1386,9 @@ class Game(object):
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardSelectLessCards(self):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
         if stack is None:
@@ -1393,6 +1405,9 @@ class Game(object):
             self.keyboard_selector = self._highlightCards(hi, sleep=0)
 
     def keyboardAction(self, type=1):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
         stack = self.keyboard_selected_stack
         col = self.app.opt.colors['keyboard_sel']
         if stack is None:
@@ -3728,7 +3743,10 @@ class Game(object):
         if self.demo:
             self.stopDemo()
         if not self.pause:
+            self.app.speech.speak(_("Paused"))
             self.updateTime()
+        else:
+            self.app.speech.speak(_("Unpaused"))
         self.pause = not self.pause
         if self.pause:
             # self.updateTime()

@@ -475,6 +475,9 @@ class Thirteens(Pyramid):
                 self.s.talon.moveMove(1, stack)
                 self.leaveState(old_state)
 
+    def getStackSpeech(self, stack, cardindex):
+        return Game.getStackSpeech(self, stack, cardindex)
+
 # ************************************************************************
 # * Elevens
 # * Elevens Too
@@ -601,6 +604,9 @@ class Elevens(Pyramid):
             for s in self.s.reserves:
                 s.moveMove(1, self.s.foundations[0], frames=4)
         self.leaveState(old_state)
+
+    def getStackSpeech(self, stack, cardindex):
+        return Game.getStackSpeech(self, stack, cardindex)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         # FIXME

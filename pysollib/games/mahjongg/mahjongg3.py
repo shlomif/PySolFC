@@ -366,7 +366,7 @@ r(5419, "Lizard", layout="0aadaafaahaajhbe" +
     "hkhakiokihkjakko" +
     "kkvklakmvknakook" +
     "ohkpakqhllolmhln" +
-    "amaamkammamohnlo" +
+    "ambamkammamohnlo" +
     "nmhnnaokaomaoohp" +
     "lopmhpnaqjaqlaqn" +
     "hrkorlhrmasjasla" +
@@ -384,21 +384,19 @@ r(5419, "Lizard", layout="0aadaafaahaajhbe" +
 r(5420, "Candy", layout="0daadaccaebagbai" +
     "aakdcbccdbcfbcha" +
     "cjcecbeebegaeibg" +
-    "dbgfaghbieaigakd" +
-    "akfakhhlfambamda" +
-    "mfamhamjhnchneon" +
-    "fhnghniaobaodaof" +
-    "aohaojhpcipeipgh" +
-    "piaqbaqdaqfvqfaq" +
-    "haqjhrcireirghri" +
-    "asbasdasfashasjh" +
-    "tchteotfhtghtiau" +
-    "baudaufauhaujhvf" +
-    "awdawfawhayebyga" +
-    "AdbAfbAhaCcbCebC" +
-    "gcCiaEbbEdbEfcEh" +
-    "dEjaGabGcbGecGgd" +
-    "GidGk")
+    "dbgfaghbieaigakc" +
+    "akeakgakiamaamcb" +
+    "mebmgamiamkaoabo" +
+    "cboebogboiaokopf" +
+    "aqabqcbqebqgbqia" +
+    "qkorfasabscbsebs" +
+    "gbsiaskauaaucbue" +
+    "bugauiaukawcawea" +
+    "wgawiayebygaAdbA" +
+    "fbAhaCcbCebCgcCi" +
+    "aEbbEdbEfcEhdEja" +
+    "GabGcbGecGgdGidG" +
+    "k")
 
 
 # ----------------------------------------------------------------------

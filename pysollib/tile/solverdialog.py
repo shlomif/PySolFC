@@ -95,3 +95,10 @@ def raise_solver_dialog(game):
             solver_dialog.top.attributes("-topmost", False)
     except Exception:
         pass
+
+
+def unraise_solver_dialog():
+    try:
+        solver_dialog.top.attributes("-topmost", False)
+    except Exception:
+        pass

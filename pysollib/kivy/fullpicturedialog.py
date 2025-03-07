@@ -112,6 +112,10 @@ def raise_full_picture_dialog(game):
     pass
 
 
+def unraise_full_picture_dialog():
+    pass
+
+
 def destroy_full_picture_dialog():
     pass
     '''

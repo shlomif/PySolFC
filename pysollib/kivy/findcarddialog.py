@@ -73,6 +73,10 @@ def raise_find_card_dialog(game):
     pass
 
 
+def unraise_find_card_dialog():
+    pass
+
+
 def destroy_find_card_dialog():
     pass
     '''

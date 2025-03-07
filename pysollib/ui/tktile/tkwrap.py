@@ -133,6 +133,14 @@ class MfxRoot(tkinter.Tk):
     #
     #
 
+    def _focusInEvent(self, *args):
+        if self.app:
+            self.app.raiseAll()
+
+    def _focusOutEvent(self, *args):
+        if self.app:
+            self.app.unraiseAll()
+
     def update(self):
         tkinter.Tk.update(self)
 

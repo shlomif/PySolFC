@@ -35,7 +35,8 @@ from pysollib.app_stat_result import GameStatResult
 from pysollib.app_statistics import Statistics
 from pysollib.cardsetparser import read_cardset_config
 from pysollib.gamedb import GAME_DB, GI, loadGame
-from pysollib.help import destroy_help_html, help_about, raise_help_html
+from pysollib.help import (destroy_help_html, help_about, raise_help_html,
+                           unraise_help_html)
 from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import Struct, destruct
 from pysollib.mfxutil import USE_PIL
@@ -58,6 +59,9 @@ from pysollib.pysoltk import loadImage, wm_withdraw
 from pysollib.pysoltk import raise_find_card_dialog
 from pysollib.pysoltk import raise_full_picture_dialog
 from pysollib.pysoltk import raise_solver_dialog
+from pysollib.pysoltk import unraise_find_card_dialog
+from pysollib.pysoltk import unraise_full_picture_dialog
+from pysollib.pysoltk import unraise_solver_dialog
 from pysollib.resource import CSI, CardsetManager
 from pysollib.resource import Music, MusicManager
 from pysollib.resource import Sample, SampleManager
@@ -526,6 +530,12 @@ class Application:
         raise_full_picture_dialog(self.game)
         raise_solver_dialog(self.game)
         raise_help_html(self.game)
+
+    def unraiseAll(self):
+        unraise_find_card_dialog()
+        unraise_full_picture_dialog()
+        unraise_solver_dialog()
+        unraise_help_html()
 
     def loadImages1(self):
         # load dialog images

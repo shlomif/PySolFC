@@ -254,6 +254,13 @@ def raise_find_card_dialog(game):
         pass
 
 
+def unraise_find_card_dialog():
+    try:
+        find_card_dialog.attributes("-topmost", False)
+    except Exception:
+        pass
+
+
 def destroy_find_card_dialog():
     global find_card_dialog
     try:

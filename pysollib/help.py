@@ -175,6 +175,13 @@ def raise_help_html(game):
         pass
 
 
+def unraise_help_html():
+    try:
+        help_html_viewer.parent.attributes("-topmost", False)
+    except Exception:
+        pass
+
+
 def destroy_help_html():
     try:
         help_html_viewer.destroy()

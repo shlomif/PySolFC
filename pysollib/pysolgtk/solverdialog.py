@@ -34,6 +34,10 @@ def raise_solver_dialog(game):
     pass
 
 
+def unraise_solver_dialog():
+    pass
+
+
 def destroy_solver_dialog():
     pass
     # solver_dialog = None

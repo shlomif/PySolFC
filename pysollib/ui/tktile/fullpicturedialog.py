@@ -146,6 +146,13 @@ def raise_full_picture_dialog(game):
         pass
 
 
+def unraise_full_picture_dialog():
+    try:
+        full_picture_dialog.attributes("-topmost", False)
+    except Exception:
+        pass
+
+
 def destroy_full_picture_dialog():
     global full_picture_dialog
     try:

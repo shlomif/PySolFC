@@ -62,7 +62,8 @@ class HexATrump_Foundation(HexADeck_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
-        for s in self.game.s.foundations[:3]:
+        for s in self.game.s.foundations[:((self.game.gameinfo.decks
+                                            * 4) - 1)]:
             if len(s.cards) != 16:
                 return 0
         return 1
@@ -93,11 +94,12 @@ class Merlins_Foundation(AbstractFoundationStack):
 
 class HexADeck_OpenStack(OpenStack):
 
-    def __init__(self, x, y, game, yoffset, **cap):
+    def __init__(self, x, y, game, yoffset=None, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS,
                   dir=-1)
         OpenStack.__init__(self, x, y, game, **cap)
-        self.CARD_YOFFSET = yoffset
+        if yoffset is not None:
+            self.CARD_YOFFSET = yoffset
 
     def isRankSequence(self, cards, dir=None):
         if not dir:
@@ -1628,6 +1630,89 @@ class MagicMontana(Montana):
 
 
 # ************************************************************************
+# * Wizard's Storeroom
+# ************************************************************************
+
+class WizardsStoreroom(AbstractHexADeckGame):
+    MAX_ROUNDS = 2
+
+    #
+    # Game layout
+    #
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        # Set window size
+        decks = self.gameinfo.decks
+        self.setSize(2*l.XM + (2 + 5*decks)*l.XS, 3*l.YM + 5*l.YS)
+        yoffset = min(l.YOFFSET, max(10, l.YOFFSET // 2))
+
+        # Create talon
+        x = l.XM
+        y = l.YM
+        s.talon = WasteTalonStack(
+            x, y, self, num_deal=1, max_rounds=self.MAX_ROUNDS)
+        l.createText(s.talon, "s")
+        x = x + l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, "s")
+
+        # Create foundations
+        x = x + l.XM + l.XS
+        for j in range(4):
+            for i in range(decks):
+                s.foundations.append(
+                    SS_FoundationStack(x, y, self, j, max_cards=16))
+                x = x + l.XS
+        for i in range(decks):
+            s.foundations.append(
+                HexATrump_Foundation(x, y, self, 4, max_cards=4))
+            x = x + l.XS
+
+        # Create reserve
+        x = l.XM
+        y = l.YM + l.YS + l.TEXT_HEIGHT
+        s.reserves.append(OpenStack(x, y, self))
+        s.reserves[0].CARD_YOFFSET = (l.YOFFSET, yoffset)[decks == 2]
+
+        # Create rows
+        x = x + l.XM + l.XS
+        for i in range(4*decks+1):
+            s.rows.append(HexAKlon_RowStack(x, y, self))
+            x = x + l.XS
+        self.setRegion(s.rows, (-999, y - l.YS, 999999, 999999))
+
+        # Define stack groups
+        l.defaultStackGroups()
+
+    #
+    # Game over rides
+    #
+
+    def startGame(self):
+        decks = self.gameinfo.decks
+        self.startDealSample()
+        for i in range(14 * decks):
+            self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=4)
+        self.s.reserves[0].flipMove()
+        self.s.talon.dealRow(rows=self.s.rows)
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def fillStack(self, stack):
+        r = self.s.reserves[0]
+        if not stack.cards and stack in self.s.rows:
+            if r.cards and stack.acceptsCards(r, r.cards[-1:]):
+                r.moveMove(1, stack)
+        if r.canFlipCard():
+            r.flipMove()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return ((card1.rank + 1 == card2.rank or
+                card1.rank - 1 == card2.rank) and
+                card1.color != card2.color)
+
+# ************************************************************************
 # *
 # ************************************************************************
 
@@ -1672,5 +1757,9 @@ r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
 r(16681, HexYukon, 'Hex Yukon', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
 r(16682, MagicMontana, 'Magic Montana', GI.GT_HEXADECK | GI.GT_OPEN, 1, 2,
+  GI.SL_MOSTLY_SKILL)
+r(16683, WizardsStoreroom, "Wizard's Storeroom", GI.GT_HEXADECK, 1, 1,
+  GI.SL_MOSTLY_SKILL)
+r(16684, WizardsStoreroom, "Big Storeroom", GI.GT_HEXADECK, 2, 1,
   GI.SL_MOSTLY_SKILL)
 del r

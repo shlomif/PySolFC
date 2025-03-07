@@ -50,7 +50,11 @@ def connect_game_full_picture_dialog(game):
     pass
 
 
-def raise_find_card_dialog(game):
+def raise_full_picture_dialog(game):
+    pass
+
+
+def unraise_full_picture_dialog():
     pass
 
 

@@ -225,6 +225,7 @@ class Vineyard(CastlesInSpain):
 
 # ************************************************************************
 # * Cruel
+# * Relaxed Cruel
 # * Unusual
 # ************************************************************************
 
@@ -308,6 +309,10 @@ class Cruel(CastlesInSpain):
         self.s.talon.dealRow(rows=self.s.foundations)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class RelaxedCruel(Cruel):
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
 
 
 class Unusual(Cruel):
@@ -453,3 +458,6 @@ registerGame(GameInfo(876, Vineyard, "Vineyard",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(907, Martha, "Stewart",
                       GI.GT_BAKERS_DOZEN, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(977, RelaxedCruel, "Relaxed Cruel",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN | GI.GT_RELAXED, 1, -1,
+                      GI.SL_BALANCED))

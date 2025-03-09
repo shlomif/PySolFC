@@ -19,7 +19,10 @@ def main():
     def _make_test(make_exe):
         subprocess.check_call([make_exe, "test", "rules"])
 
-    os.chdir('../')
+    if (os.path.exists("./linux-install.py")
+            and not (os.path.exists("./scripts/linux-install.py"))
+            and not (os.path.exists("Makefile"))):
+        os.chdir('../')
 
     try:
         _make_test("gmake")

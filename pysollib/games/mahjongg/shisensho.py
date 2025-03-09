@@ -89,6 +89,9 @@ class Shisen_Foundation(AbstractFoundationStack):
     def initBindings(self):
         pass
 
+    def canSelect(self):
+        return False
+
 
 class Shisen_RowStack(Mahjongg_RowStack):
     allowAdjacent = True
@@ -294,6 +297,9 @@ class Shisen_RowStack(Mahjongg_RowStack):
         if arrow is not None:
             arrow.delete()
         game.canvas.update_idletasks()
+
+    def canSelect(self):
+        return True
 
 
 class AbstractShisenGame(AbstractMahjonggGame):

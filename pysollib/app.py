@@ -130,6 +130,7 @@ class Application:
         self.tabletile_index = 0        # current table tile
         self.sample_manager = SampleManager()
         self.music_manager = MusicManager()
+        print('MusicManager = ', self.music_manager, flush=True)
         self.music_playlist = []
         self.intro = Struct(
             progress=None,            # progress bar

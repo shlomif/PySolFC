@@ -500,6 +500,7 @@ class PyGameAudioClient(AbstractAudioClient):
     CAN_PLAY_MUSIC = True
 
     def __init__(self):
+        print("print PyGameAudioClient", flush=True)
         AbstractAudioClient.__init__(self)
         import pygame.mixer
         import pygame.mixer_music

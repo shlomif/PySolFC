@@ -911,6 +911,7 @@ class PysolMenubar(PysolMenubarTk):
         self.top.screenshot(fn)
 
     def mPlayNextMusic(self, *args):
+        print("mPlayNextMusic", flush=True)
         if self._cancelDrag(break_pause=False):
             return
         if (self.app.audio and self.app.opt.music and

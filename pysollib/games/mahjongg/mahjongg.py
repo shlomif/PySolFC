@@ -253,6 +253,15 @@ class Mahjongg_RowStack(OpenStack):
         # bind(group, "<Enter>", self._Stack__enterEventHandler)
         # bind(group, "<Leave>", self._Stack__leaveEventHandler)
 
+    def keyboardAction(self, card, event, type=1):
+        self.keyboard_movement = True
+        self.keyboard_card = card
+        if type == 1:
+            self.__clickEventHandler(event)
+        else:
+            self.__rightclickEventHandler(event)
+        self.keyboard_card = None
+
     def __defaultClickEventHandler(self, event, handler):
         self.game.event_handled = True  # for Game.undoHandler
         if self.game.demo:
@@ -335,7 +344,7 @@ class Mahjongg_RowStack(OpenStack):
         for stack in self.blockmap.above:
             if stack.cards:
                 return False
-        return True
+        return len(self.cards) > 0
 
 
 # ************************************************************************

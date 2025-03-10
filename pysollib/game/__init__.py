@@ -1390,9 +1390,6 @@ class Game(object):
 
         if stack is None:
             return
-        if self.keyboard_selector is not None:
-            for r in self.keyboard_selector:
-                r.delete()
         if len(stack.cards) > 0:
             card = stack.cards[-1 * self.keyboard_select_count]
             event = FauxEvent(card.x + 1, card.y + 1)

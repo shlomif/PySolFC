@@ -861,6 +861,9 @@ class Fifteens(Elevens):
                     self._dropReserve()
         self.leaveState(old_state)
 
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank + card2.rank == 13
+
 
 # ************************************************************************
 # * Eighteens
@@ -953,6 +956,9 @@ class Eighteens(Fifteens):
                 self._dropReserve()
         self.leaveState(old_state)
 
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return False  # How?
+
 
 # ************************************************************************
 # * Neptune
@@ -981,6 +987,10 @@ class Neptune(Thirteens):
 
     def isGameWon(self):
         return len(self.s.talon.cards) == 0
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank == card2.rank - 1 or
+                card1.rank == card2.rank + 1)
 
 
 # ************************************************************************
@@ -1073,6 +1083,9 @@ class EightCards(Thirteens):
     def getState(self):
         # save vars (for undo/redo)
         return [self.draws]
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank + card2.rank == 9
 
 
 # ************************************************************************
@@ -1401,6 +1414,10 @@ class ElevenTriangle(Apophis):
 
     INVERT = True
     MAX_ROUNDS = 1
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 9 or
+                (9 < card1.rank == card2.rank > 9))
 
 
 # ************************************************************************
@@ -1828,6 +1845,9 @@ class Hurricane(Pyramid):
             self.s.talon.moveMove(1, stack)
             self.leaveState(old_state)
 
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank + card2.rank == 12
+
 
 # ************************************************************************
 # * Ides of March
@@ -1859,6 +1879,10 @@ class IdesOfMarch_Reserve(IdesOfMarch_StackMethods, OpenStack):
 class IdesOfMarch(Hurricane):
     RowStack_Class = IdesOfMarch_RowStack
     Reserve_Class = IdesOfMarch_Reserve
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 13 or
+                card1.rank + card2.rank == 0)
 
 
 # register the game

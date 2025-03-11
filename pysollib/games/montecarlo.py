@@ -299,6 +299,9 @@ class Quatorze(MonteCarlo):
         return (stack1.id // 5 == stack2.id // 5 or
                 stack1.id % 5 == stack2.id % 5)
 
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank + card2.rank == 12
+
 
 # ************************************************************************
 # * Simple Pairs
@@ -363,6 +366,10 @@ class BlockTen(SimplePairs):
 
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 48
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 8 or
+                (9 < card1.rank == card2.rank > 9))
 
 
 class SimpleTens(BlockTen):
@@ -1107,6 +1114,10 @@ class AcesSquare(MonteCarlo):
     def isNeighbour(self, stack1, stack2):
         return (stack1.id // 4 == stack2.id // 4 or
                 stack1.id % 4 == stack2.id % 4)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                card1.rank != card2.rank != 0)
 
 
 # register the game

@@ -4045,6 +4045,9 @@ msgstr ""
 msgid "Year:"
 msgstr ""
 
+msgid "Num. cards:"
+msgstr ""
+
 msgid "Compatible with current game"
 msgstr ""
 

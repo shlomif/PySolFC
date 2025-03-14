@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-12-28 19:11-0500\n"
+"PO-Revision-Date: 2025-03-14 19:15-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -4256,6 +4256,9 @@ msgstr "Narodowość:"
 #: pysollib/tile/selectcardset.py:457 pysollib/tk/selectcardset.py:448
 msgid "Year:"
 msgstr "Rok:"
+
+msgid "Num. cards:"
+msgstr ""
 
 msgid "Compatible with current game"
 msgstr ""

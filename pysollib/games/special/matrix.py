@@ -211,6 +211,9 @@ class Matrix(Game):
         return ((card1.rank + 1 == card2.rank) or
                 (card1.rank - 1 == card2.rank))
 
+    def parseCard(self, card):
+        return str(card.rank + 1)
+
 
 # ************************************************************************
 # * Register a Matrix game

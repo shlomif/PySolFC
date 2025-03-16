@@ -589,10 +589,11 @@ class Game(object):
         if not self.cards:
             self.cards = self.createCards(progress=self.app.intro.progress)
         self.initBindings()
-        # self.top.bind('<ButtonPress>', self.top._sleepEvent)
-        # self.top.bind('<3>', self.top._sleepEvent)
-        self.top.bind("<FocusOut>", self.top._focusOutEvent)
-        self.top.bind("<FocusIn>", self.top._focusInEvent)
+        if TOOLKIT == 'tk':
+            # self.top.bind('<ButtonPress>', self.top._sleepEvent)
+            # self.top.bind('<3>', self.top._sleepEvent)
+            self.top.bind("<FocusOut>", self.top._focusOutEvent)
+            self.top.bind("<FocusIn>", self.top._focusInEvent)
         # update display properties
         self.canvas.busy = True
         # geometry

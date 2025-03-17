@@ -1409,7 +1409,7 @@ class NinetyOne(Game):
     def updateText(self):
         if self.preview > 1 or not self.texts.score:
             return
-        self.texts.score.config(text=self.getTotal())
+        self.texts.score.config(text=str(self.getTotal()))
 
     def getTotal(self):
         total = 0

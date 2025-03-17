@@ -345,6 +345,15 @@ class GI:
     # adding it should be a priority.
 
     GAMES_BY_COMPATIBILITY = (
+        # Ace of Penguins (We have 6 out of 6 card games)
+        # Non-card games missing:
+        # - Mastermind
+        # - Minesweeper (Needs a new cardset type)
+        # - Pegged layouts (Not all compatible with the PySol engine)
+        # - Mahjongg/Taipei layouts
+        ("Ace of Penguins", (2, 8, 11, 36, 105, 181, 210, 492,
+                             5401, 22399)),
+
         # Atari ST Patience game v2.13 (we have 10 out of 10 games)
         ("Atari ST Patience", (1, 3, 4, 7, 12, 14, 15, 16, 17, 39,)),
 
@@ -596,7 +605,7 @@ class GI:
         ('fc-3.1', tuple(range(961, 971))),
         ('dev', tuple(range(971, 979)) + tuple(range(5419, 5421)) +
          tuple(range(16683, 16686)) + tuple(range(18005, 18007)) +
-         (44, 526,)),
+         (44, 526, 22399,)),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

@@ -914,7 +914,8 @@ registerGame(GameInfo(466, DoubleRussianSolitaire, "Double Russian Solitaire",
 registerGame(GameInfo(488, TripleRussianSolitaire, "Triple Russian Solitaire",
                       GI.GT_YUKON, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(492, Geoffrey, "Geoffrey",
-                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=('Thornq',)))
 registerGame(GameInfo(525, Queensland, "Queensland",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(526, OutbackPatience, "Outback Patience",

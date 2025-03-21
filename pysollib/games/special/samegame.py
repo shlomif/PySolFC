@@ -136,7 +136,7 @@ class AbstractSamegameGame(Game):
     Hint_Class = Samegame_Hint
     RowStack_Class = Samegame_RowStack
 
-    COLORS = 3
+    NCOLORS = 3
     NCARDS = 144
 
     COLORS = (_("Blue"), _("Red"), _("Yellow"), _("Green"),
@@ -216,7 +216,7 @@ class AbstractSamegameGame(Game):
         assert len(self.s.talon.cards) == 0
 
     def _createCard(self, id, deck, suit, rank, x, y):
-        return Card(id, deck, id % self.COLORS, id % self.COLORS,
+        return Card(id, deck, id % self.NCOLORS, id % self.NCOLORS,
                     game=self, x=x, y=y)
 
     def fillStack(self, stack):
@@ -271,39 +271,39 @@ class Samegame3_25x15(AbstractSamegameGame):
 
 
 class Samegame4_20x10(Samegame3_20x10):
-    COLORS = 4
+    NCOLORS = 4
 
 
 class Samegame4_15x10(Samegame3_15x10):
-    COLORS = 4
+    NCOLORS = 4
 
 
 class Samegame4_25x15(Samegame3_25x15):
-    COLORS = 4
+    NCOLORS = 4
 
 
 class Samegame5_20x10(Samegame3_20x10):
-    COLORS = 5
+    NCOLORS = 5
 
 
 class Samegame5_15x10(Samegame3_15x10):
-    COLORS = 5
+    NCOLORS = 5
 
 
 class Samegame5_25x15(Samegame3_25x15):
-    COLORS = 5
+    NCOLORS = 5
 
 
 class Samegame6_20x10(Samegame3_20x10):
-    COLORS = 6
+    NCOLORS = 6
 
 
 class Samegame6_15x10(Samegame3_15x10):
-    COLORS = 6
+    NCOLORS = 6
 
 
 class Samegame6_25x15(Samegame3_25x15):
-    COLORS = 6
+    NCOLORS = 6
 
 
 # ************************************************************************

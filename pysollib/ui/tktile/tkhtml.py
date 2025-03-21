@@ -393,6 +393,7 @@ to open the following URL:
         self.parent.wm_iconname(parser.title)
         self.defcursor, self.handcursor = old_c1, old_c2
         self.text.config(cursor=self.defcursor)
+        self.parent.after(500, lambda: self.app.speech.speakHTML(data))
         # self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):

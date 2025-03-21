@@ -21,6 +21,9 @@
 #
 # ---------------------------------------------------------------------------
 
+import pysollib.formatter
+import pysollib.htmllib2 as htmllib
+
 class AccessibleOutput:
     try:
         import accessible_output3.outputs.auto as accessible_output
@@ -42,7 +45,7 @@ class AccessibleOutput:
 
     def speak(self, text):
         o = self.accessible_output.Auto()
-        o.output(text)
+        o.output(text, interrupt=True)
 
 
 class ConsoleSpeech:
@@ -62,3 +65,30 @@ class Speech:
     def speak(self, text):
         if self.speechClass.isSupported():
             self.speechClass.speak(text)
+
+    def speakHTML(self, html):
+        fmt = (pysollib.formatter.
+               AbstractFormatter(pysollib.formatter.NullWriter))
+        parser = HTMLSpeechParser(fmt)
+        parser.feed(html)
+        text = parser.spoken_content
+        self.speak(text)
+
+
+class HTMLSpeechParser(htmllib.HTMLParser):
+    def __init__(self, formatter):
+        htmllib.HTMLParser.__init__(self, formatter)
+        self.in_body = False
+        self.spoken_content = ""
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "body":
+            self.in_body = True
+
+    def handle_endtag(self, tag):
+        if tag == "body":
+            self.in_body = False
+
+    def handle_data(self, data):
+        if self.in_body:
+            self.spoken_content += data

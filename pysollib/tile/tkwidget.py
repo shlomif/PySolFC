@@ -268,6 +268,7 @@ class MfxMessageDialog(MfxDialog):
         msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
+        parent.after(600, lambda: parent.app.speech.speak(kw.text))
         self.mainloop(focus, kw.timeout)
 
 
@@ -337,6 +338,7 @@ class PysolAboutDialog(MfxMessageDialog):
         show_on_start.grid(row=0, column=0, sticky='w',
                            padx=1, pady=1)
 
+        parent.after(500, lambda: app.speech.speak(kw.text + " " + kw.url))
         self.mainloop(focus, kw.timeout)
 
     def _urlClicked(self, event):

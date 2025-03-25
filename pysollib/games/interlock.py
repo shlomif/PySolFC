@@ -36,7 +36,7 @@ from pysollib.stack import \
         WasteTalonStack, \
         Yukon_AC_RowStack, \
         getNumberOfFreeStacks
-from pysollib.util import ANY_RANK, KING
+from pysollib.util import ANY_RANK, KING, NO_RANK
 
 
 # ************************************************************************
@@ -301,6 +301,96 @@ class Sarlacc(Interlock):
         self.s.talon.dealRow(rows=self.s.rows[42:])
 
 
+# ************************************************************************
+# * Flamboyant
+# ************************************************************************
+
+class Flamboyant_RowStack(Interlock_RowStack):
+    STEP = ((2,), (1,), (), (2,), (1,), (), (2,), (1,), (),
+            (2,), (1,), (), (2,), (1,), (), (2,), (1,), (),
+            (2,), (1,), (), (2,), (1,), (), (2,), (1,), (),
+            (2,), (1,), (), (2,), (1,), (), (2,), (1,), (),
+            (2,), (1,), (), (2,), (1,), (), (2,), (1,), (),
+            (2,), (1,), (), (2,), (1,), ())
+
+
+class Flamboyant(Interlock):
+    RowStack_Class = Flamboyant_RowStack
+    Talon_Class = InitialDealTalonStack
+
+    PLAYCARDS = 8
+
+    def _createTableauPiece(self, layout, x0, y0):
+        for i in range(2):
+            x = x0 + i * layout.XS // 2
+            y = y0 + i * layout.YS // 4
+            for j in range(2 - i):
+                stack = self.RowStack_Class(x, y, self, base_rank=NO_RANK)
+                self.s.rows.append(stack)
+                x = x + layout.XS
+
+    def createGame(self):
+        lay, s = Layout(self), self.s
+        w = (14.5 * lay.XS) + lay.XM
+        h = (4.2 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET * 3) + lay.YM
+        self.setSize(w, h)
+
+        x, y = lay.XM, lay.YM
+        # create stacks
+        for i in range(2):
+            for i in range(6):
+                self._createTableauPiece(lay, x, y)
+                x += (2.25 * lay.XS)
+            y += (1.4 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET)
+            x = lay.XM
+        for i in range(5):
+            self._createTableauPiece(lay, x, y)
+            x += (2.25 * lay.XS)
+        x += (.5 * lay.XS)
+        self.s.rows.append(AC_RowStack(x, y, self, base_rank=KING))
+
+        x, y = lay.XM + (13.5 * lay.XS), lay.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, i))
+            y += lay.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        lay.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        backrows = []
+        frontrows = []
+        for i, item in enumerate(self.s.rows):
+            if (i + 1) % 3 == 0 or i >= 51:
+                frontrows.append(item)
+            else:
+                backrows.append(item)
+        self.s.talon.dealRow(rows=backrows, flip=0, frames=0)
+        self.s.talon.dealRow(rows=frontrows)
+
+    def _getClosestStack(self, cx, cy, stacks, dragstack):
+        closest, cdist = None, 999999999
+        # Since we only compare distances,
+        # we don't bother to take the square root.
+        for stack in stacks:
+            # Flamboyant uses different logic to determine back row
+            # stacks.
+            backrows = []
+            frontrows = []
+            for i, item in enumerate(self.s.rows):
+                if (i + 1) % 3 == 0:
+                    frontrows.append(item)
+                else:
+                    backrows.append(item)
+            if len(stack.cards) == 0 and stack in frontrows:
+                continue
+            dist = (stack.x - cx)**2 + (stack.y - cy)**2
+            if dist < cdist:
+                closest, cdist = stack, dist
+        return closest
+
+
 # register the game
 registerGame(GameInfo(852, Guardian, "Guardian",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
@@ -310,3 +400,5 @@ registerGame(GameInfo(939, LoveADuck, "Love a Duck",
                       GI.GT_YUKON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(946, Sarlacc, "Sarlacc",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(979, Flamboyant, "Flamboyant",
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))

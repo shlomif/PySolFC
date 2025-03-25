@@ -957,7 +957,7 @@ registerGame(GameInfo(831, Siegecraft, "Siegecraft",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(881, Lasker, "Lasker",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
-                      GI.SL_SKILL))
+                      GI.SL_SKILL, altnames=('Xantia',)))
 registerGame(GameInfo(951, Morphy, "Morphy",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))

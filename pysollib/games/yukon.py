@@ -952,4 +952,5 @@ registerGame(GameInfo(942, QuadrupleYukon, "Quadruple Yukon",
 registerGame(GameInfo(963, Sevastopol, "Sevastopol",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(964, RussianCell, "Russian Cell",
-                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED,
+                      altnames=('Finnish Solitaire',)))

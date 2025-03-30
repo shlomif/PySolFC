@@ -355,7 +355,7 @@ class CribbagePatience_HandStack(ReserveStack):
 
     def clickHandler(self, event):
         for s in self.game.s.rows[0:4]:
-            if len(s.cards) == 0:
+            if len(s.cards) == 0 and s.acceptsCards(self, self.cards):
                 return self.playMoveMove(1, s)
         return 0
 
@@ -367,26 +367,32 @@ class CribbagePatience_HandStack(ReserveStack):
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         ReserveStack.moveMove(self, ncards, to_stack, frames=frames,
                               shadow=shadow)
+        self.game.dealAdditionalHand()
         if self.game.isBoardFull():
             self.game.finalizeHand()
 
 
 class CribbagePatience_CribStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
-        if from_stack not in self.game.s.rows[4:10]:
+        if from_stack not in self.game.s.rows[4:]:
             return False
+        if self.game.HANDS > 1:
+            if (len(self.game.s.rows[10].cards) > 0 and
+                    from_stack not in self.game.s.rows[10:]):
+                return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
 
 
 class CribbagePatience(CribbageShuffle):
-    WIN_SCORE = 61
+    WIN_SCORE = 80
+    HANDS = 1
 
     def createGame(self):
         self.score = 0
         self.isFinalizedHand = False
         l, s = Layout(self), self.s
         self.setSize((2 * l.XM) + 8 * l.XS,
-                     l.YM + l.YS + 12 * l.YOFFSET)
+                     l.YM + ((self.HANDS + 1) * l.YS))
         x, y = self.getInvisibleCoords()
         s.waste = ReserveStack(x, y, self)
         x, y = l.XM, l.YM
@@ -398,20 +404,33 @@ class CribbagePatience(CribbageShuffle):
             x += l.XS
         x, y = l.XM, l.YM + l.YS
         s.reserves.append(ReserveStack(x, y, self))
-        x += 2 * l.XS
-        for i in range(6):
-            s.rows.append(CribbagePatience_HandStack(x, y, self, max_move=1))
-            x += l.XS
+        for i in range(self.HANDS):
+            x += 2 * l.XS
+            for i in range(6):
+                s.rows.append(CribbagePatience_HandStack(x, y, self,
+                                                         max_move=1))
+                x += l.XS
+            x, y = l.XM, y + l.YS
 
         # define hands for scoring
         r = s.rows
-        self.cribbage_hands = [
-            r[0:4], r[4:8]
-        ]
+        if self.HANDS == 1:
+            self.cribbage_hands = [
+                r[0:4], r[4:8]
+            ]
+        else:
+            self.cribbage_hands = [
+                r[0:4], r[4:8], r[10:14]
+            ]
         self.cribbage_hands = list(map(tuple, self.cribbage_hands))
 
         if self.preview <= 1:
-            for i in (0, 4):
+            if self.HANDS == 2:
+                scores = (0, 4, 10)
+            else:
+                scores = (0, 4)
+
+            for i in scores:
                 tx, ty, ta, tf = l.getTextAttr(s.rows[i], anchor="w")
                 t = MfxCanvasText(self.canvas, tx - 8, ty,
                                   anchor=ta,
@@ -444,17 +463,21 @@ class CribbagePatience(CribbageShuffle):
 
     def dealHand(self):
         self.startDealSample()
-        if self.isFinalizedHand:
-            for r in reversed(self.s.rows[:8]):
-                r.moveMove(1, self.s.waste)
-            self.s.reserves[0].moveMove(1, self.s.waste)
         self.saveStateMove(2 | 16)
+        if self.isFinalizedHand:
+            for r in reversed(self.s.rows):
+                if (len(r.cards) > 0):
+                    r.moveMove(1, self.s.waste)
+            self.s.reserves[0].moveMove(1, self.s.waste)
         self.isFinalizedHand = False
         self.saveStateMove(1 | 16)
 
         self.s.talon.dealRow(rows=self.s.rows[:2], flip=0)
         self.s.talon.dealRow(rows=self.s.rows[4:10])
         self.stopSamples()
+
+    def dealAdditionalHand(self):
+        return
 
     def isBoardFull(self):
         for i in range(8):
@@ -474,7 +497,7 @@ class CribbagePatience(CribbageShuffle):
         self.s.talon.flipMove()
         self.s.talon.moveMove(1, self.s.reserves[0])
         self.leaveState(old_state)
-        for i in range(2):
+        for i in range(len(self.cribbage_hands)):
             value = self.getHandScore(self.cribbage_hands[i])
             self.texts.list[i].config(text=str(value))
             self.score += value
@@ -485,12 +508,12 @@ class CribbagePatience(CribbageShuffle):
         if self.preview > 1:
             return
         if self.isBoardFull():
-            for i in range(2):
+            for i in range(len(self.cribbage_hands)):
                 value = self.getHandScore(self.cribbage_hands[i])
 
                 self.texts.list[i].config(text=str(value))
         else:
-            for i in range(2):
+            for i in range(len(self.cribbage_hands)):
                 self.texts.list[i].config(text="")
         #
         t = ""
@@ -498,6 +521,10 @@ class CribbagePatience(CribbageShuffle):
             t = _("WON\n\n")
         t += _("Total: %d") % self.score
         self.texts.score.config(text=t)
+
+    def _autoDeal(self, sound=True):
+        # don't deal a card to the waste if the waste is empty
+        return 0
 
     def getUpcardStack(self):
         return self.s.reserves[0]
@@ -526,6 +553,66 @@ class CribbagePatience(CribbageShuffle):
         return [self.score, self.isFinalizedHand]
 
 
+class CribbagePatienceII(CribbagePatience):
+    WIN_SCORE = 80
+    HANDS = 2
+
+    def startGame(self):
+        self.score = 0
+        self.isFinalizedHand = False
+        self.dealHand()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            hand = self.s.rows[4:10] + self.s.rows[10:16]
+            if stack in hand:
+                i = list(hand).index(stack)
+                if i < len(hand)-1:
+                    from_stack = hand[i+1]
+                    pile = from_stack.getPile()
+                    if pile:
+                        from_stack.moveMove(len(pile), stack)
+            self.leaveState(old_state)
+
+    def dealHand(self):
+        self.startDealSample()
+        if self.isFinalizedHand:
+            for r in reversed(self.s.rows):
+                if (len(r.cards) > 0):
+                    r.moveMove(1, self.s.waste)
+            self.s.reserves[0].moveMove(1, self.s.waste)
+        self.saveStateMove(2 | 16)
+        self.isFinalizedHand = False
+        self.saveStateMove(1 | 16)
+
+        self.s.talon.dealRow(rows=self.s.rows[4:10])
+        self.stopSamples()
+
+    def dealAdditionalHand(self):
+        for i in range(2):
+            if len(self.s.rows[i].cards) == 0:
+                return
+        for i in range(2, 4):
+            if len(self.s.rows[i].cards) > 0:
+                return
+        if len(self.s.rows[10].cards) == 0:
+            self.startDealSample()
+            self.saveStateMove(2 | 16)
+            self.s.talon.dealRow(rows=self.s.rows[10:16])
+            self.saveStateMove(1 | 16)
+            self.stopSamples()
+
+    def isBoardFull(self):
+        for i in range(8):
+            if len(self.s.rows[i].cards) == 0:
+                return False
+        for i in range(10, 14):
+            if len(self.s.rows[i].cards) == 0:
+                return False
+        return True
+
+
 # register the game
 registerGame(GameInfo(805, CribbageSquare, "Cribbage Square",
                       GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE, 1, 0,
@@ -549,5 +636,8 @@ registerGame(GameInfo(809, CribbageShuffle, "Cribbage Shuffle",
                       GI.SL_MOSTLY_SKILL,
                       si={"ncards": 17}))
 registerGame(GameInfo(955, CribbagePatience, "Cribbage Patience",
+                      GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(980, CribbagePatienceII, "Cribbage Patience II",
                       GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE, 1, 0,
                       GI.SL_MOSTLY_SKILL))

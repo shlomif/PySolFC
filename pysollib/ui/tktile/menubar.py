@@ -279,6 +279,9 @@ class PysolMenubarTkCommon:
         self._createMenubar()
         self.top = top
 
+        # Sometimes, this needs to be tracked between methods
+        self.wasPaused = False
+
         if self.progress:
             self.progress.update(step=1)
 
@@ -1251,6 +1254,10 @@ class PysolMenubarTkCommon:
         self.tkopt.gameid_popular.set(self.game.id)
 
     def _mSelectGameDialog(self, d):
+        if self.game.pause:
+            if self.wasPaused:
+                self.game.resizeGame()
+                self.game.doPause()
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
             self.tkopt.gameid.set(d.gameid)
             self.tkopt.gameid_popular.set(d.gameid)
@@ -1287,6 +1294,10 @@ class PysolMenubarTkCommon:
                 bookmark = self.game.gsaveinfo.bookmarks[-2][0]
                 del self.game.gsaveinfo.bookmarks[-2]
         after_idle(self.top, self.__restoreCursor)
+        self.wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            self.wasPaused = True
         d = self._calcSelectGameDialogWithPreview()(
             self.top, title=_("Select game"),
             app=self.app, gameid=self.game.id,
@@ -1594,8 +1605,15 @@ Unsupported game for import.
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         self._calcSoundOptionsDialog()(
             self.top, _("Sound settings"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         self.tkopt.sound.set(self.app.opt.sound)
 
     def mOptAutoFaceUp(self, *args):
@@ -1935,11 +1953,18 @@ Unsupported game for import.
         key = self.app.tabletile_index
         if key <= 0:
             key = self.app.opt.colors['table']  # .lower()
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = self._calcSelectTileDialogWithPreview()(
             self.top, app=self.app,
             title=_("Select table background"),
             manager=self.app.tabletile_manager,
             key=key)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             if isinstance(d.key, str):
                 tile = self.app.tabletile_manager.get(0)
@@ -2169,6 +2194,10 @@ Unsupported game for import.
         self.game.quitGame(bookmark=1)
 
     def wizardDialog(self, edit=False):
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         from pysollib.wizardutil import write_game, reset_wizard
         WizardDialog = self._calcWizardDialog()
 
@@ -2177,6 +2206,9 @@ Unsupported game for import.
         else:
             reset_wizard(None)
         d = WizardDialog(self.top, _('Solitaire Wizard'), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             try:
                 if edit:

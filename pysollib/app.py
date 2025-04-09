@@ -971,9 +971,16 @@ class Application:
                 'correct_type': t[0]}, strings=(_("&OK"),), default=0)
 
     def selectCardset(self, title, key):
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = SelectCardsetDialogWithPreview(
             self.top, title=title, app=self,
             manager=self.cardset_manager, key=key)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         cs = self.cardset_manager.get(d.key)
         if d.status != 0 or d.button != 0 or d.key < 0 or cs is None:
             return None

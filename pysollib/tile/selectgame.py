@@ -478,6 +478,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         stats_frame.rowconfigure(6, weight=1)
         # Canvas
         self.preview = MfxScrolledCanvas(right_frame)
+        bind(self.preview.parent, '<Configure>',
+             lambda e: self._configureHandler())
         self.preview.setTile(app, app.tabletile_index,
                              app.opt.tabletile_scale_method, force=True)
         self.preview.grid(row=1, column=0, columnspan=3,
@@ -723,6 +725,27 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.updatePreview(game)
         self.list["cursor"] = oldcur
 
+    _resizeHandlerID = None
+
+    def _resizeHandler(self):
+        self._resizeHandlerID = None
+        self.preview.canvas.config(scrollregion=(0, 0, 0, 0))
+        self.preview_game.resizeGame()
+
+    def _configureHandler(self, event=None):
+        if False:  # if not USE_PIL:
+            return
+        if not self.app:
+            return
+        if (not self.app.opt.auto_scale and
+                not self.app.opt.preview_scale):
+            return
+        if self._resizeHandlerID:
+            self.preview.canvas.after_cancel(self._resizeHandlerID)
+        self._resizeHandlerID = self.preview.canvas.after(300,
+                                                          self._resizeHandler)
+        # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
+
     def updatePreview(self, gameid, animations=10):
         if gameid == self.preview_key:
             return
@@ -777,9 +800,17 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 if c:
                     c2 = c.get(cardset.subtype)
         if c2:
-            self.preview_app.images = c2[2]
+            if self.app.opt.auto_scale and self.app.opt.preview_scale:
+                self.preview_app.images = c2[1]
+            else:
+                self.preview_app.images = c2[2]
         else:
-            self.preview_app.images = self.app.subsampled_images
+            if self.app.opt.auto_scale and self.app.opt.preview_scale:
+                self.preview_app.images = self.app.images
+            else:
+                self.preview_app.images = self.app.subsampled_images
+        if self.app.opt.auto_scale and self.app.opt.preview_scale:
+            self.preview_app.images.setNegative(self.app.opt.negative_bottom)
 
         self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:
@@ -803,10 +834,14 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_game.restoreGameFromBookmark(self.bookmark)
         else:
             self.preview_game.newGame(random=random, autoplay=1)
-        gw, gh = self.preview_game.width, self.preview_game.height
-        canvas.config(scrollregion=(0, 0, gw, gh))
-        canvas.xview_moveto(0)
-        canvas.yview_moveto(0)
+        if (not self.app.opt.auto_scale and
+                not self.app.opt.preview_scale):
+            gw, gh = self.preview_game.width, self.preview_game.height
+            canvas.config(scrollregion=(0, 0, gw, gh))
+            canvas.xview_moveto(0)
+            canvas.yview_moveto(0)
+        else:
+            canvas.config(scrollregion=(0, 0, 0, 0))
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:

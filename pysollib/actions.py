@@ -223,6 +223,8 @@ class PysolMenubar(PysolMenubarTk):
         if USE_PIL:
             self.setMenuState(ms.autoscale,
                               "options.cardsize.preserveaspectratio")
+            self.setMenuState(ms.autoscale,
+                              "options.cardsize.previewscaling")
             self.setMenuState(not ms.autoscale,
                               "options.cardsize.increasethecardsize")
             self.setMenuState(not ms.autoscale,

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-03-14 19:16-0400\n"
+"PO-Revision-Date: 2025-04-10 18:09-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -4159,6 +4159,9 @@ msgstr ""
 msgid "Auto scaling"
 msgstr "automatische Skalierung"
 
+msgid "Preview scaling"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:281 pysollib/tk/selectcardset.py:278
 msgid "Preserve aspect ratio"
 msgstr "Seitenverhältnis beibehalten"
@@ -5336,9 +5339,12 @@ msgstr ""
 msgid "&Auto scaling"
 msgstr "automatisch skalieren"
 
+msgid "&Preview scaling"
+msgstr ""
+
 #, fuzzy
 #| msgid "Preserve aspect ratio"
-msgid "&Preserve aspect ratio"
+msgid "Pr&eserve aspect ratio"
 msgstr "Seitenverhältnis beibehalten"
 
 msgid "R&esampling"

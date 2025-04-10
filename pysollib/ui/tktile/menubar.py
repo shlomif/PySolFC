@@ -315,6 +315,7 @@ class PysolMenubarTkCommon:
             pegged_auto_remove=tkinter.BooleanVar(),
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
+            preview_scale=tkinter.BooleanVar(),
             preserve_aspect_ratio=tkinter.BooleanVar(),
             resampling=tkinter.IntVar(),
             spread_stacks=tkinter.BooleanVar(),
@@ -391,6 +392,7 @@ class PysolMenubarTkCommon:
         tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
+        tkopt.preview_scale.set(opt.preview_scale)
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
         tkopt.resampling.set(opt.resampling)
         tkopt.spread_stacks.set(opt.spread_stacks)
@@ -760,7 +762,11 @@ class PysolMenubarTkCommon:
                 label=n_("&Auto scaling"), variable=self.tkopt.auto_scale,
                 command=self.mOptAutoScale, accelerator=m+'0')
             submenu.add_checkbutton(
-                label=n_("&Preserve aspect ratio"),
+                label=n_("&Preview scaling"),
+                variable=self.tkopt.preview_scale,
+                command=self.mOptPreviewScale)
+            submenu.add_checkbutton(
+                label=n_("Pr&eserve aspect ratio"),
                 variable=self.tkopt.preserve_aspect_ratio,
                 command=self.mOptPreserveAspectRatio)
             submenu.add_separator()
@@ -1256,7 +1262,6 @@ class PysolMenubarTkCommon:
     def _mSelectGameDialog(self, d):
         if self.game.pause:
             if self.wasPaused:
-                self.game.resizeGame()
                 self.game.doPause()
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
             self.tkopt.gameid.set(d.gameid)
@@ -1861,6 +1866,14 @@ Unsupported game for import.
         self.app.opt.auto_scale = auto_scale
         self.tkopt.auto_scale.set(auto_scale)
         self._updateCardSize()
+
+    def mOptPreviewScale(self, *event):
+        if self._cancelDrag(break_pause=True):
+            return
+        preview_scale = not self.app.opt.preview_scale
+
+        self.app.opt.preview_scale = preview_scale
+        self.tkopt.preview_scale.set(preview_scale)
 
     def mOptPreserveAspectRatio(self, *event):
         if self._cancelDrag(break_pause=True):

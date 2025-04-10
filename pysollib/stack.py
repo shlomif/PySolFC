@@ -904,14 +904,15 @@ class Stack:
         if self.images.redeal:
             move(self.images.redeal)
         # texts
-        if self.texts.ncards:
-            move(self.texts.ncards)
-        if self.texts.rounds:
-            move(self.texts.rounds)
-        if self.texts.redeal:
-            move(self.texts.redeal)
-        if self.texts.misc:
-            move(self.texts.misc)
+        if not self.game.preview:
+            if self.texts.ncards:
+                move(self.texts.ncards)
+            if self.texts.rounds:
+                move(self.texts.rounds)
+            if self.texts.redeal:
+                move(self.texts.redeal)
+            if self.texts.misc:
+                move(self.texts.misc)
 
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting

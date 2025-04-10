@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-03-14 19:15-0400\n"
+"PO-Revision-Date: 2025-04-10 18:11-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -4227,6 +4227,9 @@ msgstr ""
 msgid "Auto scaling"
 msgstr "Automatycznie skalowanie"
 
+msgid "Preview scaling"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:281 pysollib/tk/selectcardset.py:278
 msgid "Preserve aspect ratio"
 msgstr "Zachowaj ratio"
@@ -5400,7 +5403,10 @@ msgstr "Resetuj rozmiar kart"
 msgid "&Auto scaling"
 msgstr "Automatyczne dopasowanie"
 
-msgid "&Preserve aspect ratio"
+msgid "&Preview scaling"
+msgstr ""
+
+msgid "Pr&eserve aspect ratio"
 msgstr "Zachowaj ratio"
 
 msgid "R&esampling"

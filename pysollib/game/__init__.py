@@ -843,8 +843,7 @@ class Game(object):
         if dealer:
             dealer()
         else:
-            if not self.preview:
-                self.resizeGame()
+            self.resizeGame()
             self.startGame()
         self.startMoves()
         for stack in self.allstacks:
@@ -1065,6 +1064,9 @@ class Game(object):
             return 0, 0
 
     def resizeGame(self, card_size_manually=False):
+        if self.preview and (not self.app.opt.auto_scale or
+                             not self.app.opt.preview_scale):
+            return
         # if self.busy:
         # return
         if not USE_PIL:
@@ -1373,7 +1375,7 @@ class Game(object):
             return
         if self._resizeHandlerID:
             self.canvas.after_cancel(self._resizeHandlerID)
-        self._resizeHandlerID = self.canvas.after(250, self._resizeHandler)
+        self._resizeHandlerID = self.canvas.after(300, self._resizeHandler)
         # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
 
     def playSample(self, name, priority=0, loop=0):

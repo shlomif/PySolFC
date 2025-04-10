@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-03-14 19:14-0400\n"
+"PO-Revision-Date: 2025-04-10 18:12-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4282,6 +4282,9 @@ msgstr "Размер по Y:"
 msgid "Auto scaling"
 msgstr "Автоматическое изменение размера"
 
+msgid "Preview scaling"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:281 pysollib/tk/selectcardset.py:278
 msgid "Preserve aspect ratio"
 msgstr "Сохранять соотношение сторон"
@@ -5472,9 +5475,12 @@ msgstr "&Увеличить размер карт"
 msgid "&Auto scaling"
 msgstr "Автоматическое изменение размера"
 
+msgid "&Preview scaling"
+msgstr ""
+
 #, fuzzy
 #| msgid "Preserve aspect ratio"
-msgid "&Preserve aspect ratio"
+msgid "Pr&eserve aspect ratio"
 msgstr "Сохранять соотношение сторон"
 
 msgid "R&esampling"

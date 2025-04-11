@@ -1262,7 +1262,17 @@ class PysolMenubarTkCommon:
     def _mSelectGameDialog(self, d):
         if self.game.pause:
             if self.wasPaused:
-                self.game.doPause()
+                # Nasty hack here.  This is the only way I was able to
+                # make the flow work while reliably avoiding crashes and
+                # graphical glitches when both the preview auto-scaling
+                # and the pause are in effect.
+                try:
+                    self.game.doPause()
+                except Exception:
+                    self.game.resizeGame()
+                    self.game.doPause()
+                    if self.game.pause:
+                       self.game.doPause()
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
             self.tkopt.gameid.set(d.gameid)
             self.tkopt.gameid_popular.set(d.gameid)

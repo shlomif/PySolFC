@@ -1272,7 +1272,7 @@ class PysolMenubarTkCommon:
                     self.game.resizeGame()
                     self.game.doPause()
                     if self.game.pause:
-                       self.game.doPause()
+                        self.game.doPause()
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
             self.tkopt.gameid.set(d.gameid)
             self.tkopt.gameid_popular.set(d.gameid)

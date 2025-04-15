@@ -11,8 +11,6 @@
 #
 # =============================================================================
 
-import logging
-
 from kivy.event import EventDispatcher
 from kivy.properties import BooleanProperty
 from kivy.properties import NumericProperty

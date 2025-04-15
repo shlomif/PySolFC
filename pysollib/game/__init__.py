@@ -1158,10 +1158,9 @@ class Game(object):
         # group stacks by class and cap
         sg = {}
         for s in self.allstacks:
-            for k in sg:
+            for k, g in sg.items():
                 if s.__class__ is k.__class__ and \
                        s.cap.__dict__ == k.cap.__dict__:
-                    g = sg[k]
                     g.append(s.id)
                     break
             else:

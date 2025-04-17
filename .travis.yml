@@ -46,7 +46,7 @@ install:
     # Tests are failing for them sometimes
     - cpanm --notest Capture::Tiny IPC::System::Simple
     - cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
-    - export PY_MODS='attrs configobj pycotap pysol-cards setuptools six'
+    - export PY_MODS='attrs configobj pycotap pysol-cards setuptools'
     - if test "$TRAVIS_OS_NAME" = "osx" ; then export PY_MODS="--no-binary=Pillow Pillow $PY_MODS" ; fi
     - sudo -H pip3 install --upgrade wheel
     - sudo -H pip3 install --upgrade $PY_MODS flake8 flake8-import-order

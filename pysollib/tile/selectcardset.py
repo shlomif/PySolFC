@@ -373,7 +373,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.aspect_check = ttk.Checkbutton(
                 size_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
-                # command=self._updateScale
+                command=self._updateAutoScale
                 )
             self.aspect_check.grid(row=7, column=0, sticky='ew',
                                    padx=padx, pady=pady)
@@ -451,18 +451,24 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
                 elif button == 0:
                     self.app.menubar.tkopt.auto_scale.set(auto_scale)
+                    self.app.menubar.tkopt.preview_scale.set(
+                        bool(self.preview_scale.get()))
+                    self.app.menubar.tkopt.preserve_aspect_ratio.set(
+                        bool(self.preserve_aspect.get()))
 
                     if auto_scale:
                         self.app.menubar.tkopt.spread_stacks.set(False)
                         self.scale_values = (self.app.opt.scale_x,
                                              self.app.opt.scale_y,
                                              auto_scale,
+                                             bool(self.preview_scale.get()),
                                              False,
                                              bool(self.preserve_aspect.get()))
                     else:
                         self.scale_values = (self.scale_x.get(),
                                              self.scale_y.get(),
                                              auto_scale,
+                                             self.app.opt.preview_scale,
                                              self.app.opt.spread_stacks,
                                              self.app.opt.
                                              preserve_aspect_ratio)

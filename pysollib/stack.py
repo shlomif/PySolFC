@@ -312,11 +312,11 @@ class Stack:
         if isinstance(ox, (int, float)):
             self.CARD_XOFFSET = (ox,)
         else:
-            self.CARD_XOFFSET = tuple([int(round(x)) for x in ox])
+            self.CARD_XOFFSET = tuple(int(round(x)) for x in ox)
         if isinstance(oy, (int, float)):
             self.CARD_YOFFSET = (oy,)
         else:
-            self.CARD_YOFFSET = tuple([int(round(y)) for y in oy])
+            self.CARD_YOFFSET = tuple(int(round(y)) for y in oy)
 
         # preserve offsets
         # for resize()
@@ -912,14 +912,15 @@ class Stack:
         if self.images.redeal:
             move(self.images.redeal)
         # texts
-        if self.texts.ncards:
-            move(self.texts.ncards)
-        if self.texts.rounds:
-            move(self.texts.rounds)
-        if self.texts.redeal:
-            move(self.texts.redeal)
-        if self.texts.misc:
-            move(self.texts.misc)
+        if not self.game.preview:
+            if self.texts.ncards:
+                move(self.texts.ncards)
+            if self.texts.rounds:
+                move(self.texts.rounds)
+            if self.texts.redeal:
+                move(self.texts.redeal)
+            if self.texts.misc:
+                move(self.texts.misc)
 
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting
@@ -2087,7 +2088,7 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
     def canDealCards(self, rows=None):
         if rows is None:
             rows = self.game.s.rows
-        r_cards = sum([len(r.cards) for r in rows])
+        r_cards = sum(len(r.cards) for r in rows)
         if self.cards:
             return True
         elif r_cards and self.round != self.max_rounds:

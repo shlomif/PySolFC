@@ -609,10 +609,11 @@ class Game(object):
         if not self.cards:
             self.cards = self.createCards(progress=self.app.intro.progress)
         self.initBindings()
-        # self.top.bind('<ButtonPress>', self.top._sleepEvent)
-        # self.top.bind('<3>', self.top._sleepEvent)
-        self.top.bind("<FocusOut>", self.top._focusOutEvent)
-        self.top.bind("<FocusIn>", self.top._focusInEvent)
+        if TOOLKIT == 'tk':
+            # self.top.bind('<ButtonPress>', self.top._sleepEvent)
+            # self.top.bind('<3>', self.top._sleepEvent)
+            self.top.bind("<FocusOut>", self.top._focusOutEvent)
+            self.top.bind("<FocusIn>", self.top._focusInEvent)
         # update display properties
         self.canvas.busy = True
         # geometry
@@ -862,8 +863,7 @@ class Game(object):
         if dealer:
             dealer()
         else:
-            if not self.preview:
-                self.resizeGame()
+            self.resizeGame()
             self.startGame()
         self.startMoves()
         for stack in self.allstacks:
@@ -1084,6 +1084,9 @@ class Game(object):
             return 0, 0
 
     def resizeGame(self, card_size_manually=False):
+        if self.preview and (not self.app.opt.auto_scale or
+                             not self.app.opt.preview_scale):
+            return
         # if self.busy:
         # return
         if not USE_PIL:
@@ -1176,10 +1179,9 @@ class Game(object):
         # group stacks by class and cap
         sg = {}
         for s in self.allstacks:
-            for k in sg:
+            for k, g in sg.items():
                 if s.__class__ is k.__class__ and \
                        s.cap.__dict__ == k.cap.__dict__:
-                    g = sg[k]
                     g.append(s.id)
                     break
             else:
@@ -1571,7 +1573,7 @@ class Game(object):
             return
         if self._resizeHandlerID:
             self.canvas.after_cancel(self._resizeHandlerID)
-        self._resizeHandlerID = self.canvas.after(250, self._resizeHandler)
+        self._resizeHandlerID = self.canvas.after(300, self._resizeHandler)
         # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
 
     def playSample(self, name, priority=0, loop=0):
@@ -2425,7 +2427,7 @@ class Game(object):
 
     def isGameWon(self):
         # default: all Foundations must be filled
-        return sum([len(s.cards) for s in self.s.foundations]) == \
+        return sum(len(s.cards) for s in self.s.foundations) == \
             len(self.cards)
 
     def getFoundationDir(self):

@@ -279,6 +279,9 @@ class PysolMenubarTkCommon:
         self._createMenubar()
         self.top = top
 
+        # Sometimes, this needs to be tracked between methods
+        self.wasPaused = False
+
         if self.progress:
             self.progress.update(step=1)
 
@@ -312,6 +315,7 @@ class PysolMenubarTkCommon:
             pegged_auto_remove=tkinter.BooleanVar(),
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
+            preview_scale=tkinter.BooleanVar(),
             preserve_aspect_ratio=tkinter.BooleanVar(),
             resampling=tkinter.IntVar(),
             spread_stacks=tkinter.BooleanVar(),
@@ -388,6 +392,7 @@ class PysolMenubarTkCommon:
         tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
+        tkopt.preview_scale.set(opt.preview_scale)
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
         tkopt.resampling.set(opt.resampling)
         tkopt.spread_stacks.set(opt.spread_stacks)
@@ -757,7 +762,11 @@ class PysolMenubarTkCommon:
                 label=n_("&Auto scaling"), variable=self.tkopt.auto_scale,
                 command=self.mOptAutoScale, accelerator=m+'0')
             submenu.add_checkbutton(
-                label=n_("&Preserve aspect ratio"),
+                label=n_("&Preview scaling"),
+                variable=self.tkopt.preview_scale,
+                command=self.mOptPreviewScale)
+            submenu.add_checkbutton(
+                label=n_("Pr&eserve aspect ratio"),
                 variable=self.tkopt.preserve_aspect_ratio,
                 command=self.mOptPreserveAspectRatio)
             submenu.add_separator()
@@ -1269,6 +1278,19 @@ class PysolMenubarTkCommon:
         self.tkopt.gameid_popular.set(self.game.id)
 
     def _mSelectGameDialog(self, d):
+        if self.game.pause:
+            if self.wasPaused:
+                # Nasty hack here.  This is the only way I was able to
+                # make the flow work while reliably avoiding crashes and
+                # graphical glitches when both the preview auto-scaling
+                # and the pause are in effect.
+                try:
+                    self.game.doPause()
+                except Exception:
+                    self.game.resizeGame()
+                    self.game.doPause()
+                    if self.game.pause:
+                        self.game.doPause()
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
             self.tkopt.gameid.set(d.gameid)
             self.tkopt.gameid_popular.set(d.gameid)
@@ -1305,6 +1327,10 @@ class PysolMenubarTkCommon:
                 bookmark = self.game.gsaveinfo.bookmarks[-2][0]
                 del self.game.gsaveinfo.bookmarks[-2]
         after_idle(self.top, self.__restoreCursor)
+        self.wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            self.wasPaused = True
         d = self._calcSelectGameDialogWithPreview()(
             self.top, title=_("Select game"),
             app=self.app, gameid=self.game.id,
@@ -1612,8 +1638,15 @@ Unsupported game for import.
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         self._calcSoundOptionsDialog()(
             self.top, _("Sound settings"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         self.tkopt.sound.set(self.app.opt.sound)
 
     def mOptAutoFaceUp(self, *args):
@@ -1862,6 +1895,14 @@ Unsupported game for import.
         self.tkopt.auto_scale.set(auto_scale)
         self._updateCardSize()
 
+    def mOptPreviewScale(self, *event):
+        if self._cancelDrag(break_pause=True):
+            return
+        preview_scale = not self.app.opt.preview_scale
+
+        self.app.opt.preview_scale = preview_scale
+        self.tkopt.preview_scale.set(preview_scale)
+
     def mOptPreserveAspectRatio(self, *event):
         if self._cancelDrag(break_pause=True):
             return
@@ -1953,11 +1994,18 @@ Unsupported game for import.
         key = self.app.tabletile_index
         if key <= 0:
             key = self.app.opt.colors['table']  # .lower()
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = self._calcSelectTileDialogWithPreview()(
             self.top, app=self.app,
             title=_("Select table background"),
             manager=self.app.tabletile_manager,
             key=key)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             if isinstance(d.key, str):
                 tile = self.app.tabletile_manager.get(0)
@@ -2187,6 +2235,10 @@ Unsupported game for import.
         self.game.quitGame(bookmark=1)
 
     def wizardDialog(self, edit=False):
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         from pysollib.wizardutil import write_game, reset_wizard
         WizardDialog = self._calcWizardDialog()
 
@@ -2195,6 +2247,9 @@ Unsupported game for import.
         else:
             reset_wizard(None)
         d = WizardDialog(self.top, _('Solitaire Wizard'), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             try:
                 if edit:

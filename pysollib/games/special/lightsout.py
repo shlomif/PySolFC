@@ -228,6 +228,7 @@ def r(id, short_name, width):
     return gi
 
 
+r(22399, "Lights Out 3x3", 3)
 r(22400, "Lights Out 4x4", 4)
 r(22401, "Lights Out 5x5", 5)
 r(22402, "Lights Out 6x6", 6)

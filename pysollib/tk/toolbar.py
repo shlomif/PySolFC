@@ -420,9 +420,9 @@ class PysolToolbarTk:
             self.frame.update_idletasks()
 
     def updateText(self, **kw):
-        for name in kw.keys():
+        for name, value in kw.items():
             label = getattr(self, name + "_label")
-            label["text"] = kw[name]
+            label["text"] = value
 
     def updateImages(self, dir, size):
         if dir == self.dir and size == self.size:

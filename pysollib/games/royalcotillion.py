@@ -232,6 +232,58 @@ class Kingdom(RoyalCotillion):
 
 
 # ************************************************************************
+# * Noumea
+# ************************************************************************
+
+class Noumea(RoyalCotillion):
+    Foundation_Class = SS_FoundationStack
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 5*l.XS, l.YM + 6*l.YS)
+
+        # create stacks
+        x, y, = l.XM + .5 * l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(self.Foundation_Class(x, y, self, i))
+            x += l.XS
+        x, y, = l.XM, y + l.YS
+        for j in range(4):
+            for i in range(5):
+                s.reserves.append(ReserveStack(x, y, self, max_accept=0))
+                x += l.XS
+            x = l.XM
+            y += l.YS
+        x, y = l.XM + 1.5 * l.XS, l.YM + 5 * l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3, num_deal=3)
+        l.createText(s.talon, "sw")
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, "se")
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    #
+    # game overrides
+    #
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
+# ************************************************************************
 # * Alhambra
 # * Granada
 # * Reserves
@@ -1624,3 +1676,5 @@ registerGame(GameInfo(943, RosamundsBower, "Rosamund's Bower",
                       altnames=("Rosamund",)))
 registerGame(GameInfo(952, BigAlhambra, "Big Alhambra",
                       GI.GT_3DECK_TYPE, 3, 2, GI.SL_BALANCED))
+registerGame(GameInfo(978, Noumea, "Noumea",
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))

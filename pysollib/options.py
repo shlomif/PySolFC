@@ -224,6 +224,7 @@ scale_cards = boolean
 scale_x = float
 scale_y = float
 auto_scale = boolean
+preview_scale = boolean
 spread_stacks = boolean
 preserve_aspect_ratio = boolean
 resampling = integer(0, 10)
@@ -520,6 +521,7 @@ class Options:
         self.scale_x = 1.0
         self.scale_y = 1.0
         self.auto_scale = True
+        self.preview_scale = True
         self.spread_stacks = False
         self.center_layout = True
         self.preserve_aspect_ratio = True
@@ -715,7 +717,7 @@ class Options:
                 else:
                     config['cardsets'][str(key)] = val2
         for key in ('scale_cards', 'scale_x', 'scale_y',
-                    'auto_scale', 'spread_stacks',
+                    'auto_scale', 'preview_scale', 'spread_stacks',
                     'preserve_aspect_ratio', 'resampling'):
             config['cardsets'][key] = getattr(self, key)
 
@@ -900,6 +902,7 @@ class Options:
                        ('scale_x', 'float'),
                        ('scale_y', 'float'),
                        ('auto_scale', 'bool'),
+                       ('preview_scale', 'bool'),
                        ('spread_stacks', 'bool'),
                        ('preserve_aspect_ratio', 'bool'),
                        ('resampling', 'int')):

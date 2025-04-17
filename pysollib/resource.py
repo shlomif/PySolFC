@@ -652,12 +652,12 @@ class CardsetManager(ResourceManager):
         required_cards_needed = {
             CSI.TYPE_TRUMP_ONLY: 100
         }
-        for t in required_types.keys():
+        for t, t_v in required_types.items():
             if t not in self.registered_types:
                 missing.append(CSI.TYPE_NAME[t])
             else:
-                if len(required_types[t]) > 0:
-                    for tt in required_types[t]:
+                if len(t_v) > 0:
+                    for tt in t_v:
                         if tt not in self.registered_subtypes[t]:
                             missing.append(CSI.TYPE_NAME[t] + " (" +
                                            CSI.SUBTYPE_NAME[t][tt] + ")")

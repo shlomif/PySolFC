@@ -223,6 +223,8 @@ class PysolMenubar(PysolMenubarTk):
         if USE_PIL:
             self.setMenuState(ms.autoscale,
                               "options.cardsize.preserveaspectratio")
+            self.setMenuState(ms.autoscale,
+                              "options.cardsize.previewscaling")
             self.setMenuState(not ms.autoscale,
                               "options.cardsize.increasethecardsize")
             self.setMenuState(not ms.autoscale,
@@ -780,7 +782,14 @@ class PysolMenubar(PysolMenubarTk):
     def mOptPlayerOptions(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = PlayerOptionsDialog(self.top, _("Set player options"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             self.app.opt.confirm = bool(d.confirm)
             self.app.opt.update_player_stats = bool(d.update_stats)
@@ -797,7 +806,14 @@ class PysolMenubar(PysolMenubarTk):
     def mOptColors(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = ColorsDialog(self.top, _("Set colors"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         text_color = self.app.opt.colors['text']
         if d.status == 0 and d.button == 0:
             self.app.opt.colors['text'] = d.text_color
@@ -816,7 +832,14 @@ class PysolMenubar(PysolMenubarTk):
     def mOptFonts(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = FontsDialog(self.top, _("Set fonts"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             self.app.opt.fonts.update(d.fonts)
             self._cancelDrag()
@@ -826,7 +849,14 @@ class PysolMenubar(PysolMenubarTk):
     def mOptTimeouts(self, *args):
         if self._cancelDrag(break_pause=False):
             return
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         d = TimeoutsDialog(self.top, _("Set timeouts"), self.app)
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
         if d.status == 0 and d.button == 0:
             self.app.opt.timeouts['demo'] = d.demo_timeout
             self.app.opt.timeouts['hint'] = d.hint_timeout

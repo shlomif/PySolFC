@@ -1527,7 +1527,6 @@ class HexYukon(AbstractHexADeckGame):
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
-
 # ************************************************************************
 # *
 # ************************************************************************
@@ -1712,6 +1711,68 @@ class WizardsStoreroom(AbstractHexADeckGame):
                 card1.rank - 1 == card2.rank) and
                 card1.color != card2.color)
 
+
+# ************************************************************************
+# * Wizard's Castle
+# ************************************************************************
+
+class WizardsCastle(AbstractHexADeckGame):
+    Hint_Class = CautiousDefaultHint
+
+    #
+    # Game layout
+    #
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        # Set window size
+        h = max(5 * l.YS, 20 * l.YOFFSET)
+        self.setSize(l.XM + 9 * l.XS, l.YM + l.YS + h)
+
+        # Create foundations
+        x = self.width - l.XS
+        y = l.YM
+        s.foundations.append(SS_FoundationStack(x, y, self, 4, max_cards=22))
+        y = y + l.YS
+        for i in range(4):
+            s.foundations.append(
+                SS_FoundationStack(x, y, self, i, max_cards=14))
+            y = y + l.YS
+
+        # Create rows
+        x = l.XM
+        y = l.YM
+        for j in range(2):
+            for i in range(8):
+                s.rows.append(
+                    HexAKlon_RowStack(x, y, self, max_move=1, max_accept=1))
+                x = x + l.XS
+            x = l.XM
+            y = y + l.YS * 3
+        self.setRegion(s.rows, (-999, -999, l.XM + l.XS * 8, 999999))
+
+        # Create talon
+        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+
+        # Define stack groups
+        l.defaultStackGroups()
+
+    #
+    # Game over rides
+    #
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.s.talon.dealRow(flip=0, frames=0)
+        self.s.talon.dealRow(rows=self.s.rows[:4], flip=0, frames=0)
+        self._startAndDealRow()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+
 # ************************************************************************
 # *
 # ************************************************************************
@@ -1762,4 +1823,6 @@ r(16683, WizardsStoreroom, "Wizard's Storeroom", GI.GT_HEXADECK, 1, 1,
   GI.SL_MOSTLY_SKILL)
 r(16684, WizardsStoreroom, "Big Storeroom", GI.GT_HEXADECK, 2, 1,
   GI.SL_MOSTLY_SKILL)
+r(16685, WizardsCastle, "Wizard's Castle", GI.GT_HEXADECK, 1, 0,
+  GI.SL_BALANCED)
 del r

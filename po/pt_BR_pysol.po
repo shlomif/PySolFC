@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-12-28 19:11-0500\n"
+"PO-Revision-Date: 2025-04-10 18:11-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -4233,6 +4233,9 @@ msgstr "Escala Y:"
 msgid "Auto scaling"
 msgstr "Dimensionamento automático"
 
+msgid "Preview scaling"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:281 pysollib/tk/selectcardset.py:278
 msgid "Preserve aspect ratio"
 msgstr "Preservar a proporção"
@@ -4262,6 +4265,9 @@ msgstr "Nacionalidade:"
 #: pysollib/tile/selectcardset.py:457 pysollib/tk/selectcardset.py:448
 msgid "Year:"
 msgstr "Ano:"
+
+msgid "Num. cards:"
+msgstr ""
 
 msgid "Compatible with current game"
 msgstr ""
@@ -5404,9 +5410,12 @@ msgstr "&Redefinir o tamanho do carta"
 msgid "&Auto scaling"
 msgstr "&Dimensionamento automático"
 
+msgid "&Preview scaling"
+msgstr ""
+
 #, fuzzy
 #| msgid "Preserve aspect ratio"
-msgid "&Preserve aspect ratio"
+msgid "Pr&eserve aspect ratio"
 msgstr "&Preservar a proporção"
 
 msgid "R&esampling"

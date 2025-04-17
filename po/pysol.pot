@@ -4018,6 +4018,9 @@ msgstr ""
 msgid "Auto scaling"
 msgstr ""
 
+msgid "Preview scaling"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:281 pysollib/tk/selectcardset.py:278
 msgid "Preserve aspect ratio"
 msgstr ""
@@ -4046,6 +4049,9 @@ msgstr ""
 
 #: pysollib/tile/selectcardset.py:457 pysollib/tk/selectcardset.py:448
 msgid "Year:"
+msgstr ""
+
+msgid "Num. cards:"
 msgstr ""
 
 msgid "Compatible with current game"
@@ -5135,7 +5141,10 @@ msgstr ""
 msgid "&Auto scaling"
 msgstr ""
 
-msgid "&Preserve aspect ratio"
+msgid "&Preview scaling"
+msgstr ""
+
+msgid "Pr&eserve aspect ratio"
 msgstr ""
 
 msgid "R&esampling"

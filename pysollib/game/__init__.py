@@ -2184,7 +2184,7 @@ class Game(object):
 
     def isGameWon(self):
         # default: all Foundations must be filled
-        return sum([len(s.cards) for s in self.s.foundations]) == \
+        return sum(len(s.cards) for s in self.s.foundations) == \
             len(self.cards)
 
     def getFoundationDir(self):

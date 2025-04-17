@@ -71,8 +71,8 @@ class tkHTMLWriter(pysollib.formatter.NullWriter):
         }
 
         self.text.config(cursor=self.viewer.defcursor, font=font)
-        for f in self.fontmap.keys():
-            self.text.tag_config(f, font=self.fontmap[f])
+        for f, cur_font in self.fontmap.items():
+            self.text.tag_config(f, font=cur_font)
 
         self.anchor = None
         self.anchor_mark = None

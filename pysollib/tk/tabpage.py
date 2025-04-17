@@ -81,8 +81,8 @@ class TabPageSet(tkinter.Frame):
             else:
                 raise InvalidTabPage('Invalid TabPage Name')
         # pop up the active 'tab' only
-        for page in self.pages.keys():
-            self.pages[page]['tab'].config(relief=MYRIDGE)
+        for page in self.pages.values():
+            page['tab'].config(relief=MYRIDGE)
         self.pages[self.GetActivePage()]['tab'].config(relief=MYRAISED)
         # switch page
         self.pages[self.GetActivePage()]['page'].lift()

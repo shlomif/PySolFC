@@ -251,6 +251,13 @@ class AbstractSamegameGame(Game):
     def parseCard(self, card):
         return self.COLORS[card.suit]
 
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        row = (stack.id % self.L[1]) + 1
+        column = (stack.id // self.L[1]) + 1
+        return _("Row: %d, Column: %d") % (row, column)
+
     def getAutoStacks(self, event=None):
         return ((), (), ())
 

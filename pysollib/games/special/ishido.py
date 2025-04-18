@@ -256,6 +256,13 @@ class Ishido(Game):
             return ''
         return _("Points: %d") % self.getGameScore()
 
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        row = (stack.id // self.COLS) + 1
+        column = (stack.id % self.COLS) + 1
+        return _("Row: %d, Column: %d") % (row, column)
+
     def getGameScore(self):
         return self.score
 

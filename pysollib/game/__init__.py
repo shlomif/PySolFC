@@ -1656,8 +1656,17 @@ class Game(object):
     def parseGameInfo(self):
         return ""
 
+    def parseStackInfo(self, stack):
+        return ""
+
     def speakGameInfo(self):
         self.app.speech.speak(self.parseGameInfo())
+
+    def speakStackInfo(self):
+        stack = self.keyboard_selected_stack
+        if self.keyboard_selected_stack is None:
+            return
+        self.app.speech.speak(self.parseStackInfo(stack))
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if TOOLKIT == 'kivy':

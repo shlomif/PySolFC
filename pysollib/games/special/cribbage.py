@@ -180,6 +180,19 @@ class CribbageSquare(Game):
     def parseGameInfo(self):
         return _("Points: %d") % self.getGameScore()
 
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        stackhands = []
+        for hand in self.cribbage_hands:
+            if stack in hand:
+                stackhands.append(hand)
+        row = (stack.id % 4) + 1
+        column = (stack.id // 4) + 1
+        return (_("Row: %d, Score %d, Column: %d, Score %d") %
+                (row, self.getHandScore(stackhands[0]), column,
+                 self.getHandScore(stackhands[1])))
+
     def getGameScore(self):
         score = 0
         for hand in self.cribbage_hands:
@@ -487,6 +500,16 @@ class CribbagePatience(CribbageShuffle):
             if len(self.s.rows[i].cards) == 0:
                 return False
         return True
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows or len(stack.cards) == 0 \
+                or not self.isBoardFull():
+            return ""
+        stackhand = None
+        for hand in self.cribbage_hands:
+            if stack in hand:
+                stackhand = hand
+        return _("Hand Score %d") % self.getHandScore(stackhand)
 
     def finalizeHand(self):
         if self.isFinalizedHand:

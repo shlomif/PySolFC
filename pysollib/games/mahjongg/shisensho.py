@@ -443,6 +443,13 @@ class AbstractShisenGame(AbstractMahjonggGame):
     def canShuffle(self):
         return False
 
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        row = (stack.id % self.L[1]) + 1
+        column = (self.L[0] - 1 - (stack.id // self.L[1])) + 1
+        return _("Row: %d, Column: %d") % (row, column)
+
 
 class Shisen_18x8(AbstractShisenGame):
     L = (18, 8)

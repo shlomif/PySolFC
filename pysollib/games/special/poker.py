@@ -212,6 +212,19 @@ One Pair'''))
     def parseGameInfo(self):
         return _("Points: %d") % self.getGameScore()
 
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        stackhands = []
+        for hand in self.poker_hands:
+            if stack in hand:
+                stackhands.append(hand)
+        row = (stack.id % 5) + 1
+        column = (stack.id // 5) + 1
+        return (_("Row: %d, Score %d, Column: %d, Score %d") %
+                (row, self.getHandScore(stackhands[0])[1], column,
+                 self.getHandScore(stackhands[1])[1]))
+
     def getGameScore(self):
         score = 0
         for hand in self.poker_hands:
@@ -354,6 +367,19 @@ class Maverick(PokerShuffle):
 
     def parseGameInfo(self):
         return ''
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        stackhand = None
+        for hand in self.poker_hands:
+            if stack in hand:
+                stackhand = hand
+        row = (stack.id % 5) + 1
+        column = (stack.id // 5) + 1
+        return (_("Row: %d, Column: %d, Current hand: %s") %
+                (row, column,
+                 self.getNameByScore(self.getHandScore(stackhand)[1])))
 
     def isGameWon(self):
         for i in range(5):

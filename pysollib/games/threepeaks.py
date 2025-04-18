@@ -115,8 +115,7 @@ class ThreePeaks(Game):
         # set window
         # compute best XOFFSET
         xoffset = int(l.XS * 8 / self.gameinfo.ncards)
-        if xoffset < l.XOFFSET:
-            l.XOFFSET = xoffset
+        l.XOFFSET = min(l.XOFFSET, xoffset)
 
         # Set window size
         w, h = l.XM + l.XS * 10, l.YM + l.YS * 4
@@ -353,8 +352,7 @@ class Ricochet(Game):
         # set window
         # compute best XOFFSET
         xoffset = int(l.XS * 8 / self.gameinfo.ncards)
-        if xoffset < l.XOFFSET:
-            l.XOFFSET = xoffset
+        l.XOFFSET = min(l.XOFFSET, xoffset)
 
         # Set window size
         w, h = l.XM + l.XS * 6, l.YM + l.YS * 6

@@ -305,10 +305,8 @@ class MughalCircles(AbstractMughalGame):
         for i in range(24):
             # FIXME:
             _x, _y = x+l.XS*x0[i]+l.XM*x0[i]*2, y+l.YS*y0[i]+l.YM*y0[i]*2
-            if _x < 0:
-                _x = 0
-            if _y < 0:
-                _y = 0
+            _x = max(_x, 0)
+            _y = max(_y, 0)
             s.rows.append(
                 Circles_RowStack(_x, _y, self, base_rank=ANY_RANK, yoffset=0))
 

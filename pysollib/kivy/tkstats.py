@@ -109,8 +109,7 @@ class LPieChart(Widget):
                       self.pos[1] + self.size[1] / 2.0)
             radius = (self.size[0] * 0.45)
             radius2 = (self.size[1] * 0.45)
-            if (radius > radius2):
-                radius = radius2
+            radius = min(radius, radius2)
 
             # Rectangle(pos=pos, size=size)
             Line(circle=(center[0], center[1], radius), width=2.0, close=True)

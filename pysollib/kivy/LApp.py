@@ -514,14 +514,10 @@ class LLine(Widget, LBase):
                 print('%s.%s' % (x, y))
                 self.corePoly.append(x)
                 self.corePoly.append(y)
-                if x < xmin:
-                    xmin = x
-                if x > xmax:
-                    xmax = x
-                if y < ymin:
-                    ymin = y
-                if y > ymax:
-                    ymax = y
+                xmin = min(xmin, x)
+                xmax = max(xmax, x)
+                ymin = min(ymin, y)
+                ymax = max(ymax, y)
         else:
             if ('width' in kw):
                 lwidth = kw['width']
@@ -541,14 +537,10 @@ class LLine(Widget, LBase):
                 y = args[2 * i + 1]
                 self.corePoly.append(x)
                 self.corePoly.append(y)
-                if x < xmin:
-                    xmin = x
-                if x > xmax:
-                    xmax = x
-                if y < ymin:
-                    ymin = y
-                if y > ymax:
-                    ymax = y
+                xmin = min(xmin, x)
+                xmax = max(xmax, x)
+                ymin = min(ymin, y)
+                ymax = max(ymax, y)
 
         print('width = %s' % self.lwidth)
         print('color = %s' % self.fill)

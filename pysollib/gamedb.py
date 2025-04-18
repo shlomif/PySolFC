@@ -870,9 +870,9 @@ class GameManager:
             l1.sort()
             l2.sort()
             l3.sort()
-            self.__games_by_name = tuple([i[1] for i in l1])
-            self.__games_by_short_name = tuple([i[1] for i in l2])
-            self.__games_by_altname = tuple([i[1:] for i in l3])
+            self.__games_by_name = tuple(i[1] for i in l1)
+            self.__games_by_short_name = tuple(i[1] for i in l2)
+            self.__games_by_altname = tuple(i[1:] for i in l3)
         return self.__games_by_name
 
     def getGamesIdSortedByShortName(self):

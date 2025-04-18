@@ -87,8 +87,8 @@ class Windmill(Game):
         l, s = Layout(self, card_x_space=card_x_space), self.s
 
         # set window
-        max_x = max([i[0] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT])
-        max_y = max([i[1] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT])
+        max_x = max(i[0] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT)
+        max_y = max(i[1] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT)
         self.setSize((3+max_x)*l.XS+l.XM, (1+max_y)*l.YS+l.YM+l.YM)
 
         # create stacks

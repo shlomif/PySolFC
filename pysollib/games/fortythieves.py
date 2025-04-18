@@ -685,7 +685,7 @@ class Octave(Game):
 
     def _autoDeal(self, sound=True):
         ncards = len(self.s.waste.cards) + sum(
-            [len(i.cards) for i in self.s.reserves])
+            len(i.cards) for i in self.s.reserves)
         if ncards == 0:
             return self.dealCards(sound=sound)
         return 0

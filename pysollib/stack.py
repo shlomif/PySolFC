@@ -493,8 +493,7 @@ class Stack:
         images = self.game.app.images
         cw, ch = images.getSize()
         index = -1
-        for i in range(len(cards)):
-            c = cards[i]
+        for i, c in enumerate(cards):
             r = (c.x, c.y, c.x + cw, c.y + ch)
             if r[0] <= x < r[2] and r[1] <= y < r[3]:
                 index = i

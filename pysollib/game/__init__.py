@@ -885,7 +885,7 @@ class Game(object):
         assert len(self.allstacks) == len(game.loadinfo.stacks)
         old_state = game.moves.state
         game.moves.state = self.S_RESTORE
-        for i in range(len(self.allstacks)):
+        for i, cur_stack in enumerate(self.allstacks):
             for t in game.loadinfo.stacks[i]:
                 card_id, face_up = t
                 card = self.cards[card_id]
@@ -893,7 +893,7 @@ class Game(object):
                     card.showFace()
                 else:
                     card.showBack()
-                self.allstacks[i].addCard(card)
+                cur_stack.addCard(card)
         game.moves.state = old_state
         # 4) update settings
         for stack_id, cap in self.saveinfo.stack_caps:
@@ -1106,9 +1106,8 @@ class Game(object):
                 x, y = int(round((init_coord[0] + cw) * xf)), \
                     int(round((init_coord[1] + ch) * yf))
                 self.canvas.coords(item, x, y)
-        for i in range(len(self.texts.list)):
+        for i, item in enumerate(self.texts.list):
             init_coord = self.init_texts.list[i]
-            item = self.texts.list[i]
             x, y = int(round((init_coord[0] + cw) * xf)), \
                 int(round((init_coord[1] + ch) * yf))
             self.canvas.coords(item, x, y)

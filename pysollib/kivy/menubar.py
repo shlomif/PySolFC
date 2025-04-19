@@ -1880,8 +1880,7 @@ class PysolMenubarTk:
                                  short_name=False):
 
         # cb = self.__cb_max
-        for i in range(len(games)):
-            gi = games[i]
+        for gi in games:
             # columnbreak = i > 0 and (i % cb) == 0
             if short_name:
                 label = gi.short_name

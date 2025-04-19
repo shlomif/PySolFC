@@ -1107,7 +1107,7 @@ class ProgressionFrame(ttk.Frame):
             x += dx
 
         # horizontal scale
-        max_games = max([i[1] for i in result])
+        max_games = max(i[1] for i in result)
         games_delta = max_games//5+1
         percent = 0
         games = 0

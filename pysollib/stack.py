@@ -1316,10 +1316,8 @@ class Stack:
             # return cards under mouse
             dx = event.x - (x_offset+cw+sx) - game.canvas.xmargin
             dy = event.y - (y_offset+ch+sy) - game.canvas.ymargin
-            if dx < 0:
-                dx = 0
-            if dy < 0:
-                dy = 0
+            dx = max(dx, 0)
+            dy = max(dy, 0)
         for s in drag.shadows:
             if dx > 0 or dy > 0:
                 s.move(dx, dy)

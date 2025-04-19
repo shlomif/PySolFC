@@ -1299,11 +1299,13 @@ class Game(object):
         stack = self.keyboard_selected_stack
         if oldstack != stack:
             self.keyboard_select_count = 1
-        self._updateKeyboardSelector()
-        if len(stack.cards) > 0:
-            self.app.speech.speak(self.getStackSpeech(stack, -1))
+            self._updateKeyboardSelector()
+            if len(stack.cards) > 0:
+                self.app.speech.speak(self.getStackSpeech(stack, -1))
+            else:
+                self.app.speech.speak(self.getStackSpeech(stack, 0))
         else:
-            self.app.speech.speak(self.getStackSpeech(stack, 0))
+            self.playSample("edge", priority=200)
 
     def keyboardSelectNextType(self, dir=1):
         if self.pause:
@@ -1372,6 +1374,8 @@ class Game(object):
                 stack.cards[nextcard].face_up):
             self.keyboard_select_count += 1
             self._updateKeyboardSelector()
+        else:
+            self.playSample("edge", priority=200)
 
     def keyboardSelectLessCards(self):
         if self.pause:
@@ -1383,6 +1387,8 @@ class Game(object):
         if self.keyboard_select_count > 1:
             self.keyboard_select_count -= 1
             self._updateKeyboardSelector()
+        else:
+            self.playSample("edge", priority=200)
 
     def keyboardAction(self, type=1):
         if self.pause:
@@ -1667,6 +1673,12 @@ class Game(object):
         if self.keyboard_selected_stack is None:
             return
         self.app.speech.speak(self.parseStackInfo(stack))
+
+    def speakCoordinates(self):
+        stack = self.keyboard_selected_stack
+        if self.keyboard_selected_stack is None:
+            return
+        self.app.speech.speak("X: " + str(stack.x) + ", Y: " + str(stack.y))
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if TOOLKIT == 'kivy':

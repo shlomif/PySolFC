@@ -3691,6 +3691,9 @@ msgstr ""
 msgid "No move"
 msgstr ""
 
+msgid "Edge of Layout"
+msgstr ""
+
 #: pysollib/pysolgtk/soundoptionsdialog.py:66
 #: pysollib/tile/soundoptionsdialog.py:78 pysollib/tk/soundoptionsdialog.py:80
 msgid "Autopilot lost"

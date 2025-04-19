@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-10 18:12-0400\n"
+"PO-Revision-Date: 2025-04-19 16:30-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -1252,6 +1252,9 @@ msgstr "Король"
 #: pysollib/games/ultra/hexadeck.py:275 pysollib/games/ultra/mughal.py:261
 msgid "Ace"
 msgstr "Туз"
+
+msgid "Face-down"
+msgstr ""
 
 #: pysollib/stack.py:1612
 msgid "No cards"
@@ -3938,6 +3941,9 @@ msgstr "Перемещение"
 #: pysollib/tile/soundoptionsdialog.py:73 pysollib/tk/soundoptionsdialog.py:75
 msgid "No move"
 msgstr "Отмена перемещения"
+
+msgid "Edge of Layout"
+msgstr ""
 
 #: pysollib/pysolgtk/soundoptionsdialog.py:66
 #: pysollib/tile/soundoptionsdialog.py:78 pysollib/tk/soundoptionsdialog.py:80

@@ -66,6 +66,8 @@ class SoundOptionsDialog:
             ('autopilotlost', _('Autopilot lost')),
             ('autopilotwon',  _('Autopilot won')),
 
+            ('edge',          _('Edge of layout')),
+
             ('gamefinished',  _('Game finished')),
             ('gamelost',      _('Game lost')),
             ('gamewon',       _('Game won')),

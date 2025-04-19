@@ -409,12 +409,12 @@ class CribbagePatience(CribbageShuffle):
         l, s = Layout(self), self.s
         self.setSize((2 * l.XM) + 8 * l.XS,
                      l.YM + ((self.HANDS + 1) * l.YS))
-        x, y = self.getInvisibleCoords()
-        s.waste = ReserveStack(x, y, self)
         x, y = l.XM, l.YM
         s.talon = CribbagePatience_Talon(x, y, self)
         l.createText(s.talon, "se")
-        x += 2 * l.XS
+        x, y = self.getInvisibleCoords()
+        s.waste = ReserveStack(x, y, self)
+        x, y = l.XM + (2 * l.XS), l.YM
         for i in range(4):
             s.rows.append(CribbagePatience_CribStack(x, y, self, max_move=1))
             x += l.XS

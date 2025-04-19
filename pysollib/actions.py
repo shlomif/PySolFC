@@ -992,6 +992,9 @@ class PysolMenubar(PysolMenubarTk):
     def mKeyboardStackInfo(self, *args):
         self.game.speakStackInfo()
 
+    def mKeyboardCoordinates(self, *args):
+        self.game.speakCoordinates()
+
 
 # ************************************************************************
 # * toolbar

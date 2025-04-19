@@ -167,6 +167,7 @@ gamewon = boolean
 droppair = boolean
 redo = boolean
 dealwaste = boolean
+edge = boolean
 extra = boolean
 
 [fonts]
@@ -445,6 +446,7 @@ class Options:
             'dealwaste': True,
             'droppair': True,
             'drop': True,
+            'edge': True,
             'extra': True,
             'flip': True,
             'move': True,

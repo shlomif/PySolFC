@@ -1028,6 +1028,7 @@ class PysolMenubarTkCommon:
 
         self._bindKey("", "q", self.mKeyboardGameInfo)
         self._bindKey("", "v", self.mKeyboardStackInfo)
+        self._bindKey("Shift-", "v", self.mKeyboardCoordinates)
 
         self._bindKey("", "Return", self.mKeyboardAction)
         self._bindKey("Shift-", "Return", self.mKeyboardAction2)

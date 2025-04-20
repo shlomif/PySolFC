@@ -837,8 +837,8 @@ class LImageItem(BoxLayout, LBase):
 
             if (self.game):
                 for stack in self.game.allstacks:
-                    for i in range(len(stack.cards)):
-                        if stack.cards[i] == self.card:
+                    for i, cur_card in enumerate(stack.cards):
+                        if cur_card == self.card:
                             print('LCardImage: stack = %s' % stack)
                             print('LCardImage: touch = %s' % str(touch))
                             ppos, psize = self.game.canvas.KivyToCore(
@@ -895,8 +895,8 @@ class LImageItem(BoxLayout, LBase):
 
             if (self.game):
                 for stack in self.game.allstacks:
-                    for i in range(len(stack.cards)):
-                        if stack.cards[i] == self.card:
+                    for i, cur_card in enumerate(stack.cards):
+                        if cur_card == self.card:
                             print('LCardImage: stack = %s' % stack)
                             ppos, psize = self.game.canvas.KivyToCore(
                                 touch.pos, self.size)
@@ -941,8 +941,8 @@ class LImageItem(BoxLayout, LBase):
         print('LCardImage: touch_move on %s' % str(touch.pos))
 
         for stack in self.game.allstacks:
-            for i in range(len(stack.cards)):
-                if stack.cards[i] == self.card:
+            for i, cur_card in enumerate(stack.cards):
+                if cur_card == self.card:
                     print('LCardImage: stack = %s/%s' % (stack, touch))
                     ppos, psize = self.game.canvas.KivyToCore(
                         touch.pos, self.size)
@@ -1638,16 +1638,14 @@ class LStack:
         self.items.append((key, item))
 
     def pop(self, key):
-        for i in range(len(self.items)):
-            t = self.items[i]
+        for i, t in enumerate(self.items):
             if (t[0] == key):
                 self.items.pop(i)
                 return t[1]
         return None
 
     def peek(self, key):
-        for i in range(len(self.items)):
-            t = self.items[i]
+        for t in self.items:
             if (t[0] == key):
                 return t
         return None

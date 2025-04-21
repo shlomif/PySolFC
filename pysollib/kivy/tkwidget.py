@@ -613,7 +613,7 @@ class MfxScrolledCanvas(object):
                 tile.color = app.opt.colors['table']
             self.canvas.config(bg=tile.color)
         else:
-            if type(app.top_bg) is str:
+            if isinstance(app.top_bg, str):
                 self.canvas.config(bg=app.top_bg)
 
         self.canvas.setTextColor(app.opt.colors['text'])

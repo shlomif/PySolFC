@@ -1040,13 +1040,13 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
     def onVarChange(self, instance, value):
         # print('LTreeNode: onVarChange(%s, %s, %s)'
         # % (instance, value, type(value)))
-        if type(value) is bool:
+        if isinstance(value, bool):
             self.setCheck(value)
-        if type(value) is int:
+        if isinstance(value, int):
             self.setVal(value)
-        if type(value) is str:
+        if isinstance(value, str):
             self.setVal(value)
-        # if type(value) is unicode:
+        # if isinstance(value), unicode):
         #     self.setVal(value)
 
     def setCheck(self, value):
@@ -1333,10 +1333,10 @@ class LMenu(ActionView, LBase):
         items = []
         menues = []
         for c in self.children:
-            if (type(c) is LMenuItem):
+            if isinstance(c, LMenuItem):
                 # print ('LMenu: to delete child %s' % c)
                 items.append(c)
-            elif (type(c) is LMenu):
+            elif isinstance(c, LMenu):
                 # print ('LMenu: to delete child %s' % c)
                 menues.append(c)
             else:

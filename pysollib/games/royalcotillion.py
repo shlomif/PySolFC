@@ -304,7 +304,7 @@ class Alhambra_RowStack(UD_SS_RowStack):
 
 class Alhambra_Talon(DealRowTalonStack):
     def canDealCards(self):
-        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        r_cards = sum(len(r.cards) for r in self.game.s.rows)
         if self.cards:
             return True
         elif r_cards and self.round != self.max_rounds:
@@ -322,7 +322,7 @@ class Alhambra_Talon(DealRowTalonStack):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         rows = self.game.s.rows
-        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        r_cards = sum(len(r.cards) for r in self.game.s.rows)
         if self.cards:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")

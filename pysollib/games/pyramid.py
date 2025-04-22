@@ -818,7 +818,7 @@ class Fifteens_Reserve(ReserveStack):
                 if r in ranks:
                     break
             else:
-                n = sum([i+1 for i in ranks])
+                n = sum(i+1 for i in ranks)
                 t = str(n)
         self.texts.misc.config(text=t)
 
@@ -856,7 +856,7 @@ class Fifteens(Elevens):
                 if reserve_ranks == [9, JACK, QUEEN, KING]:
                     self._dropReserve()
             else:
-                reserve_sum = sum([c.rank+1 for c in reserve.cards])
+                reserve_sum = sum(c.rank+1 for c in reserve.cards)
                 if reserve_sum == 15:
                     self._dropReserve()
         self.leaveState(old_state)

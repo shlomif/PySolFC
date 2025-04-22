@@ -523,7 +523,7 @@ class Status_StatsDialog(MfxMessageDialog):  # MfxDialog
     def __init__(self, parent, game):
         stats, gstats = game.stats, game.gstats
         w1 = w2 = ''
-        n = sum([len(s.cards) for s in game.s.foundations])
+        n = sum(len(s.cards) for s in game.s.foundations)
         w1 = (_('Highlight piles: ') + str(stats.highlight_piles) + '\n' +
               _('Highlight cards: ') + str(stats.highlight_cards) + '\n' +
               _('Highlight same rank: ') +

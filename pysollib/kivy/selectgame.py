@@ -450,7 +450,7 @@ class SelectGameDialog(object):
                 n.tree = treeview.gametree
 
                 nodes = n.getContents()
-                if type(nodes) is list:
+                if isinstance(nodes, list):
                     # Blaetter
                     for node in nodes:
                         # print ('**game=%s' % node.text)
@@ -459,7 +459,7 @@ class SelectGameDialog(object):
                             is_leaf=True,
                             command=self.selectCmd)
 
-                if type(nodes) is tuple:
+                if isinstance(nodes, tuple):
                     # Knoten
                     for nn in nodes:
                         # print ('**node=%s' % nn.text)

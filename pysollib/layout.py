@@ -170,8 +170,7 @@ class Layout:
         # reserves texts
         if self.s.reserves and ('reserve_texts' in kw) and kw['reserve_texts']:
             game = self.game
-            for i in range(len(game.s.reserves)):
-                s1 = game.s.reserves[i]
+            for i, s1 in enumerate(game.s.reserves):
                 s2 = self.s.reserves[i]
                 s1.texts.ncards = self.defaultText(s2)
 

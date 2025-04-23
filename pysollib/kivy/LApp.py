@@ -1042,9 +1042,9 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
         # % (instance, value, type(value)))
         if isinstance(value, bool):
             self.setCheck(value)
-        if isinstance(value, int):
+        elif isinstance(value, int):
             self.setVal(value)
-        if isinstance(value, str):
+        elif isinstance(value, str):
             self.setVal(value)
         # if isinstance(value), unicode):
         #     self.setVal(value)

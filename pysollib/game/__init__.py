@@ -1374,6 +1374,7 @@ class Game(object):
                 stack.cards[nextcard].face_up):
             self.keyboard_select_count += 1
             self._updateKeyboardSelector()
+            self.app.speech.speak(self.getStackSpeech(stack, nextcard))
         else:
             self.playSample("edge", priority=200)
 
@@ -1387,6 +1388,8 @@ class Game(object):
         if self.keyboard_select_count > 1:
             self.keyboard_select_count -= 1
             self._updateKeyboardSelector()
+            self.app.speech.speak(self.getStackSpeech(
+                stack, (-1 * self.keyboard_select_count)))
         else:
             self.playSample("edge", priority=200)
 

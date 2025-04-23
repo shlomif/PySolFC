@@ -36,7 +36,7 @@ from pysollib.stack import \
         Stack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN
+from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN, SUITS_PL
 
 
 # ************************************************************************
@@ -270,6 +270,30 @@ class FourKingdoms(Game):
         for i in range(3):
             self.s.talon.dealRow(frames=0, flip=0)
         self._startAndDealRowAndCards()
+
+    def getStackSpeech(self, stack, cardindex):
+        if (stack not in self.s.foundations
+                and stack not in self.s.reserves):
+            return Game.getStackSpeech(self, stack, cardindex)
+        stacktype = ""
+        if stack in self.s.reserves:
+            stacktype = _("Guest")
+        elif stack.cap.base_rank == ACE:
+            stacktype = _("Dungeon")
+        elif stack.cap.base_rank == 9:
+            stacktype = _("Tower")
+        elif stack.cap.base_rank == 8:
+            stacktype = _("Subjects")
+        elif stack.cap.base_rank == KING:
+            stacktype = _("King") + " " + _("Castle")
+        elif stack.cap.base_rank == QUEEN:
+            stacktype = _("Queen") + " " + _("Castle")
+        elif stack.cap.base_rank == JACK:
+            stacktype = _("Jack") + " " + _("Castle")
+        if len(stack.cards) == 0:
+            return stacktype + " - " + SUITS_PL[stack.cap.base_suit]
+        else:
+            return stacktype + " - " + self.parseCard(stack.cards[cardindex])
 
 
 # register the game

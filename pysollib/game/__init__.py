@@ -2829,7 +2829,7 @@ class Game(object):
                                                 text=self.getDemoInfoText())
 
     def getDemoInfoText(self):
-        h = self.Hint_Class is None and 'None' or self.Hint_Class.__name__
+        h = 'None' if self.Hint_Class is None else self.Hint_Class.__name__
         return '%s (%s)' % (self.gameinfo.short_name, h)
 
     def getDemoInfoTextAttr(self, tinfo):

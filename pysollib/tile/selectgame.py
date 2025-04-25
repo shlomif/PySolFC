@@ -636,10 +636,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                     not (game.si.game_flags & GI.GT_POPULAR)):
                 continue
             if (self.criteria.recent and
-                    not (game.id in self.app.opt.recent_gameid)):
+                    (game.id not in self.app.opt.recent_gameid)):
                 continue
             if (self.criteria.favorite and
-                    not (game.id in self.app.opt.favorite_gameid)):
+                    (game.id not in self.app.opt.favorite_gameid)):
                 continue
             if (self.criteria.children and
                     not (game.si.game_flags & GI.GT_CHILDREN)):

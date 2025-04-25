@@ -123,8 +123,8 @@ class FontChooserDialog(MfxDialog):
     def fontupdate(self, *args):
         if self.list_box.curselection():
             self.font_family = self.list_box.get(self.list_box.curselection())
-        self.font_weight = self.weight_var.get() and 'bold' or 'normal'
-        self.font_slant = self.slant_var.get() and 'italic' or 'roman'
+        self.font_weight = 'bold' if self.weight_var.get() else 'normal'
+        self.font_slant = 'italic' if self.slant_var.get() else 'roman'
         self.font_size = self.size_var.get()
         self.entry.configure(font=(self.font_family, self.font_size,
                                    self.font_slant, self.font_weight))

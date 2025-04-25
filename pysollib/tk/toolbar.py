@@ -396,7 +396,7 @@ class PysolToolbarTk:
                 # right
                 pack_func(row=1, column=2, sticky='ns')
             # set orient
-            orient = side in (1, 2) and 'horizontal' or 'vertical'
+            orient = 'horizontal' if side in (1, 2) else 'vertical'
             self._setOrient(orient)
         self.side = side
         return 1

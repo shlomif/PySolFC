@@ -1140,7 +1140,7 @@ class SelectGameAdvancedSearch(MfxDialog):
                          padx=1, pady=1)
         row += 1
 
-        compatValues = list()
+        compatValues = []
         compatValues.append("")
         for name, games in GI.GAMES_BY_COMPATIBILITY:
             compatValues.append(name)
@@ -1155,7 +1155,7 @@ class SelectGameAdvancedSearch(MfxDialog):
                         padx=1, pady=1)
         row += 1
 
-        inventorValues = list()
+        inventorValues = []
         inventorValues.append("")
         for name, games in GI.GAMES_BY_INVENTORS:
             inventorValues.append(name)
@@ -1170,7 +1170,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         row += 1
 
         versionCompareValues = list(criteria.versionCompareOptions)
-        versionValues = list()
+        versionValues = []
         versionValues.append("")
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
             versionValues.append(name)

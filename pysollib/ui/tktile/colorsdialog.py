@@ -27,6 +27,8 @@ from tkinter.colorchooser import askcolor
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 
+from ...tile.tkwidget import PysolButton
+
 
 class BaseColorsDialog:
     def _calcFrame(self):
@@ -36,7 +38,7 @@ class BaseColorsDialog:
         return self._calcToolkit().Label
 
     def _calcButton(self):
-        return self._calcToolkit().Button
+        return PysolButton
 
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
@@ -87,7 +89,7 @@ class BaseColorsDialog:
                                   bg=var.get(), textvariable=var)
             label.grid(row=row, column=1, padx=5)
             b = self._calcButton()(
-                frame, text=_('Change...'), width=10,
+                frame, text=_('Change...'), prefixtext=title, width=10,
                 command=lambda label=label: self.selectColor(label))
             b.grid(row=row, column=2)
             row += 1

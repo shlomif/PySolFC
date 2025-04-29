@@ -142,7 +142,8 @@ class SoundOptionsDialog(MfxDialog):
         col = 0
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
-            w = PysolCheckbutton(frame, text=t, variable=v)
+            w = PysolCheckbutton(frame, prefixtext=_('Enable samples'),
+                                 text=t, variable=v)
             w.grid(row=row, column=col, sticky='ew', padx=3, pady=1)
             if col == 1:
                 col = 0

@@ -886,11 +886,31 @@ PysolScale = MyPysolScale
 
 class PysolCombo(ttk.Combobox):
     def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+
         self._command = None
         if 'selectcommand' in kw:
             self._command = kw['selectcommand']
             del kw['selectcommand']
         ttk.Combobox.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+        self.bind("<Up>", lambda c: self._cycle_items(c, dir=-1))
+        self.bind("<Down>", lambda c: self._cycle_items(c, dir=1))
+
         self.bind('<<ComboboxSelected>>', self._callback)
 
     def _callback(self, *args):
@@ -900,6 +920,22 @@ class PysolCombo(ttk.Combobox):
             return self._command(*args)
         return None
 
+    def _cycle_items(self, *args, **kw):
+        direction = kw.get("dir", 0)
+        values = self['values']
+        current = self.current()
+
+        new_index = (current + direction) % len(values)
+        self.current(new_index)
+
+        selected_label = values[new_index]
+        self.speech.speak(selected_label)
+
+        return "break"
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + str(self.value.get()))
+
 
 # ************************************************************************
 # * Other components (speech support)
@@ -908,26 +944,84 @@ class PysolCombo(ttk.Combobox):
 class PysolCheckbutton(ttk.Checkbutton):
     def __init__(self, master=None, **kw):
         self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
+
+        self.value = kw.get('variable', tkinter.BooleanVar())
+        kw['variable'] = self.value
         ttk.Checkbutton.__init__(self, master, **kw)
+
         if 'text' in kw:
-            self.field_name = kw['text']
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
+        elif prefixtext is not None:
+            self.field_name = prefixtext
         else:
             self.field_name = ''
         self.bind('<FocusIn>', self._focus)
 
     def _focus(self, event):
-        self.speech.speak(self.field_name)
+        self.speech.speak(self.field_name + " " + str(self.value.get()))
+
+
+class PysolEntry(ttk.Entry):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+        ttk.Entry.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + self.value.get())
 
 
 class PysolButton(ttk.Button):
     def __init__(self, master=None, **kw):
         self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
         ttk.Button.__init__(self, master, **kw)
         if 'text' in kw:
-            self.field_name = kw['text']
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
         else:
             self.field_name = ''
         self.bind('<FocusIn>', self._focus)
 
     def _focus(self, event):
         self.speech.speak(self.field_name)
+
+
+class PysolNotebook(ttk.Notebook):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        ttk.Notebook.__init__(self, master, **kw)
+        self.bind('<FocusIn>', self._focus)
+        self.bind('<<NotebookTabChanged>>', self._focus)
+
+    def _focus(self, event):
+        current_tab_id = self.select()
+        tab_text = self.tab(current_tab_id, "text")
+        self.speech.speak(tab_text + " " + _("Tab"))

@@ -30,7 +30,8 @@ from pysollib.wizardpresets import presets
 from pysollib.wizardutil import WizardWidgets
 
 from .tkwidget import MfxDialog
-from .tkwidget import PysolCombo, PysolScale
+from .tkwidget import PysolCheckbutton, PysolCombo, PysolEntry, \
+                      PysolNotebook, PysolScale
 
 
 class WizardDialog(MfxDialog):
@@ -44,7 +45,7 @@ class WizardDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        notebook = ttk.Notebook(frame)
+        notebook = PysolNotebook(frame)
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
@@ -69,6 +70,7 @@ class WizardDialog(MfxDialog):
                 def callback(e, w=w):
                     self.presetSelected(e, w)
                 cb = PysolCombo(frame, values=tuple(values),
+                                fieldname=w.label,
                                 textvariable=w.variable,
                                 exportselection=False,
                                 selectcommand=callback,
@@ -77,13 +79,15 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'entry':
                 if w.variable is None:
                     w.variable = tkinter.StringVar()
-                en = ttk.Entry(frame, textvariable=w.variable)
+                en = PysolEntry(frame, textvariable=w.variable,
+                                fieldname=w.label)
                 en.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'menu':
                 if w.variable is None:
                     w.variable = tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 cb = PysolCombo(frame, values=tuple(values),
+                                fieldname=w.label,
                                 textvariable=w.variable,
                                 exportselection=False,
                                 state='readonly', width=32)
@@ -98,14 +102,15 @@ class WizardDialog(MfxDialog):
                 from_, to = w.values
                 # s = Spinbox(
                 #   frame, textvariable=w.variable, from_=from_, to=to)
-                s = PysolScale(frame, from_=from_, to=to, resolution=1,
-                               orient='horizontal',
+                s = PysolScale(frame, from_=from_, to=to, fieldname=w.label,
+                               resolution=1, orient='horizontal',
                                variable=w.variable)
                 s.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'check':
                 if w.variable is None:
                     w.variable = tkinter.BooleanVar()
-                ch = ttk.Checkbutton(frame, variable=w.variable)
+                ch = PysolCheckbutton(frame, variable=w.variable,
+                                      prefixtext=w.label)
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:

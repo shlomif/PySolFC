@@ -171,9 +171,9 @@ class SingleGame_StatsDialog(MfxDialog):
 
         text1 = _('Total:\n' +
                   '   won: %(won)s ... %(percentwon)s%%\n' +
-                  '   lost: %(lost)s ... %(percentlost)s%%\n\n') % dict(
-            won=won, percentwon=int(round(100.0 * pwon)),
-            lost=lost, percentlost=int(round(100.0 * plost)))
+                  '   lost: %(lost)s ... %(percentlost)s%%\n\n') % {
+            'won': won, 'percentwon': int(round(100.0 * pwon)),
+            'lost': lost, 'percentlost': int(round(100.0 * plost))}
 
 #        createChart(app, won, lost, _("Total"))
         won, lost = app.stats.getSessionStats(player, gameid)
@@ -183,9 +183,9 @@ class SingleGame_StatsDialog(MfxDialog):
 
         text2 = _('Current Session:\n' +
                   '   won: %(won)s ... %(percentwon)s%%\n' +
-                  '   lost: %(lost)s ... %(percentlost)s%%\n') % dict(
-            won=won, percentwon=(round(100.0 * pwon)),
-            lost=lost, percentlost=int(round(100.0 * plost)))
+                  '   lost: %(lost)s ... %(percentlost)s%%\n') % {
+            'won': won, 'percentwon': (round(100.0 * pwon)),
+            'lost': lost, 'percentlost': int(round(100.0 * plost))}
         # text2 = 'Current Session:\n   won=%s, lost=%s\n' % (won, lost)
 
 #        createChart(app, won, lost, _("Current session"))

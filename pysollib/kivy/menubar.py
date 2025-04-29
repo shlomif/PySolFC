@@ -149,7 +149,7 @@ class LTreeGenerator(LMenuBase):
         super(LTreeGenerator, self).__init__(menubar, parent, title, app)
 
     def generate(self):
-        tv = LTreeRoot(root_options=dict(text='EditTree'))
+        tv = LTreeRoot(root_options={'text': 'EditTree'})
         tv.hide_root = True
         tv.size_hint = 1, None
         tv.bind(minimum_height=tv.setter('height'))
@@ -240,7 +240,7 @@ class LMenuDialog(LMenuBase):
         self.window.content.add_widget(root)
 
     def initTree(self):
-        tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
+        tv = self.tvroot = LTreeRoot(root_options={'text': 'EditTree'})
         tv.hide_root = True
         tv.size_hint = 1, None
         tv.bind(minimum_height=tv.setter('height'))

@@ -990,6 +990,10 @@ class SearchCriteria:
                                   "Games not played": "not played"}
 
 
+def _extract_names(game_info) -> list[str]:
+    return [""] + [name for name, _games in game_info]
+
+
 class SelectGameAdvancedSearch(MfxDialog):
     def __init__(self, parent, title, criteria, **kw):
         kw = self.initKw(kw)
@@ -1140,40 +1144,29 @@ class SelectGameAdvancedSearch(MfxDialog):
                          padx=1, pady=1)
         row += 1
 
-        compatValues = []
-        compatValues.append("")
-        for name, games in GI.GAMES_BY_COMPATIBILITY:
-            compatValues.append(name)
-
         labelCompat = tkinter.Label(top_frame, text="Compatibility:",
                                     anchor="w")
         labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
                          padx=1, pady=1)
-        textCompat = PysolCombo(top_frame, values=compatValues,
+        textCompat = PysolCombo(top_frame,
+                                values=_extract_names(
+                                    GI.GAMES_BY_COMPATIBILITY),
                                 textvariable=self.compat, state='readonly')
         textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
                         padx=1, pady=1)
         row += 1
 
-        inventorValues = []
-        inventorValues.append("")
-        for name, games in GI.GAMES_BY_INVENTORS:
-            inventorValues.append(name)
-
         labelInventor = tkinter.Label(top_frame, text="Inventor:", anchor="w")
         labelInventor.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
-        textInventor = PysolCombo(top_frame, values=inventorValues,
+        textInventor = PysolCombo(top_frame,
+                                  values=_extract_names(GI.GAMES_BY_INVENTORS),
                                   textvariable=self.inventor, state='readonly')
         textInventor.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)
         row += 1
 
         versionCompareValues = list(criteria.versionCompareOptions)
-        versionValues = []
-        versionValues.append("")
-        for name, games in GI.GAMES_BY_PYSOL_VERSION:
-            versionValues.append(name)
 
         labelVersion = tkinter.Label(top_frame, text="PySol version:",
                                      anchor="w")
@@ -1184,7 +1177,9 @@ class SelectGameAdvancedSearch(MfxDialog):
                                         state='readonly')
         textVersionCompare.grid(row=row, column=1, columnspan=2, sticky='ew',
                                 padx=1, pady=1)
-        textVersion = PysolCombo(top_frame, values=versionValues,
+        textVersion = PysolCombo(top_frame,
+                                 values=_extract_names(
+                                     GI.GAMES_BY_PYSOL_VERSION),
                                  textvariable=self.version, state='readonly')
         textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',
                          padx=1, pady=1)

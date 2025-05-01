@@ -482,7 +482,7 @@ class SelectGameDialog(object):
         tv = self.tvroot = LGameRoot(
             tree,
             self.app.canvas,
-            root_options=dict(text='Tree One'))
+            root_options={'text': 'Tree One'})
         tv.size_hint = (1, None)
         tv.hide_root = True
         tv.load_func = loaderCB

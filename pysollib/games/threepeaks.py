@@ -327,13 +327,12 @@ class Ricochet_RowStack(ThreePeaks_RowStack):
         return result
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
-        x = OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
+        OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
         old_state = self.game.enterState(self.game.S_FILL)
         self.game.saveStateMove(2 | 16)  # for undo
         self.game.lastStack = self.id
         self.game.saveStateMove(1 | 16)  # for redo
         self.game.leaveState(old_state)
-        return x
 
 
 class Ricochet(Game):

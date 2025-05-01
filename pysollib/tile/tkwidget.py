@@ -934,7 +934,8 @@ class PysolCombo(ttk.Combobox):
         return "break"
 
     def _focus(self, event):
-        self.speech.speak(self.field_name + " " + str(self.value.get()))
+        self.speech.speak(self.field_name + " " + _("Select box") + " " +
+                          str(self.value.get()))
 
 
 # ************************************************************************
@@ -966,7 +967,8 @@ class PysolCheckbutton(ttk.Checkbutton):
         self.bind('<FocusIn>', self._focus)
 
     def _focus(self, event):
-        self.speech.speak(self.field_name + " " + str(self.value.get()))
+        self.speech.speak(self.field_name + " " + _("Check box") + " " +
+                          str(self.value.get()))
 
 
 class PysolEntry(ttk.Entry):
@@ -989,7 +991,8 @@ class PysolEntry(ttk.Entry):
         self.bind('<FocusIn>', self._focus)
 
     def _focus(self, event):
-        self.speech.speak(self.field_name + " " + self.value.get())
+        self.speech.speak(self.field_name + " " + _("Text box") + " " +
+                          self.value.get())
 
 
 class PysolButton(ttk.Button):

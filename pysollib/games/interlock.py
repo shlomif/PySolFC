@@ -86,7 +86,8 @@ class Interlock_StackMethods:
         return True
 
     def canSelect(self):
-        return len(self.cards) > 0 and self.cards[-1].face_up
+        return ((len(self.cards) > 0 or self.id < self.STEP[0][0]) and
+                (not self.cards or self.cards[-1].face_up))
 
 
 class Interlock_RowStack(Interlock_StackMethods, AC_RowStack):
@@ -151,7 +152,7 @@ class Interlock(Game):
         self.s.talon.dealCards()  # deal first card to WasteStack
 
     def getStackSpeech(self, stack, cardindex):
-        if stack not in self.s.rows:
+        if stack not in self.s.rows or not hasattr(stack, 'STEP'):
             return Game.getStackSpeech(self, stack, cardindex)
         if len(stack.cards) == 0:
             return self.parseEmptyStack(stack)

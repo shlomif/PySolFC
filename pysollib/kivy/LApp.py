@@ -1069,7 +1069,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
             # self.text = u'\u25cf '+self.title  # unicode filled circle
         else:
             self.text = self.title
-            self.text = u'    ' + self.title
+            self.text = '    ' + self.title
             # self.text = u'\u25cb  '+self.title # unicode open circle
         self.texture_update()
 

@@ -436,9 +436,7 @@ class LScatterFrame(Scatter):
     def collide_point(self,x,y):
         px,py = self.parent.pos
         sx,sy = self.parent.size
-        if (px<=x and x<(px+sx) and py<=y and y<(py+sy)):
-            return True
-        return False
+        return px <= x < px + sx and py <= y < py + sy
 
     def on_touch_down(self, touch):
         ret = False

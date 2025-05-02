@@ -1893,8 +1893,7 @@ class Game(object):
     def getClosestStack(self, card, dragstack):
         cx, cy = card.x, card.y
         for stacks, rect in self.regions.info:
-            if cx >= rect[0] and cx < rect[2] \
-                    and cy >= rect[1] and cy < rect[3]:
+            if rect[0] <= cx < rect[2] and rect[1] <= cy < rect[3]:
                 return self._getClosestStack(cx, cy, stacks, dragstack)
         return self._getClosestStack(cx, cy, self.regions.remaining, dragstack)
 

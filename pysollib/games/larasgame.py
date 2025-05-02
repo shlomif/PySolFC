@@ -242,7 +242,7 @@ class LarasGame(Game):
         for i in range(20):
             s.reserves.append(LarasGame_ReserveStack(x, y, self, max_cards=2))
             x += l.XS * (i < (ROW_LENGTH + 4)) - l.XS * (i == (ROW_LENGTH + 9))
-            y = y - l.YS * (i > (ROW_LENGTH + 3) and i < (ROW_LENGTH + 9)) \
+            y = y - l.YS * ((ROW_LENGTH + 3) < i < (ROW_LENGTH + 9)) \
                 + l.YS * (i > (ROW_LENGTH + 9))
 
         # Create talon

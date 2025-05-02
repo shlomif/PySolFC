@@ -440,13 +440,13 @@ def _scaleTextureToSize(texture, size):
 
     for bi in range(height):
         bline = bi * width
-        if (bi >= offy) and (bi < (height - offy)):
+        if offy <= bi < (height - offy):
             # transfer
             ai = gh - int((bi - offy) / scale) - 1
             aline = ai * gw
             for bk in range(width):
                 bpos = (bline + bk) * 4
-                if (bk >= offx) and (bk < (width - offx)):
+                if offx <= bk < (width - offx):
                     # transfer
                     ak = int((bk - offx) / scale)
                     apos = (aline + ak) * 4

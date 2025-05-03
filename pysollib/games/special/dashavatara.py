@@ -122,7 +122,7 @@ class Dashavatara_OpenStack(OpenStack):
     def currentForce(self, card):
         force = self._getForce(card)
         hour = time.localtime(time.time())[3]
-        if not (hour >= 7 and hour <= 19):
+        if not (7 <= hour <= 19):
             force = not force
         return force
 

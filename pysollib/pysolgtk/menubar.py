@@ -487,10 +487,7 @@ class PysolMenubarTk:
             'options.automaticplay.autodrop':
                 '/menubar/options/automaticplay/optautodrop'
             }
-        if path in path_map:
-            path = path_map[path]
-        else:
-            path = '/menubar/'+path.replace('.', '/')
+        path = path_map.get(path, '/menubar/'+path.replace('.', '/'))
         menuitem = self.top.ui_manager.get_widget(path)
         if not menuitem:
             # print 'WARNING: setMenuState: not found:', path

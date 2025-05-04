@@ -70,15 +70,11 @@ class LPieChart(Widget):
         # if ('width' in kw):
         #     width = float(kw['width'])
 
-        bcolor = '#ffa000a0'
-        if ('outline') in kw:
-            bcolor = kw['outline']
+        bcolor = kw.get('outline', '#ffa000a0')
         if (not bcolor or len(bcolor) < 7):
             bcolor = '#ffa000a0'
 
-        fcolor = '#00aaff20'
-        if ('fill') in kw:
-            fcolor = kw['fill']
+        fcolor = kw.get('fill', '#00aaff20')
         if (not fcolor or len(fcolor) < 7):
             fcolor = '#00aaff20'
 

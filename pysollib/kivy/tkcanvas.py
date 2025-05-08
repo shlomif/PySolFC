@@ -406,7 +406,7 @@ class MfxCanvasImage(object):
                 if self.group is None: break            # noqa
                 stack = self.group.stack
                 if stack is None: break                 # noqa
-                if type(stack) not in specials: break;  # noqa
+                if type(stack) not in specials: break   # noqa
 
                 cards = self.group.stack.cards
                 card = self.image.card

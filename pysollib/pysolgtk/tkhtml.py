@@ -462,11 +462,6 @@ to open the following URL:
             self.errorDialog(
                 _('Unable to service request:\n') + url + '\n\n' + str(ex))
             return
-        except Exception:
-            if file:
-                file.close()
-            self.errorDialog(_('Unable to service request:\n') + url)
-            return
 
         self.url = url
         if self.home is None:

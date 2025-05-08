@@ -143,33 +143,15 @@ class LAnimationTask(LTask, LBase):
         self.spos = spos
         self.widget = widget
 
-        x = 0.0
-        y = 0.0
-        duration = 0.2
-        transition = 'in_out_quad'
-        bindE = None
-        bindS = None
-        if 'x' in kw:
-            x = kw['x']
-        if 'y' in kw:
-            y = kw['y']
-        if 'duration' in kw:
-            duration = kw['duration']
-        if 'transition' in kw:
-            transition = kw['transition']
-        if 'bindE' in kw:
-            bindE = kw['bindE']
-        if 'bindS' in kw:
-            bindS = kw['bindS']
+        self.xdest = kw.get('x', 0.0)
+        self.ydest = kw.get('y', 0.0)
+        self.duration = kw.get('duration', 0.2)
+        self.transition = kw.get('transition', 'in_out_quad')
+        self.bindE = kw.get('bindE', None)
+        self.bindS = kw.get('bindS', None)
 
-        self.delay = duration / 3.0
+        self.delay = self.duration / 3.0
 
-        self.xdest = x
-        self.ydest = y
-        self.duration = duration
-        self.transition = transition
-        self.bindE = bindE
-        self.bindS = bindS
         print(self.widget.card)
 
     def start(self):
@@ -482,10 +464,10 @@ class LLine(Widget, LBase):
 
         print('kw = %s%s' % (args, kw))
 
-        lwidth = 10
-        fill = '#ee3344'
-        ashape = ()
-        arrow = 'none'
+        default_lwidth = 10
+        default_fill = '#ee3344'
+        default_ashape = ()
+        default_arrow = 'none'
 
         self.prnt = canvas
         xmin = 100000
@@ -495,18 +477,10 @@ class LLine(Widget, LBase):
         self.corePoly = []
         if isinstance(args[0], list):
             kww = args[1]
-            if ('width' in kww):
-                lwidth = kww['width']
-            self.lwidth = lwidth
-            if ('fill' in kww):
-                fill = kww['fill']
-            self.fill = fill
-            if ('arrowshape' in kw):
-                ashape = kw['arrowshape']
-            self.ashape = ashape
-            if ('arrow' in kw):
-                arrow = kw['arrow']
-            self.arrow = arrow
+            self.lwidth = kww.get('width', default_lwidth)
+            self.fill = kww.get('fill', default_fill)
+            self.ashape = kw.get('arrowshape', default_ashape)
+            self.arrow = kw.get('arrow', default_arrow)
 
             pts = args[0]
             ipts = iter(pts)
@@ -519,18 +493,10 @@ class LLine(Widget, LBase):
                 ymin = min(ymin, y)
                 ymax = max(ymax, y)
         else:
-            if ('width' in kw):
-                lwidth = kw['width']
-            self.lwidth = lwidth
-            if ('fill' in kw):
-                fill = kw['fill']
-            self.fill = fill
-            if ('arrowshape' in kw):
-                ashape = kw['arrowshape']
-            self.ashape = ashape
-            if ('arrow' in kw):
-                arrow = kw['arrow']
-            self.arrow = arrow
+            self.lwidth = kw.get('width', default_lwidth)
+            self.fill = kw.get('fill', default_fill)
+            self.ashape = kw.get('arrowshape', default_ashape)
+            self.arrow = kw.get('arrow', default_arrow)
 
             for i in range(0, 2):
                 x = args[2 * i]
@@ -650,19 +616,13 @@ class LRectangle(Widget, LBase):
         # print('outline %s' % kw['outline'])
         # print('fill    %s' % kw['fill'])
 
-        width = 10.0
-        if ('width' in kw):
-            width = float(kw['width'])
+        width = float(kw.get('width', 10.0))
 
-        bcolor = '#ffa000a0'
-        if ('outline') in kw:
-            bcolor = kw['outline']
+        bcolor = kw.get('outline', '#ffa000a0')
         if (not bcolor or len(bcolor) < 7):
             bcolor = '#ffa000a0'
 
-        fcolor = '#00aaff20'
-        if ('fill') in kw:
-            fcolor = kw['fill']
+        fcolor = kw.get('fill', '#00aaff20')
         if (not fcolor or len(fcolor) < 7):
             fcolor = '#00aaff20'
 

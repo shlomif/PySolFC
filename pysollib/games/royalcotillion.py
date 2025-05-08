@@ -1233,10 +1233,7 @@ class Colonel_RowStack(SS_RowStack):
 
         # from_stack is waste
         if from_stack is self.game.s.waste:
-            if below_stack is None or not below_stack.cards:
-                return True
-            else:
-                return False
+            return below_stack is None or not below_stack.cards
 
         #  from_stack in rows
         from_index, from_row = self._getStackIndex(from_stack)

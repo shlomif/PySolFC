@@ -625,11 +625,11 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                     self.criteria.statisticsOptions[self.criteria.statistics]
                 if statoption == 'played' and won + lost == 0:
                     continue
-                elif statoption == 'won' and won == 0:
+                if statoption == 'won' and won == 0:
                     continue
-                elif statoption == 'not won' and (won != 0 or lost == 0):
+                if statoption == 'not won' and (won != 0 or lost == 0):
                     continue
-                elif statoption == 'not played' and won + lost != 0:
+                if statoption == 'not played' and won + lost != 0:
                     continue
 
             if (self.criteria.popular and

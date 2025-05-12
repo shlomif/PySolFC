@@ -603,7 +603,7 @@ class Game(object):
             # restore game geometry
             w, h = self.app.opt.games_geometry[self.id]
             self.canvas.config(width=w, height=h)
-        if True and USE_PIL:
+        if USE_PIL:
             if self.app.opt.auto_scale:
                 w, h = self.app.opt.game_geometry
                 self.canvas.setInitialSize(w, h, margins=False,
@@ -2654,7 +2654,7 @@ class Game(object):
         d, status = None, 0
         bitmap = "info"
         timeout = 10000
-        if 1 and player_moves == 0:
+        if player_moves == 0:
             timeout = 5000
         if self.demo and self.demo.level == 3:
             timeout = 0
@@ -2724,7 +2724,7 @@ class Game(object):
                 # timeout in dialog - start another demo
                 demo = self.demo
                 id = self.id
-                if 1 and demo.mixed and DEBUG:
+                if demo.mixed and DEBUG:
                     # debug - advance game id to make sure we hit all games
                     gl = self.app.gdb.getGamesIdSortedById()
                     # gl = self.app.gdb.getGamesIdSortedByName()
@@ -2736,7 +2736,7 @@ class Game(object):
                     gl = self.app.gdb.getGamesIdSortedById()
                     while len(gl) > 1:
                         id = self.app.getRandomGameId()
-                        if 0 or id != self.id:      # force change of game
+                        if id != self.id:      # force change of game
                             break
                 if self.nextGameFlags(id) == 0:
                     self.endGame()

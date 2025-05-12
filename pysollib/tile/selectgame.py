@@ -133,7 +133,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
                                                 tuple(gg))
         #
@@ -146,7 +146,7 @@ class SelectGameData(SelectDialogTreeData):
                 continue
             name = _("New games in v. %(version)s") % {'version': name}
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
                                                 tuple(gg))
         s_by_inventors, gg = None, []
@@ -157,7 +157,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_inventors = SelectGameNode(None, _("by Inventors"),
                                             tuple(gg))
         #

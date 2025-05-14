@@ -1848,8 +1848,7 @@ class LApp(App):
             # redirect to game to undo last step
             app.menubar.mUndo()
             return True     # consumed
-        else:
-            return False    # delegate
+        return False    # delegate
 
     def __init__(self, args):
         super(LApp, self).__init__()

@@ -222,7 +222,7 @@ class AbstractFormatter:
         data = " ".join(data.split())
         if self.nospace and not data:
             return
-        elif prespace or self.softspace:
+        if prespace or self.softspace:
             if not data:
                 if not self.nospace:
                     self.softspace = 1

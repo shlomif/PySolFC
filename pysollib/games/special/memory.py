@@ -479,26 +479,25 @@ class Families(Concentration):
             self.moveMove(1, stack3, f)
             self.leaveState(old_state)
             return True
-        else:
-            redjokers = 0
-            blackjokers = 0
-            if card1.suit == 4 and card1.rank == 0:
-                blackjokers += 1
-            if card2.suit == 4 and card2.rank == 0:
-                blackjokers += 1
-            if card3.suit == 4 and card3.rank == 0:
-                blackjokers += 1
-            if card1.suit == 4 and card1.rank == 1:
-                redjokers += 1
-            if card2.suit == 4 and card2.rank == 1:
-                redjokers += 1
-            if card3.suit == 4 and card3.rank == 1:
-                redjokers += 1
-            if blackjokers > 1:
-                self.score = -1
-                return True
-            if redjokers > 0:
-                self.reshuffle()
+        redjokers = 0
+        blackjokers = 0
+        if card1.suit == 4 and card1.rank == 0:
+            blackjokers += 1
+        if card2.suit == 4 and card2.rank == 0:
+            blackjokers += 1
+        if card3.suit == 4 and card3.rank == 0:
+            blackjokers += 1
+        if card1.suit == 4 and card1.rank == 1:
+            redjokers += 1
+        if card2.suit == 4 and card2.rank == 1:
+            redjokers += 1
+        if card3.suit == 4 and card3.rank == 1:
+            redjokers += 1
+        if blackjokers > 1:
+            self.score = -1
+            return True
+        if redjokers > 0:
+            self.reshuffle()
 
     def reshuffle(self):
         old_state = self.enterState(self.S_FILL)

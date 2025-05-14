@@ -92,9 +92,8 @@ class Samegame_RowStack(OpenStack):
             game.updateStackMove(self, 1 | 16)  # for redo
             game.leaveState(old_state)
             return True
-        else:
-            return OpenStack.moveMove(self, ncards, to_stack, frames=frames,
-                                      shadow=shadow)
+        return OpenStack.moveMove(self, ncards, to_stack, frames=frames,
+                                  shadow=shadow)
 
     def fillStack(self):
         self.game.fillStack(self)

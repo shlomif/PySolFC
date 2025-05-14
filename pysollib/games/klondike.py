@@ -181,7 +181,7 @@ class NineAcross_RowStack(AC_RowStack):
         if not self.cards:
             if self.game.base_rank == ANY_RANK:
                 return False
-            elif self.game.base_rank == ACE:
+            if self.game.base_rank == ACE:
                 if cards[0].rank != KING:
                     return False
             elif cards[0].rank != self.game.base_rank - 1:

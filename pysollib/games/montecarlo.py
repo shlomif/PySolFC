@@ -172,10 +172,9 @@ class MonteCarlo(Game):
         diff = stack1.id - stack2.id
         if column == 0:
             return diff in (-5, -4, 1, 5, 6)
-        elif column == 4:
+        if column == 4:
             return diff in (-6, -5, -1, 4, 5)
-        else:
-            return diff in (-6, -5, -4, -1, 1, 4, 5, 6)
+        return diff in (-6, -5, -4, -1, 1, 4, 5, 6)
 
     def fillEmptyStacks(self):
         n = 0
@@ -398,9 +397,9 @@ class Crispy_RowStack(MonteCarlo_RowStack):
         if len(self.cards) == 0:
             if cr == KING:
                 return self.id in (1, 2, 13, 14)
-            elif cr == QUEEN:
+            if cr == QUEEN:
                 return self.id in (4, 7, 8, 11)
-            elif cr == JACK:
+            if cr == JACK:
                 return self.id in (0, 3, 12, 15)
         if cr in (JACK, QUEEN, KING):
             return False
@@ -965,10 +964,9 @@ class DerLetzteMonarch(Game):
         diff = stack1.id - stack2.id
         if column == 0:
             return diff in (-13, 1, 13)
-        elif column == 12:
+        if column == 12:
             return diff in (-13, -1, 13)
-        else:
-            return diff in (-13, -1, 1, 13)
+        return diff in (-13, -1, 1, 13)
 
 
 class TheLastMonarchII(DerLetzteMonarch):

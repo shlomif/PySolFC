@@ -883,7 +883,7 @@ class Eighteens_RowStack(Elevens_RowStack):
             self.playMoveMove(1, game.s.foundations[0], sound=False)
             self.fillStack()
             return True
-        elif self.game.s.reserves[0].acceptsCards(self, self.cards):
+        if self.game.s.reserves[0].acceptsCards(self, self.cards):
             return self.playMoveMove(1, self.game.s.reserves[0])
 
         return False

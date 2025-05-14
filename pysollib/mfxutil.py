@@ -106,12 +106,11 @@ def format_time(t):
 def get_default_resampling():
     if not USE_PIL:
         return 0
-    elif hasattr(Image, "ANTIALIAS"):
+    if hasattr(Image, "ANTIALIAS"):
         return Image.ANTIALIAS
-    elif hasattr(Image, "LANCZOS"):
+    if hasattr(Image, "LANCZOS"):
         return Image.LANCZOS
-    else:
-        return Image.NEAREST
+    return Image.NEAREST
 
 
 def print_err(s, level=1):

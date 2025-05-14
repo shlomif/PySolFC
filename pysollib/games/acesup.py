@@ -131,9 +131,8 @@ class AcesUp(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return (self.sg.dropstacks, (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
+        # rightclickHandler
+        return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
 # ************************************************************************

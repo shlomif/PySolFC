@@ -94,7 +94,7 @@ class MfxDialog:  # ex. _ToplevelDialog
                 traceback.print_exc()
             pass
         # destruct(self.top)
-        if 1 and self.parent:  # ???
+        if self.parent:  # ???
             try:
                 # self.parent.update_idletasks()
                 # FIXME: why do we need this under Windows ?

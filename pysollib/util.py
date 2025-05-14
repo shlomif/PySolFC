@@ -82,7 +82,7 @@ VARIABLE_REDEALS = -2
 CARDSET = _("cardset")
 
 IMAGE_EXTENSIONS = (".gif", ".ppm", ".png")
-if 1 and os.name == "nt":
+if os.name == "nt":
     IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg", ".jpeg",)
     pass
 

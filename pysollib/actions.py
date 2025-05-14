@@ -359,12 +359,12 @@ class PysolMenubar(PysolMenubarTk):
         games = []
         for g in self.app.gdb.getGamesIdSortedById():
             gi = self.app.getGameInfo(g)
-            if 1 and gi.id == self.game.id:
+            if gi.id == self.game.id:
                 # force change of game
                 continue
             # Not sure why this check to not change game category existed,
             # but commented, as it doesn't make sense.
-            # if 1 and gi.category != self.game.gameinfo.category:
+            # if gi.category != self.game.gameinfo.category:
                 # don't change game category
                 # continue
             won, lost = self.app.stats.getStats(self.app.opt.player, gi.id)
@@ -946,7 +946,7 @@ class PysolMenubar(PysolMenubarTk):
         if (self.app.audio and self.app.opt.music and
                 self.app.opt.sound_music_volume > 0):
             self.app.audio.playNextMusic()
-            if 1 and DEBUG:
+            if DEBUG:
                 index = self.app.audio.getMusicInfo()
                 music = self.app.music_manager.get(index)
                 if music:

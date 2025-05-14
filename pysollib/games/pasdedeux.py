@@ -70,7 +70,7 @@ class PasDeDeux_Hint(AbstractHint):
                 if self.game.s.talon.round >= 2:
                     rw, tw = 4, 2
                 c = self.game.cards[t.cards[-1].id - 52]
-                if 1 and c in self.game.s.waste.cards:
+                if c in self.game.s.waste.cards:
                     rw = rw - 1
                 #
                 score = int(((rw*r1_d + tw*t1_d) - (rw*r2_d + tw*t2_d)) * 1000)

@@ -950,9 +950,8 @@ a solvable configuration.'''),
                 r.delete()
             self.canvas.update_idletasks()
             return EVENT_HANDLED
-        else:
-            # remove items later (find_card_dialog)
-            return items
+        # remove items later (find_card_dialog)
+        return items
 
     def getCardFaceImage(self, deck, suit, rank):
         if suit == 3:

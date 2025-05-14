@@ -52,8 +52,7 @@ class MfxTreeBaseNode:
     def whoami(self):
         if self.parent_node is None:
             return (self.text, )
-        else:
-            return self.parent_node.whoami() + (self.text, )
+        return self.parent_node.whoami() + (self.text, )
 
     def draw(self, x, y, lastx=None, lasty=None):
         canvas, style = self.tree.canvas, self.tree.style

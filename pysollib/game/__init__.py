@@ -281,8 +281,7 @@ class _alt_unpickler(Unpickler):
     def find_class(self, module, name):
         if self.version == 1 and module == 'pysol_cards.random':
             return random_dummy
-        else:
-            return super().find_class(module, name)
+        return super().find_class(module, name)
 
 
 @attr.s
@@ -1056,12 +1055,11 @@ class Game(object):
             return 0, 0
         if ((vw > iw and vh > ih) or self.app.opt.auto_scale):
             return (vw / xf - iw) / 2, (vh / yf - ih) / 2
-        elif (vw >= iw and vh < ih):
+        if (vw >= iw and vh < ih):
             return (vw / xf - iw) / 2, 0
-        elif (vw < iw and vh >= ih):
+        if (vw < iw and vh >= ih):
             return 0, (vh / yf - ih) / 2
-        else:
-            return 0, 0
+        return 0, 0
 
     def resizeGame(self, card_size_manually=False):
         if self.preview and (not self.app.opt.auto_scale or
@@ -2046,7 +2044,7 @@ class Game(object):
                 self.stats.demo_updated = updated
                 self.app.stats.updateStats(None, self, won)
             return ''
-        elif self.changed():
+        if self.changed():
             # must update player stats
             self.gstats.updated = updated
             if self.app.opt.update_player_stats:
@@ -2337,9 +2335,8 @@ class Game(object):
                 r.delete()
             self.canvas.update_idletasks()
             return EVENT_HANDLED
-        else:
-            # remove items later (find_card_dialog)
-            return items
+        # remove items later (find_card_dialog)
+        return items
 
     def highlightNotMatching(self):
         if self.demo:
@@ -2538,25 +2535,24 @@ class Game(object):
             assert level >= 2
             assert from_stack is self.s.talon
             return h
-        elif from_stack == to_stack:
+        if from_stack == to_stack:
             # a flip move, should not happen with level=0/1
             assert level >= 2
             assert ncards == 1 and len(from_stack.cards) >= ncards
             return h
-        else:
-            # a move move
-            assert to_stack
-            assert 1 <= ncards <= len(from_stack.cards)
-            if DEBUG:
-                if not to_stack.acceptsCards(
-                        from_stack, from_stack.cards[-ncards:]):
-                    print('*fail accepts cards*', from_stack, to_stack, ncards)
-                if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
-                    print('*fail move cards*', from_stack, ncards)
-            # assert from_stack.canMoveCards(from_stack.cards[-ncards:])
-            # FIXME: Pyramid
-            assert to_stack.acceptsCards(
-                from_stack, from_stack.cards[-ncards:])
+        # a move move
+        assert to_stack
+        assert 1 <= ncards <= len(from_stack.cards)
+        if DEBUG:
+            if not to_stack.acceptsCards(
+                    from_stack, from_stack.cards[-ncards:]):
+                print('*fail accepts cards*', from_stack, to_stack, ncards)
+            if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
+                print('*fail move cards*', from_stack, ncards)
+        # assert from_stack.canMoveCards(from_stack.cards[-ncards:])
+        # FIXME: Pyramid
+        assert to_stack.acceptsCards(
+            from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
             return h
         info = (level == 1) or (level > 1 and DEBUG)
@@ -2922,7 +2918,7 @@ class Game(object):
                         self.endGame()
                         self.newGame()
                         return
-                    elif d.status == 0 and d.button == 1:
+                    if d.status == 0 and d.button == 1:
                         # restart game
                         self.restartGame()
                         return

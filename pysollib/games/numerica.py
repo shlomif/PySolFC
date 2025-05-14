@@ -267,8 +267,7 @@ class PussInTheCorner_Talon(OpenTalonStack):
     def clickHandler(self, event):
         if self.cards:
             return OpenStack.clickHandler(self, event)
-        else:
-            return TalonStack.clickHandler(self, event)
+        return TalonStack.clickHandler(self, event)
 
     def dealCards(self, sound=False):
         ncards = 0

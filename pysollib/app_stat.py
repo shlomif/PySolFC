@@ -50,7 +50,7 @@ class GameStat:
         if status == 0:
             self.num_lost += 1
             return
-        elif status == 1:
+        if status == 1:
             self.num_won += 1
         else:  # status == 2
             self.num_perfect += 1

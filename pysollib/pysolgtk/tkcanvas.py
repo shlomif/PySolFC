@@ -269,8 +269,7 @@ class MfxCanvasText(_CanvasItem):
     def __getitem__(self, key):
         if key == 'text':
             return self._item.get_property('text')
-        else:
-            raise AttributeError(key)
+        raise AttributeError(key)
     cget = __getitem__
 
 
@@ -332,9 +331,9 @@ class MfxCanvas(gnomecanvas.Canvas):
             # FIXME
             return gdk.LEFT_PTR
             # return self.get_window().get_cursor(v)
-        elif attr == 'width':
+        if attr == 'width':
             return self.get_size()[0]
-        elif attr == 'height':
+        if attr == 'height':
             return self.get_size()[1]
         print('TkCanvas cget:', attr)
         raise AttributeError(attr)

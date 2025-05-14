@@ -213,9 +213,8 @@ class Golf(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return (self.sg.dropstacks, (), ())
-        else:
-            # rightclickHandler
-            return (self.sg.dropstacks, self.sg.dropstacks, ())
+        # rightclickHandler
+        return (self.sg.dropstacks, self.sg.dropstacks, ())
 
 
 # ************************************************************************
@@ -541,9 +540,8 @@ class BlackHole(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return ((), (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return ((), self.sg.dropstacks, self.sg.dropstacks)
+        # rightclickHandler
+        return ((), self.sg.dropstacks, self.sg.dropstacks)
 
 
 # ************************************************************************
@@ -1123,9 +1121,8 @@ class Vague(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return ((), (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return ((), self.sg.dropstacks, self.sg.dropstacks)
+        # rightclickHandler
+        return ((), self.sg.dropstacks, self.sg.dropstacks)
 
 
 class ThirtyTwoCards(Vague):

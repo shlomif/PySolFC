@@ -83,15 +83,14 @@ class Camelot_RowStack(ReserveStack):
             cr = cards[0].rank
             if cr == KING:
                 return self.id in (0, 3, 12, 15)
-            elif cr == QUEEN:
+            if cr == QUEEN:
                 return self.id in (1, 2, 13, 14)
-            elif cr == JACK:
+            if cr == JACK:
                 return self.id in (4, 7, 8, 11)
             return True
-        else:
-            if len(self.cards) == 0:
-                return False
-            return self.cards[-1].rank + cards[0].rank == 8
+        if len(self.cards) == 0:
+            return False
+        return self.cards[-1].rank + cards[0].rank == 8
 
     def canMoveCards(self, cards):
         if not self.game.is_fill:

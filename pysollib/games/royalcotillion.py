@@ -128,9 +128,8 @@ class RoyalCotillion(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return (self.sg.dropstacks, (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
+        # rightclickHandler
+        return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
 # ************************************************************************
@@ -307,7 +306,7 @@ class Alhambra_Talon(DealRowTalonStack):
         r_cards = sum(len(r.cards) for r in self.game.s.rows)
         if self.cards:
             return True
-        elif r_cards and self.round != self.max_rounds:
+        if r_cards and self.round != self.max_rounds:
             return True
         return False
 

@@ -56,8 +56,7 @@ class MfxTreeBaseNode:
     def whoami(self):
         if self.parent_node is None:
             return (self.text, )
-        else:
-            return self.parent_node.whoami() + (self.text, )
+        return self.parent_node.whoami() + (self.text, )
 
     # drawing functions not used with kivy.
     '''

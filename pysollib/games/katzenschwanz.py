@@ -257,8 +257,7 @@ class SalicLaw_Talon_2(SalicLaw_Talon):
             if sound and not self.game.demo:
                 self.game.stopSamples()
             return 1
-        else:
-            return SalicLaw_Talon.dealCards(self, sound=sound)
+        return SalicLaw_Talon.dealCards(self, sound=sound)
 
 
 class SalicLaw_RowStack(OpenStack):

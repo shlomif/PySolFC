@@ -299,9 +299,8 @@ class Base_HTMLViewer:
             if sys.version_info > (3,):
                 import codecs
                 return codecs.open(url, encoding='utf-8')
-            else:
-                with open(url, "rb") as fh:
-                    return fh
+            with open(url, "rb") as fh:
+                return fh
         return my_open(url), url
 
     def display(self, url, add=1, relpath=1, xview=0, yview=0):

@@ -188,7 +188,7 @@ def after(widget, ms, func, *args):
         LAfterAnimation(func, 0.6)
         return
 
-    elif (isinstance(ms, int)):
+    if (isinstance(ms, int)):
         # print('ms: play timer (accounting)')
         # Clock.schedule_once(lambda dt: func(), float(ms)/1000.0)
         # makes not sense, drains battery!
@@ -251,9 +251,8 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
     if data is None:
         assert file is not None
         return LImageInfo(file)
-    else:
-        assert data is not None
-        return LImageInfo(data)
+    assert data is not None
+    return LImageInfo(data)
 
 loadImage = makeImage   # noqa - sorry flake8, aber das gehört zu oben dazu!
 

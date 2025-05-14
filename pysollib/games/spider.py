@@ -1137,7 +1137,7 @@ class Tarantula(Spider):
             if from_stack.cards[-1].suit == to_stack.cards[-1].suit:
                 # same suit
                 return 3
-            elif from_stack.cards[-1].color == to_stack.cards[-1].color:
+            if from_stack.cards[-1].color == to_stack.cards[-1].color:
                 # same color
                 return 2
             return 1
@@ -1282,7 +1282,7 @@ class TheJollyRoger_RowStack(BasicRowStack):
     def canMoveCards(self, cards):
         if cards[0].rank == ACE:
             return isSameColorSequence(cards, dir=0)
-        elif cards[-1].rank == ACE:
+        if cards[-1].rank == ACE:
             return False                # 5-3-ace
         return isSameSuitSequence(cards, dir=-2)
 
@@ -1423,8 +1423,7 @@ class ScorpionTowers_RowStack(SS_RowStack):
                     basekings += 1
             if basekings >= 4:
                 return 1
-            else:
-                return cards[0].rank == KING
+            return cards[0].rank == KING
         return SS_RowStack.acceptsCards(self, from_stack, cards)
 
 

@@ -75,8 +75,7 @@ def construct_random(s):
             ret = LCRandom31(seed)
             # ret.setSeedAsStr(s)
             return ret
-        else:
-            raise ValueError("ms seed out of range")
+        raise ValueError("ms seed out of range")
     # cut off "L" from possible conversion to int
     s = re.sub(r"L$", "", str(s))
     s = re.sub(r"[\s\#\-\_\.\,]", "", s.lower())

@@ -30,7 +30,7 @@ from pysollib.mygettext import _
 from pysollib.ui.tktile.tkutil import bind
 
 from .tkwidget import MfxDialog
-from .tkwidget import PysolScale
+from .tkwidget import PysolButton, PysolScale
 
 
 # ************************************************************************
@@ -182,9 +182,9 @@ class FontsDialog(MfxDialog):
                 title = 'Default'
             label = ttk.Label(frame, font=font, text=title)
             label.grid(row=row, column=1, padx=8)
-            b = ttk.Button(frame, text=_('Change...'), prefixtext=title,
-                           width=10, command=lambda label=label,
-                           fn=fn: self.selectFont(label, fn))
+            b = PysolButton(frame, text=_('Change...'), prefixtext=title,
+                            width=10, command=lambda label=label,
+                            fn=fn: self.selectFont(label, fn))
             b.grid(row=row, column=2)
             row += 1
         #

@@ -1105,6 +1105,7 @@ class Stack:
             if (self.game.app.opt.mouse_type == 'point-n-click'
                     or self.keyboard_movement):
                 drag.stack.moveCardsBackHandler(event, drag)
+                self.game.app.speech.speak(_("Unselected"))
             else:
                 self.moveCardsBackHandler(event, drag)
             self.keyboard_movement = False
@@ -1333,6 +1334,7 @@ class Stack:
         if (self.game.app.opt.mouse_type == 'point-n-click'
                 or self.keyboard_movement):
             self._markCards(drag)
+            self.game.app.speech.speak(_("Selected"))
             return
         # if TOOLKIT == 'gtk':
         #     drag.stack.group.tkraise()
@@ -1634,6 +1636,7 @@ class Stack:
         if (self.game.app.opt.mouse_type == 'point-n-click'
                 or self.keyboard_movement):
             drag.stack._stopDrag()
+            self.game.app.speech.speak(_("Unselected"))
         else:
             self._stopDrag()
         if drag.cards:

@@ -360,11 +360,13 @@ class MfxSimpleEntry(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.value = value
+        labeltext = label
         if label:
             label = ttk.Label(top_frame, text=label, takefocus=0)
             label.pack(pady=5)
         w = kw.get("e_width", 0)    # width in characters
-        self.var = ttk.Entry(top_frame, exportselection=1, width=w)
+        self.var = PysolEntry(top_frame, exportselection=1, width=w,
+                              fieldname=labeltext)
         self.var.insert(0, value)
         self.var.pack(side='top', padx=kw.padx, pady=kw.pady)
         #
@@ -1003,7 +1005,7 @@ class PysolButton(ttk.Button):
             del kw['prefixtext']
         else:
             prefixtext = None
-        ttk.Button.__init__(self, master, **kw)
+
         if 'text' in kw:
             if prefixtext is not None:
                 self.field_name = prefixtext + " - " + kw['text']
@@ -1011,6 +1013,9 @@ class PysolButton(ttk.Button):
                 self.field_name = kw['text']
         else:
             self.field_name = ''
+
+        ttk.Button.__init__(self, master, **kw)
+
         self.bind('<FocusIn>', self._focus)
 
     def _focus(self, event):

@@ -36,7 +36,9 @@ from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolButton, \
+                      PysolCheckbutton, PysolCombo, PysolEntry, \
+                      PysolNotebook
 
 # ************************************************************************
 # * Nodes
@@ -395,7 +397,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         paned_window.add(left_frame)
         paned_window.add(right_frame)
 
-        notebook = ttk.Notebook(left_frame)
+        notebook = PysolNotebook(left_frame)
         notebook.pack(expand=True, fill='both')
         tree_frame = ttk.Frame(notebook)
         notebook.add(tree_frame, text=_('Tree View'))
@@ -412,14 +414,17 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # Search
         searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text=_("Search:"),
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(searchbox,
-                                             textvariable=searchText)
+        self.list_searchtext = PysolEntry(searchbox,
+                                          fieldname=_("Search:"),
+                                          textvariable=searchText)
 
-        self.advSearch = tkinter.Button(searchbox, text='...',
-                                        command=self.advancedSearch)
+        self.advSearch = PysolButton(searchbox, text='...',
+                                     prefixtext=_("Advanced Search"),
+                                     command=self.advancedSearch,
+                                     width=2)
         self.advSearch.pack(side="right")
 
         self.list_searchtext.pack(side="top", fill='both',
@@ -723,6 +728,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.tree.n_selections += 1
         self.tree.updateSelection(game)
         self.updatePreview(game)
+        self.speakGameInfo(sel)
         self.list["cursor"] = oldcur
 
     _resizeHandlerID = None
@@ -745,6 +751,23 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self._resizeHandlerID = self.preview.canvas.after(300,
                                                           self._resizeHandler)
         # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
+
+    def speakGameInfo(self, name):
+        message = name
+        info = self.preview_game.gameinfo
+        message += " - " + _("Name:") + " " + info.name
+        if len(info.altnames) > 0:
+            message += (" - " + _("Alternate Names:") + " " +
+                        ' '.join(info.altnames))
+        message += (" - " + _("Category:") + " " +
+                    _(CSI.TYPE[info.category]))
+        if info.si.game_type in GI.TYPE_NAMES:
+            message += (" - " + _("Type:") + " " +
+                        _(GI.TYPE_NAMES[info.si.game_type]))
+        if info.skill_level is not None:
+            message += (" - " + _("Skill Level:") + " " +
+                        GI.SKILL_LEVELS.get(info.skill_level))
+        self.app.speech.speak(message)
 
     def updatePreview(self, gameid, animations=10):
         if gameid == self.preview_key:
@@ -1050,17 +1073,17 @@ class SelectGameAdvancedSearch(MfxDialog):
         #
         row = 0
 
-        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName = tkinter.Label(top_frame, text=_("Name:"), anchor="w")
         labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
-        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName = PysolEntry(top_frame, textvariable=self.name,
+                              fieldname=_("Name:"))
         textName.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
 
-        altCheck = tkinter.Checkbutton(top_frame, variable=self.usealt,
-                                       text=_("Check alternate names"),
-                                       anchor="w")
+        altCheck = PysolCheckbutton(top_frame, variable=self.usealt,
+                                    text=_("Check alternate names"))
         altCheck.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
@@ -1070,10 +1093,12 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         self.categoryValues = criteria.categoryOptions
 
-        labelCategory = tkinter.Label(top_frame, text="Category:", anchor="w")
+        labelCategory = tkinter.Label(top_frame, text=_("Category:"),
+                                      anchor="w")
         labelCategory.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
         textCategory = PysolCombo(top_frame, values=categoryValues,
+                                  fieldname=_("Category:"),
                                   textvariable=self.category, state='readonly',
                                   selectcommand=self.updateSubcategories)
         textCategory.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -1083,11 +1108,12 @@ class SelectGameAdvancedSearch(MfxDialog):
         subcategoryValues = list(criteria.subcategoryOptions.keys())
         subcategoryValues.sort()
 
-        labelSubcategory = tkinter.Label(top_frame, text="Subcategory:",
+        labelSubcategory = tkinter.Label(top_frame, text=_("Subcategory:"),
                                          anchor="w")
         labelSubcategory.grid(row=row, column=0, columnspan=1, sticky='ew',
                               padx=1, pady=1)
         textSubcategory = PysolCombo(top_frame, values=subcategoryValues,
+                                     fieldname=_("Subcategory:"),
                                      textvariable=self.subcategory,
                                      state='readonly')
         textSubcategory.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -1099,10 +1125,11 @@ class SelectGameAdvancedSearch(MfxDialog):
         typeValues = list(criteria.typeOptions.keys())
         typeValues.sort()
 
-        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType = tkinter.Label(top_frame, text=_("Type:"), anchor="w")
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
+                              fieldname=_("Type:"),
                               textvariable=self.type, state='readonly')
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
@@ -1110,10 +1137,12 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         skillValues = list(criteria.skillOptions.keys())
 
-        labelSkill = tkinter.Label(top_frame, text="Skill level:", anchor="w")
+        labelSkill = tkinter.Label(top_frame, text=_("Skill level:"),
+                                   anchor="w")
         labelSkill.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textSkill = PysolCombo(top_frame, values=skillValues,
+                               fieldname=_("Skill level:"),
                                textvariable=self.skill, state='readonly')
         textSkill.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
@@ -1121,10 +1150,11 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         deckValues = list(criteria.deckOptions.keys())
 
-        labelDecks = tkinter.Label(top_frame, text="Decks:", anchor="w")
+        labelDecks = tkinter.Label(top_frame, text=_("Decks:"), anchor="w")
         labelDecks.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textDecks = PysolCombo(top_frame, values=deckValues,
+                               fieldname=_("Decks:"),
                                textvariable=self.decks, state='readonly')
         textDecks.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
@@ -1132,10 +1162,11 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         redealValues = list(criteria.redealOptions.keys())
 
-        labelRedeals = tkinter.Label(top_frame, text="Redeals:", anchor="w")
+        labelRedeals = tkinter.Label(top_frame, text=_("Redeals:"), anchor="w")
         labelRedeals.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         textRedeals = PysolCombo(top_frame, values=redealValues,
+                                 fieldname=_("Redeals:"),
                                  textvariable=self.redeals, state='readonly')
         textRedeals.grid(row=row, column=1, columnspan=4, sticky='ew',
                          padx=1, pady=1)
@@ -1146,11 +1177,12 @@ class SelectGameAdvancedSearch(MfxDialog):
         for name, games in GI.GAMES_BY_COMPATIBILITY:
             compatValues.append(name)
 
-        labelCompat = tkinter.Label(top_frame, text="Compatibility:",
+        labelCompat = tkinter.Label(top_frame, text=_("Compatibility:"),
                                     anchor="w")
         labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
                          padx=1, pady=1)
         textCompat = PysolCombo(top_frame, values=compatValues,
+                                fieldname=_("Compatibility:"),
                                 textvariable=self.compat, state='readonly')
         textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
                         padx=1, pady=1)
@@ -1161,10 +1193,12 @@ class SelectGameAdvancedSearch(MfxDialog):
         for name, games in GI.GAMES_BY_INVENTORS:
             inventorValues.append(name)
 
-        labelInventor = tkinter.Label(top_frame, text="Inventor:", anchor="w")
+        labelInventor = tkinter.Label(top_frame, text=_("Inventor:"),
+                                      anchor="w")
         labelInventor.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
         textInventor = PysolCombo(top_frame, values=inventorValues,
+                                  fieldname=_("Inventor:"),
                                   textvariable=self.inventor, state='readonly')
         textInventor.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)
@@ -1176,16 +1210,18 @@ class SelectGameAdvancedSearch(MfxDialog):
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
             versionValues.append(name)
 
-        labelVersion = tkinter.Label(top_frame, text="PySol version:",
+        labelVersion = tkinter.Label(top_frame, text=_("PySol version:"),
                                      anchor="w")
         labelVersion.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         textVersionCompare = PysolCombo(top_frame, values=versionCompareValues,
+                                        fieldname=_("PySol version:"),
                                         textvariable=self.versioncompare,
                                         state='readonly')
         textVersionCompare.grid(row=row, column=1, columnspan=2, sticky='ew',
                                 padx=1, pady=1)
         textVersion = PysolCombo(top_frame, values=versionValues,
+                                 fieldname=_("PySol version:"),
                                  textvariable=self.version, state='readonly')
         textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',
                          padx=1, pady=1)
@@ -1193,76 +1229,78 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         statisticsValues = list(criteria.statisticsOptions.keys())
 
-        labelStats = tkinter.Label(top_frame, text="Play history:", anchor="w")
+        labelStats = tkinter.Label(top_frame, text=_("Play history:"),
+                                   anchor="w")
         labelStats.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textStats = PysolCombo(top_frame, values=statisticsValues,
+                               fieldname=_("Play history:"),
                                textvariable=self.statistics, state='readonly')
         textStats.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
         row += 1
 
         col = 0
-        popularCheck = tkinter.Checkbutton(top_frame, variable=self.popular,
-                                           text=_("Popular"), anchor="w")
+        popularCheck = PysolCheckbutton(top_frame, variable=self.popular,
+                                        text=_("Popular"))
         popularCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         col += 2
 
-        recentCheck = tkinter.Checkbutton(top_frame, variable=self.recent,
-                                          text=_("Recent"), anchor="w")
+        recentCheck = PysolCheckbutton(top_frame, variable=self.recent,
+                                       text=_("Recent"))
         recentCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                          padx=1, pady=1)
         col += 2
 
-        favoriteCheck = tkinter.Checkbutton(top_frame, variable=self.favorite,
-                                            text=_("Favorite"), anchor="w")
+        favoriteCheck = PysolCheckbutton(top_frame, variable=self.favorite,
+                                         text=_("Favorite"))
         favoriteCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                            padx=1, pady=1)
 
         row += 1
         col = 0
 
-        childCheck = tkinter.Checkbutton(top_frame, variable=self.children,
-                                         text=_("Children's"), anchor="w")
+        childCheck = PysolCheckbutton(top_frame, variable=self.children,
+                                      text=_("Children's"))
         childCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         col += 2
 
-        scoreCheck = tkinter.Checkbutton(top_frame, variable=self.scoring,
-                                         text=_("Scored"), anchor="w")
+        scoreCheck = PysolCheckbutton(top_frame, variable=self.scoring,
+                                      text=_("Scored"))
         scoreCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         col += 2
 
-        stripCheck = tkinter.Checkbutton(top_frame, variable=self.stripped,
-                                         text=_("Stripped Deck"), anchor="w")
+        stripCheck = PysolCheckbutton(top_frame, variable=self.stripped,
+                                      text=_("Stripped Deck"))
         stripCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         row += 1
         col = 0
 
-        sepCheck = tkinter.Checkbutton(top_frame, variable=self.separate,
-                                       text=_("Separate Decks"), anchor="w")
+        sepCheck = PysolCheckbutton(top_frame, variable=self.separate,
+                                    text=_("Separate Decks"))
         sepCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                       padx=1, pady=1)
         col += 2
 
-        openCheck = tkinter.Checkbutton(top_frame, variable=self.open,
-                                        text=_("Open"), anchor="w")
+        openCheck = PysolCheckbutton(top_frame, variable=self.open,
+                                     text=_("Open"))
         openCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         col += 2
 
-        relaxedCheck = tkinter.Checkbutton(top_frame, variable=self.relaxed,
-                                           text=_("Relaxed"), anchor="w")
+        relaxedCheck = PysolCheckbutton(top_frame, variable=self.relaxed,
+                                        text=_("Relaxed"))
         relaxedCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         row += 1
         col = 0
 
-        originalCheck = tkinter.Checkbutton(top_frame, variable=self.original,
-                                            text=_("Original"), anchor="w")
+        originalCheck = PysolCheckbutton(top_frame, variable=self.original,
+                                         text=_("Original"))
         originalCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                            padx=1, pady=1)
 

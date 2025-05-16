@@ -35,7 +35,9 @@ from pysollib.util import CARDSET
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo, PysolScale
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolButton, \
+                      PysolCheckbutton, PysolCombo, PysolEntry, \
+                      PysolNotebook, PysolScale
 
 
 # ************************************************************************
@@ -249,7 +251,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         paned_window.add(left_frame)
         paned_window.add(right_frame)
 
-        notebook = ttk.Notebook(left_frame)
+        notebook = PysolNotebook(left_frame)
         notebook.grid(row=0, column=0, sticky='nsew',
                       padx=padx, pady=pady)
         tree_frame = ttk.Frame(notebook)
@@ -267,14 +269,17 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         # Search
         searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text=_("Search:"),
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(searchbox,
-                                             textvariable=searchText)
+        self.list_searchtext = PysolEntry(searchbox,
+                                          fieldname=_("Search:"),
+                                          textvariable=searchText)
 
-        self.advSearch = tkinter.Button(searchbox, text='...',
-                                        command=self.advancedSearch)
+        self.advSearch = PysolButton(searchbox, text='...',
+                                     prefixtext=_("Advanced Search"),
+                                     command=self.advancedSearch,
+                                     width=2)
         self.advSearch.pack(side="right")
 
         self.list_searchtext.pack(side="top", fill='both',
@@ -309,6 +314,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
                 value=app.opt.scale_x,
+                fieldname=_('Scale X:'),
                 command=self._updateScale)
             self.scale_x.grid(
                 row=1, column=0, sticky='ew', padx=padx, pady=pady)
@@ -320,6 +326,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
                 value=app.opt.scale_y,
+                fieldname=_('Scale Y:'),
                 command=self._updateScale)
             self.scale_y.grid(
                 row=2, column=0, sticky='ew', padx=padx, pady=pady)
@@ -332,6 +339,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 size_frame, label=_('X offset:'),
                 from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
+                fieldname=_('X offset:'),
                 value=cs.CARD_XOFFSET
                 )
 
@@ -343,6 +351,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 size_frame, label=_('Y offset:'),
                 from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
+                fieldname=_('Y offset:'),
                 value=cs.CARD_YOFFSET
                 )
             self.y_offset.grid(row=4, column=0, sticky='ew',
@@ -350,7 +359,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
             self.auto_scale = tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
-            check = ttk.Checkbutton(
+            check = PysolCheckbutton(
                 size_frame, text=_('Auto scaling'),
                 variable=self.auto_scale,
                 command=self._updateAutoScale
@@ -360,7 +369,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             #
             self.preview_scale = tkinter.BooleanVar()
             self.preview_scale.set(app.opt.preview_scale)
-            self.preview_check = ttk.Checkbutton(
+            self.preview_check = PysolCheckbutton(
                 size_frame, text=_('Preview scaling'),
                 variable=self.preview_scale,
                 command=self._updateAutoScale
@@ -370,7 +379,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             #
             self.preserve_aspect = tkinter.BooleanVar()
             self.preserve_aspect.set(app.opt.preserve_aspect_ratio)
-            self.aspect_check = ttk.Checkbutton(
+            self.aspect_check = PysolCheckbutton(
                 size_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
                 command=self._updateAutoScale
@@ -598,6 +607,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.tree.n_selections += 1
         self.tree.updateSelection(cardset)
         self.updatePreview(cardset)
+        self.speakCardsetInfo(sel)
         self.list["cursor"] = oldcur
 
     _resizeHandlerID = None
@@ -619,6 +629,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self._resizeHandlerID = self.preview.canvas.after(300,
                                                           self._resizeHandler)
         # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
+
+    def speakCardsetInfo(self, name):
+        self.app.speech.speak(name)
 
     def updatePreview(self, key=None, overrideScale=False):
         if key == self.preview_key:
@@ -867,20 +880,22 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         #
         row = 0
 
-        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName = tkinter.Label(top_frame, text=_("Name:"), anchor="w")
         labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
-        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName = PysolEntry(top_frame, textvariable=self.name,
+                              fieldname=_("Name:"))
         textName.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
 
         sizeValues = list(criteria.sizeOptions.keys())
 
-        labelSize = tkinter.Label(top_frame, text="Size:", anchor="w")
+        labelSize = tkinter.Label(top_frame, text=_("Size:"), anchor="w")
         labelSize.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textSize = PysolCombo(top_frame, values=sizeValues,
+                              fieldname=_("Size:"),
                               textvariable=self.size, state='readonly')
         textSize.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
@@ -891,10 +906,11 @@ class SelectCardsetAdvancedSearch(MfxDialog):
 
         self.typeValues = criteria.typeOptions
 
-        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType = tkinter.Label(top_frame, text=_("Type:"), anchor="w")
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
+                              fieldname=_("Type:"),
                               textvariable=self.type, state='readonly',
                               selectcommand=self.updateSubtypes)
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -904,11 +920,12 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         subtypeValues = list(criteria.subtypeOptions.keys())
         subtypeValues.sort()
 
-        labelSubtype = tkinter.Label(top_frame, text="Subtype:",
+        labelSubtype = tkinter.Label(top_frame, text=_("Subtype:"),
                                      anchor="w")
         labelSubtype.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         textSubtype = PysolCombo(top_frame, values=subtypeValues,
+                                 fieldname=_("Subtype:"),
                                  textvariable=self.subtype,
                                  state='readonly')
         textSubtype.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -920,10 +937,11 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         styleValues = list(criteria.styleOptions.keys())
         styleValues.sort()
 
-        labelStyle = tkinter.Label(top_frame, text="Style:", anchor="w")
+        labelStyle = tkinter.Label(top_frame, text=_("Style:"), anchor="w")
         labelStyle.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textStyle = PysolCombo(top_frame, values=styleValues,
+                               fieldname=_("Style:"),
                                textvariable=self.style, state='readonly')
         textStyle.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
@@ -932,10 +950,11 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         dateValues = list(criteria.dateOptions.keys())
         dateValues.sort()
 
-        labelDate = tkinter.Label(top_frame, text="Date:", anchor="w")
+        labelDate = tkinter.Label(top_frame, text=_("Date:"), anchor="w")
         labelDate.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textDate = PysolCombo(top_frame, values=dateValues,
+                              fieldname=_("Date:"),
                               textvariable=self.date, state='readonly')
         textDate.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
@@ -944,21 +963,21 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         natValues = list(criteria.natOptions.keys())
         natValues.sort()
 
-        labelNationality = tkinter.Label(top_frame, text="Nationality:",
+        labelNationality = tkinter.Label(top_frame, text=_("Nationality:"),
                                          anchor="w")
         labelNationality.grid(row=row, column=0, columnspan=1, sticky='ew',
                               padx=1, pady=1)
         textNationality = PysolCombo(top_frame, values=natValues,
+                                     fieldname=_("Nationality:"),
                                      textvariable=self.nationality,
                                      state='readonly')
         textNationality.grid(row=row, column=1, columnspan=4, sticky='ew',
                              padx=1, pady=1)
         row += 1
 
-        compatCheck = tkinter.Checkbutton(
+        compatCheck = PysolCheckbutton(
             top_frame, variable=self.compatible,
-            text=_("Compatible with current game"), anchor="w"
-        )
+            text=_("Compatible with current game"))
         compatCheck.grid(row=row, column=0, columnspan=5, sticky='ew',
                          padx=1, pady=1)
 

@@ -34,7 +34,6 @@ class ColorsDialog(MfxDialog):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         # not used in kivy version.
-        return
 
 
 '''end of file'''

@@ -849,7 +849,6 @@ class MfxCanvas(LImage):
         self.r_width = width
         self.r_height = height
         self.update_widget(self.pos, self.size)
-        return
 
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):

@@ -888,12 +888,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
     def _addBoardLine(self, line):
         self.board += line + '\n'
-        return
 
     def _addPrefixLine(self, prefix, b):
         if b:
             self._addBoardLine(prefix + b)
-        return
 
     def importFileHelper(solver, fh, s_game):
         game = s_game.s

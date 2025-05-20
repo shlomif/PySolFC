@@ -41,7 +41,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.key = key
         self.app = app
         self.manager = manager
-        return
 
     def getSelected(self):
         return None

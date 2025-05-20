@@ -1534,13 +1534,11 @@ class LTkBase:
         # logging.info('LTkBase: interruptSleep')
         self.update_idletasks()
         # self.sleep_var = 1
-        return
 
     def mainquit(self):
         logging.info('LTkBase: mainquit')
         lapp = App.get_running_app()
         lapp.mainloop.send(None)    # Spielprozess verlassen
-        return
 
     def onWakeUp(self, dt):
         self.sleeping = False

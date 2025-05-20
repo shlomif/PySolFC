@@ -304,7 +304,6 @@ def after(widget, ms, func, *args):
 
 def after_idle(widget, func, *args):
     gobject.idle_add(func, *args)
-    return None
 
 
 def after_cancel(t):

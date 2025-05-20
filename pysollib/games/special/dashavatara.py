@@ -82,9 +82,8 @@ class Journey_Foundation(AbstractFoundationStack):
         if stack_dir == 0:
             card_dir = (cards[0].rank - self.cards[-1].rank) % self.cap.mod
             return card_dir in (1, 11)
-        else:
-            return (self.cards[-1].rank + stack_dir) % \
-                    self.cap.mod == cards[0].rank
+        return (self.cards[-1].rank + stack_dir) % \
+            self.cap.mod == cards[0].rank
 
 
 class AppachansWaterfall_Foundation(AbstractFoundationStack):

@@ -242,9 +242,8 @@ class Interregnum_Foundation(RK_FoundationStack):
         if len(self.cards) == 12:
             # the final card must come from the reserve above the foundation
             return from_stack.id == self.id - 8
-        else:
-            # card must come from rows
-            return from_stack in self.game.s.rows
+        # card must come from rows
+        return from_stack in self.game.s.rows
 
 
 class Interregnum(Game):

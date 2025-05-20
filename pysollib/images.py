@@ -167,8 +167,7 @@ class Images:
     def createMissingImage(self, width, height, fill, outline=None):
         if USE_PIL:
             return createImagePIL(width, height, fill=fill, outline=outline)
-        else:
-            return createImage(width, height, fill=fill, outline=outline)
+        return createImage(width, height, fill=fill, outline=outline)
 
     def load(self, app, progress=None):
         ext = self.cs.ext[1:]
@@ -306,11 +305,10 @@ class Images:
                 # ncards = len(self._shadow) - 1
                 return None
             return self._shadow[ncards]
-        else:
-            ncards = abs(ncards)-2
-            if ncards >= len(self._xshadow):
-                return None
-            return self._xshadow[ncards]
+        ncards = abs(ncards)-2
+        if ncards >= len(self._xshadow):
+            return None
+        return self._xshadow[ncards]
 
     def getShadowPIL(self, stack, cards):
         x0, y0 = stack.getPositionFor(cards[0])

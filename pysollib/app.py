@@ -1349,8 +1349,7 @@ class Application:
             names = list(map(os.path.normcase, names))
             names.sort()
             return names
-        else:
-            return []
+        return []
 
     #
     # init samples / music

@@ -70,7 +70,7 @@ class _MfxToplevel(gtk.Window):
             # FIXME
             return gdk.LEFT_PTR
             # return self.get_window().get_cursor(v)
-        elif attr in ("background", "bg"):
+        if attr in ("background", "bg"):
             c = self.style.bg[gtk.STATE_NORMAL]
             c = '#%02x%02x%02x' % (c.red//256, c.green//256, c.blue//256)
             return c

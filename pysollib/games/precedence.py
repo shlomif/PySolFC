@@ -45,10 +45,9 @@ class Precedence_Foundation(RK_FoundationStack):
                 return False
             if self.id == 0:
                 return cards[0].rank == KING
-            else:
-                return cards[0].rank == (self.game.s
-                                         .foundations[self.id - 1]
-                                         .cards[0].rank - 1) % 13
+            return cards[0].rank == (self.game.s
+                                     .foundations[self.id - 1]
+                                     .cards[0].rank - 1) % 13
         if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
         return True

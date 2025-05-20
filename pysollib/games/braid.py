@@ -68,9 +68,8 @@ class Braid_Foundation(AbstractFoundationStack):
         if stack_dir == 0:
             card_dir = self.getRankDir(cards=(self.cards[-1], cards[0]))
             return card_dir in (1, -1)
-        else:
-            return ((self.cards[-1].rank + stack_dir) %
-                    self.cap.mod == cards[0].rank)
+        return ((self.cards[-1].rank + stack_dir) %
+                self.cap.mod == cards[0].rank)
 
 
 class Braid_BraidStack(OpenStack):

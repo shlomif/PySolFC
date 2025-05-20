@@ -1370,10 +1370,8 @@ class BlindPatience(FortyThieves):
                 if to_stack.cards[-1].face_up:
                     # top card is face up
                     return 1001
-                else:
-                    return 1000
-            else:
-                return 999
+                return 1000
+            return 999
         # prefer non-empty piles in to_stack
         return 1001 + int(len(to_stack.cards) != 0)
 

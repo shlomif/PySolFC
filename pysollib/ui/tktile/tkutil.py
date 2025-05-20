@@ -352,8 +352,7 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
             im = PIL_Image(file)
             return im
         # fromstring(mode, size, data, decoder_name='raw', *args)
-        else:
-            return tkinter.PhotoImage(data=data)
+        return tkinter.PhotoImage(data=data)
     return tkinter.PhotoImage(**kw)
 
 

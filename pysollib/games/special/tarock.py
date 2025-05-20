@@ -88,10 +88,9 @@ class Tarock_AC_RowStack(Tarock_OpenStack):
             return 1
         if cards[0].rank != self.cards[-1].rank - 1:
             return 0
-        elif cards[0].color == 2 or self.cards[-1].color == 2:
+        if cards[0].color == 2 or self.cards[-1].color == 2:
             return 1
-        else:
-            return cards[0].color != self.cards[-1].color
+        return cards[0].color != self.cards[-1].color
 
 
 class Skiz_RowStack(RK_RowStack):
@@ -101,8 +100,7 @@ class Skiz_RowStack(RK_RowStack):
         if not self.cards:
             if cards[0].suit == len(self.game.gameinfo.suits):
                 return cards[0].rank == len(self.game.gameinfo.trumps) - 1
-            else:
-                return cards[0].rank == len(self.game.gameinfo.ranks) - 1
+            return cards[0].rank == len(self.game.gameinfo.ranks) - 1
         return self.cards[-1].suit == cards[0].suit and \
             self.cards[-1].rank - 1 == cards[0].rank
 
@@ -124,14 +122,12 @@ class TrumpWild_RowStack(Tarock_OpenStack):
         if not self.cards:
             if cards[0].suit == len(self.game.gameinfo.suits):
                 return cards[0].rank == len(self.game.gameinfo.trumps) - 1
-            else:
-                return cards[0].rank == len(self.game.gameinfo.ranks) - 1
+            return cards[0].rank == len(self.game.gameinfo.ranks) - 1
         if cards[0].rank != self.cards[-1].rank - 1:
             return 0
-        elif cards[0].color == 2 or self.cards[-1].color == 2:
+        if cards[0].color == 2 or self.cards[-1].color == 2:
             return 1
-        else:
-            return cards[0].color != self.cards[-1].color
+        return cards[0].color != self.cards[-1].color
 
 
 class TrumpWildYukon_RowStack(TrumpWild_RowStack):
@@ -146,14 +142,12 @@ class TrumpWildYukon_RowStack(TrumpWild_RowStack):
         if not self.cards:
             if cards[0].suit == len(self.game.gameinfo.suits):
                 return cards[0].rank == len(self.game.gameinfo.trumps) - 1
-            else:
-                return cards[0].rank == len(self.game.gameinfo.ranks) - 1
+            return cards[0].rank == len(self.game.gameinfo.ranks) - 1
         if cards[0].rank != self.cards[-1].rank - 1:
             return 0
-        elif cards[0].color == 2 or self.cards[-1].color == 2:
+        if cards[0].color == 2 or self.cards[-1].color == 2:
             return 1
-        else:
-            return cards[0].color != self.cards[-1].color
+        return cards[0].color != self.cards[-1].color
 
 
 class TrumpOnly_RowStack(Tarock_OpenStack):

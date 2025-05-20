@@ -196,10 +196,9 @@ class Crossword(Game):
                     else:
                         if ((count % 2) != 0 and not hasEmpties) or lastFace:
                             return False
-                        else:
-                            count = 0
-                            hasEmpties = False
-                            lastFace = True
+                        count = 0
+                        hasEmpties = False
+                        lastFace = True
             if (count % 2) != 0 and not hasEmpties:
                 return False
         return True

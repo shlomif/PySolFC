@@ -786,9 +786,8 @@ class MyPysolScale:
         elif self.variable:
             value = self.variable.get()
         self.value = value
-        self.command = command = None
-        if 'command' in kw:
-            command = kw['command']
+        command = kw.get('command', None)
+        self.command = command
         kw['command'] = self._scale_command
         if 'label' in kw:
             self.label_text = kw['label']

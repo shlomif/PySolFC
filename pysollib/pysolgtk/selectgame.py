@@ -200,7 +200,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         # return list of tuples (gameid, gamename)
         if selecter is None:
             return [(gi.id, gi.name) for gi in all_games]
-        elif selecter == 'alt':
+        if selecter == 'alt':
             return all_games
         return [(gi.id, gi.name) for gi in all_games if selecter(gi)]
 

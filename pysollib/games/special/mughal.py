@@ -81,9 +81,8 @@ class Triumph_Foundation(AbstractFoundationStack):
         if stack_dir == 0:
             card_dir = (cards[0].rank - self.cards[-1].rank) % self.cap.mod
             return card_dir in (1, 11)
-        else:
-            return (self.cards[-1].rank + stack_dir) % self.cap.mod \
-                == cards[0].rank
+        return (self.cards[-1].rank + stack_dir) % self.cap.mod \
+            == cards[0].rank
 
 
 # ************************************************************************
@@ -312,10 +311,8 @@ class MughalCircles(AbstractMughalGame):
         for i in range(24):
             # FIXME:
             _x, _y = x+l.XS*x0[i]+l.XM*x0[i]*2, y+l.YS*y0[i]+l.YM*y0[i]*2
-            if _x < 0:
-                _x = 0
-            if _y < 0:
-                _y = 0
+            _x = max(_x, 0)
+            _y = max(_y, 0)
             s.rows.append(
                 Circles_RowStack(_x, _y, self, base_rank=ANY_RANK, yoffset=0))
 

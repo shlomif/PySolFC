@@ -436,9 +436,7 @@ class LScatterFrame(Scatter):
     def collide_point(self,x,y):
         px,py = self.parent.pos
         sx,sy = self.parent.size
-        if (px<=x and x<(px+sx) and py<=y and y<(py+sy)):
-            return True
-        return False
+        return px <= x < px + sx and py <= y < py + sy
 
     def on_touch_down(self, touch):
         ret = False
@@ -613,7 +611,7 @@ class MfxScrolledCanvas(object):
                 tile.color = app.opt.colors['table']
             self.canvas.config(bg=tile.color)
         else:
-            if type(app.top_bg) is str:
+            if isinstance(app.top_bg, str):
                 self.canvas.config(bg=app.top_bg)
 
         self.canvas.setTextColor(app.opt.colors['text'])

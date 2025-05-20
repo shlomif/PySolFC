@@ -442,7 +442,7 @@ class BigBen(Game):
             x = int(x0 + xx*l.XS)
             y = int(y0 + yy*l.YS)
             suit = (3, 0, 2, 1)[rank % 4]
-            max_cards = rank <= 4 and 8 or 9
+            max_cards = 8 if rank <= 4 else 9
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
                                  max_cards=max_cards, base_rank=rank,
                                  mod=13, max_move=0))

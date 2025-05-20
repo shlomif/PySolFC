@@ -378,12 +378,11 @@ class CasinoCanfield(Canfield):
     getGameBalance = Game.getGameScoreCasino
 
     def createGame(self, max_rounds=1, num_deal=1):
-        lay = Canfield.createGame(self, max_rounds=max_rounds,
-                                  num_deal=num_deal)
+        Canfield.createGame(self, max_rounds=max_rounds,
+                            num_deal=num_deal)
         self.texts.score = MfxCanvasText(self.canvas,
                                          8, self.height - 8, anchor="sw",
                                          font=self.app.getFont("canvas_large"))
-        return lay
 
     def updateText(self):
         if self.preview > 1:

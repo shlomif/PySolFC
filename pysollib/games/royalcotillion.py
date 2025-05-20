@@ -128,9 +128,8 @@ class RoyalCotillion(Game):
         if event is None:
             # disable auto drop - this would ruin the whole gameplay
             return (self.sg.dropstacks, (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
+        # rightclickHandler
+        return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
 # ************************************************************************
@@ -304,10 +303,10 @@ class Alhambra_RowStack(UD_SS_RowStack):
 
 class Alhambra_Talon(DealRowTalonStack):
     def canDealCards(self):
-        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        r_cards = sum(len(r.cards) for r in self.game.s.rows)
         if self.cards:
             return True
-        elif r_cards and self.round != self.max_rounds:
+        if r_cards and self.round != self.max_rounds:
             return True
         return False
 
@@ -322,7 +321,7 @@ class Alhambra_Talon(DealRowTalonStack):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         rows = self.game.s.rows
-        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        r_cards = sum(len(r.cards) for r in self.game.s.rows)
         if self.cards:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
@@ -1233,10 +1232,7 @@ class Colonel_RowStack(SS_RowStack):
 
         # from_stack is waste
         if from_stack is self.game.s.waste:
-            if below_stack is None or not below_stack.cards:
-                return True
-            else:
-                return False
+            return below_stack is None or not below_stack.cards
 
         #  from_stack in rows
         from_index, from_row = self._getStackIndex(from_stack)

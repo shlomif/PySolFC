@@ -70,7 +70,7 @@ For more information about this application visit''') %
                          separator=True)
     if d.status == 0 and d.button == 1:
         viewer = help_html(app, "credits.html", "html")
-        viewer.parent.after(2, lambda: viewer.parent.focus_force())
+        viewer.parent.after(2, viewer.parent.focus_force)
         # help_credits(app, sound=sound)
     return d.status
 

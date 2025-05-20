@@ -351,7 +351,7 @@ class CanvasFormatter(PysolStatsFormatter):
         rx, ry, rw, rh = x, y+1, 2 + 8*10, self.h-5
         if 1:
             w = int(round(rw*perc/100.0))
-            if 1 and w < 1:
+            if w < 1:
                 return
             if w > 0:
                 w = max(3, w)
@@ -1012,7 +1012,7 @@ class ProgressionDialog(MfxDialog):
             x += dx
 
         # horizontal scale
-        max_games = max([i[1] for i in result])
+        max_games = max(i[1] for i in result)
         games_delta = max_games//5+1
         percent = 0
         games = 0

@@ -149,7 +149,7 @@ class LTreeGenerator(LMenuBase):
         super(LTreeGenerator, self).__init__(menubar, parent, title, app)
 
     def generate(self):
-        tv = LTreeRoot(root_options=dict(text='EditTree'))
+        tv = LTreeRoot(root_options={'text': 'EditTree'})
         tv.hide_root = True
         tv.size_hint = 1, None
         tv.bind(minimum_height=tv.setter('height'))
@@ -240,7 +240,7 @@ class LMenuDialog(LMenuBase):
         self.window.content.add_widget(root)
 
     def initTree(self):
-        tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
+        tv = self.tvroot = LTreeRoot(root_options={'text': 'EditTree'})
         tv.hide_root = True
         tv.size_hint = 1, None
         tv.bind(minimum_height=tv.setter('height'))
@@ -1880,8 +1880,7 @@ class PysolMenubarTk:
                                  short_name=False):
 
         # cb = self.__cb_max
-        for i in range(len(games)):
-            gi = games[i]
+        for gi in games:
             # columnbreak = i > 0 and (i % cb) == 0
             if short_name:
                 label = gi.short_name

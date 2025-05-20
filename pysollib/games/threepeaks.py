@@ -118,8 +118,7 @@ class ThreePeaks(Game):
         # set window
         # compute best XOFFSET
         xoffset = int(l.XS * 8 / self.gameinfo.ncards)
-        if xoffset < l.XOFFSET:
-            l.XOFFSET = xoffset
+        l.XOFFSET = min(l.XOFFSET, xoffset)
 
         # Set window size
         w, h = l.XM + l.XS * 10, l.YM + l.YS * 4
@@ -358,13 +357,12 @@ class Ricochet_RowStack(ThreePeaks_RowStack):
         return result
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
-        x = OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
+        OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
         old_state = self.game.enterState(self.game.S_FILL)
         self.game.saveStateMove(2 | 16)  # for undo
         self.game.lastStack = self.id
         self.game.saveStateMove(1 | 16)  # for redo
         self.game.leaveState(old_state)
-        return x
 
 
 class Ricochet(Game):
@@ -383,8 +381,7 @@ class Ricochet(Game):
         # set window
         # compute best XOFFSET
         xoffset = int(l.XS * 8 / self.gameinfo.ncards)
-        if xoffset < l.XOFFSET:
-            l.XOFFSET = xoffset
+        l.XOFFSET = min(l.XOFFSET, xoffset)
 
         # Set window size
         w, h = l.XM + l.XS * 6, l.YM + l.YS * 6

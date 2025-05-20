@@ -135,7 +135,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
                                                 tuple(gg))
         #
@@ -148,7 +148,7 @@ class SelectGameData(SelectDialogTreeData):
                 continue
             name = _("New games in v. %(version)s") % {'version': name}
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
                                                 tuple(gg))
         s_by_inventors, gg = None, []
@@ -159,7 +159,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_inventors = SelectGameNode(None, _("by Inventors"),
                                             tuple(gg))
         #
@@ -630,21 +630,21 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                     self.criteria.statisticsOptions[self.criteria.statistics]
                 if statoption == 'played' and won + lost == 0:
                     continue
-                elif statoption == 'won' and won == 0:
+                if statoption == 'won' and won == 0:
                     continue
-                elif statoption == 'not won' and (won != 0 or lost == 0):
+                if statoption == 'not won' and (won != 0 or lost == 0):
                     continue
-                elif statoption == 'not played' and won + lost != 0:
+                if statoption == 'not played' and won + lost != 0:
                     continue
 
             if (self.criteria.popular and
                     not (game.si.game_flags & GI.GT_POPULAR)):
                 continue
             if (self.criteria.recent and
-                    not (game.id in self.app.opt.recent_gameid)):
+                    (game.id not in self.app.opt.recent_gameid)):
                 continue
             if (self.criteria.favorite and
-                    not (game.id in self.app.opt.favorite_gameid)):
+                    (game.id not in self.app.opt.favorite_gameid)):
                 continue
             if (self.criteria.children and
                     not (game.si.game_flags & GI.GT_CHILDREN)):
@@ -1014,6 +1014,10 @@ class SearchCriteria:
                                   "Games not played": "not played"}
 
 
+def _extract_names(game_info) -> list[str]:
+    return [""] + [name for name, _games in game_info]
+
+
 class SelectGameAdvancedSearch(MfxDialog):
     def __init__(self, parent, title, criteria, **kw):
         kw = self.initKw(kw)
@@ -1181,7 +1185,8 @@ class SelectGameAdvancedSearch(MfxDialog):
                                     anchor="w")
         labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
                          padx=1, pady=1)
-        textCompat = PysolCombo(top_frame, values=compatValues,
+        textCompat = PysolCombo(top_frame, values=_extract_names(
+                                    GI.GAMES_BY_COMPATIBILITY),
                                 fieldname=_("Compatibility:"),
                                 textvariable=self.compat, state='readonly')
         textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -1197,7 +1202,8 @@ class SelectGameAdvancedSearch(MfxDialog):
                                       anchor="w")
         labelInventor.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
-        textInventor = PysolCombo(top_frame, values=inventorValues,
+        textInventor = PysolCombo(top_frame,
+                                  values=_extract_names(GI.GAMES_BY_INVENTORS),
                                   fieldname=_("Inventor:"),
                                   textvariable=self.inventor, state='readonly')
         textInventor.grid(row=row, column=1, columnspan=4, sticky='ew',
@@ -1205,10 +1211,6 @@ class SelectGameAdvancedSearch(MfxDialog):
         row += 1
 
         versionCompareValues = list(criteria.versionCompareOptions)
-        versionValues = list()
-        versionValues.append("")
-        for name, games in GI.GAMES_BY_PYSOL_VERSION:
-            versionValues.append(name)
 
         labelVersion = tkinter.Label(top_frame, text=_("PySol version:"),
                                      anchor="w")
@@ -1220,7 +1222,9 @@ class SelectGameAdvancedSearch(MfxDialog):
                                         state='readonly')
         textVersionCompare.grid(row=row, column=1, columnspan=2, sticky='ew',
                                 padx=1, pady=1)
-        textVersion = PysolCombo(top_frame, values=versionValues,
+
+        textVersion = PysolCombo(top_frame, values=_extract_names(
+                                     GI.GAMES_BY_PYSOL_VERSION),
                                  fieldname=_("PySol version:"),
                                  textvariable=self.version, state='readonly')
         textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',

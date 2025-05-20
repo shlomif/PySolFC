@@ -50,8 +50,7 @@ class UnionSquare_Foundation(AbstractFoundationStack):
         # check the rank
         if len(self.cards) > 12:
             return cards[0].rank == 25 - len(self.cards)
-        else:
-            return cards[0].rank == len(self.cards)
+        return cards[0].rank == len(self.cards)
 
 
 class UnionSquare_RowStack(OpenStack):
@@ -71,11 +70,10 @@ class UnionSquare_RowStack(OpenStack):
         if len(self.cards) == 1:
             card_dir = cards[0].rank - self.cards[-1].rank
             return card_dir == 1 or card_dir == -1
-        else:
-            stack_dir = (self.cards[1].rank - self.cards[0].rank) % \
-                self.cap.mod
-            return (self.cards[-1].rank + stack_dir) % \
-                self.cap.mod == cards[0].rank
+        stack_dir = (self.cards[1].rank - self.cards[0].rank) % \
+            self.cap.mod
+        return (self.cards[-1].rank + stack_dir) % \
+            self.cap.mod == cards[0].rank
 
     getBottomImage = Stack._getReserveBottomImage
 
@@ -180,12 +178,12 @@ class Boomerang_Foundation(AbstractFoundationStack):
         # 7, 8, 9, 10, J, Q, K, A, K, Q, J, 10, 9, 8, 7, A
         if len(self.cards) < 7:
             return cards[0].rank - 6 == len(self.cards)
-        elif len(self.cards) == 7:
+        if len(self.cards) == 7:
             return cards[0].rank == ACE
-        elif len(self.cards) < 15:
+        if len(self.cards) < 15:
             return cards[0].rank == 20 - len(self.cards)
-        else:  # len(self.cards) == 15
-            return cards[0].rank == ACE
+        # len(self.cards) == 15
+        return cards[0].rank == ACE
 
 
 class Boomerang(UnionSquare):

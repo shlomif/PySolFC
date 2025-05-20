@@ -70,15 +70,11 @@ class LPieChart(Widget):
         # if ('width' in kw):
         #     width = float(kw['width'])
 
-        bcolor = '#ffa000a0'
-        if ('outline') in kw:
-            bcolor = kw['outline']
+        bcolor = kw.get('outline', '#ffa000a0')
         if (not bcolor or len(bcolor) < 7):
             bcolor = '#ffa000a0'
 
-        fcolor = '#00aaff20'
-        if ('fill') in kw:
-            fcolor = kw['fill']
+        fcolor = kw.get('fill', '#00aaff20')
         if (not fcolor or len(fcolor) < 7):
             fcolor = '#00aaff20'
 
@@ -109,8 +105,7 @@ class LPieChart(Widget):
                       self.pos[1] + self.size[1] / 2.0)
             radius = (self.size[0] * 0.45)
             radius2 = (self.size[1] * 0.45)
-            if (radius > radius2):
-                radius = radius2
+            radius = min(radius, radius2)
 
             # Rectangle(pos=pos, size=size)
             Line(circle=(center[0], center[1], radius), width=2.0, close=True)
@@ -172,9 +167,9 @@ class SingleGame_StatsDialog(MfxDialog):
 
         text1 = _('Total:\n' +
                   '   won: %(won)s ... %(percentwon)s%%\n' +
-                  '   lost: %(lost)s ... %(percentlost)s%%\n\n') % dict(
-            won=won, percentwon=int(round(100.0 * pwon)),
-            lost=lost, percentlost=int(round(100.0 * plost)))
+                  '   lost: %(lost)s ... %(percentlost)s%%\n\n') % {
+            'won': won, 'percentwon': int(round(100.0 * pwon)),
+            'lost': lost, 'percentlost': int(round(100.0 * plost))}
 
 #        createChart(app, won, lost, _("Total"))
         won, lost = app.stats.getSessionStats(player, gameid)
@@ -184,9 +179,9 @@ class SingleGame_StatsDialog(MfxDialog):
 
         text2 = _('Current Session:\n' +
                   '   won: %(won)s ... %(percentwon)s%%\n' +
-                  '   lost: %(lost)s ... %(percentlost)s%%\n') % dict(
-            won=won, percentwon=(round(100.0 * pwon)),
-            lost=lost, percentlost=int(round(100.0 * plost)))
+                  '   lost: %(lost)s ... %(percentlost)s%%\n') % {
+            'won': won, 'percentwon': (round(100.0 * pwon)),
+            'lost': lost, 'percentlost': int(round(100.0 * plost))}
         # text2 = 'Current Session:\n   won=%s, lost=%s\n' % (won, lost)
 
 #        createChart(app, won, lost, _("Current session"))

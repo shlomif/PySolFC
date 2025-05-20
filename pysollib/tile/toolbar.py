@@ -388,7 +388,7 @@ class PysolToolbarTk:
                 padx, pady = TkSettings.vertical_toolbar_padding
                 pack_func(row=1, column=2, sticky='ns', padx=padx, pady=pady)
             # set orient
-            orient = side in (1, 2) and 'horizontal' or 'vertical'
+            orient = 'horizontal' if side in (1, 2) else 'vertical'
             self._setOrient(orient)
         self.side = side
         return 1

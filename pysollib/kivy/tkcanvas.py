@@ -287,7 +287,7 @@ class MfxCanvasImage(object):
         ed = kwargs['image']
         size = ed.size
 
-        if type(ed) is LImageItem:
+        if isinstance(ed, LImageItem):
             aimage = ed
         else:
             image = LImage(texture=ed.texture)
@@ -406,7 +406,7 @@ class MfxCanvasImage(object):
                 if self.group is None: break            # noqa
                 stack = self.group.stack
                 if stack is None: break                 # noqa
-                if type(stack) not in specials: break;  # noqa
+                if type(stack) not in specials: break   # noqa
 
                 cards = self.group.stack.cards
                 card = self.image.card
@@ -818,7 +818,7 @@ class MfxCanvas(LImage):
         def findTop(itm):
             t = type(itm)
             for c in self.children:
-                if type(c) is t:
+                if isinstance(c, t):
                     return self.children.index(c)
             return 0
 
@@ -868,7 +868,7 @@ class MfxCanvas(LImage):
     def findImagesByType(self, image_type):
         images = []
         for c in self.children:
-            if type(c) is LImageItem:
+            if isinstance(c, LImageItem):
                 if c.get_image_type() == image_type:
                     images.append(c)
         return images

@@ -158,10 +158,9 @@ class Pagoda_Foundation(Flower_FoundationStack):
         a, b = stackcards[-1].rank, cards[0].rank
         if len(stackcards) < 4:
             return a - 1 == b
-        elif len(stackcards) > 4:
+        if len(stackcards) > 4:
             return a + 1 == b
-        else:
-            return a == b
+        return a == b
 
     def getBottomImage(self):
         return self.game.app.images.getSuitBottom(self.cap.suit)
@@ -202,8 +201,7 @@ class GreatWall_FoundationStack(Flower_FoundationStack):
         if stackcards:
             return ((stackcards[-1].suit + 1) % 12 == cards[0].suit and
                     cards[0].rank == self.cap.base_rank)
-        else:
-            return cards[0].suit == 0
+        return cards[0].suit == 0
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
@@ -219,8 +217,7 @@ class FourWinds_Foundation(Flower_FoundationStack):
             return 0
         if not stackcards:
             return (cards[0].suit == 0)
-        else:
-            return (cards[0].suit == stackcards[-1].suit + 1)
+        return (cards[0].suit == stackcards[-1].suit + 1)
 
     #      def getBottomImage(self):
     #          return self.game.app.images.getLetter(self.cap.base_rank)
@@ -240,8 +237,7 @@ class Queue_Foundation(AbstractFoundationStack):
         if stack_dir == 0:
             card_dir = (cards[0].suit - self.cards[-1].suit) % 12
             return card_dir in (1, 11)
-        else:
-            return (self.cards[-1].suit + stack_dir) % 12 == cards[0].suit
+        return (self.cards[-1].suit + stack_dir) % 12 == cards[0].suit
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
@@ -334,7 +330,7 @@ class Gaji_RowStack(Flower_OpenStack):
                 ((stackcards[-1].suit == 10) and (stackcards[-1].rank == 3)) or
                 ((cards[0].suit == 10) and (cards[0].rank == 3))):
             return 1
-        elif stackcards[-1].suit != cards[0].suit:
+        if stackcards[-1].suit != cards[0].suit:
             return 0
         a, b = self.swapTrashCards(stackcards[-1], cards[0])
         return a + 1 == b

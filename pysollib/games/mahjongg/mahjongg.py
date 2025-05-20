@@ -651,10 +651,10 @@ class AbstractMahjonggGame(Game):
             assert tilemap.get((level, tx, ty+1)) is stack
             assert tilemap.get((level, tx+1, ty+1)) is stack
             #
-            above = tuple([_f for _f in above.keys() if _f])
-            below = tuple([_f for _f in below.keys() if _f])
-            left = tuple([_f for _f in left.keys() if _f])
-            right = tuple([_f for _f in right.keys() if _f])
+            above = tuple(_f for _f in above.keys() if _f)
+            below = tuple(_f for _f in below.keys() if _f)
+            left = tuple(_f for _f in left.keys() if _f)
+            right = tuple(_f for _f in right.keys() if _f)
             # up = tuple(filter(None, up.keys()))
             # bottom = tuple(filter(None, bottom.keys()))
 
@@ -1019,7 +1019,7 @@ a solvable configuration.'''),
         assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
-        return sum([len(f.cards) for f in self.s.foundations]) == self.NCARDS
+        return sum(len(f.cards) for f in self.s.foundations) == self.NCARDS
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1.basicIsBlocked() or stack2.basicIsBlocked():
@@ -1056,7 +1056,7 @@ a solvable configuration.'''),
             f = ungettext('%d Free\nMatching\nPair',
                           '%d Free\nMatching\nPairs',
                           f) % f
-        t = sum([len(ii.cards) for ii in self.s.foundations])
+        t = sum(len(ii.cards) for ii in self.s.foundations)
         r1 = ungettext('%d\nTile\nRemoved\n\n',
                        '%d\nTiles\nRemoved\n\n',
                        t) % t
@@ -1111,9 +1111,8 @@ a solvable configuration.'''),
                 r.delete()
             self.canvas.update_idletasks()
             return EVENT_HANDLED
-        else:
-            # remove items later (find_card_dialog)
-            return items
+        # remove items later (find_card_dialog)
+        return items
 
     def getCardFaceImage(self, deck, suit, rank):
         if suit == 3:

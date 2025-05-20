@@ -208,7 +208,7 @@ class CribbageSquare(Game):
 
         x = self.getAllCombinations(hand[1:])
 
-        return x + tuple([(hand[0],) + y for y in x])
+        return x + tuple((hand[0],) + y for y in x)
 
     def getHandScore(self, hand):
         same_suit = [0] * 4

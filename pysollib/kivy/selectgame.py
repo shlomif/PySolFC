@@ -146,7 +146,7 @@ class SelectGameData(SelectDialogTreeData):
 
             gg.append(SelectGameNode(None, label, UserList(ggg)))
             n += d
-        if 1 and gg:
+        if gg:
             s_all_games = SelectGameNode(None, _("All Games"), tuple(gg))
         #
         s_by_compatibility, gg = None, []
@@ -157,7 +157,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
                                                 tuple(gg))
             pass
@@ -171,7 +171,7 @@ class SelectGameData(SelectDialogTreeData):
                 continue
             name = _("New games in v. %(version)s") % {'version': name}
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
                                                 tuple(gg))
         #
@@ -183,7 +183,7 @@ class SelectGameData(SelectDialogTreeData):
                     select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
-        if 1 and gg:
+        if gg:
             s_by_inventors = SelectGameNode(None, _("by Inventors"),
                                             tuple(gg))
         #
@@ -450,7 +450,7 @@ class SelectGameDialog(object):
                 n.tree = treeview.gametree
 
                 nodes = n.getContents()
-                if type(nodes) is list:
+                if isinstance(nodes, list):
                     # Blaetter
                     for node in nodes:
                         # print ('**game=%s' % node.text)
@@ -459,7 +459,7 @@ class SelectGameDialog(object):
                             is_leaf=True,
                             command=self.selectCmd)
 
-                if type(nodes) is tuple:
+                if isinstance(nodes, tuple):
                     # Knoten
                     for nn in nodes:
                         # print ('**node=%s' % nn.text)
@@ -482,7 +482,7 @@ class SelectGameDialog(object):
         tv = self.tvroot = LGameRoot(
             tree,
             self.app.canvas,
-            root_options=dict(text='Tree One'))
+            root_options={'text': 'Tree One'})
         tv.size_hint = (1, None)
         tv.hide_root = True
         tv.load_func = loaderCB

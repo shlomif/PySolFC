@@ -685,7 +685,7 @@ class Octave(Game):
 
     def _autoDeal(self, sound=True):
         ncards = len(self.s.waste.cards) + sum(
-            [len(i.cards) for i in self.s.reserves])
+            len(i.cards) for i in self.s.reserves)
         if ncards == 0:
             return self.dealCards(sound=sound)
         return 0
@@ -1370,10 +1370,8 @@ class BlindPatience(FortyThieves):
                 if to_stack.cards[-1].face_up:
                     # top card is face up
                     return 1001
-                else:
-                    return 1000
-            else:
-                return 999
+                return 1000
+            return 999
         # prefer non-empty piles in to_stack
         return 1001 + int(len(to_stack.cards) != 0)
 

@@ -143,33 +143,15 @@ class LAnimationTask(LTask, LBase):
         self.spos = spos
         self.widget = widget
 
-        x = 0.0
-        y = 0.0
-        duration = 0.2
-        transition = 'in_out_quad'
-        bindE = None
-        bindS = None
-        if 'x' in kw:
-            x = kw['x']
-        if 'y' in kw:
-            y = kw['y']
-        if 'duration' in kw:
-            duration = kw['duration']
-        if 'transition' in kw:
-            transition = kw['transition']
-        if 'bindE' in kw:
-            bindE = kw['bindE']
-        if 'bindS' in kw:
-            bindS = kw['bindS']
+        self.xdest = kw.get('x', 0.0)
+        self.ydest = kw.get('y', 0.0)
+        self.duration = kw.get('duration', 0.2)
+        self.transition = kw.get('transition', 'in_out_quad')
+        self.bindE = kw.get('bindE', None)
+        self.bindS = kw.get('bindS', None)
 
-        self.delay = duration / 3.0
+        self.delay = self.duration / 3.0
 
-        self.xdest = x
-        self.ydest = y
-        self.duration = duration
-        self.transition = transition
-        self.bindE = bindE
-        self.bindS = bindS
         print(self.widget.card)
 
     def start(self):
@@ -482,10 +464,10 @@ class LLine(Widget, LBase):
 
         print('kw = %s%s' % (args, kw))
 
-        lwidth = 10
-        fill = '#ee3344'
-        ashape = ()
-        arrow = 'none'
+        default_lwidth = 10
+        default_fill = '#ee3344'
+        default_ashape = ()
+        default_arrow = 'none'
 
         self.prnt = canvas
         xmin = 100000
@@ -495,18 +477,10 @@ class LLine(Widget, LBase):
         self.corePoly = []
         if isinstance(args[0], list):
             kww = args[1]
-            if ('width' in kww):
-                lwidth = kww['width']
-            self.lwidth = lwidth
-            if ('fill' in kww):
-                fill = kww['fill']
-            self.fill = fill
-            if ('arrowshape' in kw):
-                ashape = kw['arrowshape']
-            self.ashape = ashape
-            if ('arrow' in kw):
-                arrow = kw['arrow']
-            self.arrow = arrow
+            self.lwidth = kww.get('width', default_lwidth)
+            self.fill = kww.get('fill', default_fill)
+            self.ashape = kw.get('arrowshape', default_ashape)
+            self.arrow = kw.get('arrow', default_arrow)
 
             pts = args[0]
             ipts = iter(pts)
@@ -514,41 +488,25 @@ class LLine(Widget, LBase):
                 print('%s.%s' % (x, y))
                 self.corePoly.append(x)
                 self.corePoly.append(y)
-                if x < xmin:
-                    xmin = x
-                if x > xmax:
-                    xmax = x
-                if y < ymin:
-                    ymin = y
-                if y > ymax:
-                    ymax = y
+                xmin = min(xmin, x)
+                xmax = max(xmax, x)
+                ymin = min(ymin, y)
+                ymax = max(ymax, y)
         else:
-            if ('width' in kw):
-                lwidth = kw['width']
-            self.lwidth = lwidth
-            if ('fill' in kw):
-                fill = kw['fill']
-            self.fill = fill
-            if ('arrowshape' in kw):
-                ashape = kw['arrowshape']
-            self.ashape = ashape
-            if ('arrow' in kw):
-                arrow = kw['arrow']
-            self.arrow = arrow
+            self.lwidth = kw.get('width', default_lwidth)
+            self.fill = kw.get('fill', default_fill)
+            self.ashape = kw.get('arrowshape', default_ashape)
+            self.arrow = kw.get('arrow', default_arrow)
 
             for i in range(0, 2):
                 x = args[2 * i]
                 y = args[2 * i + 1]
                 self.corePoly.append(x)
                 self.corePoly.append(y)
-                if x < xmin:
-                    xmin = x
-                if x > xmax:
-                    xmax = x
-                if y < ymin:
-                    ymin = y
-                if y > ymax:
-                    ymax = y
+                xmin = min(xmin, x)
+                xmax = max(xmax, x)
+                ymin = min(ymin, y)
+                ymax = max(ymax, y)
 
         print('width = %s' % self.lwidth)
         print('color = %s' % self.fill)
@@ -658,19 +616,13 @@ class LRectangle(Widget, LBase):
         # print('outline %s' % kw['outline'])
         # print('fill    %s' % kw['fill'])
 
-        width = 10.0
-        if ('width' in kw):
-            width = float(kw['width'])
+        width = float(kw.get('width', 10.0))
 
-        bcolor = '#ffa000a0'
-        if ('outline') in kw:
-            bcolor = kw['outline']
+        bcolor = kw.get('outline', '#ffa000a0')
         if (not bcolor or len(bcolor) < 7):
             bcolor = '#ffa000a0'
 
-        fcolor = '#00aaff20'
-        if ('fill') in kw:
-            fcolor = kw['fill']
+        fcolor = kw.get('fill', '#00aaff20')
         if (not fcolor or len(fcolor) < 7):
             fcolor = '#00aaff20'
 
@@ -845,8 +797,8 @@ class LImageItem(BoxLayout, LBase):
 
             if (self.game):
                 for stack in self.game.allstacks:
-                    for i in range(len(stack.cards)):
-                        if stack.cards[i] == self.card:
+                    for i, cur_card in enumerate(stack.cards):
+                        if cur_card == self.card:
                             print('LCardImage: stack = %s' % stack)
                             print('LCardImage: touch = %s' % str(touch))
                             ppos, psize = self.game.canvas.KivyToCore(
@@ -903,8 +855,8 @@ class LImageItem(BoxLayout, LBase):
 
             if (self.game):
                 for stack in self.game.allstacks:
-                    for i in range(len(stack.cards)):
-                        if stack.cards[i] == self.card:
+                    for i, cur_card in enumerate(stack.cards):
+                        if cur_card == self.card:
                             print('LCardImage: stack = %s' % stack)
                             ppos, psize = self.game.canvas.KivyToCore(
                                 touch.pos, self.size)
@@ -949,8 +901,8 @@ class LImageItem(BoxLayout, LBase):
         print('LCardImage: touch_move on %s' % str(touch.pos))
 
         for stack in self.game.allstacks:
-            for i in range(len(stack.cards)):
-                if stack.cards[i] == self.card:
+            for i, cur_card in enumerate(stack.cards):
+                if cur_card == self.card:
                     print('LCardImage: stack = %s/%s' % (stack, touch))
                     ppos, psize = self.game.canvas.KivyToCore(
                         touch.pos, self.size)
@@ -1048,13 +1000,13 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
     def onVarChange(self, instance, value):
         # print('LTreeNode: onVarChange(%s, %s, %s)'
         # % (instance, value, type(value)))
-        if type(value) is bool:
+        if isinstance(value, bool):
             self.setCheck(value)
-        if type(value) is int:
+        elif isinstance(value, int):
             self.setVal(value)
-        if type(value) is str:
+        elif isinstance(value, str):
             self.setVal(value)
-        # if type(value) is unicode:
+        # if isinstance(value), unicode):
         #     self.setVal(value)
 
     def setCheck(self, value):
@@ -1077,7 +1029,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
             # self.text = u'\u25cf '+self.title  # unicode filled circle
         else:
             self.text = self.title
-            self.text = u'    ' + self.title
+            self.text = '    ' + self.title
             # self.text = u'\u25cb  '+self.title # unicode open circle
         self.texture_update()
 
@@ -1341,10 +1293,10 @@ class LMenu(ActionView, LBase):
         items = []
         menues = []
         for c in self.children:
-            if (type(c) is LMenuItem):
+            if isinstance(c, LMenuItem):
                 # print ('LMenu: to delete child %s' % c)
                 items.append(c)
-            elif (type(c) is LMenu):
+            elif isinstance(c, LMenu):
                 # print ('LMenu: to delete child %s' % c)
                 menues.append(c)
             else:
@@ -1646,16 +1598,14 @@ class LStack:
         self.items.append((key, item))
 
     def pop(self, key):
-        for i in range(len(self.items)):
-            t = self.items[i]
+        for i, t in enumerate(self.items):
             if (t[0] == key):
                 self.items.pop(i)
                 return t[1]
         return None
 
     def peek(self, key):
-        for i in range(len(self.items)):
-            t = self.items[i]
+        for t in self.items:
             if (t[0] == key):
                 return t
         return None
@@ -1898,8 +1848,7 @@ class LApp(App):
             # redirect to game to undo last step
             app.menubar.mUndo()
             return True     # consumed
-        else:
-            return False    # delegate
+        return False    # delegate
 
     def __init__(self, args):
         super(LApp, self).__init__()

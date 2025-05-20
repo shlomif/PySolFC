@@ -75,7 +75,7 @@ class Klondike(Game):
         # create layout
         lay, s = Layout(self), self.s
         kwdefault(layout, rows=rows, waste=1, texts=1, playcards=16)
-        self.Layout_Method.__get__(lay, lay.__class__)(**layout)
+        self.Layout_Method(lay, **layout)
         # self.__class__.Layout_Method(lay, **layout)
         self.setSize(lay.size[0], lay.size[1])
         # create stacks
@@ -181,7 +181,7 @@ class NineAcross_RowStack(AC_RowStack):
         if not self.cards:
             if self.game.base_rank == ANY_RANK:
                 return False
-            elif self.game.base_rank == ACE:
+            if self.game.base_rank == ACE:
                 if cards[0].rank != KING:
                     return False
             elif cards[0].rank != self.game.base_rank - 1:

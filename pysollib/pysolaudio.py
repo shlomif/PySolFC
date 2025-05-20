@@ -542,8 +542,7 @@ class PyGameAudioClient(AbstractAudioClient):
         if self.sound_channel and self.sound_channel.get_busy():
             if self.sound_priority >= priority:
                 return 0
-            else:
-                self.sound.stop()
+            self.sound.stop()
         vol = self.app.opt.sound_sample_volume/128.0
         try:
             self.sound = self.mixer.Sound(filename)

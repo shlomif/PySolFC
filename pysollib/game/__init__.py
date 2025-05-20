@@ -298,8 +298,7 @@ class _alt_unpickler(Unpickler):
     def find_class(self, module, name):
         if self.version == 1 and module == 'pysol_cards.random':
             return random_dummy
-        else:
-            return super().find_class(module, name)
+        return super().find_class(module, name)
 
 
 @attr.s
@@ -623,7 +622,7 @@ class Game(object):
             # restore game geometry
             w, h = self.app.opt.games_geometry[self.id]
             self.canvas.config(width=w, height=h)
-        if True and USE_PIL:
+        if USE_PIL:
             if self.app.opt.auto_scale:
                 w, h = self.app.opt.game_geometry
                 self.canvas.setInitialSize(w, h, margins=False,
@@ -905,7 +904,7 @@ class Game(object):
         assert len(self.allstacks) == len(game.loadinfo.stacks)
         old_state = game.moves.state
         game.moves.state = self.S_RESTORE
-        for i in range(len(self.allstacks)):
+        for i, cur_stack in enumerate(self.allstacks):
             for t in game.loadinfo.stacks[i]:
                 card_id, face_up = t
                 card = self.cards[card_id]
@@ -913,7 +912,7 @@ class Game(object):
                     card.showFace()
                 else:
                     card.showBack()
-                self.allstacks[i].addCard(card)
+                cur_stack.addCard(card)
         game.moves.state = old_state
         # 4) update settings
         for stack_id, cap in self.saveinfo.stack_caps:
@@ -1076,12 +1075,11 @@ class Game(object):
             return 0, 0
         if ((vw > iw and vh > ih) or self.app.opt.auto_scale):
             return (vw / xf - iw) / 2, (vh / yf - ih) / 2
-        elif (vw >= iw and vh < ih):
+        if (vw >= iw and vh < ih):
             return (vw / xf - iw) / 2, 0
-        elif (vw < iw and vh >= ih):
+        if (vw < iw and vh >= ih):
             return 0, (vh / yf - ih) / 2
-        else:
-            return 0, 0
+        return 0, 0
 
     def resizeGame(self, card_size_manually=False):
         if self.preview and (not self.app.opt.auto_scale or
@@ -1126,9 +1124,8 @@ class Game(object):
                 x, y = int(round((init_coord[0] + cw) * xf)), \
                     int(round((init_coord[1] + ch) * yf))
                 self.canvas.coords(item, x, y)
-        for i in range(len(self.texts.list)):
+        for i, item in enumerate(self.texts.list):
             init_coord = self.init_texts.list[i]
-            item = self.texts.list[i]
             x, y = int(round((init_coord[0] + cw) * xf)), \
                 int(round((init_coord[1] + ch) * yf))
             self.canvas.coords(item, x, y)
@@ -2161,8 +2158,7 @@ class Game(object):
     def getClosestStack(self, card, dragstack):
         cx, cy = card.x, card.y
         for stacks, rect in self.regions.info:
-            if cx >= rect[0] and cx < rect[2] \
-                    and cy >= rect[1] and cy < rect[3]:
+            if rect[0] <= cx < rect[2] and rect[1] <= cy < rect[3]:
                 return self._getClosestStack(cx, cy, stacks, dragstack)
         return self._getClosestStack(cx, cy, self.regions.remaining, dragstack)
 
@@ -2315,7 +2311,7 @@ class Game(object):
                 self.stats.demo_updated = updated
                 self.app.stats.updateStats(None, self, won)
             return ''
-        elif self.changed():
+        if self.changed():
             # must update player stats
             self.gstats.updated = updated
             if self.app.opt.update_player_stats:
@@ -2606,9 +2602,8 @@ class Game(object):
                 r.delete()
             self.canvas.update_idletasks()
             return EVENT_HANDLED
-        else:
-            # remove items later (find_card_dialog)
-            return items
+        # remove items later (find_card_dialog)
+        return items
 
     def _highlightEmptyStack(self, info, sleep=1.5, delta=(1, 1, 1, 1)):
         if not info:
@@ -2833,25 +2828,24 @@ class Game(object):
             assert level >= 2
             assert from_stack is self.s.talon
             return h
-        elif from_stack == to_stack:
+        if from_stack == to_stack:
             # a flip move, should not happen with level=0/1
             assert level >= 2
             assert ncards == 1 and len(from_stack.cards) >= ncards
             return h
-        else:
-            # a move move
-            assert to_stack
-            assert 1 <= ncards <= len(from_stack.cards)
-            if DEBUG:
-                if not to_stack.acceptsCards(
-                        from_stack, from_stack.cards[-ncards:]):
-                    print('*fail accepts cards*', from_stack, to_stack, ncards)
-                if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
-                    print('*fail move cards*', from_stack, ncards)
-            # assert from_stack.canMoveCards(from_stack.cards[-ncards:])
-            # FIXME: Pyramid
-            assert to_stack.acceptsCards(
-                from_stack, from_stack.cards[-ncards:])
+        # a move move
+        assert to_stack
+        assert 1 <= ncards <= len(from_stack.cards)
+        if DEBUG:
+            if not to_stack.acceptsCards(
+                    from_stack, from_stack.cards[-ncards:]):
+                print('*fail accepts cards*', from_stack, to_stack, ncards)
+            if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
+                print('*fail move cards*', from_stack, ncards)
+        # assert from_stack.canMoveCards(from_stack.cards[-ncards:])
+        # FIXME: Pyramid
+        assert to_stack.acceptsCards(
+            from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
             return h
         info = (level == 1) or (level > 1 and DEBUG)
@@ -2949,7 +2943,7 @@ class Game(object):
         d, status = None, 0
         bitmap = "info"
         timeout = 10000
-        if 1 and player_moves == 0:
+        if player_moves == 0:
             timeout = 5000
         if self.demo and self.demo.level == 3:
             timeout = 0
@@ -3019,7 +3013,7 @@ class Game(object):
                 # timeout in dialog - start another demo
                 demo = self.demo
                 id = self.id
-                if 1 and demo.mixed and DEBUG:
+                if demo.mixed and DEBUG:
                     # debug - advance game id to make sure we hit all games
                     gl = self.app.gdb.getGamesIdSortedById()
                     # gl = self.app.gdb.getGamesIdSortedByName()
@@ -3031,7 +3025,7 @@ class Game(object):
                     gl = self.app.gdb.getGamesIdSortedById()
                     while len(gl) > 1:
                         id = self.app.getRandomGameId()
-                        if 0 or id != self.id:      # force change of game
+                        if id != self.id:      # force change of game
                             break
                 if self.nextGameFlags(id) == 0:
                     self.endGame()
@@ -3123,7 +3117,7 @@ class Game(object):
                                                 text=self.getDemoInfoText())
 
     def getDemoInfoText(self):
-        h = self.Hint_Class is None and 'None' or self.Hint_Class.__name__
+        h = 'None' if self.Hint_Class is None else self.Hint_Class.__name__
         return '%s (%s)' % (self.gameinfo.short_name, h)
 
     def getDemoInfoTextAttr(self, tinfo):
@@ -3217,7 +3211,7 @@ class Game(object):
                         self.endGame()
                         self.newGame()
                         return
-                    elif d.status == 0 and d.button == 1:
+                    if d.status == 0 and d.button == 1:
                         # restart game
                         self.restartGame()
                         return

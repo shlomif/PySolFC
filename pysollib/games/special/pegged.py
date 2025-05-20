@@ -75,7 +75,7 @@ class Pegged_RowStack(ReserveStack):
         return True
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
-        if type(to_stack) is Pegged_Foundation:
+        if isinstance(to_stack, Pegged_Foundation):
             return ReserveStack.moveMove(self, ncards, to_stack, frames=frames,
                                          shadow=shadow)
 

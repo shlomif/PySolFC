@@ -83,15 +83,14 @@ class Camelot_RowStack(ReserveStack):
             cr = cards[0].rank
             if cr == KING:
                 return self.id in (0, 3, 12, 15)
-            elif cr == QUEEN:
+            if cr == QUEEN:
                 return self.id in (1, 2, 13, 14)
-            elif cr == JACK:
+            if cr == JACK:
                 return self.id in (4, 7, 8, 11)
             return True
-        else:
-            if len(self.cards) == 0:
-                return False
-            return self.cards[-1].rank + cards[0].rank == 8
+        if len(self.cards) == 0:
+            return False
+        return self.cards[-1].rank + cards[0].rank == 8
 
     def canMoveCards(self, cards):
         if not self.game.is_fill:
@@ -267,9 +266,7 @@ class SlyFox_Talon(OpenTalonStack):
         old_state = self.game.enterState(self.game.S_FILL)
         self.game.saveStateMove(2 | 16)            # for undo
         if old_state == self.game.S_PLAY and to_stack in self.game.s.rows:
-            n = self.game.num_dealled
-            if n < 0:
-                n = 0
+            n = max(self.game.num_dealled, 0)
             self.game.num_dealled = (n+1) % 20
         self.game.saveStateMove(1 | 16)            # for redo
         self.game.leaveState(old_state)
@@ -359,9 +356,7 @@ class SlyFox(Game):
     def updateText(self):
         if self.preview > 1:
             return
-        n = self.num_dealled
-        if n < 0:
-            n = 0
+        n = max(self.num_dealled, 0)
         text = str(n)+'/20'
         self.texts.misc.config(text=text)
 

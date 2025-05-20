@@ -124,15 +124,15 @@ class Shisen_RowStack(Mahjongg_RowStack):
                     or not game_cols[nx-1][ny-1].cards:
                 if direct_chng_cnt == 0:
                     return 1
-                elif direct_chng_cnt == 1:
+                if direct_chng_cnt == 1:
                     if direct != d:
                         if d == 1 and dy > 0:
                             return 1
-                        elif d == 2 and dy < 0:
+                        if d == 2 and dy < 0:
                             return 1
-                        elif d == 3 and dx > 0:
+                        if d == 3 and dx > 0:
                             return 1
-                        elif d == 4 and dx < 0:
+                        if d == 4 and dx < 0:
                             return 1
                     else:
                         return 1
@@ -140,16 +140,16 @@ class Shisen_RowStack(Mahjongg_RowStack):
                     if direct != d:
                         if d in (1, 2) and x == x2:
                             return 1
-                        elif y == y2:
+                        if y == y2:
                             return 1
                     else:
                         if d == 1 and y < y2:
                             return 1
-                        elif d == 2 and y > y2:
+                        if d == 2 and y > y2:
                             return 1
-                        elif d == 3 and x < x2:
+                        if d == 3 and x < x2:
                             return 1
-                        elif d == 4 and x > x2:
+                        if d == 4 and x > x2:
                             return 1
                 elif direct_chng_cnt == 3:
                     if direct == d:

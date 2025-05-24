@@ -1095,7 +1095,7 @@ class Stack:
     def shiftrightclickHandler(self, event):
         return 0
 
-    def releaseHandler(self, event, drag, sound=True):
+    def releaseHandler(self, event, drag, sound=True, invalid=False):
         # default action: move cards back to their origin position
         if drag.cards:
             if sound:
@@ -1103,7 +1103,8 @@ class Stack:
             if (self.game.app.opt.mouse_type == 'point-n-click'
                     or self.keyboard_movement):
                 drag.stack.moveCardsBackHandler(event, drag)
-                self.game.app.speech.speak(_("Unselected"))
+                if not invalid:
+                    self.game.app.speech.speak(_("Unselected"))
             else:
                 self.moveCardsBackHandler(event, drag)
             self.keyboard_movement = False
@@ -2281,7 +2282,8 @@ class OpenStack(Stack):
                 not to_stack.acceptsCards(from_stack, cards)):
             self.game.app.speech.speak("Invalid move")
             # move cards back to their origin stack
-            Stack.releaseHandler(self, event, drag, sound=sound)
+            Stack.releaseHandler(self, event, drag, sound=sound,
+                                 invalid=True)
         else:
             # this code actually moves the cards to the new stack
             # self.playMoveMove(len(cards), stack, frames=0, sound=sound)

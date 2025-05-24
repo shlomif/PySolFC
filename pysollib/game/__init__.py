@@ -2814,6 +2814,7 @@ class Game(object):
             self.hints.index = 0
         # get next hint from list
         if not self.hints.list:
+            self.app.speech.speak(_("No moves found"))
             self.highlightNotMatching()
             return None
         h = self.hints.list[self.hints.index]
@@ -2855,6 +2856,14 @@ class Game(object):
         else:
             info = 0
         self.drawHintArrow(from_stack, to_stack, ncards, sleep)
+        if (len(to_stack.cards) > 0):
+            todesc = self.parseCard(to_stack.cards[-1])
+        else:
+            todesc = self.parseEmptyStack(to_stack)
+
+        self.app.speech.speak(_("Move %s to %s") %
+                              (self.parseCard(from_stack.cards[-ncards]),
+                               todesc))
         if info:
             self.app.statusbar.configLabel("info", text="", fg="#000000")
         return h

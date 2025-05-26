@@ -428,6 +428,9 @@ to open the following URL:
             self.updateHistoryXYView()
             self.display(self.home, relpath=0)
 
+    def browser(self, *event):
+        openURL('file://' + self.url)
+
     def errorDialog(self, msg):
         self._calc_MfxMessageDialog()(
             self.parent, title="%(app)s HTML Problem" % {'app': TITLE},

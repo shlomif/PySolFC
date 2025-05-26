@@ -31,7 +31,7 @@ from pysollib.mygettext import _
 from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
 
 from .statusbar import HtmlStatusbar
-from .tkwidget import MfxMessageDialog
+from .tkwidget import MfxMessageDialog, PysolButton
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
@@ -73,26 +73,30 @@ class HTMLViewer(Base_HTMLViewer):
 
         # create buttons
         button_width = 8
-        self.homeButton = ttk.Button(frame, text=_("Index"),
-                                     width=button_width,
-                                     command=self.goHome)
-        self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = ttk.Button(frame, text=_("Back"),
-                                     width=button_width,
-                                     command=self.goBack)
-        self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = ttk.Button(frame, text=_("Forward"),
-                                        width=button_width,
-                                        command=self.goForward)
-        self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = ttk.Button(frame, text=_("Close"),
+        self.homeButton = PysolButton(frame, text=_("Index"),
                                       width=button_width,
-                                      command=self.destroy)
-        self.closeButton.grid(row=0, column=3, sticky='e')
+                                      command=self.goHome)
+        self.homeButton.grid(row=0, column=0, sticky='w')
+        self.backButton = PysolButton(frame, text=_("Back"),
+                                      width=button_width,
+                                      command=self.goBack)
+        self.backButton.grid(row=0, column=1, sticky='w')
+        self.forwardButton = PysolButton(frame, text=_("Forward"),
+                                         width=button_width,
+                                         command=self.goForward)
+        self.forwardButton.grid(row=0, column=2, sticky='w')
+        self.browserButton = PysolButton(frame, text=_("Browser"),
+                                         width=button_width,
+                                         command=self.browser)
+        self.browserButton.grid(row=0, column=3, sticky='w')
+        self.closeButton = PysolButton(frame, text=_("Close"),
+                                       width=button_width,
+                                       command=self.destroy)
+        self.closeButton.grid(row=0, column=4, sticky='e')
 
         # create text widget
         text_frame = ttk.Frame(frame)
-        text_frame.grid(row=1, column=0, columnspan=4,
+        text_frame.grid(row=1, column=0, columnspan=5,
                         sticky='nsew', padx=1, pady=1)
         vbar = ttk.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')

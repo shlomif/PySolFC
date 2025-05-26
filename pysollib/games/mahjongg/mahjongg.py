@@ -341,9 +341,6 @@ class Mahjongg_RowStack(OpenStack):
         return None
 
     def canSelect(self):
-        for stack in self.blockmap.above:
-            if stack.cards:
-                return False
         return len(self.cards) > 0
 
 
@@ -409,7 +406,10 @@ class AbstractMahjonggGame(Game):
             return Game.getStackSpeech(self, stack, cardindex)
         if len(stack.cards) == 0:
             return self.parseEmptyStack(stack)
-        mainCard = self.parseCard(stack.cards[cardindex])
+        if len(stack.blockmap.above) > 0:
+            mainCard = _("Covered Tile")
+        else:
+            mainCard = self.parseCard(stack.cards[cardindex])
         coverCards = ()
         blockedByCovered = False
         if (not hasattr(stack, 'blockmap') or
@@ -425,7 +425,7 @@ class AbstractMahjonggGame(Game):
         if len(coverCards) > 0 or blockedByCovered:
             mainCard += " - " + _("Blocked on left by")
             if blockedByCovered:
-                mainCard += " - " + _("Covered Tiles")
+                mainCard += " - " + _("Covered Tile")
             for c in coverCards:
                 mainCard += " - " + self.parseCard(c.cards[0])
         coverCards = ()
@@ -444,6 +444,27 @@ class AbstractMahjonggGame(Game):
                 mainCard += " - " + self.parseCard(c.cards[0])
         return mainCard
 
+    def keyboardSelectLayer(self, direction):
+        oldstack = self.keyboard_selected_stack
+        stack = oldstack
+        if direction == 1:
+            layercheck = oldstack.blockmap.above
+        else:
+            layercheck = oldstack.blockmap.below
+        for checkstack in layercheck:
+            if checkstack.canSelect():
+                stack = checkstack
+        if oldstack != stack:
+            self.keyboard_selected_stack = stack
+            self.keyboard_select_count = 1
+            self._updateKeyboardSelector()
+            if len(stack.cards) > 0:
+                self.app.speech.speak(self.getStackSpeech(stack, -1))
+            else:
+                self.app.speech.speak(self.getStackSpeech(stack, 0))
+        else:
+            self.playSample("edge", priority=200)
+
     def _getKeyboardSelectStack(self, direction):
         if self.keyboard_selected_stack is None:
             for s in self.allstacks:
@@ -461,14 +482,8 @@ class AbstractMahjonggGame(Game):
         scaleh = ch / cs.CARDH
         scalew = cw / cs.CARDW
 
-        if hasattr(self.keyboard_selected_stack, 'blockmap'):
-            offsetw = ((self.keyboard_selected_stack.blockmap.level)
-                       * cs.SHADOW_XOFFSET) * scalew
-            offseth = ((self.keyboard_selected_stack.blockmap.level)
-                       * cs.SHADOW_YOFFSET) * scaleh
-        else:
-            offsetw = cs.SHADOW_XOFFSET * scalew
-            offseth = cs.SHADOW_YOFFSET * scaleh
+        offsetw = cs.SHADOW_XOFFSET * scalew
+        offseth = cs.SHADOW_YOFFSET * scaleh
 
         for stack in self.allstacks:
             if (stack in self.s.internals or
@@ -477,6 +492,11 @@ class AbstractMahjonggGame(Game):
                 continue
             cs = self.app.images.cs
             cw2, ch2 = cw, ch
+
+            if (hasattr(self.keyboard_selected_stack, 'blockmap')
+                    and self.keyboard_selected_stack.blockmap.level
+                    != stack.blockmap.level):
+                continue
 
             if cs.version == 6 or cs.mahjongg3d:
                 cw2 -= offsetw

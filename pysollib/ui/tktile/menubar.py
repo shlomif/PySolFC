@@ -1019,6 +1019,11 @@ class PysolMenubarTkCommon:
         self._bindKey("", "Left", lambda e: self.mKeyboardSelect(dir=2))
         self._bindKey("", "Right", lambda e: self.mKeyboardSelect(dir=3))
 
+        self._bindKey("Shift-", "Up",
+                      lambda e:self.mKeyboardSelectLayer(dir=1))
+        self._bindKey("Shift-", "Down",
+                      lambda e: self.mKeyboardSelectLayer(dir=-1))
+
         self._bindKey("", "Tab", self.mKeyboardSelectNextType)
         self._bindKey("Shift-", "Tab", self.mKeyboardSelectPrevType)
 

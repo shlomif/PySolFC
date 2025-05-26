@@ -1304,6 +1304,10 @@ class Game(object):
         else:
             self.playSample("edge", priority=200)
 
+    def keyboardSelectLayer(self, direction):
+        # Overridden for certain games
+        pass
+
     def keyboardSelectNextType(self, dir=1):
         if self.pause:
             self.app.speech.speak(_("Paused"))

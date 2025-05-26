@@ -966,6 +966,10 @@ class PysolMenubar(PysolMenubarTk):
         direction = kw.get("dir", 0)
         self.game.keyboardSelect(direction)
 
+    def mKeyboardSelectLayer(self, *args, **kw):
+        direction = kw.get("dir", 0)
+        self.game.keyboardSelectLayer(direction)
+
     def mKeyboardSelectMore(self, *args):
         self.game.keyboardSelectMoreCards()
 

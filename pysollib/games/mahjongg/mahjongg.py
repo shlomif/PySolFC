@@ -115,7 +115,6 @@ class Mahjongg_Foundation(OpenStack):
                 n = i*9+j
                 if fnds[n].cards:
                     fnds[n].group.tkraise()
-        return
 
     def getHelp(self):
         return ''

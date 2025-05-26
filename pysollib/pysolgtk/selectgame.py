@@ -319,7 +319,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         #               None, _("Contrib Game"), all_games)
 
         SelectGameDialogWithPreview.game_store = store
-        return
 
     def initKw(self, kw):
         kwdefault(kw,

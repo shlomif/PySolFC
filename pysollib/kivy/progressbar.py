@@ -33,7 +33,6 @@ class PysolProgressBar(Popup):
     def __init__(self, app, parent, title=None, images=None, color="blue",
                  width=300, height=25, show_text=1, norm=1):
         self.percent = 100
-        return
 
     def update(self, **kw):
         return

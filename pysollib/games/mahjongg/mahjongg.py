@@ -310,6 +310,7 @@ class Mahjongg_RowStack(OpenStack):
                 return 1
         drag.stack = self
         self.game.playSample("startdrag")
+        self.game.app.speech.speak(_("Selected"))
         # create the shade image (see stack.py, _updateShade)
         if drag.shade_img:
             # drag.shade_img.dtag(drag.shade_stack.group)
@@ -331,6 +332,7 @@ class Mahjongg_RowStack(OpenStack):
     def cancelDrag(self, event=None):
         if event is None:
             self._stopDrag()
+            self.game.app.speech.speak(_("Unselected"))
 
     def _findCard(self, event):
         # we need to override this because the shade may be hiding
@@ -1052,7 +1054,10 @@ a solvable configuration.'''),
     def updateText(self):
         if self.preview > 1 or self.texts.info is None:
             return
+        t = self.getText()
+        self.texts.info.config(text=t)
 
+    def getText(self):
         # find matching tiles
         stacks = []
         for r in self.s.rows:
@@ -1085,7 +1090,15 @@ a solvable configuration.'''),
                        self.NCARDS - t) % (self.NCARDS - t)
 
         t = r1 + r2 + f
-        self.texts.info.config(text=t)
+        return t
+
+    def parseStackInfo(self, stack):
+        if not hasattr(stack, 'blockmap'):
+            return ""
+        return _("Layer: %d") % (stack.blockmap.level + 1)
+
+    def parseGameInfo(self):
+        return self.getText()
 
     #
     # Mahjongg special overrides

@@ -408,7 +408,7 @@ class AbstractMahjonggGame(Game):
             return Game.getStackSpeech(self, stack, cardindex)
         if len(stack.cards) == 0:
             return self.parseEmptyStack(stack)
-        if len(stack.blockmap.above) > 0:
+        if hasattr(stack, 'blockmap') and len(stack.blockmap.above) > 0:
             mainCard = _("Covered Tile")
         else:
             mainCard = self.parseCard(stack.cards[cardindex])
@@ -418,6 +418,20 @@ class AbstractMahjonggGame(Game):
                 not len(stack.blockmap.left) > 0 or
                 not len(stack.blockmap.right) > 0):
             return mainCard
+        for r in stack.blockmap.above:
+            if r.cards:
+                if len(r.blockmap.above) > 0:
+                    blockedByCovered = True
+                else:
+                    coverCards += (r,)
+        if len(coverCards) > 0 or blockedByCovered:
+            mainCard += " - " + _("Covered by")
+            if blockedByCovered:
+                mainCard += " - " + _("Covered Tiles")
+            for c in coverCards:
+                mainCard += " - " + self.parseCard(c.cards[0])
+        coverCards = ()
+        blockedByCovered = False
         for r in stack.blockmap.left:
             if r.cards:
                 if len(r.blockmap.above) > 0:
@@ -427,7 +441,7 @@ class AbstractMahjonggGame(Game):
         if len(coverCards) > 0 or blockedByCovered:
             mainCard += " - " + _("Blocked on left by")
             if blockedByCovered:
-                mainCard += " - " + _("Covered Tile")
+                mainCard += " - " + _("Covered Tiles")
             for c in coverCards:
                 mainCard += " - " + self.parseCard(c.cards[0])
         coverCards = ()
@@ -548,6 +562,32 @@ class AbstractMahjonggGame(Game):
             currentstacky = sy
         if currentstack is not None:
             self.keyboard_selected_stack = currentstack
+
+    def keyboardSelectNextType(self, dir=1):
+        oldstack = self.keyboard_selected_stack
+        rows = self.s.rows
+
+        try:
+            index = rows.index(oldstack)
+        except ValueError:
+            if dir > 0:
+                index = -1
+            else:
+                index = 0
+
+        for n in range(1, len(rows) + 1):
+            try_index = (index + (dir * n)) % len(rows)
+            if not rows[try_index].basicIsBlocked():
+                self.keyboard_selected_stack = rows[try_index]
+                break
+
+        stack = self.keyboard_selected_stack
+
+        self._updateKeyboardSelector()
+        if len(stack.cards) > 0:
+            self.app.speech.speak(self.getStackSpeech(stack, -1))
+        else:
+            self.app.speech.speak(self.getStackSpeech(stack, 0))
 
     #
     # game layout

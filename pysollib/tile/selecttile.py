@@ -210,6 +210,8 @@ class SelectTileDialogWithPreview(MfxDialog):
                        fill='both', ipadx=1)
         self.updateSearchList("")
         bind(self.list, '<<ListboxSelect>>', self.selectSearchResult)
+        bind(self.list, '<FocusIn>',
+             lambda e: self.app.speech.speak(_("Tiles list")))
         bind(self.list, '<FocusOut>',
              lambda e: self.list.selection_clear(0, 'end'))
 

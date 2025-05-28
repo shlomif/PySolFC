@@ -401,6 +401,10 @@ class AbstractShisenGame(AbstractMahjonggGame):
         if self.preview > 1 or self.texts.info is None:
             return
 
+        t = self.getText()
+        self.texts.info.config(text=t)
+
+    def getText(self):
         if self.app.opt.shisen_show_matching:
             # find matching tiles
             stacks = self.s.rows
@@ -432,7 +436,7 @@ class AbstractShisenGame(AbstractMahjonggGame):
                        self.NCARDS - t) % (self.NCARDS - t)
 
         t = r1 + r2 + f
-        self.texts.info.config(text=t)
+        return t
 
     def drawHintArrow(self, from_stack, to_stack, ncards, sleep):
         from_stack.drawArrow(to_stack, sleep)

@@ -617,7 +617,7 @@ class GI:
     _POPULAR_GAMES = [
         1,     # Gypsy
         2,     # Klondike
-        7,     # Picture Galary
+        7,     # Picture Gallery
         8,     # FreeCell
         9,     # Seahaven Towers
         11,    # Spider

@@ -434,7 +434,7 @@ class AllGamesFrame(ttk.Frame):
         vsb = ttk.Scrollbar(frame)
         vsb.grid(row=0, column=1, sticky='ns')
         self.tree = ttk.Treeview(frame, columns=self.COLUMNS,
-                                 selectmode='browse')
+                                 selectmode='browse', takefocus=1)
         self.tree.grid(row=0, column=0, sticky='nsew')
         self.tree.config(yscrollcommand=vsb.set)
         vsb.config(command=self.tree.yview)
@@ -445,6 +445,8 @@ class AllGamesFrame(ttk.Frame):
         self.tree.config(xscrollcommand=hsb.set)
         hsb.config(command=self.tree.xview)
         bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
+        bind(self.tree, '<FocusIn>', self.treeviewFocus)
+
         #
         self.formatter = TreeFormatter(self.app, self.tree, self,
                                        self.dialog.heading_tkfont,
@@ -469,6 +471,11 @@ class AllGamesFrame(ttk.Frame):
                 run_button.config(state='normal')
         else:
             run_button.config(state='disabled')
+
+    def treeviewFocus(self, event):
+        self.tree.selection_set(self.tree.get_children('')[0])
+        self.tree.focus_set()
+        self.tree.focus(self.tree.get_children('')[0])
 
     def mapEvent(self, *args):
         if not self.tree_items:

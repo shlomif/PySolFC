@@ -370,7 +370,6 @@ def shadowImage(image, color='#3896f8', factor=0.3):
 
     logging.info("shadowImage: ")
     # TBD.
-    return None
     # Kivy nicht benötigt. aber - was tut das ?
     # wurde aufgerufen, als der erste König auf die Foundation
     # gezogen wurde. (möglicherweise eine Gewonnen! - Markierung).
@@ -378,7 +377,6 @@ def shadowImage(image, color='#3896f8', factor=0.3):
 
 def markImage(image):
     logging.info("markImage: ")
-    return None
 
 
 def _createImageMask(texture, color):

@@ -101,7 +101,6 @@ class _CanvasItem:
 
     def lower(self, positions=None):
         print('lower', self, positions)
-        return  # don't need?
         #  if positions is None:
         #      pass
         #      ##self._item.lower_to_bottom()
@@ -324,7 +323,6 @@ class MfxCanvas(gnomecanvas.Canvas):
         assert add is None
         # FIXME
         print('TkCanvas bind:', sequence)
-        return
 
     def cget(self, attr):
         if attr == 'cursor':

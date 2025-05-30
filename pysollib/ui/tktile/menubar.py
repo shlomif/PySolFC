@@ -1217,8 +1217,7 @@ class PysolMenubarTkCommon:
         # cb = (25, self.cb_max) [ len(g) > 4 * 25 ]
         # cb = min(cb, self.cb_max)
         cb = self.cb_max
-        for i in range(len(games)):
-            gi = games[i]
+        for i, gi in enumerate(games):
             columnbreak = i > 0 and (i % cb) == 0
             if short_name:
                 label = gi.short_name
@@ -1412,10 +1411,10 @@ class PysolMenubarTkCommon:
         # insert new cardbacks
         mbacks = self.app.images.getCardbacks()
         cb = int(math.ceil(math.sqrt(len(mbacks))))
-        for i in range(len(mbacks)):
+        for i, mback in enumerate(mbacks):
             columnbreak = i > 0 and (i % cb) == 0
             submenu.add_radiobutton(
-                label=mbacks[i].name, image=mbacks[i].menu_image,
+                label=mback.name, image=mback.menu_image,
                 variable=self.tkopt.cardback, value=i,
                 command=self.mOptCardback, columnbreak=columnbreak,
                 indicatoron=0, hidemargin=0)

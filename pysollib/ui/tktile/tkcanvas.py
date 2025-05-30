@@ -273,8 +273,8 @@ class MfxCanvas(tkinter.Canvas):
     def findCard(self, stack, event):
         if isinstance(stack.cards[0].item, Group):
             current = self.gettags("current")           # get tags
-            for i in range(len(stack.cards)):
-                if stack.cards[i].item.tag in current:
+            for i, card in enumerate(stack.cards):
+                if card.item.tag in current:
                     return i
         else:
             #  current = self.find("withtag", "current")   # get item ids
@@ -291,8 +291,8 @@ class MfxCanvas(tkinter.Canvas):
             items = list(self.find_overlapping(x, y, x, y))
             items.reverse()
             for item in items:
-                for i in range(len(stack.cards)):
-                    if stack.cards[i].item.id == item:
+                for i, card in enumerate(stack.cards):
+                    if card.item.id == item:
                         return i
         return -1
 

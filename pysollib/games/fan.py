@@ -102,9 +102,9 @@ class Fan(Game):
             for i in range(4):
                 s.foundations.append(fnd_cls(x, y, self, suit=i))
                 x += dx
-        for i in range(len(rows)):
+        for row in rows:
             x, y = l.XM, y + l.YS
-            for j in range(rows[i]):
+            for j in range(row):
                 stack = self.RowStack_Class(
                     x, y, self, max_move=1, max_accept=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0

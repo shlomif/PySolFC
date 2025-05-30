@@ -143,8 +143,7 @@ class Pegged(Game):
         self.map = {}
 
         # create stacks
-        for i in range(len(self.ROWS)):
-            r = self.ROWS[i]
+        for i, r in enumerate(self.ROWS):
             for j in range(r):
                 d = m - r + 2 * j
                 x, y = l.XM + d * l.XS // 2, l.YM + i * l.YS

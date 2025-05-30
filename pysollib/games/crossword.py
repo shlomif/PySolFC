@@ -42,8 +42,7 @@ class Crossword_Hint(AbstractHint):
     def computeHints(self):
         game = self.game
         rows = game.s.rows
-        for i in range(len(rows)):
-            r = rows[i]
+        for r in rows:
             if r.cards:
                 continue
             if len(game.s.talon.cards) == 0:

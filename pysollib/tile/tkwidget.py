@@ -972,6 +972,36 @@ class PysolCheckbutton(ttk.Checkbutton):
                           str(self.value.get()))
 
 
+class PysolRadiobutton(ttk.Radiobutton):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
+
+        self.myvalue = kw.get('value', tkinter.StringVar())
+        self.value = kw.get('variable', tkinter.StringVar())
+        kw['variable'] = self.value
+        ttk.Radiobutton.__init__(self, master, **kw)
+
+        if 'text' in kw:
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
+        elif prefixtext is not None:
+            self.field_name = prefixtext
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Radio button") + " " +
+                          str(self.value.get() == self.myvalue))
+
+
 class PysolEntry(ttk.Entry):
     def __init__(self, master=None, **kw):
         self.speech = Speech()
@@ -1021,6 +1051,40 @@ class PysolButton(ttk.Button):
         self.speech.speak(self.field_name)
 
 
+class PysolSpinbox(ttk.Spinbox):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+        ttk.Spinbox.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Spin box") + " " +
+                          str(self.value.get()))
+
+
+# Hidden screen reader text - use to store screen
+# reader text for other widgets.
+class PysolScreenReaderText(ttk.Label):
+    def __init__(self, parent, text="", **kw):
+        ttk.Label.__init__(self, parent, text=text, **kw)
+
+    def screenreader_text(self):
+        return self.cget("text")
+
+
 class PysolNotebook(ttk.Notebook):
     def __init__(self, master=None, **kw):
         self.speech = Speech()
@@ -1031,4 +1095,12 @@ class PysolNotebook(ttk.Notebook):
     def _focus(self, event):
         current_tab_id = self.select()
         tab_text = self.tab(current_tab_id, "text")
-        self.speech.speak(tab_text + " " + _("Tab"))
+        content_text = self._get_screenreader_text(
+            self.nametowidget(current_tab_id))
+        self.speech.speak(tab_text + " " + _("Tab") + " " + content_text)
+
+    def _get_screenreader_text(self, frame):
+        for child in frame.winfo_children():
+            if isinstance(child, PysolScreenReaderText):
+                return child.screenreader_text()
+        return ""

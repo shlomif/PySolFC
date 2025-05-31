@@ -34,7 +34,9 @@ from pysollib.settings import TOP_TITLE
 from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
 from pysollib.ui.tktile.tkutil import bind, loadImage
 
-from .tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import MfxDialog, MfxMessageDialog, PysolButton, \
+                      PysolCheckbutton, PysolNotebook, PysolRadiobutton, \
+                      PysolScreenReaderText
 
 
 # ************************************************************************
@@ -62,7 +64,7 @@ class StatsDialog(MfxDialog):
         self.selected_game = None
 
         top_frame, bottom_frame = self.createFrames(kw)
-        notebook = ttk.Notebook(top_frame)
+        notebook = PysolNotebook(top_frame)
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
         self.notebook_tabs = []
@@ -123,6 +125,7 @@ class StatsDialog(MfxDialog):
             reset_button.config(state='normal')
         else:
             reset_button.config(state='disabled')
+        self.notebook._focus(None)
 
     def mDone(self, button):
         self.selected_game = self.all_games_frame.getSelectedGame()
@@ -165,11 +168,26 @@ class SingleGameFrame(ttk.Frame):
         #
         self._calc_tabs()
         #
+
+        screenreadertext = ""
+
         won, lost = app.stats.getStats(player, gameid)
         self.createPieChart(app, won, lost, _("Total"))
+        screenreadertext += (_("Total") + " "
+                             + _("Won:") + " " + str(won) + " "
+                             + _("Lost:") + " " + str(lost) + " "
+                             + _("Total:") + " " + str(won + lost)
+                             + " ")
         won, lost = app.stats.getSessionStats(player, gameid)
         self.createPieChart(app, won, lost, _("Current session"))
+        screenreadertext += (_("Current session") + " "
+                             + _("Won:") + " " + str(won) + " "
+                             + _("Lost:") + " " + str(lost) + " "
+                             + _("Total:") + " " + str(won + lost))
         #
+
+        self.screenreadertext = PysolScreenReaderText(self,
+                                                      text=screenreadertext)
 
     #
     # helpers
@@ -472,6 +490,20 @@ class AllGamesFrame(ttk.Frame):
         else:
             run_button.config(state='disabled')
 
+        values = self.tree.item(sel[0], 'values')
+        columns = self.tree["columns"]
+        headers = [self.tree.heading(col)["text"] for col in columns]
+
+        header1 = self.tree.heading("#0")["text"]
+        value1 = self.tree.item(sel[0], 'text')
+
+        screenreadertext = header1 + ": " + value1 + " "
+
+        for header, value in zip(headers, values):
+            screenreadertext += header + ": " + value + " "
+
+        self.app.speech.speak(screenreadertext)
+
     def treeviewFocus(self, event):
         self.tree.selection_set(self.tree.get_children('')[0])
         self.tree.focus_set()
@@ -537,7 +569,7 @@ class LogDialog(MfxDialog):
         self.selected_game_num = None
 
         top_frame, bottom_frame = self.createFrames(kw)
-        notebook = ttk.Notebook(top_frame)
+        notebook = PysolNotebook(top_frame)
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
         self.notebook_tabs = []
@@ -734,11 +766,13 @@ class _TopDialog(MfxDialog):
         label.grid(row=0, column=4, sticky='ew')
 
         row = 1
+        screenreadertext = ""
         for i in top:
             # N
             cnf['text'] = str(row)
             label = ttk.Label(**cnf)
             label.grid(row=row, column=0, sticky='ew')
+            screenreadertext += _('N') + " " + cnf['text'] + " "
             if gameid == 'all':
                 name = app.getGameTitleName(i.gameid)
                 if name is None:
@@ -746,16 +780,19 @@ class _TopDialog(MfxDialog):
                 cnf['text'] = name
                 label = ttk.Label(**cnf)
                 label.grid(row=row, column=1, sticky='ew')
+                screenreadertext += _('Game') + " " + name + " "
             # Game number
             cnf['text'] = '#'+str(i.game_number)
             label = ttk.Label(**cnf)
             label.grid(row=row, column=2, sticky='ew')
+            screenreadertext += _('Game number') + " " + cnf['text'] + " "
             # Start time
             t = time.strftime(
                 '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
             label = ttk.Label(**cnf)
             label.grid(row=row, column=3, sticky='ew')
+            screenreadertext += _('Started at') + " " + cnf['text'] + " "
             # Result
             if isinstance(i.value, float):
                 # time
@@ -766,9 +803,11 @@ class _TopDialog(MfxDialog):
             cnf['text'] = s
             label = ttk.Label(**cnf)
             label.grid(row=row, column=4, sticky='ew')
+            screenreadertext += _('Result') + " " + cnf['text'] + " "
             row += 1
 
         focus = self.createButtons(bottom_frame, kw)
+        parent.after(600, lambda: app.speech.speak(screenreadertext))
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
@@ -870,8 +909,20 @@ class TopFrame(ttk.Frame):
 
             def command(gameid=gameid, top=top):
                 self.showTop(gameid, top)
-            b = ttk.Button(frame, text=TOP_TITLE+' ...',
-                           width=10, command=command)
+
+            if gameid == 'all':
+                statgame = _('All games')
+            else:
+                statgame = _('Current game')
+
+            prefixtext = (statgame + " " + label + " " +
+                          _('Minimum') + " " + str(min) + " " +
+                          _('Maximum') + " " + str(max) + " " +
+                          _('Average') + " " + str(avr))
+
+            b = PysolButton(frame, text=TOP_TITLE + '...',
+                            width=10, command=command,
+                            prefixtext=prefixtext)
             b.grid(row=row, column=5)
             row += 1
         return True
@@ -929,13 +980,13 @@ class ProgressionFrame(ttk.Frame):
         right_frame.pack(side='left', fill='x', padx=5)
         self.all_games_variable = var = tkinter.StringVar()
         var.set('all')
-        b = ttk.Radiobutton(right_frame, text=_('All games'),
-                            variable=var, value='all',
-                            command=self.updateGraph)
+        b = PysolRadiobutton(right_frame, text=_('All games'),
+                             variable=var, value='all',
+                             command=self.updateGraph)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        b = ttk.Radiobutton(right_frame, text=_('Current game'),
-                            variable=var, value='current',
-                            command=self.updateGraph)
+        b = PysolRadiobutton(right_frame, text=_('Current game'),
+                             variable=var, value='current',
+                             command=self.updateGraph)
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
         label_frame = ttk.LabelFrame(right_frame, text=_('Statistics for'))
@@ -948,44 +999,48 @@ class ProgressionFrame(ttk.Frame):
             ('year',  _('Last year')),
             ('all',   _('All time')),
                 ):
-            b = ttk.Radiobutton(label_frame, text=t, variable=var,
-                                value=v, command=self.updateGraph)
+            b = PysolRadiobutton(label_frame, text=t, variable=var,
+                                 value=v, command=self.updateGraph,
+                                 prefixtext=_('Statistics for'))
             b.pack(fill='x', expand=True, padx=3, pady=1)
 
         label_frame = ttk.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x', pady=5)
         self.played_graph_var = tkinter.BooleanVar()
         self.played_graph_var.set(True)
-        b = ttk.Checkbutton(label_frame, text=_('Played'),
-                            command=self.updateGraph,
-                            variable=self.played_graph_var)
+        b = PysolCheckbutton(label_frame, text=_('Played'),
+                             command=self.updateGraph,
+                             variable=self.played_graph_var,
+                             prefixtext=_('Show graphs'))
         b.pack(fill='x', expand=True, padx=3, pady=1)
         self.won_graph_var = tkinter.BooleanVar()
         self.won_graph_var.set(True)
-        b = ttk.Checkbutton(label_frame, text=_('Won'),
-                            command=self.updateGraph,
-                            variable=self.won_graph_var)
+        b = PysolCheckbutton(label_frame, text=_('Won'),
+                             command=self.updateGraph,
+                             variable=self.won_graph_var,
+                             prefixtext=_('Show graphs'))
         b.pack(fill='x', expand=True, padx=3, pady=1)
         self.percent_graph_var = tkinter.BooleanVar()
         self.percent_graph_var.set(True)
-        b = ttk.Checkbutton(label_frame, text=_('% won'),
-                            command=self.updateGraph,
-                            variable=self.percent_graph_var)
+        b = PysolCheckbutton(label_frame, text=_('% won'),
+                             command=self.updateGraph,
+                             variable=self.percent_graph_var,
+                             prefixtext=_('Show graphs'))
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
         label_frame = ttk.LabelFrame(right_frame, text=_('Date format'))
         label_frame.pack(side='top', fill='x', pady=5)
         self.date_format = tkinter.StringVar()
         self.date_format.set(self.app.opt.date_format)
-        b = ttk.Radiobutton(label_frame, text=_('MM-DD'),
-                            command=self.updateDateFormat,
-                            variable=self.date_format,
-                            value='%m-%d')
+        b = PysolRadiobutton(label_frame, text=_('MM-DD'),
+                             command=self.updateDateFormat,
+                             variable=self.date_format,
+                             value='%m-%d', prefixtext=_('Date format'))
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        b = ttk.Radiobutton(label_frame, text=_('DD-MM'),
-                            command=self.updateDateFormat,
-                            variable=self.date_format,
-                            value='%d-%m')
+        b = PysolRadiobutton(label_frame, text=_('DD-MM'),
+                             command=self.updateDateFormat,
+                             variable=self.date_format,
+                             value='%d-%m', prefixtext=_('Date format'))
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
         # self.createGraph()

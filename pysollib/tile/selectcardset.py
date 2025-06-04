@@ -621,6 +621,8 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         # should return EVENT_HANDLED or EVENT_PROPAGATE explicitly.
 
     def updatePreview(self, key=None, overrideScale=False):
+        if not hasattr(self, 'preview_key') or not hasattr(self, 'preview'):
+            return
         if key == self.preview_key:
             return
         if key is None:

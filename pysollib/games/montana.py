@@ -25,6 +25,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.stack import \
         BasicRowStack, \
         InitialDealTalonStack, \
@@ -243,6 +244,13 @@ class Montana(Game):
                 # do not move the leftmost card of a row if the rank is correct
                 return -1
         return 1
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        row = (stack.id // self.RSTEP) + 1
+        column = (stack.id % self.RSTEP) + 1
+        return _("Row: %d, Column: %d") % (row, column)
 
 
 # ************************************************************************

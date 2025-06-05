@@ -387,6 +387,7 @@ to open the following URL:
         self.parent.wm_iconname(parser.title)
         self.defcursor, self.handcursor = old_c1, old_c2
         self.text.config(cursor=self.defcursor)
+        self.parent.after(500, lambda: self.app.speech.speakHTML(data))
         # self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):
@@ -426,6 +427,9 @@ to open the following URL:
         if self.home and self.home != self.url:
             self.updateHistoryXYView()
             self.display(self.home, relpath=0)
+
+    def browser(self, *event):
+        openURL('file://' + self.url)
 
     def errorDialog(self, msg):
         self._calc_MfxMessageDialog()(

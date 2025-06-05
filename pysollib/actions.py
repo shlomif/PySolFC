@@ -824,6 +824,7 @@ class PysolMenubar(PysolMenubarTk):
             self.app.opt.colors['samerank_2'] = d.samerank_2_color
             self.app.opt.colors['hintarrow'] = d.hintarrow_color
             self.app.opt.colors['not_matching'] = d.not_matching_color
+            self.app.opt.colors['keyboard_sel'] = d.keyboard_sel_color
             #
             if text_color != self.app.opt.colors['text']:
                 self.app.setTile(self.app.tabletile_index, force=True)
@@ -956,6 +957,47 @@ class PysolMenubar(PysolMenubarTk):
         if self._cancelDrag(break_pause=False):
             return
         self.top.wm_iconify()
+
+    #
+    # Keyboard play
+    #
+
+    def mKeyboardSelect(self, *args, **kw):
+        direction = kw.get("dir", 0)
+        self.game.keyboardSelect(direction)
+
+    def mKeyboardSelectLayer(self, *args, **kw):
+        direction = kw.get("dir", 0)
+        self.game.keyboardSelectLayer(direction)
+
+    def mKeyboardSelectMore(self, *args):
+        self.game.keyboardSelectMoreCards()
+
+    def mKeyboardSelectLess(self, *args):
+        self.game.keyboardSelectLessCards()
+
+    def mKeyboardSelectNextType(self, *args):
+        self.game.keyboardSelectNextType()
+        return "break"
+
+    def mKeyboardSelectPrevType(self, *args):
+        self.game.keyboardSelectNextType(dir=-1)
+        return "break"
+
+    def mKeyboardAction(self, *args):
+        self.game.keyboardAction()
+
+    def mKeyboardAction2(self, *args):
+        self.game.keyboardAction(type=2)
+
+    def mKeyboardGameInfo(self, *args):
+        self.game.speakGameInfo()
+
+    def mKeyboardStackInfo(self, *args):
+        self.game.speakStackInfo()
+
+    def mKeyboardCoordinates(self, *args):
+        self.game.speakCoordinates()
 
 
 # ************************************************************************

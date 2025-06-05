@@ -1013,6 +1013,31 @@ class PysolMenubarTkCommon:
                 ctrl, str(i+1),
                 lambda e, i=i: self.mGotoBookmark(i, confirm=0))
 
+        # keyboard play
+        self._bindKey("", "Up", lambda e: self.mKeyboardSelect(dir=0))
+        self._bindKey("", "Down", lambda e: self.mKeyboardSelect(dir=1))
+        self._bindKey("", "Left", lambda e: self.mKeyboardSelect(dir=2))
+        self._bindKey("", "Right", lambda e: self.mKeyboardSelect(dir=3))
+
+        self._bindKey("Shift-", "Up",
+                      lambda e:self.mKeyboardSelectLayer(dir=1))
+        self._bindKey("Shift-", "Down",
+                      lambda e: self.mKeyboardSelectLayer(dir=-1))
+
+        self._bindKey("", "Tab", self.mKeyboardSelectNextType)
+        self._bindKey("Shift-", "Tab", self.mKeyboardSelectPrevType)
+
+        self._bindKey("", "plus", self.mKeyboardSelectMore)
+        self._bindKey("", "equal", self.mKeyboardSelectMore)
+        self._bindKey("", "minus", self.mKeyboardSelectLess)
+
+        self._bindKey("", "q", self.mKeyboardGameInfo)
+        self._bindKey("", "v", self.mKeyboardStackInfo)
+        self._bindKey("Shift-", "v", self.mKeyboardCoordinates)
+
+        self._bindKey("", "Return", self.mKeyboardAction)
+        self._bindKey("Shift-", "Return", self.mKeyboardAction2)
+
         # undocumented, devel
         self._bindKey(ctrl, "End", self.mPlayNextMusic)
         self._bindKey(ctrl, "Prior", self.mSelectPrevGameByName)

@@ -53,6 +53,7 @@ files = [
     ('hanafuda.html', 'PySol - Rules for General Flower Card Rules'),
     ('hexadeck.html', 'PySol - General Hex A Deck Card Rules'),
     ('howtoplay.html', 'How to Use PySol'),
+    ('accessibility.html', 'PySol - Accessibility'),
     ('index.html', 'PySol - a Solitaire Game Collection'),
     ('install.html', 'PySol - Installation'),
     ('intro.html', 'PySol - Introduction'),

@@ -79,6 +79,8 @@ class SoundOptionsDialog(MfxDialog):
             ('autopilotlost', _('Autopilot lost'), tkinter.BooleanVar()),
             ('autopilotwon',  _('Autopilot won'),  tkinter.BooleanVar()),
 
+            ('edge',          _('Edge of layout'), tkinter.BooleanVar()),
+
             ('gamefinished',  _('Game finished'),  tkinter.BooleanVar()),
             ('gamelost',      _('Game lost'),      tkinter.BooleanVar()),
             ('gamewon',       _('Game won'),       tkinter.BooleanVar()),

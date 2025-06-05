@@ -48,6 +48,7 @@ class ColorsDialog:
             'samerank_2',
             'hintarrow',
             'not_matching',
+            'keyboard_sel'
             )
         for n in keys:
             self._setColor(n, app.opt.colors[n])

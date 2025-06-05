@@ -368,6 +368,13 @@ class AbstractDashavataraGame(Game):
         return (card1.suit == card2.suit and
                 (card1.rank + 1 == card2.rank or card1.rank - 1 == card2.rank))
 
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        suit = self.SUITS[card.suit]
+        rank = self.RANKS[card.rank]
+        return rank + " - " + suit
+
 
 class Journey_Hint(DefaultHint):
     # FIXME: demo is not too clever in this game
@@ -1186,7 +1193,7 @@ class Dashavatara_Hint(AbstractHint):
 # * Dashavatara
 # ************************************************************************
 
-class Dashavatara(Game):
+class Dashavatara(AbstractDashavataraGame):
     Hint_Class = Dashavatara_Hint
 
     #

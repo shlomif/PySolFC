@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-10 18:11-0400\n"
+"PO-Revision-Date: 2025-04-19 16:30-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1256,6 +1256,9 @@ msgstr "Rei"
 #: pysollib/games/ultra/hexadeck.py:275 pysollib/games/ultra/mughal.py:261
 msgid "Ace"
 msgstr "Ás"
+
+msgid "Face-down"
+msgstr ""
 
 #: pysollib/stack.py:1612
 msgid "No cards"
@@ -3890,6 +3893,9 @@ msgstr "Movimentar"
 msgid "No move"
 msgstr "Nenhum movimento"
 
+msgid "Edge of Layout"
+msgstr ""
+
 #: pysollib/pysolgtk/soundoptionsdialog.py:66
 #: pysollib/tile/soundoptionsdialog.py:78 pysollib/tk/soundoptionsdialog.py:80
 msgid "Autopilot lost"
@@ -5048,6 +5054,9 @@ msgstr "Seta de dica:"
 #: pysollib/ui/tktile/colorsdialog.py:78 data/pysolfc.glade:2213
 msgid "Highlight not matching:"
 msgstr "Sem correspondência:"
+
+msgid "Keyboard selector:"
+msgstr ""
 
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"

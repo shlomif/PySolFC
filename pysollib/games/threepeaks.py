@@ -65,6 +65,7 @@ class ThreePeaks_TalonStack(WasteTalonStack):
 
 
 class ThreePeaks_RowStack(OpenStack):
+    STEP = (3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9)
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=0, max_cards=1,
@@ -73,10 +74,9 @@ class ThreePeaks_RowStack(OpenStack):
 
     def basicIsBlocked(self):
         r = self.game.s.rows
-        step = (3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9)
         i = self.id
         while i < 18:
-            i = i + step[i]
+            i = i + self.STEP[i]
             for j in range(2):
                 if r[i + j].cards:
                     return True
@@ -91,6 +91,9 @@ class ThreePeaks_RowStack(OpenStack):
         elif self.game.score_counted:
             self.game.score_counted = False
         return result
+
+    def canSelect(self):
+        return len(self.cards) > 0 and self.cards[-1].face_up
 
 
 # ************************************************************************
@@ -201,6 +204,13 @@ class ThreePeaks(Game):
         t = t + _('\011This game:  ') + str(self.game_score)
         self.texts.info.config(text=t)
 
+    def parseGameInfo(self):
+        if not self.SCORING:
+            return ''
+        t = _('Score:\011This hand:  ') + str(self.hand_score)
+        t = t + _('\011This game:  ') + str(self.game_score)
+        return t
+
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1 == self.s.waste or stack2 == self.s.waste:
             return ((card1.rank + 1) % 13 == card2.rank or
@@ -247,6 +257,26 @@ class ThreePeaks(Game):
         p.dump(self.hand_score)
         p.dump(self.sequence)
         p.dump(self.peaks)
+
+    def getStackSpeech(self, stack, cardindex):
+        if stack not in self.s.rows:
+            return Game.getStackSpeech(self, stack, cardindex)
+        if len(stack.cards) == 0:
+            return self.parseEmptyStack(stack)
+        mainCard = self.parseCard(stack.cards[cardindex])
+        coverCards = ()
+        r, step = self.s.rows, stack.STEP
+        i, mylen = stack.id, len(stack.STEP)
+        if i < mylen:
+            i = i + step[i]
+            for j in range(2):
+                if r[j + i].cards:
+                    coverCards += (r[j + i],)
+        if len(coverCards) > 0:
+            mainCard += " - " + _("Covered by")
+            for c in coverCards:
+                mainCard += " - " + self.parseCard(c.cards[0])
+        return mainCard
 
 
 # ************************************************************************
@@ -306,14 +336,14 @@ class Ricochet_Waste(Golf_Waste):
 
 
 class Ricochet_RowStack(ThreePeaks_RowStack):
+    STEP = (8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 12, 12, 12, 12,
+            12, 12, 12, 12, 12, 12)
 
     def basicIsBlocked(self):
         r = self.game.s.rows
-        step = (8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 12, 12, 12, 12,
-                12, 12, 12, 12, 12, 12)
         i = self.id
         while i < 20:
-            i = i + step[i]
+            i = i + self.STEP[i]
             for j in range(2):
                 d = i + j
                 if d > 31:

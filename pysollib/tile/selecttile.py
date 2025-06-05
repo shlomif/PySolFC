@@ -34,7 +34,8 @@ from pysollib.ui.tktile.tkutil import bind
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolButton, PysolCombo, \
+                      PysolEntry, PysolNotebook
 
 
 # ************************************************************************
@@ -163,7 +164,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         paned_window.add(left_frame)
         paned_window.add(right_frame)
 
-        notebook = ttk.Notebook(left_frame)
+        notebook = PysolNotebook(left_frame)
         notebook.grid(row=0, column=0, sticky='nsew',
                       padx=padx, pady=pady, columnspan=2)
         tree_frame = ttk.Frame(notebook)
@@ -181,14 +182,17 @@ class SelectTileDialogWithPreview(MfxDialog):
         # Search
         searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text=_("Search:"),
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(searchbox,
-                                             textvariable=searchText)
+        self.list_searchtext = PysolEntry(searchbox,
+                                          fieldname=_("Search:"),
+                                          textvariable=searchText)
 
-        self.advSearch = tkinter.Button(searchbox, text='...',
-                                        command=self.advancedSearch)
+        self.advSearch = PysolButton(searchbox, text='...',
+                                     prefixtext=_("Advanced Search"),
+                                     command=self.advancedSearch,
+                                     width=2)
         self.advSearch.pack(side="right")
 
         self.list_searchtext.pack(side="top", fill='both',
@@ -206,6 +210,8 @@ class SelectTileDialogWithPreview(MfxDialog):
                        fill='both', ipadx=1)
         self.updateSearchList("")
         bind(self.list, '<<ListboxSelect>>', self.selectSearchResult)
+        bind(self.list, '<FocusIn>',
+             lambda e: self.app.speech.speak(_("Tiles list")))
         bind(self.list, '<FocusOut>',
              lambda e: self.list.selection_clear(0, 'end'))
 
@@ -223,10 +229,12 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.scaling.set(next(key for key, value in
                                   self.scaleOptions.items()
                              if value == app.opt.tabletile_scale_method))
-            self.labelScale = tkinter.Label(left_frame, text="Image scaling:",
+            self.labelScale = tkinter.Label(left_frame,
+                                            text=_("Image scaling:"),
                                             anchor="w")
 
             self.textScale = PysolCombo(left_frame, values=scaleValues,
+                                        fieldname=_("Image scaling:"),
                                         state='readonly',
                                         textvariable=self.scaling,
                                         selectcommand=self.updateScaling)
@@ -369,7 +377,11 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.tree.n_selections += 1
         self.tree.updateSelection(cardset)
         self.updatePreview(cardset)
+        self.speakTileInfo(sel)
         self.list["cursor"] = oldcur
+
+    def speakTileInfo(self, name):
+        self.app.speech.speak(name)
 
     def updatePreview(self, key, scaling=-1):
         if scaling < 0:
@@ -435,20 +447,22 @@ class SelectTileAdvancedSearch(MfxDialog):
         #
         row = 0
 
-        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName = tkinter.Label(top_frame, text=_("Name:"), anchor="w")
         labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
-        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName = PysolEntry(top_frame, textvariable=self.name,
+                              fieldname=_("Name:"))
         textName.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
 
         typeValues = list(criteria.typeOptions)
 
-        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType = tkinter.Label(top_frame, text=_("Type:"), anchor="w")
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
+                              fieldname=_("Type:"),
                               textvariable=self.type, state='readonly')
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
@@ -456,10 +470,11 @@ class SelectTileAdvancedSearch(MfxDialog):
         if USE_PIL:
             sizeValues = list(criteria.sizeOptions.keys())
 
-            labelSize = tkinter.Label(top_frame, text="Size:", anchor="w")
+            labelSize = tkinter.Label(top_frame, text=_("Size:"), anchor="w")
             labelSize.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
             textSize = PysolCombo(top_frame, values=sizeValues,
+                                  fieldname=_("Size:"),
                                   textvariable=self.size, state='readonly')
             textSize.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)

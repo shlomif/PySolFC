@@ -68,6 +68,7 @@ from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
+from pysollib.util import COLORS, RANKS, SUITS_PL
 
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import reset_solver_dialog
@@ -262,6 +263,22 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
             i = s.cards.index(c2)
             for c in s.cards[i+1:]:
                 c.tkraise(1)
+    return r
+
+
+def _highlightEmptyStack__calc_item(canvas, delta, cw, ch, s, color):
+    x1, y1 = s.x, s.y
+    x2, y2 = x1 + cw, y1 + ch
+    if TOOLKIT == 'tk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+    elif TOOLKIT == 'kivy':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+    elif TOOLKIT == 'gtk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color,
+                               group=s.group)
     return r
 
 
@@ -545,6 +562,9 @@ class Game(object):
         self.snapshots = []
         self.failed_snapshots = []
         self.stackdesc_list = []
+        self.keyboard_selected_stack = None
+        self.keyboard_select_count = 1
+        self.keyboard_selector = None
         self.demo_logo = None
         self.pause_logo = None
         self.s = GameStacks()
@@ -1109,6 +1129,7 @@ class Game(object):
             x, y = int(round((init_coord[0] + cw) * xf)), \
                 int(round((init_coord[1] + ch) * yf))
             self.canvas.coords(item, x, y)
+        self._updateKeyboardSelector()
 
     def createRandom(self, random):
         if random is None:
@@ -1266,6 +1287,197 @@ class Game(object):
             i -= 1
         return new, [x[2] for x in reversed(sorted(extracted))]
 
+    def keyboardSelect(self, direction):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
+        oldstack = self.keyboard_selected_stack
+        self._getKeyboardSelectStack(direction)
+        stack = self.keyboard_selected_stack
+        if oldstack != stack:
+            self.keyboard_select_count = 1
+            self._updateKeyboardSelector()
+            if len(stack.cards) > 0:
+                self.app.speech.speak(self.getStackSpeech(stack, -1))
+            else:
+                self.app.speech.speak(self.getStackSpeech(stack, 0))
+        else:
+            self.playSample("edge", priority=200)
+
+    def keyboardSelectLayer(self, direction):
+        # Overridden for certain games
+        pass
+
+    def keyboardSelectNextType(self, dir=1):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
+        oldstack = self.keyboard_selected_stack
+        stacktype = 0
+        if oldstack == self.s.talon:
+            stacktype = 0
+        elif oldstack == self.s.waste:
+            stacktype = 1
+        elif oldstack in self.s.rows:
+            stacktype = 2
+        elif oldstack in self.s.reserves:
+            stacktype = 3
+        elif oldstack in self.s.foundations:
+            stacktype = 4
+        stack = None
+        while stack is None:
+            stacktype += dir
+            if stacktype > 4:
+                stacktype = 0
+            if stacktype < 0:
+                stacktype = 4
+            if (stacktype == 0 and self.s.talon is not None
+                    and self.s.talon.canSelect()):
+                stack = self.s.talon
+            if (stacktype == 1 and self.s.waste is not None
+                    and self.s.waste.canSelect()):
+                stack = self.s.waste
+            if stacktype == 2 and len(self.s.rows) > 0:
+                for s in self.s.rows:
+                    if s.canSelect():
+                        stack = s
+                        break
+            if stacktype == 3 and len(self.s.reserves) > 0:
+                for s in self.s.reserves:
+                    if s.canSelect():
+                        stack = s
+                        break
+            if stacktype == 4 and len(self.s.foundations) > 0:
+                for s in self.s.foundations:
+                    if s.canSelect():
+                        stack = s
+                        break
+        self.keyboard_selected_stack = stack
+        if oldstack != stack:
+            self.keyboard_select_count = 1
+        self._updateKeyboardSelector()
+        if len(stack.cards) > 0:
+            self.app.speech.speak(self.getStackSpeech(stack, -1))
+        else:
+            self.app.speech.speak(self.getStackSpeech(stack, 0))
+
+    def keyboardSelectMoreCards(self):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
+        stack = self.keyboard_selected_stack
+        nextcard = -1 * (self.keyboard_select_count + 1)
+        if stack is None:
+            return
+        if stack.CARD_XOFFSET[0] == 0 and stack.CARD_YOFFSET[0] == 0:
+            return
+        if (len(stack.cards) >= (-1 * nextcard) and
+                stack.cards[nextcard].face_up):
+            self.keyboard_select_count += 1
+            self._updateKeyboardSelector()
+            self.app.speech.speak(self.getStackSpeech(stack, nextcard))
+        else:
+            self.playSample("edge", priority=200)
+
+    def keyboardSelectLessCards(self):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
+        stack = self.keyboard_selected_stack
+        if stack is None:
+            return
+        if self.keyboard_select_count > 1:
+            self.keyboard_select_count -= 1
+            self._updateKeyboardSelector()
+            self.app.speech.speak(self.getStackSpeech(
+                stack, (-1 * self.keyboard_select_count)))
+        else:
+            self.playSample("edge", priority=200)
+
+    def keyboardAction(self, type=1):
+        if self.pause:
+            self.app.speech.speak(_("Paused"))
+            return
+        stack = self.keyboard_selected_stack
+
+        if stack is None:
+            return
+        if len(stack.cards) > 0:
+            card = stack.cards[-1 * self.keyboard_select_count]
+            event = FauxEvent(card.x + 1, card.y + 1)
+            index = (-1 * self.keyboard_select_count) + len(stack.cards)
+            self.keyboard_selected_stack.keyboardAction(index, event, type)
+        else:
+            self.keyboard_selected_stack.keyboardAction(-1, FauxEvent(0, 0),
+                                                        type)
+        self._updateKeyboardSelector()
+
+    def _updateKeyboardSelector(self):
+        stack = self.keyboard_selected_stack
+        col = self.app.opt.colors['keyboard_sel']
+        if stack is None:
+            return
+        if self.keyboard_selector is not None:
+            for r in self.keyboard_selector:
+                r.delete()
+        if len(stack.cards) > 0:
+            hi = [(stack, stack.cards[max(-1 * self.keyboard_select_count,
+                                          -1 * len(stack.cards))],
+                   stack.cards[-1], col)]
+            self.keyboard_selector = self._highlightCards(hi, sleep=0)
+        else:
+            hi = [(stack, col)]
+            self.keyboard_selector = self._highlightEmptyStack(hi, sleep=0)
+
+    def _getKeyboardSelectStack(self, direction):
+        if self.keyboard_selected_stack is None:
+            for s in self.allstacks:
+                if s.canSelect():
+                    self.keyboard_selected_stack = s
+                    break
+            return
+
+        currentstack = None
+        cw, ch = self.app.images.getSize()
+        cw -= 1
+        ch -= 1
+        for stack in self.allstacks:
+            if (stack in self.s.internals or
+                    stack == self.keyboard_selected_stack or
+                    not stack.canSelect()):
+                continue
+            if direction == 0:  # up
+                if ((stack.y >= self.keyboard_selected_stack.y) or
+                        (stack.x < self.keyboard_selected_stack.x - cw or
+                         stack.x > self.keyboard_selected_stack.x + cw) or
+                        (currentstack is not None and
+                         stack.y < currentstack.y)):
+                    continue
+            elif direction == 1:  # down
+                if ((stack.y <= self.keyboard_selected_stack.y) or
+                        (stack.x < self.keyboard_selected_stack.x - cw or
+                         stack.x > self.keyboard_selected_stack.x + cw) or
+                        (currentstack is not None and
+                         stack.y > currentstack.y)):
+                    continue
+            elif direction == 2:  # left
+                if ((stack.x >= self.keyboard_selected_stack.x) or
+                        (stack.y < self.keyboard_selected_stack.y - ch or
+                         stack.y > self.keyboard_selected_stack.y + ch) or
+                        (currentstack is not None and
+                         stack.x < currentstack.x)):
+                    continue
+            elif direction == 3:  # right
+                if ((stack.x <= self.keyboard_selected_stack.x) or
+                        (stack.y < self.keyboard_selected_stack.y - ch or
+                         stack.y > self.keyboard_selected_stack.y + ch) or
+                        (currentstack is not None and
+                         stack.x > currentstack.x)):
+                    continue
+            currentstack = stack
+        if currentstack is not None:
+            self.keyboard_selected_stack = currentstack
+
     def _finishDrag(self):
         if self.demo:
             self.stopDemo()
@@ -1412,6 +1624,65 @@ class Game(object):
                 self.playSample("deal04", priority=100, loop=loop)
             elif a == 5:
                 self.playSample("deal08", priority=100, loop=loop)
+
+    def getStackSpeech(self, stack, cardindex):
+        if len(stack.cards) > 0:
+            message = self.parseCard(stack.cards[cardindex])
+            if stack == self.s.talon:
+                if not stack.cards[cardindex].face_up:
+                    return _("Talon") + " - " + stack.getNumCards()
+                else:
+                    message += " - " + _("Talon") + " - " + stack.getNumCards()
+            if stack == self.s.waste:
+                message += " - " + _("Waste") + " - " + stack.getNumCards()
+            if stack in self.s.foundations:
+                message += (" - " + _("Foundation") + " - " +
+                            stack.getNumCards())
+            return message
+        else:
+            return self.parseEmptyStack(stack)
+
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        if card.suit > 3:
+            return COLORS[card.rank] + " " + _("Joker")
+        suit = SUITS_PL[card.suit]
+        rank = RANKS[card.rank]
+        return rank + " - " + suit
+
+    def parseEmptyStack(self, stack):
+        if self.gameinfo.category == GI.GC_FRENCH:
+            if stack in self.s.foundations:
+                if stack.cap.base_suit == -1:
+                    return _("Foundation")
+                elif stack.cap.base_suit == 4:
+                    return _("Foundation") + " - " + _("Joker")
+                else:
+                    return (_("Foundation") + " - " +
+                            SUITS_PL[stack.cap.base_suit])
+        return _("Empty stack")
+
+    def parseGameInfo(self):
+        return ""
+
+    def parseStackInfo(self, stack):
+        return ""
+
+    def speakGameInfo(self):
+        self.app.speech.speak(self.parseGameInfo())
+
+    def speakStackInfo(self):
+        stack = self.keyboard_selected_stack
+        if self.keyboard_selected_stack is None:
+            return
+        self.app.speech.speak(self.parseStackInfo(stack))
+
+    def speakCoordinates(self):
+        stack = self.keyboard_selected_stack
+        if self.keyboard_selected_stack is None:
+            return
+        self.app.speech.speak("X: " + str(stack.x) + ", Y: " + str(stack.y))
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if TOOLKIT == 'kivy':
@@ -2338,6 +2609,32 @@ class Game(object):
         # remove items later (find_card_dialog)
         return items
 
+    def _highlightEmptyStack(self, info, sleep=1.5, delta=(1, 1, 1, 1)):
+        if not info:
+            return 0
+        if self.pause:
+            return 0
+        self.stopWinAnimation()
+        cw, ch = self.app.images.getSize()
+        items = []
+        for s, color in info:
+            items.append(
+                _highlightEmptyStack__calc_item(
+                    self.canvas, delta, cw, ch, s, color))
+        if not items:
+            return 0
+        self.canvas.update_idletasks()
+        if sleep:
+            self.sleep(sleep)
+            items.reverse()
+            for r in items:
+                r.delete()
+            self.canvas.update_idletasks()
+            return EVENT_HANDLED
+        else:
+            # remove items later (find_card_dialog)
+            return items
+
     def highlightNotMatching(self):
         if self.demo:
             return
@@ -2521,6 +2818,7 @@ class Game(object):
             self.hints.index = 0
         # get next hint from list
         if not self.hints.list:
+            self.app.speech.speak(_("No moves found"))
             self.highlightNotMatching()
             return None
         h = self.hints.list[self.hints.index]
@@ -2562,6 +2860,14 @@ class Game(object):
         else:
             info = 0
         self.drawHintArrow(from_stack, to_stack, ncards, sleep)
+        if (len(to_stack.cards) > 0):
+            todesc = self.parseCard(to_stack.cards[-1])
+        else:
+            todesc = self.parseEmptyStack(to_stack)
+
+        self.app.speech.speak(_("Move %s to %s") %
+                              (self.parseCard(from_stack.cards[-ncards]),
+                               todesc))
         if info:
             self.app.statusbar.configLabel("info", text="", fg="#000000")
         return h
@@ -3460,12 +3766,14 @@ class Game(object):
             # self.updateTime()
             self.canvas.hideAllItems()
             self.displayPauseImage()
+            self.app.speech.speak(_("Paused"))
         else:
             self.stats.update_time = time.time()
             self.updatePlayTime()
             self.canvas.setTopImage(None)
             self.pause_logo = None
             self.canvas.showAllItems()
+            self.app.speech.speak(_("Unpaused"))
 
     def showHelp(self, *args):
         if self.preview:
@@ -3552,3 +3860,9 @@ class Game(object):
 class StartDealRowAndCards(object):
     def startGame(self):
         self._startAndDealRowAndCards()
+
+
+class FauxEvent(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y

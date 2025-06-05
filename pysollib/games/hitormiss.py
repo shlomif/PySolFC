@@ -160,6 +160,9 @@ class HitOrMiss(Game):
         # if the game is stuck.
         return Game.getSnapshotHash(self) + str(self.rank)
 
+    def parseGameInfo(self):
+        return RANKS[self.rank]
+
 
 class HitOrMissUnlimited(HitOrMiss):
     MaxRounds = UNLIMITED_REDEALS

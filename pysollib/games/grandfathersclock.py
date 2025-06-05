@@ -721,6 +721,14 @@ class Clock(Game):
             return True
         return Game.getStuck(self)
 
+    def parseGameInfo(self):
+        numKings = 0
+        for c in self.s.rows[12].cards:
+            if c.face_up and c.rank == KING:
+                numKings += 1
+
+        return _("Kings: %d") % numKings
+
 
 class RelaxedClock(Clock):
     Draws = 1

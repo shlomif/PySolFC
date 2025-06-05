@@ -26,7 +26,7 @@ from pysollib.mygettext import _
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog
 
-from .tkwidget import PysolCombo
+from .tkwidget import PysolCheckbutton, PysolCombo
 
 
 # ************************************************************************
@@ -37,19 +37,21 @@ class SolverDialog(BaseSolverDialog, BaseTileMfxDialog):
     def _createGamesVar(self, frame, row):
         cb = PysolCombo(frame, values=tuple(self.gamenames),
                         selectcommand=self.gameSelected,
-                        state='readonly', width=40)
+                        state='readonly', width=40,
+                        fieldname=_("Game:"))
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         return cb
 
     def _createPresetVar(self, frame, row):
         cb = PysolCombo(frame, values=tuple(self.presets), state='readonly',
-                        selectcommand=self._OnAssignToPreset)
+                        selectcommand=self._OnAssignToPreset,
+                        fieldname=_("Preset:"))
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         cb.current(0)
         return cb
 
     def _createShowProgressButton(self, frame):
-        return self._calcToolkit().Checkbutton(
+        return PysolCheckbutton(
             frame, variable=self.progress_var,
             text=_('Show progress'))
 

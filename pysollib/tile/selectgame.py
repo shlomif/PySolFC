@@ -1016,7 +1016,7 @@ class SearchCriteria:
                                   "Games not played": "not played"}
 
 
-def _extract_names(game_info) -> list[str]:
+def _extract_names(game_info):
     return [""] + [name for name, _games in game_info]
 
 

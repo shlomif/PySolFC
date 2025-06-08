@@ -147,7 +147,7 @@ class Mughal_AC_RowStack(Mughal_OpenStack):
                 not self.isAlternateColorSequence(cards)):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isAlternateColorSequence([stackcards[-1], cards[0]])
 
@@ -159,7 +159,7 @@ class Mughal_AF_RowStack(Mughal_OpenStack):
                 not self.isAlternateForceSequence(cards)):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isAlternateForceSequence([stackcards[-1], cards[0]])
 
@@ -171,7 +171,7 @@ class Mughal_RK_RowStack(Mughal_OpenStack):
                 not self.isRankSequence(cards)):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isRankSequence([stackcards[-1], cards[0]])
 
@@ -183,7 +183,7 @@ class Mughal_SS_RowStack(Mughal_OpenStack):
                 not self.isSuitSequence(cards)):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isSuitSequence([stackcards[-1], cards[0]])
 

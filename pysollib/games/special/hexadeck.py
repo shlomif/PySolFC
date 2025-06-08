@@ -379,7 +379,7 @@ class BitsNBytes(AbstractHexADeckGame):
         if self.preview > 1:
             return
         for j in range(4):
-            if not len(self.s.foundations[j].cards):
+            if not self.s.foundations[j].cards:
                 break
             s = self.s.foundations[j].cards[-1].rank + 1
             for i in range(4):
@@ -1288,7 +1288,7 @@ class MerlinsMeander(AbstractHexADeckGame):
         for s in self.s.rows:
             if s.cards and s.cards[0].suit != 4:
                 return 0
-        if not len(self.s.talon.cards) and len(self.s.waste.cards) == 1:
+        if not self.s.talon.cards and len(self.s.waste.cards) == 1:
             return self.s.waste.cards[0].suit == 4
         return len(self.s.talon.cards) + len(self.s.waste.cards) == 0
 

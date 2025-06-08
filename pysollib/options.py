@@ -167,6 +167,7 @@ gamewon = boolean
 droppair = boolean
 redo = boolean
 dealwaste = boolean
+edge = boolean
 extra = boolean
 
 [fonts]
@@ -188,6 +189,7 @@ cards_2 = string
 samerank_1 = string
 samerank_2 = string
 not_matching = string
+keyboard_sel = string
 
 [timeouts]
 highlight_samerank = float(0.2, 9.9)
@@ -444,6 +446,7 @@ class Options:
             'dealwaste': True,
             'droppair': True,
             'drop': True,
+            'edge': True,
             'extra': True,
             'flip': True,
             'move': True,
@@ -481,6 +484,7 @@ class Options:
             'samerank_2':   '#0000ff',
             'hintarrow':    '#303030',
             'not_matching': '#ff0000',
+            'keyboard_sel': '#bf40bf',
             }
         # delays
         self.timeouts = {

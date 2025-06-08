@@ -2,6 +2,7 @@ import tkinter
 
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
+from pysollib.tile.tkwidget import PysolSpinbox
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 
 
@@ -70,8 +71,9 @@ class BaseSolverDialog:
         self._calcToolkit().Label(
             frame, text=_('Max iterations:'), anchor='w').grid(
             row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
-                               increment=1000, textvariable=self.max_iters_var)
+        spin = PysolSpinbox(frame, from_=1000, to=10e6,
+                            increment=1000, textvariable=self.max_iters_var,
+                            fieldname=_('Max iterations:'))
         self.max_iters_var.trace('w', self._OnAssignToMaxIters)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 

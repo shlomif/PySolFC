@@ -24,6 +24,11 @@
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.larasgame import LarasGame, LarasGame_Reserve
 from pysollib.games.larasgame import LarasGame_Talon
+from pysollib.games.special.dashavatara import AbstractDashavataraGame
+from pysollib.games.special.hanafuda_common import AbstractFlowerGame
+from pysollib.games.special.hexadeck import AbstractHexADeckGame
+from pysollib.games.special.mughal import AbstractMughalGame
+from pysollib.games.special.tarock import AbstractTarockGame
 from pysollib.stack import OpenStack
 
 
@@ -56,7 +61,7 @@ class BridgetsGame_Reserve(OpenStack):
 # * Katrina's Game
 # ************************************************************************
 
-class KatrinasGame(LarasGame):
+class KatrinasGame(AbstractTarockGame, LarasGame):
     DEAL_TO_TALON = 3
     MAX_ROUNDS = 2
     ROW_LENGTH = 5
@@ -119,7 +124,7 @@ class DoubleKatrinasGame(RelaxedKatrinasGame):
 # * and men who followed her
 # ************************************************************************
 
-class BridgetsGame(LarasGame):
+class BridgetsGame(AbstractHexADeckGame, LarasGame):
     Reserve_Class = BridgetsGame_Reserve
     Reserve_Cards = 2
     MAX_ROUNDS = 2
@@ -158,7 +163,7 @@ class DoubleBridgetsGame(BridgetsGame):
 # * Fatimeh's Game
 # ************************************************************************
 
-class FatimehsGame(LarasGame):
+class FatimehsGame(AbstractMughalGame, LarasGame):
     DEAL_TO_TALON = 5
     MAX_ROUNDS = 3
     MAX_ROW = 12
@@ -193,7 +198,7 @@ class RelaxedFatimehsGame(FatimehsGame):
 # * Kali's Game
 # ************************************************************************
 
-class KalisGame(FatimehsGame):
+class KalisGame(AbstractDashavataraGame, FatimehsGame):
     DEAL_TO_TALON = 6
     ROW_LENGTH = 5
 
@@ -231,7 +236,7 @@ class DoubleKalisGame(RelaxedKalisGame):
 # * Dojouji's Game
 # ************************************************************************
 
-class DojoujisGame(LarasGame):
+class DojoujisGame(AbstractFlowerGame, LarasGame):
     Talon_Class = DojoujisGame_Talon
     ROW_LENGTH = 6
     MAX_ROW = 8

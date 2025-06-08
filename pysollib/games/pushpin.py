@@ -25,6 +25,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
@@ -399,8 +400,11 @@ class AccordionsRevenge(Accordion2):
         if self.preview > 1:
             return
         if self.finalrank != -1 and self.finalsuit != -1:
-            self.texts.base_rank.config(text=RANKS[self.finalrank]
-                                        + ' - ' + SUITS_PL[self.finalsuit])
+            self.texts.base_rank.config(text=self.parseGameInfo())
+
+    def parseGameInfo(self):
+        return _("Goal card: ") + RANKS[self.finalrank] + \
+            ' - ' + SUITS_PL[self.finalsuit]
 
 # ************************************************************************
 # * Decade

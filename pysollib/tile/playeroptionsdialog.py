@@ -27,7 +27,7 @@ import tkinter.ttk as ttk
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 
-from .tkwidget import MfxDialog
+from .tkwidget import MfxDialog, PysolCheckbutton, PysolCombo
 
 
 class PlayerOptionsDialog(MfxDialog):
@@ -53,17 +53,18 @@ class PlayerOptionsDialog(MfxDialog):
         #
         w = kw.get("e_width", 30)    # width in characters
         names = self.app.getAllUserNames()
-        self.player_var = ttk.Combobox(frame, width=w, values=tuple(names))
+        self.player_var = PysolCombo(frame, width=w, values=tuple(names),
+                                     fieldname=_("Please enter your name"))
         self.player_var.current(names.index(app.opt.player))
         self.player_var.grid(row=1, column=0, sticky='ew', padx=0, pady=5)
         #
-        widget = ttk.Checkbutton(frame, variable=self.confirm_var,
-                                 text=_("Confirm discard game"))
+        widget = PysolCheckbutton(frame, variable=self.confirm_var,
+                                  text=_("Confirm discard game"))
         widget.grid(row=2, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-        widget = ttk.Checkbutton(frame, variable=self.update_stats_var,
-                                 text=_("Update statistics and logs"))
+        widget = PysolCheckbutton(frame, variable=self.update_stats_var,
+                                  text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-        #  widget = ttk.Checkbutton(frame, variable=self.win_animation_var,
+        #  widget = PysolCheckbutton(frame, variable=self.win_animation_var,
         #                               text="Win animation")
         #  widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)

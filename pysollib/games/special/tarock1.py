@@ -270,7 +270,7 @@ class Rambling(Corkscrew):
 # ************************************************************************
 
 
-class LeGrandeTeton(ThreePeaksNoScore):
+class LeGrandeTeton(AbstractTarockGame, ThreePeaksNoScore):
     Waste_Class = StackWrapper(Golf_Waste, mod=14)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

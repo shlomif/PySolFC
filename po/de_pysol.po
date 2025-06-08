@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-10 18:09-0400\n"
+"PO-Revision-Date: 2025-04-19 16:28-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1226,6 +1226,9 @@ msgstr "König"
 #: pysollib/games/ultra/hexadeck.py:275 pysollib/games/ultra/mughal.py:261
 msgid "Ace"
 msgstr "Ass"
+
+msgid "Face-down"
+msgstr ""
 
 #: pysollib/stack.py:1612
 msgid "No cards"
@@ -3822,6 +3825,9 @@ msgstr "Bewegung"
 msgid "No move"
 msgstr "Kein Zug"
 
+msgid "Edge of Layout"
+msgstr ""
+
 #: pysollib/pysolgtk/soundoptionsdialog.py:66
 #: pysollib/tile/soundoptionsdialog.py:78 pysollib/tk/soundoptionsdialog.py:80
 msgid "Autopilot lost"
@@ -4975,6 +4981,9 @@ msgstr "Hinweispfeil:"
 #: pysollib/ui/tktile/colorsdialog.py:78 data/pysolfc.glade:2213
 msgid "Highlight not matching:"
 msgstr "Keine passenden hervorheben:"
+
+msgid "Keyboard selector:"
+msgstr ""
 
 #: pysollib/ui/tktile/findcarddialog.py:45
 msgid "Find card"

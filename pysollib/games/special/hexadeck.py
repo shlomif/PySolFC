@@ -44,8 +44,8 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack, \
         Yukon_AC_RowStack
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, SUITS_PL, \
+    UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************
 # * Hex A Deck Foundation Stacks
@@ -191,6 +191,11 @@ class Bits_RowStack(ReserveStack):
         return ((self.game.s.foundations[i].cards[-1].rank + 1 >>
                  (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
 
+    def getBit(self):
+        i = int(self.id // 4)
+        return (self.game.s.foundations[i].cards[-1].rank + 1 >>
+                (self.id % 4)) % 2
+
 
 class Bytes_RowStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
@@ -205,6 +210,11 @@ class Bytes_RowStack(ReserveStack):
             if not r.cards:
                 return 0
         return self.game.s.foundations[i].cards[-1].rank == cards[0].rank
+
+    def getByte(self):
+        id = self.id - 16
+        i = int(id // 2)
+        return (self.game.s.foundations[i].cards[-1].rank)
 
 
 class HexAKlon_RowStack(AC_RowStack):
@@ -278,6 +288,16 @@ class Merlins_ReserveStack(ReserveStack):
 class AbstractHexADeckGame(Game):
     RANKS = (_("Ace"), "2", "3", "4", "5", "6", "7", "8", "9",
              "A", "B", "C", "D", "E", "F", "10")
+    WIZARDS = ("4", "3", "2", "1")
+
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        if card.suit > 3:
+            return _("Wizard") + " " + self.WIZARDS[card.rank]
+        suit = SUITS_PL[card.suit]
+        rank = self.RANKS[card.rank]
+        return rank + " - " + suit
 
 
 class Merlins_Hint(DefaultHint):
@@ -288,7 +308,7 @@ class Merlins_Hint(DefaultHint):
 # * Bits n Bytes
 # ************************************************************************
 
-class BitsNBytes(Game):
+class BitsNBytes(AbstractHexADeckGame):
 
     #
     # Game layout
@@ -396,6 +416,13 @@ class BitsNBytes(Game):
                 return 0
         return 1
 
+    def parseEmptyStack(self, stack):
+        if type(stack) is Bits_RowStack:
+            return _("Bit stack") + " - " + str(stack.getBit())
+        elif type(stack) is Bytes_RowStack:
+            return _("Byte stack") + " - " + self.RANKS[stack.getByte()]
+        return Game.parseEmptyStack(self, stack)
+
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return 0
 
@@ -404,7 +431,7 @@ class BitsNBytes(Game):
 # * Hex A Klon
 # ************************************************************************
 
-class HexAKlon(Game):
+class HexAKlon(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -470,7 +497,7 @@ class HexAKlon(Game):
 # * Hex A Klon by Threes
 # ************************************************************************
 
-class HexAKlonByThrees(Game):
+class HexAKlonByThrees(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -536,7 +563,7 @@ class HexAKlonByThrees(Game):
 # * King Only Hex A Klon
 # ************************************************************************
 
-class KingOnlyHexAKlon(Game):
+class KingOnlyHexAKlon(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -610,7 +637,7 @@ class KingOnlyHexAKlon(Game):
 # * Klondike Plus 16
 # ************************************************************************
 
-class KlondikePlus16(Game):
+class KlondikePlus16(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -668,7 +695,7 @@ class KlondikePlus16(Game):
 # * The Familiar
 # ************************************************************************
 
-class TheFamiliar(Game):
+class TheFamiliar(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -733,7 +760,7 @@ class TheFamiliar(Game):
 # * Two Familiars
 # ************************************************************************
 
-class TwoFamiliars(Game):
+class TwoFamiliars(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -798,7 +825,7 @@ class TwoFamiliars(Game):
 # * Ten by Eight
 # ************************************************************************
 
-class TenByEight(Game):
+class TenByEight(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.gypsyLayout)
     Talon_Class = WasteTalonStack
@@ -859,7 +886,7 @@ class TenByEight(Game):
 # * Drawbridge
 # ************************************************************************
 
-class Drawbridge(Game):
+class Drawbridge(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.harpLayout)
     Talon_Class = WasteTalonStack
@@ -918,7 +945,7 @@ class Drawbridge(Game):
 # * Double Drawbridge
 # ************************************************************************
 
-class DoubleDrawbridge(Game):
+class DoubleDrawbridge(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.harpLayout)
     Talon_Class = WasteTalonStack
@@ -978,7 +1005,7 @@ class DoubleDrawbridge(Game):
 # * Hidden Passages
 # ************************************************************************
 
-class HiddenPassages(Game):
+class HiddenPassages(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -1052,7 +1079,7 @@ class HiddenPassages(Game):
 # * Cluitjar's Lair
 # ************************************************************************
 
-class CluitjarsLair(Game):
+class CluitjarsLair(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
@@ -1270,7 +1297,7 @@ class MerlinsMeander(AbstractHexADeckGame):
 # * Mage's Game
 # ************************************************************************
 
-class MagesGame(Game):
+class MagesGame(AbstractHexADeckGame):
     Hint_Class = CautiousDefaultHint
     Layout_Method = staticmethod(Layout.gypsyLayout)
     Talon_Class = InitialDealTalonStack
@@ -1462,7 +1489,7 @@ class HexYukon_RowStack(Yukon_AC_RowStack):
         return Yukon_AC_RowStack.acceptsCards(self, from_stack, cards)
 
 
-class HexYukon(Game):
+class HexYukon(AbstractHexADeckGame):
     Layout_Method = staticmethod(Layout.yukonLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = HexADeck_FoundationStack

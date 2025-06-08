@@ -44,12 +44,16 @@ class Memory_RowStack(OpenStack):
         if game.other_stack is None:
             game.playSample("flip", priority=5)
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             game.other_stack = self
         else:
             assert len(game.other_stack.cards) == 1 and \
                 game.other_stack.cards[-1].face_up
             c1, c2 = self.cards[-1], game.other_stack.cards[0]
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             if self.game.cardsMatch(c1, c2):
                 self._dropPairMove(1, game.other_stack)
             else:
@@ -174,6 +178,9 @@ class Memory24(Game):
                 t = _("WON\n\n")
             t = t + _("Total: %d") % self.score
         self.texts.score.config(text=t)
+
+    def parseGameInfo(self):
+        return _("Points: %d") % self.score
 
     def getGameScore(self):
         return self.score
@@ -335,12 +342,16 @@ class MemorySequence_RowStack(Memory_RowStack):
         if game.other_stack is None:
             game.playSample("flip", priority=5)
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             game.other_stack = self
         else:
             assert len(game.other_stack.cards) == 1 and \
                 game.other_stack.cards[-1].face_up
             c1, c2 = self.cards[-1], game.other_stack.cards[0]
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             if self.game.cardsMatch(c1, c2):
                 self._dropPairMove(1, game.other_stack)
                 game.other_stack = self
@@ -409,16 +420,22 @@ class Families_RowStack(Memory_RowStack):
         if game.other_stack is None:
             game.playSample("flip", priority=5)
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             game.other_stack = self
         elif game.other_stack2 is None:
             game.playSample("flip", priority=5)
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             game.other_stack2 = self
         else:
             assert len(game.other_stack.cards) == 1 and \
                 game.other_stack.cards[-1].face_up
             c1, c2, c3 = self, game.other_stack, game.other_stack2
             self.flipMove()
+            self.game.app.speech.speak(
+                self.game.parseCard(self.cards[-1]))
             if not self.game.handleMatch(c1, c2, c3):
                 game.playSample("flip", priority=5)
                 game.updateStatus(moves=game.moves.index+1)  # update moves now
@@ -519,6 +536,9 @@ class Families(Concentration):
 
     def getStuck(self):
         return self.score == -1
+
+    def parseGameInfo(self):
+        return ""
 
     def _loadGameHook(self, p):
         self.loadinfo.addattr(other_stack_id=p.load())

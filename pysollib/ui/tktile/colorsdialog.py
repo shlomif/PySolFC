@@ -27,6 +27,8 @@ from tkinter.colorchooser import askcolor
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 
+from ...tile.tkwidget import PysolButton
+
 
 class BaseColorsDialog:
     def _calcFrame(self):
@@ -36,7 +38,7 @@ class BaseColorsDialog:
         return self._calcToolkit().Label
 
     def _calcButton(self):
-        return self._calcToolkit().Button
+        return PysolButton
 
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
@@ -65,6 +67,8 @@ class BaseColorsDialog:
         self.hintarrow_var.set(app.opt.colors['hintarrow'])
         self.not_matching_var = tkinter.StringVar()
         self.not_matching_var.set(app.opt.colors['not_matching'])
+        self.keyboard_sel_var = tkinter.StringVar()
+        self.keyboard_sel_var.set(app.opt.colors['keyboard_sel'])
         #
         row = 0
         for title, var in (
@@ -76,6 +80,7 @@ class BaseColorsDialog:
             (_('Highlight same rank 2:'),  self.samerank_2_var),
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
+            (_('Keyboard selector:'),      self.keyboard_sel_var),
                 ):
             self._calcLabel()(
                 frame, text=title, anchor='w',).grid(
@@ -84,7 +89,7 @@ class BaseColorsDialog:
                                   bg=var.get(), textvariable=var)
             label.grid(row=row, column=1, padx=5)
             b = self._calcButton()(
-                frame, text=_('Change...'), width=10,
+                frame, text=_('Change...'), prefixtext=title, width=10,
                 command=lambda label=label: self.selectColor(label))
             b.grid(row=row, column=2)
             row += 1
@@ -100,6 +105,7 @@ class BaseColorsDialog:
         self.samerank_2_color = self.samerank_2_var.get()
         self.hintarrow_color = self.hintarrow_var.get()
         self.not_matching_color = self.not_matching_var.get()
+        self.keyboard_sel_color = self.keyboard_sel_var.get()
 
     def selectColor(self, label):
         try:

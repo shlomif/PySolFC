@@ -25,6 +25,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import Yukon_Hint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_RowStack, \
         InitialDealTalonStack, \
@@ -83,6 +84,10 @@ class Interlock_StackMethods:
                 self._isAcceptableSequence([self.cards[-1]] + cards)):
             return False
         return True
+
+    def canSelect(self):
+        return ((len(self.cards) > 0 or self.id < self.STEP[0][0]) and
+                (not self.cards or self.cards[-1].face_up))
 
 
 class Interlock_RowStack(Interlock_StackMethods, AC_RowStack):
@@ -145,6 +150,25 @@ class Interlock(Game):
         self.s.talon.dealRow(rows=self.s.rows[:19], flip=1, frames=0)
         self.s.talon.dealRow(rows=self.s.rows[19:])
         self.s.talon.dealCards()  # deal first card to WasteStack
+
+    def getStackSpeech(self, stack, cardindex):
+        if stack not in self.s.rows or not hasattr(stack, 'STEP'):
+            return Game.getStackSpeech(self, stack, cardindex)
+        if len(stack.cards) == 0:
+            return self.parseEmptyStack(stack)
+        mainCard = self.parseCard(stack.cards[cardindex])
+        coverCards = ()
+        r, step = self.s.rows, stack.STEP
+        i, mylen = stack.id, len(step)
+        if i < mylen:
+            for j in step[i]:
+                if r[j + i].cards:
+                    coverCards += (r[j + i],)
+        if len(coverCards) > 0:
+            mainCard += " - " + _("Covered by")
+            for c in coverCards:
+                mainCard += " - " + self.parseCard(c.cards[0])
+        return mainCard
 
     def _getClosestStack(self, cx, cy, stacks, dragstack):
         closest, cdist = None, 999999999

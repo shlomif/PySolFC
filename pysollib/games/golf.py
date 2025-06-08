@@ -394,6 +394,9 @@ class Elevator_RowStack(Golf_RowStack):
                     return True
         return False
 
+    def canSelect(self):
+        return len(self.cards) > 0 and self.cards[-1].face_up
+
 
 class Elevator(RelaxedGolf):
 
@@ -438,6 +441,26 @@ class Elevator(RelaxedGolf):
         self.s.talon.dealRow(rows=self.s.rows[:21], flip=0)
         self.s.talon.dealRow(rows=self.s.rows[21:])
         self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def getStackSpeech(self, stack, cardindex):
+        if stack not in self.s.rows:
+            return Game.getStackSpeech(self, stack, cardindex)
+        if len(stack.cards) == 0:
+            return self.parseEmptyStack(stack)
+        mainCard = self.parseCard(stack.cards[cardindex])
+        coverCards = ()
+        r, step = self.s.rows, stack.STEP
+        i, mylen = stack.id, len(stack.STEP)
+        if i < mylen:
+            i = i + step[i]
+            for j in range(2):
+                if r[j + i].cards:
+                    coverCards += (r[j + i],)
+        if len(coverCards) > 0:
+            mainCard += " - " + _("Covered by")
+            for c in coverCards:
+                mainCard += " - " + self.parseCard(c.cards[0])
+        return mainCard
 
 
 class Escalator(pysollib.game.StartDealRowAndCards, Elevator):

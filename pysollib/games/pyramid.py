@@ -25,6 +25,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
@@ -172,6 +173,9 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
         OpenStack.copyModel(self, clone)
         clone.blockmap = self.blockmap
 
+    def canSelect(self):
+        return len(self.cards) > 0 and self.cards[-1].face_up
+
 
 # ************************************************************************
 # * Pyramid
@@ -298,6 +302,22 @@ class Pyramid(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank + card2.rank == 11
+
+    def getStackSpeech(self, stack, cardindex):
+        if stack not in self.s.rows:
+            return Game.getStackSpeech(self, stack, cardindex)
+        if len(stack.cards) == 0:
+            return self.parseEmptyStack(stack)
+        mainCard = self.parseCard(stack.cards[cardindex])
+        coverCards = ()
+        for r in stack.blockmap:
+            if r.cards:
+                coverCards += (r,)
+        if len(coverCards) > 0:
+            mainCard += " - " + _("Covered by")
+            for c in coverCards:
+                mainCard += " - " + self.parseCard(c.cards[0])
+        return mainCard
 
 
 # ************************************************************************
@@ -455,6 +475,9 @@ class Thirteens(Pyramid):
                 self.s.talon.moveMove(1, stack)
                 self.leaveState(old_state)
 
+    def getStackSpeech(self, stack, cardindex):
+        return Game.getStackSpeech(self, stack, cardindex)
+
 # ************************************************************************
 # * Elevens
 # * Elevens Too
@@ -581,6 +604,9 @@ class Elevens(Pyramid):
             for s in self.s.reserves:
                 s.moveMove(1, self.s.foundations[0], frames=4)
         self.leaveState(old_state)
+
+    def getStackSpeech(self, stack, cardindex):
+        return Game.getStackSpeech(self, stack, cardindex)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.rank + card2.rank == 9 or

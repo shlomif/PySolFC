@@ -102,6 +102,11 @@ class Ishido(Game):
     COLS = 12
     ROWS = 8
 
+    COLORS = (_("Blue"), _("Red"), _("Yellow"), _("Green"),
+              _("Purple"), _("Orange"))
+    SHAPES = (_("Square"), _("Circle"), _("Triangle"), _("Diamond"),
+              _("Pentagon"), _("Star"))
+
     #
     # game layout
     #
@@ -246,6 +251,18 @@ class Ishido(Game):
         t = _("Points: %d") % self.score
         self.texts.score.config(text=t)
 
+    def parseGameInfo(self):
+        if not self.SCORING:
+            return ''
+        return _("Points: %d") % self.getGameScore()
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        row = (stack.id // self.COLS) + 1
+        column = (stack.id % self.COLS) + 1
+        return _("Row: %d, Column: %d") % (row, column)
+
     def getGameScore(self):
         return self.score
 
@@ -285,6 +302,13 @@ class Ishido(Game):
             adjacentRows.append(self.s.rows[playSpace - self.COLS])
 
         return adjacentRows
+
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        color = self.COLORS[card.suit]
+        shape = self.SHAPES[card.rank]
+        return color + " - " + shape
 
 
 class IshidoRelaxed(Ishido):

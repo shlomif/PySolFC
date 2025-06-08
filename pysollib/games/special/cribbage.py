@@ -177,6 +177,22 @@ class CribbageSquare(Game):
             t += _("Total: %d") % score
         self.texts.score.config(text=t)
 
+    def parseGameInfo(self):
+        return _("Points: %d") % self.getGameScore()
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows:
+            return ""
+        stackhands = []
+        for hand in self.cribbage_hands:
+            if stack in hand:
+                stackhands.append(hand)
+        row = (stack.id % 4) + 1
+        column = (stack.id // 4) + 1
+        return (_("Row: %d, Score %d, Column: %d, Score %d") %
+                (row, self.getHandScore(stackhands[0]), column,
+                 self.getHandScore(stackhands[1])))
+
     def getGameScore(self):
         score = 0
         for hand in self.cribbage_hands:
@@ -393,12 +409,12 @@ class CribbagePatience(CribbageShuffle):
         l, s = Layout(self), self.s
         self.setSize((2 * l.XM) + 8 * l.XS,
                      l.YM + ((self.HANDS + 1) * l.YS))
-        x, y = self.getInvisibleCoords()
-        s.waste = ReserveStack(x, y, self)
         x, y = l.XM, l.YM
         s.talon = CribbagePatience_Talon(x, y, self)
         l.createText(s.talon, "se")
-        x += 2 * l.XS
+        x, y = self.getInvisibleCoords()
+        s.waste = ReserveStack(x, y, self)
+        x, y = l.XM + (2 * l.XS), l.YM
         for i in range(4):
             s.rows.append(CribbagePatience_CribStack(x, y, self, max_move=1))
             x += l.XS
@@ -484,6 +500,16 @@ class CribbagePatience(CribbageShuffle):
             if len(self.s.rows[i].cards) == 0:
                 return False
         return True
+
+    def parseStackInfo(self, stack):
+        if stack not in self.s.rows or len(stack.cards) == 0 \
+                or not self.isBoardFull():
+            return ""
+        stackhand = None
+        for hand in self.cribbage_hands:
+            if stack in hand:
+                stackhand = hand
+        return _("Hand Score %d") % self.getHandScore(stackhand)
 
     def finalizeHand(self):
         if self.isFinalizedHand:

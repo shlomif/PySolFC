@@ -69,6 +69,7 @@ from pysollib.resource import Tile, TileManager
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, VERSION_TUPLE  # , WIN_SYSTEM
 from pysollib.settings import TOOLKIT
+from pysollib.speech import Speech
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 if TOOLKIT == 'tk':
@@ -97,6 +98,7 @@ class Application:
     def __init__(self):
         self.gdb = GAME_DB
         self.opt = Options()
+        self.speech = Speech()
         self.startup_opt = self.opt.copy()
         self.stats = Statistics()
         self.splashscreen = 1

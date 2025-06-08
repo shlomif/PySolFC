@@ -32,6 +32,7 @@ import traceback
 from pysollib.mfxutil import KwStruct, destruct, kwdefault, openURL
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
+from pysollib.speech import Speech
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
@@ -214,9 +215,9 @@ class MfxDialog:  # ex. _ToplevelDialog
                 button_img = MfxDialog.button_img.get(s)
             s = s.replace('&', '')
             if button < 0:
-                widget = ttk.Button(frame, text=s, state="disabled")
+                widget = PysolButton(frame, text=s, state="disabled")
             else:
-                widget = ttk.Button(
+                widget = PysolButton(
                     frame, text=s, default="normal",
                     command=lambda self=self, button=button:
                     self.mDone(button))
@@ -267,6 +268,7 @@ class MfxMessageDialog(MfxDialog):
         msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
+        parent.after(600, lambda: parent.app.speech.speak(kw.text))
         self.mainloop(focus, kw.timeout)
 
 
@@ -329,13 +331,14 @@ class PysolAboutDialog(MfxMessageDialog):
 
         self.splashscreen = tkinter.BooleanVar()
         self.splashscreen.set(app.opt.splashscreen)
-        show_on_start = ttk.Checkbutton(bottom_frame,
-                                        variable=self.splashscreen,
-                                        command=self._splashUpdate,
-                                        text=_("Show this on startup"))
+        show_on_start = PysolCheckbutton(bottom_frame,
+                                         variable=self.splashscreen,
+                                         command=self._splashUpdate,
+                                         text=_("Show this on startup"))
         show_on_start.grid(row=0, column=0, sticky='w',
                            padx=1, pady=1)
 
+        parent.after(500, lambda: app.speech.speak(kw.text + " " + kw.url))
         self.mainloop(focus, kw.timeout)
 
     def _urlClicked(self, event):
@@ -357,11 +360,13 @@ class MfxSimpleEntry(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.value = value
+        labeltext = label
         if label:
             label = ttk.Label(top_frame, text=label, takefocus=0)
             label.pack(pady=5)
         w = kw.get("e_width", 0)    # width in characters
-        self.var = ttk.Entry(top_frame, exportselection=1, width=w)
+        self.var = PysolEntry(top_frame, exportselection=1, width=w,
+                              fieldname=labeltext)
         self.var.insert(0, value)
         self.var.pack(side='top', padx=kw.padx, pady=kw.pady)
         #
@@ -792,6 +797,13 @@ class MyPysolScale:
         else:
             self.label_text = None
             width = 3
+        if 'fieldname' in kw:
+            self.field_name = kw['fieldname']
+            del kw['fieldname']
+        else:
+            self.field_name = ''
+
+        self.speech = Speech()
 
         # create widgets
         side = 'left'  # 'top'
@@ -801,6 +813,7 @@ class MyPysolScale:
         self.label.pack(side=side, expand=False, fill='x')
         self.scale = ttk.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
+        self.scale.bind("<FocusIn>", self._scale_focus)
 
         if self.variable:
             self.variable.trace('w', self._trace_var)
@@ -827,9 +840,14 @@ class MyPysolScale:
         v = self._round(float(value)*self.resolution)
         self._set_text(v)
         self.variable.set(v)
-        if value != self.value and self.command:
-            self.command(value)
+        if value != self.value:
+            self.speech.speak(value)
+            if self.command:
+                self.command(value)
         self.value = value
+
+    def _scale_focus(self, event):
+        self.speech.speak(self.field_name + " " + self.value)
 
     def pack(self, **kw):
         self.frame.pack(**kw)
@@ -869,11 +887,31 @@ PysolScale = MyPysolScale
 
 class PysolCombo(ttk.Combobox):
     def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+
         self._command = None
         if 'selectcommand' in kw:
             self._command = kw['selectcommand']
             del kw['selectcommand']
         ttk.Combobox.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+        self.bind("<Up>", lambda c: self._cycle_items(c, dir=-1))
+        self.bind("<Down>", lambda c: self._cycle_items(c, dir=1))
+
         self.bind('<<ComboboxSelected>>', self._callback)
 
     def _callback(self, *args):
@@ -882,3 +920,187 @@ class PysolCombo(ttk.Combobox):
         if self._command is not None:
             return self._command(*args)
         return None
+
+    def _cycle_items(self, *args, **kw):
+        direction = kw.get("dir", 0)
+        values = self['values']
+        current = self.current()
+
+        new_index = (current + direction) % len(values)
+        self.current(new_index)
+
+        selected_label = values[new_index]
+        self.speech.speak(selected_label)
+
+        return "break"
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Select box") + " " +
+                          str(self.value.get()))
+
+
+# ************************************************************************
+# * Other components (speech support)
+# ************************************************************************
+
+class PysolCheckbutton(ttk.Checkbutton):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
+
+        self.value = kw.get('variable', tkinter.BooleanVar())
+        kw['variable'] = self.value
+        ttk.Checkbutton.__init__(self, master, **kw)
+
+        if 'text' in kw:
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
+        elif prefixtext is not None:
+            self.field_name = prefixtext
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Check box") + " " +
+                          str(self.value.get()))
+
+
+class PysolRadiobutton(ttk.Radiobutton):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
+
+        self.myvalue = kw.get('value', tkinter.StringVar())
+        self.value = kw.get('variable', tkinter.StringVar())
+        kw['variable'] = self.value
+        ttk.Radiobutton.__init__(self, master, **kw)
+
+        if 'text' in kw:
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
+        elif prefixtext is not None:
+            self.field_name = prefixtext
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Radio button") + " " +
+                          str(self.value.get() == self.myvalue))
+
+
+class PysolEntry(ttk.Entry):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+        ttk.Entry.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Text box") + " " +
+                          self.value.get())
+
+
+class PysolButton(ttk.Button):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'prefixtext' in kw:
+            prefixtext = kw['prefixtext']
+            del kw['prefixtext']
+        else:
+            prefixtext = None
+
+        if 'text' in kw:
+            if prefixtext is not None:
+                self.field_name = prefixtext + " - " + kw['text']
+            else:
+                self.field_name = kw['text']
+        else:
+            self.field_name = ''
+
+        ttk.Button.__init__(self, master, **kw)
+
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name)
+
+
+class PysolSpinbox(ttk.Spinbox):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        self.value = kw.get('textvariable', tkinter.StringVar())
+        kw['textvariable'] = self.value
+        ttk.Spinbox.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        self.speech.speak(self.field_name + " " + _("Spin box") + " " +
+                          str(self.value.get()))
+
+
+# Hidden screen reader text - use to store screen
+# reader text for other widgets.
+class PysolScreenReaderText(ttk.Label):
+    def __init__(self, parent, text="", **kw):
+        ttk.Label.__init__(self, parent, text=text, **kw)
+
+    def screenreader_text(self):
+        return self.cget("text")
+
+
+class PysolNotebook(ttk.Notebook):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        ttk.Notebook.__init__(self, master, **kw)
+        self.bind('<FocusIn>', self._focus)
+        self.bind('<<NotebookTabChanged>>', self._focus)
+
+    def _focus(self, event):
+        current_tab_id = self.select()
+        tab_text = self.tab(current_tab_id, "text")
+        content_text = self._get_screenreader_text(
+            self.nametowidget(current_tab_id))
+        self.speech.speak(tab_text + " " + _("Tab") + " " + content_text)
+
+    def _get_screenreader_text(self, frame):
+        for child in frame.winfo_children():
+            if isinstance(child, PysolScreenReaderText):
+                return child.screenreader_text()
+        return ""

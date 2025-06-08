@@ -269,6 +269,13 @@ class AbstractMughalGame(Game):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        suit = self.SUITS[card.suit]
+        rank = self.RANKS[card.rank]
+        return rank + " - " + suit
+
 
 class Triumph_Hint(DefaultHint):
     # FIXME: demo is not too clever in this game
@@ -1077,7 +1084,7 @@ class Dikapala_Hint(AbstractHint):
 # * Ashta Dikapala
 # ************************************************************************
 
-class AshtaDikapala(Game):
+class AshtaDikapala(AbstractMughalGame):
     Hint_Class = Dikapala_Hint
 
     #

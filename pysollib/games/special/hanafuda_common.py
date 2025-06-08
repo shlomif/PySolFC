@@ -46,6 +46,13 @@ class AbstractFlowerGame(Game):
                 ((card1.rank + 1 == card2.rank) or
                  (card1.rank - 1 == card2.rank)))
 
+    def parseCard(self, card):
+        if not card.face_up:
+            return _("Face-down")
+        suit = self.SUITS[card.suit]
+        rank = card.rank + 1
+        return str(rank) + " - " + suit
+
 
 class Queue_Hint(DefaultHint):
     pass

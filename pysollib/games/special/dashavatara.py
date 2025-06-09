@@ -180,7 +180,7 @@ class Dashavatara_AC_RowStack(Dashavatara_OpenStack):
                 or not self.isAlternateColorSequence(cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isAlternateColorSequence([stackcards[-1], cards[0]])
 
@@ -192,7 +192,7 @@ class Dashavatara_AF_RowStack(Dashavatara_OpenStack):
                 or not self.isAlternateForceSequence(cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isAlternateForceSequence([stackcards[-1], cards[0]])
 
@@ -204,7 +204,7 @@ class Dashavatara_RK_RowStack(Dashavatara_OpenStack):
                 or not self.isRankSequence(cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isRankSequence([stackcards[-1], cards[0]])
 
@@ -216,7 +216,7 @@ class Dashavatara_SS_RowStack(Dashavatara_OpenStack):
                 or not self.isSuitSequence(cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 11 or self.cap.base_rank == ANY_RANK
         return self.isSuitSequence([stackcards[-1], cards[0]])
 

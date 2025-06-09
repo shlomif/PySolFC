@@ -374,7 +374,7 @@ class Pagoda(AbstractFlowerGame):
             return
         for i in range(12):
             s = self.s.foundations[i]
-            if not len(s.cards) or len(s.cards) == 8:
+            if not s.cards or len(s.cards) == 8:
                 text = self.SUITS[i]
             elif len(s.cards) < 5:
                 text = _("Rising")

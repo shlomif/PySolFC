@@ -285,7 +285,7 @@ class Hanafuda_SequenceStack(Flower_OpenStack):
                or not self.isHanafudaSequence(cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 0 or self.cap.base_rank == ANY_RANK
         return self.isHanafudaSequence([stackcards[-1], cards[0]])
 
@@ -300,7 +300,7 @@ class Oonsoo_SequenceStack(Flower_OpenStack):
                 or not self.isHanafudaSequence(cards, 0):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return cards[0].rank == 0 or self.cap.base_rank == ANY_RANK
         return self.isHanafudaSequence([stackcards[-1], cards[0]], 0)
 
@@ -315,7 +315,7 @@ class FlowerClock_RowStack(Flower_OpenStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return 1
         return stackcards[-1].rank + 1 == cards[0].rank
 
@@ -326,7 +326,7 @@ class Gaji_RowStack(Flower_OpenStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         stackcards = self.cards
-        if ((not len(stackcards)) or
+        if ((not stackcards) or
                 ((stackcards[-1].suit == 10) and (stackcards[-1].rank == 3)) or
                 ((cards[0].suit == 10) and (cards[0].rank == 3))):
             return 1
@@ -453,7 +453,7 @@ class JapaneseGarden_RowStack(Flower_OpenStack):
                 from_stack not in self.game.s.rows):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return 1
         return stackcards[-1].rank + 1 == cards[0].rank
 
@@ -465,6 +465,6 @@ class HanafudaRK_RowStack(Flower_OpenStack):
                 not isRankSequence(cards, dir=1)):
             return 0
         stackcards = self.cards
-        if not len(stackcards):
+        if not stackcards:
             return 1
         return stackcards[-1].rank + 1 == cards[0].rank

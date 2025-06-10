@@ -292,8 +292,7 @@ class FourKingdoms(Game):
             stacktype = _("Jack") + " " + _("Castle")
         if len(stack.cards) == 0:
             return stacktype + " - " + SUITS_PL[stack.cap.base_suit]
-        else:
-            return stacktype + " - " + self.parseCard(stack.cards[cardindex])
+        return stacktype + " - " + self.parseCard(stack.cards[cardindex])
 
 
 # register the game

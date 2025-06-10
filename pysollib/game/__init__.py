@@ -1631,16 +1631,14 @@ class Game(object):
             if stack == self.s.talon:
                 if not stack.cards[cardindex].face_up:
                     return _("Talon") + " - " + stack.getNumCards()
-                else:
-                    message += " - " + _("Talon") + " - " + stack.getNumCards()
+                message += " - " + _("Talon") + " - " + stack.getNumCards()
             if stack == self.s.waste:
                 message += " - " + _("Waste") + " - " + stack.getNumCards()
             if stack in self.s.foundations:
                 message += (" - " + _("Foundation") + " - " +
                             stack.getNumCards())
             return message
-        else:
-            return self.parseEmptyStack(stack)
+        return self.parseEmptyStack(stack)
 
     def parseCard(self, card):
         if not card.face_up:
@@ -1656,11 +1654,10 @@ class Game(object):
             if stack in self.s.foundations:
                 if stack.cap.base_suit == -1:
                     return _("Foundation")
-                elif stack.cap.base_suit == 4:
+                if stack.cap.base_suit == 4:
                     return _("Foundation") + " - " + _("Joker")
-                else:
-                    return (_("Foundation") + " - " +
-                            SUITS_PL[stack.cap.base_suit])
+                return (_("Foundation") + " - " +
+                        SUITS_PL[stack.cap.base_suit])
         return _("Empty stack")
 
     def parseGameInfo(self):
@@ -2631,9 +2628,8 @@ class Game(object):
                 r.delete()
             self.canvas.update_idletasks()
             return EVENT_HANDLED
-        else:
-            # remove items later (find_card_dialog)
-            return items
+        # remove items later (find_card_dialog)
+        return items
 
     def highlightNotMatching(self):
         if self.demo:

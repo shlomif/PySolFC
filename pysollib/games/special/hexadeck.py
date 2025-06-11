@@ -419,7 +419,7 @@ class BitsNBytes(AbstractHexADeckGame):
     def parseEmptyStack(self, stack):
         if type(stack) is Bits_RowStack:
             return _("Bit stack") + " - " + str(stack.getBit())
-        elif type(stack) is Bytes_RowStack:
+        if type(stack) is Bytes_RowStack:
             return _("Byte stack") + " - " + self.RANKS[stack.getByte()]
         return Game.parseEmptyStack(self, stack)
 

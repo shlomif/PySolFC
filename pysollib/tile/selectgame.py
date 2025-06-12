@@ -1178,11 +1178,6 @@ class SelectGameAdvancedSearch(MfxDialog):
                          padx=1, pady=1)
         row += 1
 
-        compatValues = list()
-        compatValues.append("")
-        for name, games in GI.GAMES_BY_COMPATIBILITY:
-            compatValues.append(name)
-
         labelCompat = tkinter.Label(top_frame, text=_("Compatibility:"),
                                     anchor="w")
         labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
@@ -1194,11 +1189,6 @@ class SelectGameAdvancedSearch(MfxDialog):
         textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
                         padx=1, pady=1)
         row += 1
-
-        inventorValues = list()
-        inventorValues.append("")
-        for name, games in GI.GAMES_BY_INVENTORS:
-            inventorValues.append(name)
 
         labelInventor = tkinter.Label(top_frame, text=_("Inventor:"),
                                       anchor="w")

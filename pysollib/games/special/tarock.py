@@ -33,6 +33,7 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         InitialDealTalonStack, \
+        InvisibleStack, \
         OpenStack, \
         RK_RowStack, \
         ReserveStack, \
@@ -908,6 +909,8 @@ class Cavalier(AbstractTarockGame):
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Cavalier_RowStack
 
+    GAME_VERSION = 2
+
     #
     # Game layout
     #
@@ -931,6 +934,8 @@ class Cavalier(AbstractTarockGame):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+
+        self.s.internals.append(InvisibleStack(self))
 
         # Define stack groups
         l.defaultAll()

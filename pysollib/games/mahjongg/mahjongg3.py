@@ -728,6 +728,21 @@ r(5905, "Wall", name="Half Mahjongg Wall", ncards=72,
     "oaAaaAoaCaaCoeEa" +
     "bEcbEebEgbEibEkb" +
     "EmeEo")
+r(5906, "Star", name="Half Mahjongg Star", ncards=72,
+        layout="0aaeaceacghdgaef" +
+    "aehhfgbfoafqagfa" +
+    "ghagmhhhahkhhlhh" +
+    "nahoaigaiiaimaje" +
+    "hjgojhhjiojjbjka" +
+    "kcakgakialahldal" +
+    "ehlfilhvliiljalk" +
+    "amcamgamianehngo" +
+    "nhhnionjbnkaogao" +
+    "iaomhphapkhplhpn" +
+    "apoaqfaqhaqmhrgb" +
+    "roarqasfashhtgau" +
+    "eaugawe")
+
 
 # ----------------------------------------------------------------------
 

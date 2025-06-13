@@ -9,7 +9,7 @@ install:
     # - choco install strawberryperl
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
-    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order
+    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order==0.18.2
         pycotap pygame pyinstaller pysol-cards setuptools
         ttkthemes accessible-output2
     - perl -v

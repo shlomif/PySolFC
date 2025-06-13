@@ -320,6 +320,7 @@ class GI:
          904: 68,               # Lexington Harp
          237: 22231,            # Three Peaks
          297: 631,              # Alternation/Alternations
+         452: 1,                # Double Easthaven/Gypsy
          640: 566,              # Hypotenuse/Brazilian Patience
 
          # Lost Mahjongg Layouts

@@ -63,10 +63,10 @@ class Gypsy(Game):
     RowStack_Class = AC_RowStack
     Hint_Class = KlondikeType_Hint
 
-    def createGame(self, **layout):
+    def createGame(self, rows=8, **layout):
         # create layout
         l, s = Layout(self), self.s
-        kwdefault(layout, rows=8, waste=0, texts=1)
+        kwdefault(layout, rows=rows, waste=0, texts=1)
         self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
@@ -87,6 +87,11 @@ class Gypsy(Game):
         self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class Gypsy3Decks(Gypsy):
+    def createGame(self, **layout):
+        Gypsy.createGame(self, rows=12)
 
 
 # ************************************************************************
@@ -1056,7 +1061,7 @@ class AceOfHearts(Game):
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Normandy",)))
+                      altnames=("Double Easthaven", "Normandy",)))
 registerGame(GameInfo(65, Giant, "Giant",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(3, Irmgard, "Irmgard",
@@ -1092,6 +1097,9 @@ registerGame(GameInfo(226, Blockade, "Blockade",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(412, Cone, "Cone",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(453, Gypsy3Decks, "Gypsy (3 Decks)",
+                      GI.GT_GYPSY, 3, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Triple Easthaven",)))
 registerGame(GameInfo(463, Surprise, "Surprise",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(469, PhantomBlockade, "Phantom Blockade",

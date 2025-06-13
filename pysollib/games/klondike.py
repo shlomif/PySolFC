@@ -365,15 +365,18 @@ class Easthaven(Eastcliff):
     def createGame(self):
         Klondike.createGame(self, max_rounds=1, waste=0)
 
-
-class DoubleEasthaven(Easthaven):
-    def createGame(self):
-        Klondike.createGame(self, rows=8, max_rounds=1, waste=0, playcards=20)
-
-
-class TripleEasthaven(Easthaven):
-    def createGame(self):
-        Klondike.createGame(self, rows=12, max_rounds=1, waste=0, playcards=26)
+# Multi-deck Easthaven is just Gypsy.
+#
+# class DoubleEasthaven(Easthaven):
+#     def createGame(self):
+#         Klondike.createGame(self, rows=8, max_rounds=1, waste=0,
+#                             playcards=20)
+#
+#
+# class TripleEasthaven(Easthaven):
+#     def createGame(self):
+#         Klondike.createGame(self, rows=12, max_rounds=1, waste=0,
+#                             playcards=26)
 
 
 # ************************************************************************
@@ -1709,10 +1712,10 @@ registerGame(GameInfo(420, DoubleDot, "Double Dot",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(434, SevenDevils, "Seven Devils",
                       GI.GT_RAGLAN, 2, 0, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(452, DoubleEasthaven, "Double Easthaven",
-                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(453, TripleEasthaven, "Triple Easthaven",
-                      GI.GT_GYPSY, 3, 0, GI.SL_MOSTLY_SKILL))
+# registerGame(GameInfo(452, DoubleEasthaven, "Double Easthaven",
+#                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+# registerGame(GameInfo(453, TripleEasthaven, "Triple Easthaven",
+#                       GI.GT_GYPSY, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(470, MovingLeft, "Moving Left",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(471, Souter, "Souter",

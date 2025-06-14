@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it_games\n"
-"POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
-"PO-Revision-Date: 2024-10-19 14:30-0400\n"
+"POT-Creation-Date: Sat Jun 14 18:52:33 2025\n"
+"PO-Revision-Date: 2025-06-14 19:08-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -407,6 +407,9 @@ msgstr ""
 msgid "Big Square"
 msgstr ""
 
+msgid "Big Storeroom"
+msgstr ""
+
 msgid "Big Streets"
 msgstr ""
 
@@ -588,6 +591,9 @@ msgid "Can Can"
 msgstr ""
 
 msgid "Canberra"
+msgstr ""
+
+msgid "Candy"
 msgstr ""
 
 msgid "Canfield"
@@ -785,6 +791,9 @@ msgstr ""
 msgid "Colorado"
 msgstr ""
 
+msgid "Colours"
+msgstr ""
+
 msgid "Columns"
 msgstr ""
 
@@ -843,6 +852,9 @@ msgid "Crescent"
 msgstr ""
 
 msgid "Cribbage Patience"
+msgstr ""
+
+msgid "Cribbage Patience II"
 msgstr ""
 
 msgid "Cribbage Shuffle"
@@ -950,6 +962,9 @@ msgstr ""
 msgid "Der freie Napoleon"
 msgstr ""
 
+msgid "Der grose Zopf"
+msgstr ""
+
 msgid "Der kleine Napoleon"
 msgstr ""
 
@@ -1020,6 +1035,9 @@ msgid "Dimensions"
 msgstr ""
 
 msgid "Diplomat"
+msgstr ""
+
+msgid "Discard"
 msgstr ""
 
 msgid "Display"
@@ -1268,6 +1286,9 @@ msgstr ""
 msgid "Eight Cards"
 msgstr ""
 
+msgid "Eight Guardians"
+msgstr ""
+
 msgid "Eight Legions"
 msgstr ""
 
@@ -1373,6 +1394,9 @@ msgstr ""
 msgid "Falling Star"
 msgstr ""
 
+msgid "Families"
+msgstr ""
+
 msgid "Famous Fifty"
 msgstr ""
 
@@ -1433,6 +1457,9 @@ msgstr ""
 msgid "Financier"
 msgstr ""
 
+msgid "Finnish Solitaire"
+msgstr ""
+
 msgid "Fire and Ice"
 msgstr ""
 
@@ -1467,6 +1494,9 @@ msgid "Flake"
 msgstr ""
 
 msgid "Flake (2 Decks)"
+msgstr ""
+
+msgid "Flamboyant"
 msgstr ""
 
 msgid "Flamenco"
@@ -1664,6 +1694,9 @@ msgstr ""
 msgid "Full Vision 3"
 msgstr ""
 
+msgid "Funnel"
+msgstr ""
+
 msgid "Future"
 msgstr ""
 
@@ -1826,6 +1859,9 @@ msgstr ""
 msgid "Gypsy"
 msgstr ""
 
+msgid "Gypsy (3 Decks)"
+msgstr ""
+
 msgid "H for Haga"
 msgstr ""
 
@@ -1845,6 +1881,9 @@ msgid "Half Mahjongg K 2"
 msgstr ""
 
 msgid "Half Mahjongg Smile"
+msgstr ""
+
+msgid "Half Mahjongg Star"
 msgstr ""
 
 msgid "Half Mahjongg Wall"
@@ -2004,6 +2043,9 @@ msgid "Hypotenuse"
 msgstr ""
 
 msgid "I Love U"
+msgstr ""
+
+msgid "Ides of March"
 msgstr ""
 
 msgid "Idiot's Delight"
@@ -2211,6 +2253,9 @@ msgid "King Tut"
 msgstr ""
 
 msgid "King's Audience"
+msgstr ""
+
+msgid "King's Captives"
 msgstr ""
 
 msgid "King's Plume"
@@ -2426,6 +2471,9 @@ msgstr ""
 msgid "Lights Out 10x10"
 msgstr ""
 
+msgid "Lights Out 3x3"
+msgstr ""
+
 msgid "Lights Out 4x4"
 msgstr ""
 
@@ -2474,7 +2522,16 @@ msgstr ""
 msgid "Little Gate"
 msgstr ""
 
+msgid "Little Ishido"
+msgstr ""
+
+msgid "Little Ishido Relaxed"
+msgstr ""
+
 msgid "Little Napoleon"
+msgstr ""
+
+msgid "Lizard"
 msgstr ""
 
 msgid "Lobachevsky"
@@ -2502,6 +2559,9 @@ msgid "Lords and Ladies"
 msgstr ""
 
 msgid "Lost"
+msgstr ""
+
+msgid "Louis"
 msgstr ""
 
 msgid "Love a Duck"
@@ -2592,6 +2652,9 @@ msgid "Mahjongg Butterfly 1"
 msgstr ""
 
 msgid "Mahjongg Butterfly 2"
+msgstr ""
+
+msgid "Mahjongg Candy"
 msgstr ""
 
 msgid "Mahjongg Castle"
@@ -2829,6 +2892,9 @@ msgid "Mahjongg Lion 1"
 msgstr ""
 
 msgid "Mahjongg Lion 2"
+msgstr ""
+
+msgid "Mahjongg Lizard"
 msgstr ""
 
 msgid "Mahjongg Loose Ends"
@@ -3251,6 +3317,9 @@ msgstr ""
 msgid "Memory Sequence"
 msgstr ""
 
+msgid "Merlin's Coil"
+msgstr ""
+
 msgid "Merlin's Meander"
 msgstr ""
 
@@ -3258,6 +3327,9 @@ msgid "Mesh"
 msgstr ""
 
 msgid "Methuselah"
+msgstr ""
+
+msgid "Microbe"
 msgstr ""
 
 msgid "Midnight Oil"
@@ -3468,6 +3540,9 @@ msgid "Not Shisen-Sho 18x8"
 msgstr ""
 
 msgid "Not Shisen-Sho 24x12"
+msgstr ""
+
+msgid "Noumea"
 msgstr ""
 
 msgid "Number Ten"
@@ -3833,6 +3908,9 @@ msgstr ""
 msgid "Princess Patience"
 msgstr ""
 
+msgid "Prisoners"
+msgstr ""
+
 msgid "Private Lane"
 msgstr ""
 
@@ -3870,6 +3948,9 @@ msgid "Pyramid Dozen"
 msgstr ""
 
 msgid "Pyramid Golf"
+msgstr ""
+
+msgid "Pyramid Thirteen"
 msgstr ""
 
 msgid "Pyramid's Stones"
@@ -4012,6 +4093,9 @@ msgid "Relaxed Accordion"
 msgstr "Fisarmonica"
 
 msgid "Relaxed Clock"
+msgstr ""
+
+msgid "Relaxed Cruel"
 msgstr ""
 
 msgid "Relaxed Exit"
@@ -4323,6 +4407,9 @@ msgstr ""
 msgid "Seven by Four"
 msgstr ""
 
+msgid "Seven to Ace"
+msgstr ""
+
 msgid "Seventh Wonder"
 msgstr ""
 
@@ -4470,6 +4557,9 @@ msgstr ""
 msgid "Solid Square"
 msgstr ""
 
+msgid "Solitairot"
+msgstr ""
+
 msgid "Solstice"
 msgstr ""
 
@@ -4567,6 +4657,9 @@ msgid "Stairs 3"
 msgstr ""
 
 msgid "Stalactites"
+msgstr ""
+
+msgid "Star"
 msgstr ""
 
 msgid "Star Ship"
@@ -4848,6 +4941,9 @@ msgstr ""
 msgid "Thirty-Two Cards"
 msgstr ""
 
+msgid "Thornq"
+msgstr ""
+
 msgid "Thoughtful"
 msgstr ""
 
@@ -4870,6 +4966,9 @@ msgid "Three Peaks (Scored)"
 msgstr ""
 
 msgid "Three Peaks (Scored/Open)"
+msgstr ""
+
+msgid "Three Pharaohs"
 msgstr ""
 
 msgid "Three Pirates"
@@ -5223,6 +5322,9 @@ msgstr ""
 msgid "Wasp"
 msgstr ""
 
+msgid "Wasp II"
+msgstr ""
+
 msgid "Watch"
 msgstr ""
 
@@ -5310,6 +5412,12 @@ msgstr ""
 msgid "Wisteria"
 msgstr ""
 
+msgid "Wizard's Castle"
+msgstr ""
+
+msgid "Wizard's Storeroom"
+msgstr ""
+
 msgid "Wolfpack"
 msgstr ""
 
@@ -5320,6 +5428,12 @@ msgid "X-Files"
 msgstr ""
 
 msgid "X-Shape"
+msgstr ""
+
+msgid "XV"
+msgstr ""
+
+msgid "Xantia"
 msgstr ""
 
 msgid "Xerxes"

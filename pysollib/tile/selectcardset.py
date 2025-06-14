@@ -28,6 +28,7 @@ import tkinter.ttk as ttk
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
 from pysollib.resource import CSI
+from pysollib.speech import Speech
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.tkutil import bind, loadImage
@@ -726,6 +727,7 @@ class CardsetInfoDialog(MfxDialog):
         #
         #
         row = 0
+        self.speech = Speech()
         info_frame = ttk.LabelFrame(frame, text=_('About cardset'))
         info_frame.grid(row=row, column=0, columnspan=2, sticky='ew',
                         padx=0, pady=5, ipadx=5, ipady=5)
@@ -741,6 +743,7 @@ class CardsetInfoDialog(MfxDialog):
         if cardset.year:
             year = str(cardset.year)
         frow = 0
+        screenreadertext = ""
         for n, t in (
             (_('Type:'),          CSI.TYPE[cardset.type]),
             (_('Styles:'),        styles),
@@ -757,6 +760,8 @@ class CardsetInfoDialog(MfxDialog):
                                   anchor='w', justify='left')
                 label.grid(row=frow, column=1, sticky='nw', padx=4)
                 frow += 1
+                screenreadertext += n + '\r\n' + t + '\r\n\r\n'
+        parent.after(600, lambda: self.speech.speak(screenreadertext))
         if images:
             try:
                 from random import choice

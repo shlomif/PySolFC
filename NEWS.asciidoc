@@ -1,5 +1,13 @@
 [[news]]
 === News
+* _14 June, 2025:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.4.0/[PySolFC
+v3.4.0]. Additionally, there is a new Cardsets release
+https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-3.1/[PySolFC-Cardsets v.3.1]. New in this release:
+** 20+ new games and Mahjongg layouts.
+** Accessibility features including the ability to play by keyboard only, and support for some text to speech services.
+** Add auto-scaling support to the game and cardset previews.
+** Bugfixes, cleanup, enhancements, etc.
 * _11 January, 2025:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.2.0/[PySolFC
 v3.2.0]. New in this release:

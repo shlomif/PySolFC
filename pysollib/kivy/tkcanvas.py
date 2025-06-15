@@ -249,7 +249,7 @@ def cardmagnif(canvas, size):
     return csl/sl
 
 
-class MfxCanvasImage(object):
+class MfxCanvasImage:
     def __init__(self, canvas, *args, **kwargs):
 
         # print ('MfxCanvasImage: %s | %s | %s' % (canvas, args, kwargs))
@@ -489,7 +489,7 @@ class MfxCanvasImage(object):
         self.config(state='hidden')
 
 
-class MfxCanvasLine(object):
+class MfxCanvasLine:
     def __init__(self, canvas, *args, **kwargs):
         # print('MfxCanvasLine: %s %s' % (args, kwargs))
 
@@ -515,7 +515,7 @@ class MfxCanvasLine(object):
         self.canvas.clear_widgets([self.line])
 
 
-class MfxCanvasRectangle(object):
+class MfxCanvasRectangle:
     def __init__(self, canvas, *args, **kwargs):
 
         # logging.info('MfxCanvasRectangle: %s %s' % (args, kwargs))
@@ -558,7 +558,7 @@ class MfxCanvasRectangle(object):
         pass
 
 
-class MfxCanvasText(object):
+class MfxCanvasText:
     def __init__(self, canvas, x, y, preview=-1, **kwargs):
 
         if preview < 0:

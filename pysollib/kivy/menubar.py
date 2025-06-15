@@ -66,7 +66,7 @@ from pysollib.settings import TITLE
 # ************************************************************************
 
 
-class LMenuBase(object):
+class LMenuBase:
     def __init__(self, menubar, parent, title, app):
         self.menubar = menubar
         self.parent = parent
@@ -1381,7 +1381,7 @@ class HelpMenuDialog(LMenuDialog):
 # ************************************************************************
 
 
-class EmulTkMenu(object):
+class EmulTkMenu:
 
     def __init__(self, master, **kw):
 
@@ -1444,7 +1444,7 @@ class MfxMenubar(EmulTkMenu):
 # ************************************************************************
 
 
-class DictObjMap(object):
+class DictObjMap:
     def __init__(self, val):
         self.__dict__ = val
 

@@ -177,7 +177,7 @@ class LAnimationTask(LTask, LBase):
 # =============================================================================
 
 
-class LAnimationMgr(object):
+class LAnimationMgr:
     def __init__(self, **kw):
         super(LAnimationMgr, self).__init__()
         self.tasks = []
@@ -447,7 +447,7 @@ class LText(Widget, LBase):
 # =============================================================================
 
 
-class LEvent(object):
+class LEvent:
     def __init__(self):
         self.x = 0
         self.y = 0

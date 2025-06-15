@@ -381,7 +381,7 @@ class LGameNode(LTreeNode):
 # ************************************************************************
 
 
-class SelectGameDialog(object):
+class SelectGameDialog:
 
     # Dialog, einmal erzeugt, wird rezykliert.
     SingleInstance = None

@@ -522,7 +522,7 @@ _Game_LOAD_CLASSES = [GameGlobalSaveInfo, GameGlobalStatsStruct, GameMoves,
                       GameSaveInfo, GameStatsStruct, ]
 
 
-class Game(object):
+class Game:
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
     U_WON = -2
@@ -3853,12 +3853,12 @@ class Game(object):
         self.s.talon.dealCards()
 
 
-class StartDealRowAndCards(object):
+class StartDealRowAndCards:
     def startGame(self):
         self._startAndDealRowAndCards()
 
 
-class FauxEvent(object):
+class FauxEvent:
     def __init__(self, x, y):
         self.x = x
         self.y = y

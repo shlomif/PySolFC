@@ -11,7 +11,7 @@
 """
 
 
-class NewStruct(object):
+class NewStruct:
     """docstring for NewStruct"""
     def copy(self):
         ret = self.__class__()

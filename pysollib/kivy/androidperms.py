@@ -17,7 +17,7 @@ except ImportError:
 # LB221121.
 
 
-class AndroidPerms(object):
+class AndroidPerms:
     def __init__(self):
         if jnius is None:
             return

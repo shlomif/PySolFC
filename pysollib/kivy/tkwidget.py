@@ -206,7 +206,7 @@ class MfxExceptionDialog(MfxMessageDialog):
 # *
 # ************************************************************************
 
-class PysolAboutDialog(object):
+class PysolAboutDialog:
 
     # Die einzige Instanz.
     AboutDialog = None
@@ -526,7 +526,7 @@ class LScrollFrame(BoxLayout,StencilView):
         super(LScrollFrame, self).__init__(orientation="vertical", **kw)
 
 
-class MfxScrolledCanvas(object):
+class MfxScrolledCanvas:
     def __init__(self, parent, hbar=True, vbar=True, propagate=False, **kw):
         kwdefault(kw, highlightthickness=0, bd=1, relief='sunken')
         self.parent = parent

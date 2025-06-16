@@ -62,7 +62,7 @@ class ImageStacker(StackLayout):
             i.size_hint = (hint_x, hint_y)
 
 
-class FullPictureDialog(object):
+class FullPictureDialog:
     def __init__(self, parent, title, game, **kw):
 
         self.game = game

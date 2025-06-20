@@ -41,6 +41,7 @@ can be implemented.
 - Other packages (optional):
   - Pillow (Python Imaging Library): https://pillow.readthedocs.io/
   - TTKThemes: https://ttkthemes.readthedocs.io/
+  - Accessible Output 2: https://accessible-output2.readthedocs.io/
   - Freecell Solver: https://fc-solve.shlomifish.org/
   - [Black Hole Solitaire Solver](https://www.shlomifish.org/open-source/projects/black-hole-solitaire-solver/)
 

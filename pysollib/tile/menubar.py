@@ -24,7 +24,6 @@
 import tkinter.ttk as ttk
 
 from pysollib.mygettext import _, n_
-from pysollib.settings import TITLE
 from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog
 from pysollib.ui.tktile.findcarddialog import destroy_find_card_dialog
 from pysollib.ui.tktile.fullpicturedialog import \

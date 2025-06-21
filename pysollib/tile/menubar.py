@@ -113,13 +113,12 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def mOptTheme(self, *event):
         theme = self.tkopt.theme.get()
         self.app.opt.tile_theme = theme
-        self._calc_MfxMessageDialog()(
-            self.top, title=_("Change theme"),
-            text=_("""\
-These settings will take effect
-the next time you restart %(app)s""") % {'app': TITLE},
-            bitmap="warning",
-            default=0, strings=(_("&OK"),))
+        try:
+            from ttkthemes import themed_style
+            style = themed_style.ThemedStyle(self.top)
+        except ImportError:
+            style = ttk.Style(self.top)
+        style.theme_use(theme)
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))

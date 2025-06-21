@@ -318,6 +318,7 @@ class PysolMenubarTkCommon:
             preview_scale=tkinter.BooleanVar(),
             preserve_aspect_ratio=tkinter.BooleanVar(),
             resampling=tkinter.IntVar(),
+            fullscreen=tkinter.BooleanVar(),
             spread_stacks=tkinter.BooleanVar(),
             center_layout=tkinter.BooleanVar(),
             save_games_geometry=tkinter.BooleanVar(),
@@ -395,6 +396,7 @@ class PysolMenubarTkCommon:
         tkopt.preview_scale.set(opt.preview_scale)
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
         tkopt.resampling.set(opt.resampling)
+        tkopt.fullscreen.set(opt.wm_fullscreen)
         tkopt.spread_stacks.set(opt.spread_stacks)
         tkopt.center_layout.set(opt.center_layout)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
@@ -771,21 +773,27 @@ class PysolMenubarTkCommon:
                 command=self.mOptPreserveAspectRatio)
             submenu.add_separator()
             createResamplingMenu(self, submenu)
-            submenu = MfxMenu(menu, label=n_("Game la&yout"))
+        submenu = MfxMenu(menu, label=n_("Game la&yout"))
+        submenu.add_checkbutton(
+            label=n_("&Fullscreen"),
+            variable=self.tkopt.fullscreen,
+            command=self.togglefullscreen, accelerator='F11')
+        submenu.add_separator()
+        if USE_PIL:
             submenu.add_checkbutton(
                 label=n_("&Spread stacks"), variable=self.tkopt.spread_stacks,
                 command=self.mOptSpreadStacks)
             submenu.add_checkbutton(
                 label=n_("&Center layout"), variable=self.tkopt.center_layout,
                 command=self.mOptCenterLayout)
-            submenu.add_checkbutton(
-                label=n_("Save games &geometry"),
-                variable=self.tkopt.save_games_geometry,
-                command=self.mOptSaveGamesGeometry)
-            submenu.add_checkbutton(
-                label=n_("&Keep dialogs on top"),
-                variable=self.tkopt.topmost_dialogs,
-                command=self.mOptTopmostDialogs)
+        submenu.add_checkbutton(
+            label=n_("Save games &geometry"),
+            variable=self.tkopt.save_games_geometry,
+            command=self.mOptSaveGamesGeometry)
+        submenu.add_checkbutton(
+            label=n_("&Keep dialogs on top"),
+            variable=self.tkopt.topmost_dialogs,
+            command=self.mOptTopmostDialogs)
         # manager = self.app.cardset_manager
         # n = manager.len()
         menu.add_command(
@@ -890,16 +898,6 @@ class PysolMenubarTkCommon:
         createStatusbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Othe&r graphics"))
         createOtherGraphicsMenu(self, submenu)
-        if not USE_PIL:
-            menu.add_separator()
-            menu.add_checkbutton(
-                label=n_("Save games &geometry"),
-                variable=self.tkopt.save_games_geometry,
-                command=self.mOptSaveGamesGeometry)
-            submenu.add_checkbutton(
-                label=n_("&Keep dialogs on top"),
-                variable=self.tkopt.topmost_dialogs,
-                command=self.mOptTopmostDialogs)
 
         # menu.add_checkbutton(
         #     label=n_("Startup splash sc&reen"),
@@ -2132,6 +2130,7 @@ Unsupported game for import.
 
     def togglefullscreen(self, *event):
         self.app.wm_toggle_fullscreen()
+        self.tkopt.fullscreen.set(self.app.opt.wm_fullscreen)
 
     #
     # toolbar support

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-19 16:30-0400\n"
+"PO-Revision-Date: 2025-06-21 10:36-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -5449,6 +5449,9 @@ msgid "&Hamming"
 msgstr ""
 
 msgid "Game la&yout"
+msgstr ""
+
+msgid "&Fullscreen"
 msgstr ""
 
 msgid "&Spread stacks"

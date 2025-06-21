@@ -5177,6 +5177,9 @@ msgstr ""
 msgid "Game la&yout"
 msgstr ""
 
+msgid "&Fullscreen"
+msgstr ""
+
 msgid "&Spread stacks"
 msgstr ""
 

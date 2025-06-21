@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-19 16:30-0400\n"
+"PO-Revision-Date: 2025-06-21 10:37-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -5517,6 +5517,9 @@ msgid "&Hamming"
 msgstr ""
 
 msgid "Game la&yout"
+msgstr ""
+
+msgid "&Fullscreen"
 msgstr ""
 
 msgid "&Spread stacks"

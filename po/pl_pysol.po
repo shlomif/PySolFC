@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-04-19 16:29-0400\n"
+"PO-Revision-Date: 2025-06-21 10:37-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5443,6 +5443,9 @@ msgid "&Hamming"
 msgstr ""
 
 msgid "Game la&yout"
+msgstr ""
+
+msgid "&Fullscreen"
 msgstr ""
 
 msgid "&Spread stacks"

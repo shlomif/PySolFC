@@ -47,6 +47,8 @@ class MfxDialog:  # ex. _ToplevelDialog
     img = {}
     button_img = {}
 
+    num_open = 0
+
     def __init__(self, parent, title="", resizable=False, default=-1):
         self.parent = parent
         self.status = 0
@@ -54,6 +56,9 @@ class MfxDialog:  # ex. _ToplevelDialog
         self.timer = None
         self.buttons = []
         self.accel_keys = {}
+        MfxDialog.num_open += 1
+        if MfxDialog.num_open == 1:
+            self.parent.app.unraiseAll()
         self.top = makeToplevel(parent, title=title)
         # self._frame = ttk.Frame(self.top)
         # self._frame.pack(expand=True, fill='both')
@@ -92,6 +97,9 @@ class MfxDialog:  # ex. _ToplevelDialog
         self.top.destroy()
         self.top.update_idletasks()
         self.top = None
+        MfxDialog.num_open -= 1
+        if MfxDialog.num_open == 0:
+            self.parent.app.raiseAll()
         self.parent = None
 
     def wmDeleteWindow(self, *event):

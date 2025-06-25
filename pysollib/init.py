@@ -43,7 +43,8 @@ def init():
 
     if 'LANG' not in os.environ:
         if os.name == 'nt':
-            lang, enc = locale.getdefaultlocale()
+            lang_tuple = locale.getlocale()
+            lang = lang_tuple[0] if lang_tuple and lang_tuple[0] else 'en_US'
             os.environ['LANG'] = lang
         elif jnius:  # android
             Locale = jnius.autoclass('java.util.Locale')

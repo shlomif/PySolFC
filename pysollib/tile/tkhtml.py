@@ -31,7 +31,7 @@ from pysollib.mygettext import _
 from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
 
 from .statusbar import HtmlStatusbar
-from .tkwidget import MfxMessageDialog, PysolButton
+from .tkwidget import MfxMessageDialog, PysolButton, PysolText
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
@@ -100,11 +100,11 @@ class HTMLViewer(Base_HTMLViewer):
                         sticky='nsew', padx=1, pady=1)
         vbar = ttk.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
-        self.text = tkinter.Text(text_frame,
-                                 fg='black', bg='white',
-                                 bd=1, relief='sunken',
-                                 cursor=self.defcursor,
-                                 wrap='word', padx=10)
+        self.text = PysolText(text_frame,
+                              fg='black', bg='white',
+                              bd=1, relief='sunken',
+                              cursor=self.defcursor,
+                              wrap='word', padx=10)
         self.text.pack(side='left', fill='both', expand=True)
         self.text["yscrollcommand"] = vbar.set
         vbar["command"] = self.text.yview

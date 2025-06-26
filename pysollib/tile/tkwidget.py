@@ -1034,6 +1034,30 @@ class PysolEntry(ttk.Entry):
                           self.value.get())
 
 
+class PysolText(tkinter.Text):
+    def __init__(self, master=None, **kw):
+        self.speech = Speech()
+        if 'fieldname' in kw:
+            label = kw['fieldname']
+            del kw['fieldname']
+        else:
+            label = None
+
+        tkinter.Text.__init__(self, master, **kw)
+
+        if label is not None:
+            self.field_name = label
+        else:
+            self.field_name = ''
+        self.bind('<FocusIn>', self._focus)
+
+    def _focus(self, event):
+        # Get all text content
+        content = self.get("1.0", "end-1c")
+        self.speech.speak(self.field_name + " " + _("Text area") + " " +
+                          content)
+
+
 class PysolButton(ttk.Button):
     def __init__(self, master=None, **kw):
         self.speech = Speech()

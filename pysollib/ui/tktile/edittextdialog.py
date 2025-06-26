@@ -1,7 +1,7 @@
-import tkinter
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
+from pysollib.tile.tkwidget import PysolText
 
 
 class BaseEditTextDialog:
@@ -14,8 +14,8 @@ class BaseEditTextDialog:
         self.top.wm_minsize(300, 150)
 
         #
-        self.text_w = tkinter.Text(top_frame, bd=1, relief="sunken",
-                                   wrap="word", width=64, height=16)
+        self.text_w = PysolText(top_frame, bd=1, relief="sunken",
+                                wrap="word", width=64, height=16)
         self.text_w.pack(side='left', fill="both", expand=True)
         # self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
         vbar = self._calcToolkit().Scrollbar(top_frame)

@@ -33,9 +33,6 @@ from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
 from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
 from pysollib.util import CARDSET
 
-from .selectgame import SelectGameDialog, SelectGameDialogWithPreview
-from .selecttile import SelectTileDialogWithPreview
-from .soundoptionsdialog import SoundOptionsDialog
 from .tkwidget import MfxMessageDialog
 
 # ************************************************************************
@@ -74,15 +71,19 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         return WizardDialog
 
     def _calcSelectGameDialog(self):
+        from .selectgame import SelectGameDialog
         return SelectGameDialog
 
     def _calcSelectGameDialogWithPreview(self):
+        from .selectgame import SelectGameDialogWithPreview
         return SelectGameDialogWithPreview
 
     def _calcSoundOptionsDialog(self):
+        from .soundoptionsdialog import SoundOptionsDialog
         return SoundOptionsDialog
 
     def _calcSelectTileDialogWithPreview(self):
+        from .selecttile import SelectTileDialogWithPreview
         return SelectTileDialogWithPreview
 
     def _calc_MfxMessageDialog(self):

@@ -27,6 +27,7 @@ import tkinter.ttk as ttk
 from collections import UserList
 
 from pysollib.gamedb import GI
+from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import KwStruct, Struct, destruct
 from pysollib.mfxutil import format_time
 from pysollib.mygettext import _
@@ -329,12 +330,6 @@ class SelectGameDialog(MfxDialog):
         if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 1:                 # Cancel button
-            # If the user cancels, revert any cardset change from the preview.
-            if self.app.cardset.name != self.cardset.name:
-                self.app.loadCardset(self.cardset,
-                                     id=self.game.gameinfo.category,
-                                     tocache=True, noprogress=True)
         if button == 10:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
@@ -366,6 +361,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.bookmark = bookmark
         self.criteria = SearchCriteria()
         self.cardset = self.app.cardset.copy()
+        self.cardset_cache = {}
         self.random = None
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(app)
@@ -515,6 +511,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
     def destroy(self):
         self.deletePreview(destroy=1)
+        self.cardset_cache.clear()
         self.preview.unbind_all()
         SelectGameDialog.destroy(self)
 
@@ -809,34 +806,13 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_app.opt.shade = 0
         #
 
-        c = self.app.cardsets_cache.get(gi.category)
-        c2 = None
-        if c:
-            c2 = c.get(gi.subcategory)
-        if not c2:
-            cardset = self.app.cardset_manager.getByName(
+        cardset = self.app.cardset_manager.getByName(
                 self.app.opt.cardset[gi.category][gi.subcategory][0])
-            self.app.loadCardset(cardset, id=gi.category,
-                                 tocache=True, noprogress=True)
-            c = self.app.cardsets_cache.get(gi.category)
-            if c:
-                c2 = c.get(gi.subcategory)
-            if not c2:
-                c = self.app.cardsets_cache.get(cardset.type)
-                if c:
-                    c2 = c.get(cardset.subtype)
-        if c2:
-            if self.app.opt.auto_scale and self.app.opt.preview_scale:
-                self.preview_app.images = c2[1]
-            else:
-                self.preview_app.images = c2[2]
-        else:
-            if self.app.opt.auto_scale and self.app.opt.preview_scale:
-                self.preview_app.images = self.app.images
-            else:
-                self.preview_app.images = self.app.subsampled_images
+        images, simages = self.loadCardsetForPreview(cardset)
         if self.app.opt.auto_scale and self.app.opt.preview_scale:
-            self.preview_app.images.setNegative(self.app.opt.negative_bottom)
+            self.preview_app.images = images
+        else:
+            self.preview_app.images = simages
 
         self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:
@@ -886,6 +862,24 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             rules_button.config(state="normal")
         else:
             rules_button.config(state="disabled")
+
+    def loadCardsetForPreview(self, cardset):
+        key = cardset.ident
+        if self.app.cardset and self.app.cardset.ident == key:
+            return self.app.images, self.app.subsampled_images
+        if key in self.cardset_cache:
+            return self.cardset_cache[key]
+        images = Images(self.app.dataloader, cardset)
+        images.cardset_bottoms = self.app.opt.use_cardset_bottoms
+        images.load(self.app)
+        images.setNegative(self.app.opt.negative_bottom)
+        images.resize(self.app.opt.scale_x, self.app.opt.scale_y,
+                      resample=self.app.opt.resampling)
+        simages = SubsampledImages(images)
+        simages.setNegative(self.app.opt.negative_bottom)
+
+        self.cardset_cache[key] = (images, simages)
+        return images, simages
 
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)

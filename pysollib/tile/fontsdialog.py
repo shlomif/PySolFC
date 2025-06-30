@@ -27,10 +27,11 @@ import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
+from pysollib.speech import Speech
 from pysollib.ui.tktile.tkutil import bind
 
 from .tkwidget import MfxDialog
-from .tkwidget import PysolButton, PysolCheckbutton, PysolScale
+from .tkwidget import PysolButton, PysolCheckbutton, PysolEntry, PysolScale
 
 
 # ************************************************************************
@@ -49,6 +50,8 @@ class FontChooserDialog(MfxDialog):
         self.font_size = 12
         self.font_weight = 'normal'
         self.font_slant = 'roman'
+
+        self.speech = Speech()
 
         if init_font is not None:
             assert 2 <= len(init_font) <= 4
@@ -81,7 +84,7 @@ class FontChooserDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
         # frame.rowconfigure(1, weight=1)
-        self.entry = ttk.Entry(frame)
+        self.entry = PysolEntry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
         self.entry.configure(font=(self.font_family, self.font_size,
@@ -92,7 +95,9 @@ class FontChooserDialog(MfxDialog):
         sb.configure(command=self.list_box.yview)
         self.list_box.grid(row=1, column=0, sticky='news')  # rowspan=4
         sb.grid(row=1, column=1, sticky='ns')
-        bind(self.list_box, '<<ListboxSelect>>', self.fontupdate)
+        bind(self.list_box, '<<ListboxSelect>>', self.selectfont)
+        bind(self.list_box, '<FocusIn>',
+             lambda e: self.speech.speak(_("Fonts list")))
         # self.list_box.focus()
         cb1 = PysolCheckbutton(frame, text=_('Bold'),
                                command=self.fontupdate,
@@ -128,6 +133,11 @@ class FontChooserDialog(MfxDialog):
 
         self.font = (self.font_family, self.font_size,
                      self.font_slant, self.font_weight)
+
+    def selectfont(self, *args):
+        sel = self.list_box.get(self.list_box.curselection())
+        self.speech.speak(sel)
+        self.fontupdate(self, *args)
 
     def fontupdate(self, *args):
         if self.list_box.curselection():

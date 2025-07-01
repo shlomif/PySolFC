@@ -89,6 +89,28 @@ class Ishido_Talon(OpenTalonStack):
         OpenTalonStack.moveMove(self, ncards, to_stack, frames=frames,
                                 shadow=shadow)
 
+    def highlightMatchingCards(self, event):
+        info = []
+        found = 0
+        col_1 = self.game.app.opt.colors['cards_1']
+        col_2 = self.game.app.opt.colors['cards_2']
+        for s in self.game.s.rows:
+            if len(s.cards) > 0:
+                continue
+            if self.game.isValidPlay(s.id, self.cards[-1].rank,
+                                     self.cards[-1].suit):
+                found = 1
+                info.append((s, col_1))
+        if found:
+            if info:
+                self.game.stats.highlight_cards += 1
+            info.append((self, col_2))
+            return self.game._highlightEmptyStack(
+                info, self.game.app.opt.timeouts['highlight_cards'])
+        if not self.basicIsBlocked():
+            self.game.highlightNotMatching()
+        return 0
+
 
 class Ishido(Game):
     Talon_Class = Ishido_Talon

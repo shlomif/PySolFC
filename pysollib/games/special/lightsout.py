@@ -83,6 +83,9 @@ class LightsOut_RowStack(OpenStack):
 
         return OpenStack.playFlipMove(self, sound, animation)
 
+    def highlightMatchingCards(self, event):
+        self.game.highlightNotMatching()
+
 
 # Talon that can deal randomly flipped cards.
 class LightsOut_Talon(InitialDealTalonStack):

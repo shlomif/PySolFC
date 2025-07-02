@@ -126,6 +126,9 @@ class Matrix_RowStack(OpenStack):
                     return 1
         return 1
 
+    def highlightMatchingCards(self, event):
+        self.game.highlightNotMatching()
+
 
 # ************************************************************************
 # * Matrix Game

@@ -103,6 +103,9 @@ class Pegged_RowStack(ReserveStack):
         ReserveStack.copyModel(self, clone)
         clone.pos = self.pos
 
+    def highlightMatchingCards(self, event):
+        self.game.highlightNotMatching()
+
 
 class Pegged_Foundation(AbstractFoundationStack):
 

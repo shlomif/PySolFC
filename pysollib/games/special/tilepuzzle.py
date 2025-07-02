@@ -51,6 +51,9 @@ class TilePuzzle_RowStack(OpenStack):
         game.moveMove(n, swap, other_stack, frames=0)
         game.leaveState(old_state)
 
+    def highlightMatchingCards(self, event):
+        self.game.highlightNotMatching()
+
 # ************************************************************************
 # * Tile Puzzle Hint
 # ************************************************************************

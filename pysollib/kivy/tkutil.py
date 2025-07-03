@@ -213,7 +213,7 @@ def after_cancel(t):
 
 LCoreImage = CoreImage  # noqa
 
-class LImageInfo(object):   # noqa
+class LImageInfo:
     def __init__(self, arg):
         if isinstance(arg, Texture):
             self.filename = None

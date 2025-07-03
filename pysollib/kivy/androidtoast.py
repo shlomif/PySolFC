@@ -9,7 +9,7 @@ except ImportError:
     def run_on_ui_thread(a):
         pass
 
-class AndroidToast(object):
+class AndroidToast:
     def __init__(self):
         if jnius is None:
             return

@@ -57,7 +57,7 @@ class MfxDialog:  # ex. _ToplevelDialog
         self.buttons = []
         self.accel_keys = {}
         MfxDialog.num_open += 1
-        if MfxDialog.num_open == 1:
+        if MfxDialog.num_open == 1 and self.parent.app is not None:
             self.parent.app.unraiseAll()
         self.top = makeToplevel(parent, title=title)
         # self._frame = ttk.Frame(self.top)
@@ -98,7 +98,7 @@ class MfxDialog:  # ex. _ToplevelDialog
         self.top.update_idletasks()
         self.top = None
         MfxDialog.num_open -= 1
-        if MfxDialog.num_open == 0:
+        if MfxDialog.num_open == 0 and self.parent.app is not None:
             self.parent.app.raiseAll()
         self.parent = None
 
@@ -276,7 +276,8 @@ class MfxMessageDialog(MfxDialog):
         msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
-        parent.after(600, lambda: parent.app.speech.speak(kw.text))
+        speech = Speech()
+        parent.after(600, lambda: speech.speak(kw.text))
         self.mainloop(focus, kw.timeout)
 
 

@@ -8,7 +8,7 @@ try:
 except ImportError:
     jnius = None
 
-class AndroidRot(object):
+class AndroidRot:
     def __init__(self):
         self.locked = False
         if jnius is None:

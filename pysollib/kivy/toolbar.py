@@ -73,9 +73,6 @@ class MyButtonBase(ButtonBehavior, LImage, LBase):
 
 
 class MyButton(MyButtonBase):
-    def __init__(self, **kwargs):
-        super(MyButton, self).__init__(**kwargs)
-
     def on_press(self):
         self.fit_mode = "scale-down"
         pass

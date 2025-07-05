@@ -45,25 +45,13 @@ class LObjWrap(EventDispatcher):
 class LBoolWrap(LObjWrap):
     value = BooleanProperty(False)
 
-    def __init__(self,obj,ref=None,command=None):
-        super(LBoolWrap,self).__init__(obj,ref,command)
-
 class LNumWrap(LObjWrap):
     value = NumericProperty(0)
-
-    def __init__(self,obj,ref=None,command=None):
-        super(LNumWrap,self).__init__(obj,ref,command)
 
 class LStringWrap(LObjWrap):
     value = StringProperty('')
 
-    def __init__(self,obj,ref=None,command=None):
-        super(LStringWrap,self).__init__(obj,ref,command)
-
 class LListWrap(LObjWrap):
     value = ListProperty([])
-
-    def __init__(self,obj,ref=None,command=None):
-        super(LListWrap,self).__init__(obj,ref,command)
 
 # =============================================================================

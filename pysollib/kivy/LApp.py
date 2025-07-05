@@ -235,9 +235,6 @@ LSoundLoader = SoundLoader
 
 
 class LBoxLayout(BoxLayout, LBase):
-    def __init__(self, **kw):
-        super(LBoxLayout, self).__init__(**kw)
-
     def winfo_screenwidth(self):
         return self.size[0]
 

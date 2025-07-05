@@ -286,9 +286,6 @@ class tkHTMLParser(htmllib.HTMLParser):
 
 
 class HTMLButton(Button):
-    def __init__(self, **kw):
-        super(HTMLButton, self).__init__(**kw)
-
     def config(self, **kw):
         pass
 

@@ -530,7 +530,6 @@ class MfxCanvas(gnomecanvas.Canvas):
         # if self.__topimage:
         #     self.__topimage.raise_to_top()
         self.update_now()
-        pass
 
     def updateAll(self):
         print('Canvas - updateAll')

@@ -49,7 +49,6 @@ def init_tile(app, top):
                     # print 'load theme:', t
                 except Exception:
                     traceback.print_exc()
-                    pass
 
 
 def set_theme(app, top, theme):

@@ -658,7 +658,6 @@ class MfxScrolledCanvas:
         self.parent.pushWork('playground', self.frame)
 
     def createHbar(self):
-        pass
         '''
         self.hbar = Tkinter.Scrollbar(self.frame, takefocus=0,
                                       orient="horizontal")
@@ -669,7 +668,6 @@ class MfxScrolledCanvas:
         '''
 
     def createVbar(self):
-        pass
         '''
         self.vbar = Tkinter.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar

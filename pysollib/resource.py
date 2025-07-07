@@ -148,7 +148,6 @@ class ResourceManager:
                         self._addDir(result, os.path.join(dir, s))
                 except EnvironmentError:
                     traceback.print_exc()
-                    pass
         if DEBUG >= 6:
             print("getSearchDirs", env, search, "->", result)
         return result

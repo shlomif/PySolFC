@@ -160,7 +160,6 @@ class SelectGameData(SelectDialogTreeData):
         if gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
                                                 tuple(gg))
-            pass
         #
         s_by_pysol_version, gg = None, []
         for name, games in GI.GAMES_BY_PYSOL_VERSION:

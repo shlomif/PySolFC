@@ -377,7 +377,6 @@ class HTMLText(LScrollView, LPopCommander):
         # print('insert text: %s' % data)
         self.textbuffer = self.textbuffer + data
         # self.label.text = self.textbuffer
-        pass
 
     def index(self, cmd):
         # print('index: %s' % cmd)

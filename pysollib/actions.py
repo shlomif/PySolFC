@@ -720,7 +720,6 @@ class PysolMenubar(PysolMenubarTk):
                                        random=construct_random(gamenum))
             else:
                 print_err("stats problem: %s %s %s" % (mode, demo, player))
-                pass
             if d.status != 0:
                 break
             mode = d.button

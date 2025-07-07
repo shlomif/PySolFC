@@ -145,9 +145,6 @@ class LMenuBase:
 
 
 class LTreeGenerator(LMenuBase):
-    def __init__(self, menubar, parent, title, app):
-        super(LTreeGenerator, self).__init__(menubar, parent, title, app)
-
     def generate(self):
         tv = LTreeRoot(root_options={'text': 'EditTree'})
         tv.hide_root = True
@@ -300,11 +297,6 @@ class MainMenuDialog(LMenuDialog):
 
 
 class FileMenuDialog(LMenuDialog):
-
-    def __init__(self, menubar, parent, title, app, **kw):
-        super(FileMenuDialog, self).__init__(
-            menubar, parent, title, app, **kw)
-
     def make_favid_list(self, tv, rg):
         favids = self.app.opt.favorite_gameid
         for fid in favids:
@@ -559,10 +551,6 @@ class AssistMenuDialog(LMenuDialog):
 
 
 class LOptionsMenuGenerator(LTreeGenerator):
-    def __init__(self, menubar, parent, title, app):
-        super(LOptionsMenuGenerator, self).__init__(
-            menubar, parent, title, app)
-
     def buildTree(self, tv, node):
         # -------------------------------------------
         # Automatic play settings

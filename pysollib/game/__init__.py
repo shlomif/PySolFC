@@ -3774,7 +3774,7 @@ class Game:
     def showHelp(self, *args):
         if self.preview:
             return
-        kw = dict([(args[i], args[i+1]) for i in range(0, len(args), 2)])
+        kw = {args[i]: args[i+1] for i in range(0, len(args), 2)}
         if not kw:
             kw = {'info': '', 'help': ''}
         if 'info' in kw and self.app.opt.statusbar:

@@ -670,22 +670,30 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.preview_images = []
             return
         i, x, y, sx, sy, dx, dy = 0, 10, 10, 0, 0, cs.CARDW + 10, cs.CARDH + 10
+        cx, cy = 0, 0
         if USE_PIL:
             if (self.auto_scale.get() and self.preview_scale.get()
                     and not overrideScale):
                 vw = canvas.winfo_width()
                 vh = canvas.winfo_height()
-                iw = dx * 4
+                iw = dx * columns
                 ih = dy * 4
                 xf = max(float(vw - 10) / iw, .01)
                 yf = max(float(vh - 10) / ih, .01)
                 if self.preserve_aspect.get():
                     xf = yf = min(xf, yf)
+                if self.app.opt.center_layout:
+                    cx, cy = self.app.game.getCenterOffset(vw - 10, vh - 10,
+                                                           iw, ih, xf, yf)
+                    cx = int(cx * xf)
+                    cy = int(cy * yf)
+                    x += cx
+                    y += cy
             else:
                 xf = self.scale_x.get()
                 yf = self.scale_y.get()
-            dx = int(dx*xf)
-            dy = int(dy*yf)
+            dx = int(dx * xf)
+            dy = int(dy * yf)
             self.scale_images = []
         for image in self.preview_images:
             if USE_PIL:
@@ -695,9 +703,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             sx, sy = max(x, sx), max(y, sy)
             i = i + 1
             if i % columns == 0:
-                x, y = 10, y + dy
+                x, y = 10 + cx, y + dy + cy
             else:
-                x = x + dx
+                x += dx
         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),
                       width=sx+dx, height=sy+dy)
         # canvas.config(xscrollincrement=dx, yscrollincrement=dy)

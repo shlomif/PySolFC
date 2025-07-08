@@ -274,7 +274,7 @@ class MfxCanvasImage:
         # group (group wird über addtag gesetzt, sobald das image
         # in einem stack ist.)
 
-        super(MfxCanvasImage, self).__init__()
+        super().__init__()
         self.canvas = canvas
         self.redeal = False
 
@@ -566,7 +566,7 @@ class MfxCanvasText:
         if 'group' in kwargs:
             del kwargs['group']
 
-        super(MfxCanvasText, self).__init__()
+        super().__init__()
 
         label = LText(canvas, x, y, **kwargs)
         label.pos, label.size = canvas.CoreToKivy(
@@ -617,7 +617,7 @@ class MfxCanvas(LImage):
         return f'<MfxCanvas @ {hex(id(self))}>'
 
     def __init__(self, wmain, *args, **kw):
-        super(MfxCanvas, self).__init__(background=True)
+        super().__init__(background=True)
 
         # print('MfxCanvas: __init__()')
         # self.tags = {}   # bei basisklasse widget (ev. nur vorläufig)

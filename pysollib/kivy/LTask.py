@@ -24,7 +24,7 @@ class LTask(EventDispatcher):
     done = BooleanProperty(True)
 
     def __init__(self, name):
-        super(LTask, self).__init__()
+        super().__init__()
         self.name = name
         self.delay = 0.01
 
@@ -42,7 +42,7 @@ class LTaskQ(EventDispatcher):
     runQ = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(LTaskQ, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.waitQ = []
         self.waitQlen = 0
         self.runQ = []

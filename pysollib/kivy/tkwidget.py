@@ -139,7 +139,7 @@ class MfxToolTip:
 
 class FLabel(Label):
     def __init__(self, **kw):
-        super(FLabel, self).__init__(**kw)
+        super().__init__(**kw)
 
         self.bind(size=self.onUpdate)
         self.bind(pos=self.onUpdate)
@@ -154,7 +154,7 @@ class FLabel(Label):
 
 class FText(LScrollView):
     def __init__(self, **kw):
-        super(FText, self).__init__(**kw)
+        super().__init__(**kw)
 
         self.label = FLabel(**kw)
         self.add_widget(self.label)
@@ -218,7 +218,7 @@ class PysolAboutDialog:
 
     def __init__(self, app, parent, title, **kw):
         logging.info('PysolAboutDialog:')
-        super(PysolAboutDialog, self).__init__()
+        super().__init__()
 
         self._url = kw['url']
         logging.info('PysolAboutDialog: txt=%s' % title)
@@ -378,7 +378,7 @@ from kivy.graphics.transformation import Matrix   # noqa
 
 class LScatterFrame(Scatter):
     def __init__(self, inner, **kw):
-        super(LScatterFrame, self).__init__(**kw)
+        super().__init__(**kw)
         self.inner = inner
         self.add_widget(inner)
         self.bind(pos=self._updatepos)
@@ -452,22 +452,22 @@ class LScatterFrame(Scatter):
                 ret = self.inner.on_touch_down(touch)
                 touch.pop()
             else:
-                ret = super(LScatterFrame, self).on_touch_down(touch)
+                ret = super().on_touch_down(touch)
         return ret
 
     def on_touch_up(self, touch):
         if touch.grab_current == self:
-            return super(LScatterFrame, self).on_touch_up(touch)
+            return super().on_touch_up(touch)
 
         x,y = touch.pos
         if self.collide_point(x,y):
-            return super(LScatterFrame, self).on_touch_up(touch)
+            return super().on_touch_up(touch)
         return False
 
     def on_touch_move(self, touch):
         ret = False
         self.lock_pos = "locked"
-        ret = super(LScatterFrame, self).on_touch_move(touch)
+        ret = super().on_touch_move(touch)
         self.lock_pos = None
         return ret
 
@@ -523,7 +523,7 @@ class LScatterFrame(Scatter):
 
 class LScrollFrame(BoxLayout,StencilView):
     def __init__(self, **kw):
-        super(LScrollFrame, self).__init__(orientation="vertical", **kw)
+        super().__init__(orientation="vertical", **kw)
 
 
 class MfxScrolledCanvas:
@@ -534,7 +534,7 @@ class MfxScrolledCanvas:
         # workarea = parent.getWork()
         print('MfxScrolledCanvas: parent=%s' % (parent))
 
-        super(MfxScrolledCanvas, self).__init__()
+        super().__init__()
         self.createFrame(kw)
         self.canvas = None
         # do_scroll_x = None

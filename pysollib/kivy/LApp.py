@@ -125,7 +125,7 @@ def get_screen_ori():
 
 class LPopCommander(LBase):
     def __init__(self, **kw):
-        super(LPopCommander, self).__init__()
+        super().__init__()
         self.pop_command = kw['pop_command']
 
     def pop(self):
@@ -139,7 +139,7 @@ class LPopCommander(LBase):
 
 class LAnimationTask(LTask, LBase):
     def __init__(self, spos, widget, **kw):
-        super(LAnimationTask, self).__init__(widget.card)
+        super().__init__(widget.card)
         self.spos = spos
         self.widget = widget
 
@@ -155,7 +155,7 @@ class LAnimationTask(LTask, LBase):
         print(self.widget.card)
 
     def start(self):
-        super(LAnimationTask, self).start()
+        super().start()
 
         anim = Animation(
             x=self.xdest, y=self.ydest, duration=self.duration,
@@ -179,7 +179,7 @@ class LAnimationTask(LTask, LBase):
 
 class LAnimationMgr:
     def __init__(self, **kw):
-        super(LAnimationMgr, self).__init__()
+        super().__init__()
         self.tasks = []
         self.callbacks = []
         self.taskQ = LTaskQ()
@@ -378,7 +378,7 @@ class LText(Widget, LBase):
     text = StringProperty('')
 
     def __init__(self, canvas, x, y, **kwargs):
-        super(LText, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         # super(LText, self).__init__()
 
         if 'text' not in kwargs:
@@ -456,7 +456,7 @@ class LEvent:
 
 class LLine(Widget, LBase):
     def __init__(self, canvas, args, **kw):
-        super(LLine, self).__init__(**kw)
+        super().__init__(**kw)
 
         print('kw = %s%s' % (args, kw))
 
@@ -605,7 +605,7 @@ class LLine(Widget, LBase):
 
 class LRectangle(Widget, LBase):
     def __init__(self, prnt, args, **kw):
-        super(LRectangle, self).__init__(**kw)
+        super().__init__(**kw)
         self.prnt = prnt
 
         # print('width   %s' % kw['width'])
@@ -718,7 +718,7 @@ class LRectangle(Widget, LBase):
 
 class LImageItem(BoxLayout, LBase):
     def __init__(self, **kw):
-        super(LImageItem, self).__init__(**kw)
+        super().__init__(**kw)
         self.game = None
         self.card = None
         self.group = None
@@ -918,7 +918,7 @@ class LImageItem(BoxLayout, LBase):
 
 class LTreeRoot(TreeView, LBase):
     def __init__(self, **kw):
-        super(LTreeRoot, self).__init__(**kw)
+        super().__init__(**kw)
         self.kw = kw
 
     def closeLastNode(self):
@@ -949,7 +949,7 @@ class LTreeSliderNode(Slider, TreeViewNode, LBase):
             self.step = kw['setup'][2]
             del kw['setup']
 
-        super(LTreeSliderNode, self).__init__(markup=True, **kw)
+        super().__init__(markup=True, **kw)
         self.value = self.variable.value
         self.height = '24sp'
         self.background_width = '12sp'
@@ -977,7 +977,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
         if ('text' in kw):
             self.title = kw['text']
 
-        super(LTreeNode, self).__init__(markup=True, **kw)
+        super().__init__(markup=True, **kw)
 
         if self.variable:
             self.variable.bind(value=self.onVarChange)
@@ -1118,7 +1118,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
 
 class LTopLevelContent(BoxLayout, LBase):
     def __init__(self, **kw):
-        super(LTopLevelContent, self).__init__(**kw)
+        super().__init__(**kw)
 
         # Macht die Hintergrundfarbe der TopLevel (Dialog-) Fenster.
         with self.canvas.before:
@@ -1140,7 +1140,7 @@ class LTopLevelContent(BoxLayout, LBase):
 class LTopLine(ButtonBehavior, Label, LBase):
 
     def __init__(self, **kw):
-        super(LTopLine, self).__init__(**kw)
+        super().__init__(**kw)
         with self.canvas.before:
             Color(0.45, 0.3, 0.3, 1.0)
             self.rect = Rectangle(pos=self.pos, size=self.size)
@@ -1168,7 +1168,7 @@ class LTopLine(ButtonBehavior, Label, LBase):
 
 class LTopLevelBase(BoxLayout, LBase):
     def __init__(self, title='', **kw):
-        super(LTopLevelBase, self).__init__(orientation="vertical", **kw)
+        super().__init__(orientation="vertical", **kw)
         self.title = title
         self.titleline = LTopLine(text=title, size_hint=[1.0, 0.15])
         self.content = LTopLevelContent(orientation="vertical", **kw)
@@ -1180,7 +1180,7 @@ class LTopLevelBase(BoxLayout, LBase):
 
 class LTopLevel0(LTopLevelBase, LBase):
     def __init__(self, top, title='', **kw):
-        super(LTopLevel0, self).__init__(title=title, **kw)
+        super().__init__(title=title, **kw)
 
         self.main = top
         self.titleline.bind(on_press=self.onClick)
@@ -1195,7 +1195,7 @@ class LTopLevel0(LTopLevelBase, LBase):
 
 class LTopLevel(LTopLevelBase, LBase):
     def __init__(self, parent, title='', **kw):
-        super(LTopLevel, self).__init__(title=title, **kw)
+        super().__init__(title=title, **kw)
         self.mainwindow = parent
 
     def processAndroidBack(self):
@@ -1222,7 +1222,7 @@ class LTopLevel(LTopLevelBase, LBase):
 
 class LMenuBar(BoxLayout, LBase):
     def __init__(self, **kw):
-        super(LMenuBar, self).__init__(**kw)
+        super().__init__(**kw)
         self.menu = None
         self.size_hint = (1.0, 0.08)
 
@@ -1249,7 +1249,7 @@ class LMenuBar(BoxLayout, LBase):
 
 class LMenu(ActionView, LBase):
     def __init__(self, prev, **kw):
-        super(LMenu, self).__init__(**kw)
+        super().__init__(**kw)
 
         class MyActionPrev(ActionPrevious, LBase):
             pass
@@ -1313,7 +1313,7 @@ class LMenu(ActionView, LBase):
 class LMenuItem(ActionButton, LBase):
 
     def __init__(self, menu, **kw):
-        super(LMenuItem, self).__init__(**kw)
+        super().__init__(**kw)
         # super(LMenuItem, self).__init__()
         self.bar = None
         self.submenu = None
@@ -1355,7 +1355,7 @@ class LMenuItem(ActionButton, LBase):
 
 class LScrollView(ScrollView, LBase):
     def __init__(self, **kw):
-        super(LScrollView, self).__init__(**kw)
+        super().__init__(**kw)
         self.delayDown = False
         self.touch = None
 
@@ -1387,7 +1387,7 @@ class LScrollView(ScrollView, LBase):
 
 class LWorkWindow(Widget):
     def __init__(self):
-        super(LWorkWindow, self).__init__()
+        super().__init__()
 
         # beispiel zu canvas (hintergrund)
         with self.canvas.before:
@@ -1606,7 +1606,7 @@ class LMainWindow(BoxLayout, LTkBase):
     longPress = NumericProperty(0)
 
     def __init__(self, **kw):
-        super(LMainWindow, self).__init__(orientation='vertical')
+        super().__init__(orientation='vertical')
         LTkBase.__init__(self)
         self.menuArea = LMenuBar()
         self.workContainer = LBoxLayout(orientation='horizontal')
@@ -1835,7 +1835,7 @@ class LApp(App):
         return False    # delegate
 
     def __init__(self, args):
-        super(LApp, self).__init__()
+        super().__init__()
         self.args = args
         self.title = "PySolFC"
         self.baseWindow = FloatLayout()
@@ -1843,7 +1843,7 @@ class LApp(App):
     def build(self):
         class MyLabel(Label, LBase):
             def __init__(self, **kw):
-                super(MyLabel, self).__init__(**kw)
+                super().__init__(**kw)
                 with self.canvas.before:
                     Color(0.05, 0.05, 0.05, 1)
                     self.rect = Rectangle(pos=self.pos, size=self.size)

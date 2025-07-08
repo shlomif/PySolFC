@@ -180,7 +180,7 @@ class LMenuDialog(LMenuBase):
     dialogCache = {}
 
     def __init__(self, menubar, parent, title, app, **kw):
-        super(LMenuDialog, self).__init__(menubar, parent, title, app)
+        super().__init__(menubar, parent, title, app)
 
         self.window = None
         self.running = False
@@ -253,7 +253,7 @@ class MainMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(MainMenuDialog, self).__init__(
+        super().__init__(
             menubar, parent, title, app, **kw)
 
         # print('MainMenuDialog starting')
@@ -365,7 +365,7 @@ class EditMenuDialog(LMenuDialog):  # Tools
 
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(EditMenuDialog, self).__init__(
+        super().__init__(
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
@@ -440,7 +440,7 @@ class GameMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(GameMenuDialog, self).__init__(
+        super().__init__(
             menubar, parent, title, app, **kw)
 
     def make_command(self, key, command):
@@ -510,7 +510,7 @@ class AssistMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(AssistMenuDialog, self).__init__(
+        super().__init__(
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
@@ -1314,7 +1314,7 @@ class OptionsMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(OptionsMenuDialog, self).__init__(
+        super().__init__(
             menubar, parent, title, app, **kw)
 
     def initTree(self):
@@ -1329,7 +1329,7 @@ class OptionsMenuDialog(LMenuDialog):
 class HelpMenuDialog(LMenuDialog):
     def __init__(self, menubar, parent, title, app, **kw):
         kw['persist'] = True
-        super(HelpMenuDialog, self).__init__(menubar, parent, title, app, **kw)
+        super().__init__(menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
         tv.add_node(
@@ -1416,7 +1416,7 @@ class MfxMenubar(EmulTkMenu):
     addPath = None
 
     def __init__(self, master, **kw):
-        super(MfxMenubar, self).__init__(master, **kw)
+        super().__init__(master, **kw)
         topmenu = self.name == 'menubar'
 
         self.menu = LMenu(not topmenu, text=self.name)

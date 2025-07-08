@@ -48,7 +48,7 @@ class MyButtonBase(ButtonBehavior, LImage, LBase):
     config = BooleanProperty(True)
 
     def __init__(self, **kwargs):
-        super(MyButtonBase, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source
@@ -84,7 +84,7 @@ class MyButton(MyButtonBase):
 
 class MyCheckButton(MyButtonBase):
     def __init__(self, **kwargs):
-        super(MyCheckButton, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.variable = None
         if ('variable' in kwargs):
             self.variable = kwargs['variable']
@@ -140,7 +140,7 @@ class MyCheckButton(MyButtonBase):
 
 class MyToastButton(MyButtonBase):
     def __init__(self, **kwargs):
-        super(MyToastButton, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.timeout = 2.0
         if ('timeout' in kwargs):
             self.timeout = kwargs['timeout']
@@ -167,7 +167,7 @@ class MyToastButton(MyButtonBase):
 
 class MyWaitButton(MyButtonBase):
     def __init__(self, **kwargs):
-        super(MyWaitButton, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.timeout = 1.0
         if ('timeout' in kwargs):
             self.timeout = kwargs['timeout']
@@ -224,7 +224,7 @@ class PysolToolbarTk(BoxLayout):
             relief='flat',
             compound='none'):
 
-        super(PysolToolbarTk, self).__init__(orientation='vertical')
+        super().__init__(orientation='vertical')
         self.size_hint = (0.06, 1.0)
         # self.size_hint=(None, 1.0)
         # self.width = 50

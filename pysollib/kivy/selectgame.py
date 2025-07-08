@@ -305,7 +305,7 @@ class SelectGameTree(SelectGameTreeWithPreview):
 
 class LGameRoot(LTreeRoot):
     def __init__(self, gametree, gameview, **kw):
-        super(LGameRoot, self).__init__(**kw)
+        super().__init__(**kw)
         self.gametree = gametree
         self.gameview = gameview
         self.kw = kw
@@ -317,7 +317,7 @@ class LGameNode(LTreeNode):
         self.lastpos = None
         self.gamenode = gamenode
         self.gameview = gameview
-        super(LGameNode, self).__init__(**kw)
+        super().__init__(**kw)
 
         self.coreFont = self.font_size
         # self.scaleFont(self.gameview.size[1])
@@ -393,7 +393,7 @@ class SelectGameDialog:
         self.app.menubar._mSelectGame(gameid)
 
     def __init__(self, parent, title, app, gameid, **kw):
-        super(SelectGameDialog, self).__init__()
+        super().__init__()
 
         self.parent = parent
         self.app = app

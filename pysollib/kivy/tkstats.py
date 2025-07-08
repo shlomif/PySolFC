@@ -59,7 +59,7 @@ from pysollib.settings import TOP_TITLE
 
 class LPieChart(Widget):
     def __init__(self, prnt, args, **kw):
-        super(LPieChart, self).__init__(**kw)
+        super().__init__(**kw)
         self.prnt = prnt
 
         # print('width   %s' % kw['width'])

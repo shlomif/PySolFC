@@ -125,7 +125,7 @@ class LImage(Widget, LBase):
                 self.make_tiling(size, pos)
 
     def __init__(self, **kwargs):
-        super(LImage, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         # NOTE:
         # properties self.texture and self.fit_mode are

@@ -258,7 +258,6 @@ class Application:
                         self.opt.game_holded = self.game.id
                     except Exception:
                         traceback.print_exc()
-                        pass
                 self.wm_save_state()
                 # save game geometry
                 geom = (self.canvas.winfo_width(), self.canvas.winfo_height())
@@ -279,7 +278,6 @@ class Application:
 
         except Exception:
             traceback.print_exc()
-            pass
 
         finally:
             # hide main window
@@ -296,19 +294,16 @@ class Application:
                 self.saveOptions()
             except Exception:
                 traceback.print_exc()
-                pass
             # save statistics
             try:
                 self.saveStatistics()
             except Exception:
                 traceback.print_exc()
-                pass
             # shut down audio
             try:
                 self.audio.destroy()
             except Exception:
                 traceback.print_exc()
-                pass
             if TOOLKIT == 'kivy':
                 self.top.quit()
                 while True:
@@ -323,7 +318,6 @@ class Application:
             self.loadStatistics()
         except Exception:
             traceback.print_exc()
-            pass
 
         # Under normal circumstances, this won't trigger.
         # But if the config has been incorrectly edited or

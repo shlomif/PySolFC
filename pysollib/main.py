@@ -201,7 +201,6 @@ def pysol_init(app, args):
                 os.makedirs(d)
             except Exception:
                 traceback.print_exc()
-                pass
 
     # init DataLoader
     f = os.path.join("html", "license.html")
@@ -218,7 +217,6 @@ def pysol_init(app, args):
         app.loadOptions()
     except Exception:
         traceback.print_exc()
-        pass
 
     # init toolkit 2)
     init_root_window(top, app)

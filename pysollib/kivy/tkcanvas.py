@@ -333,7 +333,6 @@ class MfxCanvasImage:
                 image = self.image.children[0]
                 image.texture = kw["image"].texture
                 # print('redeal texture:',image.texture)
-        pass
 
     def makeDeferredRaise(self, pos):
         def animCallback():
@@ -371,7 +370,6 @@ class MfxCanvasImage:
         self.group = None
         if (self.image):
             self.image.group = None
-        pass
 
     def delete(self):
         # print('MfxCanvasImage: delete()')
@@ -547,7 +545,6 @@ class MfxCanvasRectangle:
 
     def addtag(self, tag):
         logging.info('MfxCanvasRectangle: addtag(%s) - fake' % tag)
-        pass
 
     def tkraise(self, aboveThis=None):
         # logging.info('MfxCanvasRectangle: tkraise(%s) - fake' % item)
@@ -555,7 +552,6 @@ class MfxCanvasRectangle:
         if aboveThis:
             abitm = aboveThis.widget
         self.canvas.tag_raise(self.rect, abitm)
-        pass
 
 
 class MfxCanvasText:
@@ -594,7 +590,6 @@ class MfxCanvasText:
         if aboveThis:
             abitm = aboveThis.widget
         self.canvas.tag_raise(self.label, abitm)
-        pass
 
     def bbox(self):
         # Dimensionen als 2x2 array zurückgeben.
@@ -802,12 +797,10 @@ class MfxCanvas(LImage):
     def xview(self):
         print('MfxCanvas: xview')
         return [1, 1]
-        pass
 
     def yview(self):
         print('MfxCanvas: yview')
         return [1, 1]
-        pass
 
     #
     # top-image support
@@ -854,7 +847,6 @@ class MfxCanvas(LImage):
     def deleteAllItems(self):
         print('MfxCanvas: deleteAllItems')
         self.clear_widgets()
-        pass
 
     def findCard(self, stack, event):
         print('MfxCanvas: findCard(%s, %s)' % (stack, event))
@@ -932,13 +924,11 @@ class MfxCanvas(LImage):
         # TBD
         # Wir lassen das. Das TopImage deckt alles ab. Spielen ist
         # nicht möglich.
-        pass
 
     def showAllItems(self):
         print('MfxCanvas: showAllItems')
         # TBD
         # Brauchts darum auch nicht.
-        pass
 
     # Erweiterungen fuer Tk Canvas (prüfen was noch nötig!!).
 
@@ -962,7 +952,6 @@ class MfxCanvas(LImage):
         if 'text' in cnf:
             # tagOrId ist das Label.
             tagOrId.text = cnf['text']
-            pass
 
     def config(self, cnf={}, **kw):
         # print('MfxCanvas: config %s %s' % (cnf, kw))

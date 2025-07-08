@@ -69,7 +69,6 @@ class MfxDialog:  # ex. _ToplevelDialog
             except tkinter.TclError:
                 if traceback:
                     traceback.print_exc()
-                pass
             if timeout > 0:
                 self.timer = after(self.top, timeout, self.mTimeout)
             try:
@@ -86,13 +85,11 @@ class MfxDialog:  # ex. _ToplevelDialog
         except Exception:
             if traceback:
                 traceback.print_exc()
-            pass
         try:
             self.top.destroy()
         except Exception:
             if traceback:
                 traceback.print_exc()
-            pass
         # destruct(self.top)
         if self.parent:  # ???
             try:
@@ -105,7 +102,6 @@ class MfxDialog:  # ex. _ToplevelDialog
             except Exception:
                 if traceback:
                     traceback.print_exc()
-                pass
         self.top = None
         self.parent = None
 

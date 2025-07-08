@@ -551,7 +551,6 @@ class PyGameAudioClient(AbstractAudioClient):
         except Exception:
             if traceback:
                 traceback.print_exc()
-            pass
         self.sound_priority = priority
         return 1
 

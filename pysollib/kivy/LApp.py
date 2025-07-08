@@ -450,7 +450,6 @@ class LEvent:
         self.y = 0
         self.cardid = -1
         self.char = False
-        pass
 
 # =============================================================================
 
@@ -1045,7 +1044,6 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
             print('select %s' % self.title)
         else:
             print('deselect %s' % self.title)
-        pass
 
     def collapseChildren(self, deep=False):
 
@@ -1217,7 +1215,6 @@ class LTopLevel(LTopLevelBase, LBase):
                     # print("  childitem: %s" % str(t))
                     if isinstance(t, LPopCommander):
                         ret = t.pop()
-                    pass
         return ret
 
 # =============================================================================
@@ -1278,7 +1275,6 @@ class LMenu(ActionView, LBase):
         # print ('LMenu: prev = %s' % menu)
         self.uppermenu = menu
         self.ap.bind(on_release=self.upper)
-        pass
 
     def upper(self, event):
         print('upper')
@@ -1346,7 +1342,6 @@ class LMenuItem(ActionButton, LBase):
         self.submenu.prev(self.menu)
         self.submenu.setBar(self.bar)
         self.bind(on_release=self.onClick)
-        pass
 
     def setCommand(self, cmd):
         print('LMenuItem: setCommand')
@@ -1479,11 +1474,9 @@ class LTkBase:
 
     def wm_withdraw(self):
         logging.info("LTkBase: wm_withdraw")
-        pass
 
     def busyUpdate(self):
         print('LTkBase: busyUpdate()')
-        pass
 
     def grid_columnconfigure(self, a, weight):
         pass
@@ -1494,11 +1487,9 @@ class LTkBase:
     def connectApp(self, app):
         logging.info("LTkBase: connectApp %s" % str(app))
         self.app = app
-        pass
 
     def wm_geometry(self, val):
         logging.info("LTkBase: wm_geometry %s" % str(val))
-        pass
 
     def update_idletasks(self):
         # logging.info("LTkBase: update_idletasks")
@@ -1521,7 +1512,6 @@ class LTkBase:
 
     def mainloop(self):
         logging.info("LTkBase: mainloop")
-        pass
 
     def quit(self):
         logging.info("LTkBase: quit")
@@ -1656,7 +1646,6 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_motion(self, m):
         print('on_motion', m)
-        pass
 
     # Events.
 
@@ -2000,19 +1989,16 @@ class LApp(App):
             app.opt.last_gameid = app.game.id
         except Exception:
             traceback.print_exc()
-            pass
         # save options
         try:
             app.saveOptions()
         except Exception:
             traceback.print_exc()
-            pass
         # save statistics
         try:
             app.saveStatistics()
         except Exception:
             traceback.print_exc()
-            pass
         logging.info("LApp: on_pause - gamesaved")
 
         logging.info("LApp: on_pause, Window.size=%s" % str(Window.size))

@@ -159,7 +159,6 @@ class LTreeGenerator(LMenuBase):
                 Clock.schedule_once(process, 0.2)
             except StopIteration:
                 print('generator: all jobs done')
-                pass
 
         Clock.schedule_once(process, 0.2)
         return tv
@@ -1394,7 +1393,6 @@ class EmulTkMenu:
 
     def add_cascade(self, cnf={}, **kw):
         self.add('cascade', cnf or kw)
-        pass
 
     def add(self, itemType, cnf={}):
         label = cnf.get("label")

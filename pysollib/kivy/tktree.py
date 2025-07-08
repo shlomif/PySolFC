@@ -212,7 +212,6 @@ class MfxTreeNode(MfxTreeBaseNode):
 # ************************************************************************
 
 class MfxTreeInCanvas(MfxScrolledCanvas):
-    pass
     '''
     class Style:
         def __init__(self):
@@ -412,4 +411,3 @@ if __name__ == "__main__":
         app = DirectoryBrowser(tk, ("/", "/home"))
     tk.mainloop()
     '''
-    pass

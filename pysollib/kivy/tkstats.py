@@ -266,7 +266,6 @@ class AllGames_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, **kw):
         self.status = 0
         print('AllGames_StatsDialog')
-        pass
 
 # ************************************************************************
 # *
@@ -288,7 +287,6 @@ class SessionLog_StatsDialog(FullLog_StatsDialog):
 class Status_StatsDialog(MfxMessageDialog):
     def __init__(self, parent, game):
         self.status = 0
-        pass
 
 # ************************************************************************
 # *

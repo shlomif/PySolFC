@@ -34,7 +34,6 @@ from pysollib.kivy.tktree import MfxTreeInCanvas, MfxTreeLeaf, MfxTreeNode
 
 class SelectDialogTreeLeaf(MfxTreeLeaf):
     def drawSymbol(self, x, y, **kw):
-        pass
         '''
         if self.tree.nodes.get(self.symbol_id) is not self:
             self.symbol_id = self.tree.canvas.create_image(x, y,
@@ -51,7 +50,6 @@ class SelectDialogTreeNode(MfxTreeNode):
         self.select_func = select_func
 
     def drawSymbol(self, x, y, **kw):
-        pass
         '''
         if self.tree.nodes.get(self.symbol_id) is not self:
             self.symbol_id = self.tree.canvas.create_image(x, y,

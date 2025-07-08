@@ -75,7 +75,6 @@ class MyButtonBase(ButtonBehavior, LImage, LBase):
 class MyButton(MyButtonBase):
     def on_press(self):
         self.fit_mode = "scale-down"
-        pass
 
     def on_release(self):
         self.fit_mode = "contain"
@@ -278,7 +277,6 @@ class PysolToolbarTk(BoxLayout):
             if label is None:
                 button = None
                 # We dont have separators in kivy version.
-                pass
             elif label == 'Pause':
                 button = self._createButton(label, f, check=True, tooltip=t)
                 self.buttons.append(button)

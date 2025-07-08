@@ -84,7 +84,6 @@ CARDSET = _("cardset")
 IMAGE_EXTENSIONS = (".gif", ".ppm", ".png")
 if os.name == "nt":
     IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg", ".jpeg",)
-    pass
 
 if Image:
     IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".jpeg", ".ppm", ".bmp")

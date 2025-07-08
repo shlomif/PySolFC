@@ -191,7 +191,6 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         key = self.getSelected()
         if key is not None:
             self.updatePreview(key)
-        pass
 
     def updatePreview(self, key):
         if key == self.preview_key:

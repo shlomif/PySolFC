@@ -165,13 +165,11 @@ def bind(widget, sequence, func, add=None):
         return
     if (sequence == '<Configure>'):
         return
-    pass
 
 
 def unbind_destroy(widget):
     # logging.info('tkutil: unbind  %s' % (widget))
     widget.bindings = []
-    pass
 
 
 # ************************************************************************

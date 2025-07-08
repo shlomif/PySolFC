@@ -47,7 +47,6 @@ find_card_dialog = None
 
 
 def create_find_card_dialog(parent, game, dir):
-    pass
     '''
     global find_card_dialog
     try:
@@ -60,7 +59,6 @@ def create_find_card_dialog(parent, game, dir):
 
 
 def connect_game_find_card_dialog(game):
-    pass
     '''
     try:
         find_card_dialog.connectGame(game)
@@ -78,7 +76,6 @@ def unraise_find_card_dialog():
 
 
 def destroy_find_card_dialog():
-    pass
     '''
     global find_card_dialog
     try:

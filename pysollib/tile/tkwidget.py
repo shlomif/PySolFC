@@ -80,7 +80,6 @@ class MfxDialog:  # ex. _ToplevelDialog
             except tkinter.TclError:
                 if traceback:
                     traceback.print_exc()
-                pass
             if geometry != "":
                 self.top.geometry(geometry)
             if timeout > 0:

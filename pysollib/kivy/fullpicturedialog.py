@@ -99,7 +99,6 @@ def create_full_picture_dialog(parent, game):
 
 
 def connect_game_full_picture_dialog(game):
-    pass
     '''
     try:
         full_picture_dialog.connectGame(game)
@@ -117,7 +116,6 @@ def unraise_full_picture_dialog():
 
 
 def destroy_full_picture_dialog():
-    pass
     '''
     global full_picture_dialog
     try:

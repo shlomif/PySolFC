@@ -661,7 +661,6 @@ class Options:
         if isinstance(self.mahjongg_create_solvable, bool):
             # changed in v.1.1
             self.mahjongg_create_solvable = 2
-        pass
 
     def copy(self):
         opt = Options()

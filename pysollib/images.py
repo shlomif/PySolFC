@@ -426,6 +426,15 @@ class Images:
         return (int(self.CARD_DX * self._xfactor),
                 int(self.CARD_DY * self._yfactor))
 
+    def getCenterOffset(self, vw, vh, iw, ih, xf, yf, autoscale):
+        if ((vw > iw and vh > ih) or autoscale):
+            return (vw / xf - iw) / 2, (vh / yf - ih) / 2
+        if (vw >= iw and vh < ih):
+            return (vw / xf - iw) / 2, 0
+        if (vw < iw and vh >= ih):
+            return 0, (vh / yf - ih) / 2
+        return 0, 0
+
     def resize(self, xf, yf, resample=1):
         # print 'Images.resize:', xf, yf, self._card[0].width(), self.CARDW
         if (self._xfactor == xf and self._yfactor == yf

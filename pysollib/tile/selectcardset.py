@@ -683,8 +683,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 if self.preserve_aspect.get():
                     xf = yf = min(xf, yf)
                 if self.app.opt.center_layout:
-                    cx, cy = self.app.game.getCenterOffset(vw - 10, vh - 10,
-                                                           iw, ih, xf, yf)
+                    cx, cy = self.app.images.getCenterOffset(vw - 10, vh - 10,
+                                                             iw, ih, xf, yf,
+                                                             True)
                     cx = int(cx * xf)
                     cy = int(cy * yf)
                     x += cx
@@ -703,7 +704,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             sx, sy = max(x, sx), max(y, sy)
             i = i + 1
             if i % columns == 0:
-                x, y = 10 + cx, y + dy + cy
+                x, y = 10 + cx, y + dy
             else:
                 x += dx
         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),

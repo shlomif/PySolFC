@@ -30,5 +30,5 @@ TclError = 0
 
 def MfxRoot(**kw):
     mainWindow = Cache.get('LAppCache', 'mainWindow')
-    logging.info('tkwrap: top = %s' % str(mainWindow))
+    logging.info('tkwrap: top = %s', str(mainWindow))
     return mainWindow

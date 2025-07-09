@@ -117,7 +117,7 @@ def get_screen_ori():
     else:
         so = 'portrait'
 
-    logging.info("LApp: ori = %s" % so)
+    logging.info("LApp: ori = %s", so)
     return so
 
 # =============================================================================
@@ -680,8 +680,8 @@ class LRectangle(Widget, LBase):
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             if self.group is not None:
-                logging.info('LRectangle: self=%s group=%s' %
-                             (self, self.group))
+                logging.info('LRectangle: self=%s group=%s',
+                             self, self.group)
                 if '<1>' in self.group.bindings:
                     # logging.info('LRectangle: size=%s' % (self.size))
                     ppos, psize = self.group.canvas.KivyToCore(touch.pos)
@@ -698,8 +698,8 @@ class LRectangle(Widget, LBase):
     def on_touch_up(self, touch):
         if self.collide_point(*touch.pos):
             if self.group is not None:
-                logging.info('LRectangle: self=%s group=%s' %
-                             (self, self.group))
+                logging.info('LRectangle: self=%s group=%s',
+                             self, self.group)
                 if '<ButtonRelease-1>' in self.group.bindings:
                     ppos, psize = self.group.canvas.KivyToCore(touch.pos)
                     event = LEvent()
@@ -1427,14 +1427,14 @@ class LTkBase:
 
     def wm_title(self, strg):
         self.title = strg
-        logging.info("LTkBase: wm_title %s" % strg)
+        logging.info("LTkBase: wm_title %s", strg)
         if (self.app):
             # self.app.top.topLine.text = strg
             self.app.top.getMenu().ap.title = strg
 
     def wm_iconname(self, strg):
         self.icontitle = strg
-        logging.info("LTkBase: wm_iconname %s" % strg)
+        logging.info("LTkBase: wm_iconname %s", strg)
 
     def eval_screen_dim(self, size):
         self.screenSize = size
@@ -1453,11 +1453,11 @@ class LTkBase:
         self.screenSize = (d.getWidth(), d.getHeight())
 
     def winfo_screenwidth(self):
-        logging.info("LTkBase: winfo_screenwidth %s" % str(self.size[0]))
+        logging.info("LTkBase: winfo_screenwidth %s", str(self.size[0]))
         return self.size[0]
 
     def winfo_screenheight(self):
-        logging.info("LTkBase: winfo_screenheight %s" % str(self.size[1]))
+        logging.info("LTkBase: winfo_screenheight %s", str(self.size[1]))
         return self.size[1]
 
     def winfo_screendepth(self):
@@ -1485,11 +1485,11 @@ class LTkBase:
         pass
 
     def connectApp(self, app):
-        logging.info("LTkBase: connectApp %s" % str(app))
+        logging.info("LTkBase: connectApp %s", str(app))
         self.app = app
 
     def wm_geometry(self, val):
-        logging.info("LTkBase: wm_geometry %s" % str(val))
+        logging.info("LTkBase: wm_geometry %s", str(val))
 
     def update_idletasks(self):
         # logging.info("LTkBase: update_idletasks")
@@ -1531,7 +1531,7 @@ class LTkBase:
         self.sleeping = False
 
     def sleep(self, seconds):
-        logging.info('LTkBase: sleep %s seconds' % seconds)
+        logging.info('LTkBase: sleep %s seconds', seconds)
         self.sleeping = True
         Clock.schedule_once(self.onWakeUp, seconds)
         while self.sleeping:
@@ -1861,7 +1861,7 @@ class LApp(App):
 
     def app_start(self, *args):
         logging.info("LApp: app_start")
-        logging.info('top = %s' % str(self.baseWindow))
+        logging.info('top = %s', str(self.baseWindow))
 
         self.mainWindow = LMainWindow()
         Cache.register('LAppCache', limit=10)
@@ -2001,7 +2001,7 @@ class LApp(App):
             traceback.print_exc()
         logging.info("LApp: on_pause - gamesaved")
 
-        logging.info("LApp: on_pause, Window.size=%s" % str(Window.size))
+        logging.info("LApp: on_pause, Window.size=%s", str(Window.size))
 
         return pauseSupport
 
@@ -2018,7 +2018,7 @@ class LApp(App):
         so = get_screen_ori()
         go = so  # flake8: F841 nonsense!
         so = go
-        logging.info("LApp: on_resume, Window.size=%s" % str(Window.size))
+        logging.info("LApp: on_resume, Window.size=%s", str(Window.size))
         # ANM:
         # kivy.core.window.Window hat hier u.U. eine falsche dimension
         # und unterscheidet sich vom display (-> in get_screen_ori).

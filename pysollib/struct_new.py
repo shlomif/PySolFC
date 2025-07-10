@@ -19,7 +19,7 @@ class NewStruct:
         return ret
 
     def addattr(self, **kw):
-        for k in kw.keys():
+        for k in kw:
             if k in self.__dict__:
                 raise AttributeError(k)
         self.__dict__.update(kw)

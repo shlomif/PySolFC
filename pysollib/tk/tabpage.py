@@ -76,7 +76,7 @@ class TabPageSet(tkinter.Frame):
 
     def ChangePage(self, pageName=None):
         if pageName:
-            if pageName in self.pages.keys():
+            if pageName in self.pages:
                 self.activePage.set(pageName)
             else:
                 raise InvalidTabPage('Invalid TabPage Name')
@@ -91,7 +91,7 @@ class TabPageSet(tkinter.Frame):
         return self.activePage.get()
 
     def AddPage(self, pageName):
-        if pageName in self.pages.keys():
+        if pageName in self.pages:
             raise AlreadyExists('TabPage Name Already Exists')
         self.pages[pageName] = {
             'tab': PageTab(self.tabBar),
@@ -111,7 +111,7 @@ class TabPageSet(tkinter.Frame):
             self.ChangePage()
 
     def RemovePage(self, pageName):
-        if pageName not in self.pages.keys():
+        if pageName not in self.pages:
             raise InvalidTabPage('Invalid TabPage Name')
         self.pages[pageName]['tab'].pack_forget()
         self.pages[pageName]['page'].grid_forget()

@@ -221,11 +221,11 @@ class PysolAboutDialog:
         super().__init__()
 
         self._url = kw['url']
-        logging.info('PysolAboutDialog: txt=%s' % title)
+        logging.info('PysolAboutDialog: txt=%s', title)
 
         text = kw['text']
         text = text + '\n' + self._url
-        logging.info('PysolAboutDialog: txt=%s' % text)
+        logging.info('PysolAboutDialog: txt=%s', text)
 
         text = text + '\n\n' + 'Adaptation to Kivy/Android\n' + \
             ' Copyright (C) (2016-24) LB'
@@ -574,7 +574,7 @@ class MfxScrolledCanvas:
     #
 
     def setTile(self, app, i, scale_method, force=False):
-        logging.info('MfxRoot: setTitle app=%s' % app)
+        logging.info('MfxRoot: setTitle app=%s', app)
 
         tile = app.tabletile_manager.get(i)
 

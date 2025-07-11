@@ -544,7 +544,7 @@ class MfxCanvasRectangle:
             lambda dt: self.delete_deferred_step(seconds), 0.05)
 
     def addtag(self, tag):
-        logging.info('MfxCanvasRectangle: addtag(%s) - fake' % tag)
+        logging.info('MfxCanvasRectangle: addtag(%s) - fake', tag)
 
     def tkraise(self, aboveThis=None):
         # logging.info('MfxCanvasRectangle: tkraise(%s) - fake' % item)

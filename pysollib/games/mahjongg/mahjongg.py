@@ -349,6 +349,10 @@ class Mahjongg_RowStack(OpenStack):
 # *
 # ************************************************************************
 
+def _nontrivial_keys_to_tuple(in_dict):
+    return tuple(_f for _f in in_dict if _f)
+
+
 class AbstractMahjonggGame(Game):
     RANKS = ("1", "2", "3", "4", "5", "6", "7", "8", "9", _("Dragon"))
     SUITS = (_("Strings"), _("Sticks"), _("Coins"))
@@ -712,19 +716,15 @@ class AbstractMahjonggGame(Game):
             assert tilemap.get((level, tx, ty+1)) is stack
             assert tilemap.get((level, tx+1, ty+1)) is stack
             #
-            above = tuple(_f for _f in above.keys() if _f)
-            below = tuple(_f for _f in below.keys() if _f)
-            left = tuple(_f for _f in left.keys() if _f)
-            right = tuple(_f for _f in right.keys() if _f)
             # up = tuple(filter(None, up.keys()))
             # bottom = tuple(filter(None, bottom.keys()))
 
             # assemble
             stack.blockmap = Struct(
-                above=above,
-                below=below,
-                left=left,
-                right=right,
+                above=_nontrivial_keys_to_tuple(above),
+                below=_nontrivial_keys_to_tuple(below),
+                left=_nontrivial_keys_to_tuple(left),
+                right=_nontrivial_keys_to_tuple(right),
                 # up=up,
                 # bottom=bottom,
                 all_left=None,

@@ -22,6 +22,7 @@
 #
 # ---------------------------------------------------------------------------#
 
+import collections
 import math
 import os
 import re
@@ -848,16 +849,9 @@ class LOptionsMenuGenerator(LTreeGenerator):
         if rg:
             self.menubar.tkopt.cardset.value = self.app.cardset.index
 
-            csm = self.app.cardset_manager
-            cdict = {}
-            i = 0
-            while 1:
-                cardset = csm.get(i)
-                if cardset is None: break  # noqa
-                t = cardset.type
-                if t not in cdict.keys(): cdict[t] = []  # noqa
-                cdict[t].append((i, cardset))
-                i += 1
+            cdict = collections.defaultdict(list)
+            for i, cardset in enumerate(self.app.cardset_manager.getAll()):
+                cdict[cardset.type].append((i, cardset))
 
             for k in sorted(cdict.keys()):
                 name = CSI.TYPE_NAME[k]

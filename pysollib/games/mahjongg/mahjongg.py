@@ -41,13 +41,9 @@ from pysollib.stack import \
 from pysollib.util import ANY_SUIT, NO_RANK
 
 
-def factorial(x):
-    if x <= 1:
-        return 1
-    a = 1
-    for i in range(x):
-        a *= (i+1)
-    return a
+def _count_pairs(in_n):
+    """Returns the number of unordered pairs of n elements: (n choose 2)"""
+    return in_n * (in_n - 1) // 2
 
 
 # ************************************************************************
@@ -850,9 +846,8 @@ class AbstractMahjonggGame(Game):
             if len(free_stacks) < 2:
                 return None             # try another way
             #
-            i = factorial(len(free_stacks))//2//factorial(len(free_stacks)-2)
             old_pairs = []
-            for j in range(i):
+            for j in range(_count_pairs(len(free_stacks))):
                 nc = new_cards[:]
                 while True:
                     # create uniq pair
@@ -950,9 +945,7 @@ class AbstractMahjonggGame(Game):
                                if nc[r.id] is None and is_suitable(r, nc)]
 
             old_pairs = []
-            i = factorial(len(suitable_stacks))//2 \
-                // factorial(len(suitable_stacks)-2)
-            for j in range(i):
+            for j in range(_count_pairs(len(suitable_stacks))):
                 if iters[0] > max_iters:
                     return None
                 if time.time() - start_time > max_time:

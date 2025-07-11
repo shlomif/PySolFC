@@ -1190,7 +1190,7 @@ class Application:
 
     def getAllUserNames(self):
         names = []
-        for n in self.stats.games_stats.keys():
+        for n in self.stats.games_stats:
             if n is None:               # demo
                 continue
             if self.stats.games_stats[n]:

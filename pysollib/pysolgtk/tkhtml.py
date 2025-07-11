@@ -346,7 +346,7 @@ class HTMLViewer:
             'bold': (default_font[0], size,           'bold'),
         }
 
-        for tag_name in self.fontmap.keys():
+        for tag_name in self.fontmap:
             font = self.fontmap[tag_name]
             font = font[0]+' '+str(font[1])
             tag = self.textbuffer.create_tag(tag_name, font=font)

@@ -124,7 +124,7 @@ def subAnchorOffset(pos, anchor, size):
 # ************************************************************************
 
 
-class MfxCanvasGroup():
+class MfxCanvasGroup:
     def __init__(self, canvas, tag=None):
         # print(self, '__init__(', canvas, tag, ')')
 

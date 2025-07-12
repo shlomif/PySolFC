@@ -359,7 +359,7 @@ class Giza(Pyramid):
 # * Pyramid Dozen
 # ************************************************************************
 
-class PyramidDozen_StackMethods():
+class PyramidDozen_StackMethods:
     def acceptsCards(self, from_stack, cards):
         if self.basicIsBlocked():
             return False
@@ -1410,7 +1410,7 @@ class Apophis(Pharaohs):
 # * Eleven Triangle
 # ************************************************************************
 
-class ElevenTriangle_StackMethods():
+class ElevenTriangle_StackMethods:
     def acceptsCards(self, from_stack, cards):
         if self.basicIsBlocked():
             return False

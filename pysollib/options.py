@@ -684,12 +684,12 @@ class Options:
         config['general']['recent_gameid'] = self.recent_gameid
         config['general']['favorite_gameid'] = self.favorite_gameid
         config['general']['table_zoom'] = self.table_zoom
-        visible_buttons = [b for b in self.toolbar_vars
-                           if self.toolbar_vars[b]]
-        config['general']['visible_buttons'] = visible_buttons
-        visible_status = [b for b in self.statusbar_vars
-                          if self.statusbar_vars[b]]
-        config['general']['visible_status'] = visible_status
+        config['general']['visible_buttons'] = [
+            b for b, is_visible in self.toolbar_vars.items() if is_visible
+        ]
+        config['general']['visible_status'] = [
+            s for s, is_visible in self.statusbar_vars.items() if is_visible
+        ]
         if 'none' in config['general']['solver_presets']:
             config['general']['solver_presets'].remove('none')
 
@@ -887,8 +887,8 @@ class Options:
                 self.timeouts[key] = val
 
         # cardsets
-        for key in self.cardset:
-            for key2 in self.cardset[key]:
+        for key, cur_cardset in self.cardset.items():
+            for key2 in cur_cardset:
                 if key2 > 0:
                     val = self._getOption('cardsets',
                                           str(key) + "_" + str(key2), 'list')

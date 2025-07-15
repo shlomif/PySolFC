@@ -662,8 +662,8 @@ class DefaultHint(AbstractHint):
 # ************************************************************************
 
 class CautiousDefaultHint(DefaultHint):
-    shallMovePile = DefaultHint._cautiousShallMovePile
-    # shallMovePile = DefaultHint._cautiousDemoShallMovePile
+    # shallMovePile = DefaultHint._cautiousShallMovePile
+    shallMovePile = DefaultHint._cautiousDemoShallMovePile
 
     def _preferHighRankMoves(self):
         return 1

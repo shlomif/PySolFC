@@ -102,12 +102,28 @@ class SelectTileDialogWithPreview(MfxDialog):
         #
         iter = model.append(None)
         model.set(iter, 0, _('Solid color'), 1, -1)
-        for color, value in ((_('Blue'),   '#0082df'),
-                             (_('Green'),  '#008200'),
-                             (_('Navy'),   '#000086'),
-                             (_('Olive'),  '#868200'),
-                             (_('Orange'), '#f79600'),
-                             (_('Teal'),   '#008286'),):
+        for color, value in ((_("Azure"), "#0082df"),
+                             (_("Black"), "#000000"),
+                             (_("Blue"), "#0000ff"),
+                             (_("Bronze"), "#ce8946"),
+                             (_("Brown"), "#684700"),
+                             (_("Cyan"), "#00ffff"),
+                             (_("Gold"), "#ffd700"),
+                             (_("Grey"), "#888888"),
+                             (_("Green"), "#008200"),
+                             (_("Lime"), "#00ff00"),
+                             (_("Magenta"), "#ff00ff"),
+                             (_("Navy"), "#000086"),
+                             (_("Olive"), "#868200"),
+                             (_("Orange"), "#f79600"),
+                             (_("Pink"), "#ff92fc"),
+                             (_("Purple"), "#800080"),
+                             (_("Red"), "#ff0000"),
+                             (_("Silver"), "#c0c0c0"),
+                             (_("Teal"), "#008286"),
+                             (_("Violet"), "#8300ff"),
+                             (_("White"), "#ffffff"),
+                             (_("Yellow"), "#ffff00"),):
             child_iter = model.append(iter)
             model.set(child_iter, 0, color, 1, index)
             self.all_keys.append(value)

@@ -908,8 +908,8 @@ class LOptionsMenuGenerator(LTreeGenerator):
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    _('Bright Green'),
-                    self.menubar.tkopt.color_vars[key], '#00ff00',
+                    _('Bronze'),
+                    self.menubar.tkopt.color_vars[key], '#ce8946',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
@@ -923,6 +923,11 @@ class LOptionsMenuGenerator(LTreeGenerator):
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
+                    _('Gold'),
+                    self.menubar.tkopt.color_vars[key], '#ffd700',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
                     _('Grey'),
                     self.menubar.tkopt.color_vars[key], '#888888',
                     self.menubar.mOptTableColor)
@@ -930,6 +935,11 @@ class LOptionsMenuGenerator(LTreeGenerator):
                     tv, rg1,
                     _('Green'),
                     self.menubar.tkopt.color_vars[key], '#008200',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Lime'),
+                    self.menubar.tkopt.color_vars[key], '#00ff00',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
@@ -959,7 +969,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
                 self.addRadioNode(
                     tv, rg1,
                     _('Purple'),
-                    self.menubar.tkopt.color_vars[key], '#8300ff',
+                    self.menubar.tkopt.color_vars[key], '#800080',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
@@ -968,8 +978,18 @@ class LOptionsMenuGenerator(LTreeGenerator):
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
+                    _('Silver'),
+                    self.menubar.tkopt.color_vars[key], '#c0c0c0',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
                     _('Teal'),
-                    self.menubar.tkopt.color_vars[key], '#008286',
+                    self.menubar.tkopt.color_vars[key], '#008080',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Violet'),
+                    self.menubar.tkopt.color_vars[key], '#8300ff',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,

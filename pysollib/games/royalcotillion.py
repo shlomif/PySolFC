@@ -316,6 +316,7 @@ class Alhambra_Talon(DealRowTalonStack):
             if self.cards:
                 self.game.flipAndMoveMove(self, r)
                 num_cards += 1
+        return num_cards
 
     def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)

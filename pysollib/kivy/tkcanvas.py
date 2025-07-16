@@ -953,8 +953,10 @@ class MfxCanvas(LImage):
             # tagOrId ist das Label.
             tagOrId.text = cnf['text']
 
-    def config(self, cnf={}, **kw):
+    def config(self, cnf=None, **kw):
         # print('MfxCanvas: config %s %s' % (cnf, kw))
+        if cnf is None:
+            cnf = {}
         if ('cursor' in kw):
             pass
         if ('width' in kw):

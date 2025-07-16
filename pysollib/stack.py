@@ -153,7 +153,7 @@ class Stack:
     MIN_VISIBLE_YOFFSET = 3
     SHRINK_FACTOR = 2.
 
-    def __init__(self, x, y, game, cap={}):
+    def __init__(self, x, y, game, cap=None):
         # Arguments are the stack's nominal x and y position (the top
         # left corner of the first card placed in the stack), and the
         # game object (which is used to get the canvas; subclasses use
@@ -162,6 +162,8 @@ class Stack:
         #
         # link back to game
         #
+        if cap is None:
+            cap = {}
         id = len(game.allstacks)
         game.allstacks.append(self)
         x = int(round(x))

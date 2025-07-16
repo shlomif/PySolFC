@@ -63,7 +63,9 @@ class CanvasItem:
     def unbind(self, sequence, funcid=None):
         self.canvas.tag_unbind(self.id, sequence, funcid)
 
-    def config(self, cnf={}, **kw):
+    def config(self, cnf=None, **kw):
+        if cnf is None:
+            cnf = {}
         return self.canvas.itemconfig(self.id, _cnfmerge((cnf, kw)))
 
     def coords(self, pts=()):
@@ -228,7 +230,9 @@ class Group:
     def insert(self, beforeThis, string):
         self._do('insert', beforeThis, string)
 
-    def config(self, cnf={}, **kw):
+    def config(self, cnf=None, **kw):
+        if cnf is None:
+            cnf = {}
         return self.canvas.itemconfigure(self.tag, _cnfmerge((cnf, kw)))
 
     def lower(self, belowThis=None):

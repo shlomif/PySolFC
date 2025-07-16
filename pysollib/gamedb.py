@@ -656,12 +656,19 @@ class GameInfo(Struct):
                  game_type, decks, redeals,
                  skill_level=None,
                  # keyword arguments:
-                 si={}, category=0, subcategory=GI.GS_NONE,
+                 si=None, category=0, subcategory=GI.GS_NONE,
                  short_name=None, altnames=(),
-                 suits=list(range(4)), ranks=list(range(13)), trumps=(),
+                 suits=None, ranks=None, trumps=(),
                  rules_filename=None,
                  ):
         #
+        if ranks is None:
+            ranks = list(range(13))
+        if suits is None:
+            suits = list(range(4))
+        if si is None:
+            si = {}
+
         def to_unicode(s):
             if isinstance(s, str):
                 return s

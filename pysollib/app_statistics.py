@@ -73,11 +73,8 @@ class Statistics:
             games[player] = [g for g in games[player] if g[0] != gameid]
 
     def deleteGameStats(self, gameid):
-        for player in self.games_stats:
-            try:
-                del self.games_stats[player][gameid]
-            except KeyError:
-                pass
+        for cur_stats in self.games_stats.values():
+            cur_stats.pop(gameid, None)
         for player in self.prev_games:
             self.prev_games[player] = \
                 [g for g in self.prev_games[player] if g[0] != gameid]

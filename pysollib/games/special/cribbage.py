@@ -523,9 +523,9 @@ class CribbagePatience(CribbageShuffle):
         self.s.talon.flipMove()
         self.s.talon.moveMove(1, self.s.reserves[0])
         self.leaveState(old_state)
-        for i in range(len(self.cribbage_hands)):
-            value = self.getHandScore(self.cribbage_hands[i])
-            self.texts.list[i].config(text=str(value))
+        for hand, text in zip(self.cribbage_hands, self.texts.list):
+            value = self.getHandScore(hand)
+            text.config(text=str(value))
             self.score += value
         self.score = self.checkHisHeels(self.score)
         self.saveStateMove(1 | 16)
@@ -534,13 +534,11 @@ class CribbagePatience(CribbageShuffle):
         if self.preview > 1:
             return
         if self.isBoardFull():
-            for i in range(len(self.cribbage_hands)):
-                value = self.getHandScore(self.cribbage_hands[i])
-
-                self.texts.list[i].config(text=str(value))
+            for hand, text in zip(self.cribbage_hands, self.texts.list):
+                text.config(text=str(self.getHandScore(hand)))
         else:
-            for i in range(len(self.cribbage_hands)):
-                self.texts.list[i].config(text="")
+            for text in self.texts.list:
+                text.config(text="")
         #
         t = ""
         if self.score >= self.WIN_SCORE and len(self.s.talon.cards) == 0:

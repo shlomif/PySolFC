@@ -31,7 +31,9 @@ from .tkwidget import MfxDialog
 
 
 class SelectUserNameDialog(MfxDialog):
-    def __init__(self, parent, title, usernames=[], **kw):
+    def __init__(self, parent, title, usernames=None, **kw):
+        if usernames is None:
+            usernames = []
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)

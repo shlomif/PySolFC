@@ -98,7 +98,9 @@ if TOOLKIT == 'kivy':
 
 
 class DataLoader:
-    def __init__(self, argv0, filenames, path=[]):
+    def __init__(self, argv0, filenames, path=None):
+        if path is None:
+            path = []
         self.dir = None
         if isinstance(filenames, str):
             filenames = (filenames,)

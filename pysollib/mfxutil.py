@@ -273,7 +273,9 @@ def kwdefault(kw, **defaults):
 
 
 class KwStruct:
-    def __init__(self, kw={}, **defaults):
+    def __init__(self, kw=None, **defaults):
+        if kw is None:
+            kw = {}
         if isinstance(kw, KwStruct):
             kw = kw.__dict__
         if isinstance(defaults, KwStruct):

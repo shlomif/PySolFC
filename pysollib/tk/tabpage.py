@@ -55,13 +55,15 @@ class TabPageSet(tkinter.Frame):
     """
     a set of 'pages' with TabButtons for controlling their display
     """
-    def __init__(self, parent, pageNames=[], **kw):
+    def __init__(self, parent, pageNames=None, **kw):
         """
         pageNames - a list of strings, each string will be the dictionary key
         to a page's data, and the name displayed on the page's tab. Should be
         specified in desired page order. The first page will be the default
         and first active page.
         """
+        if pageNames is None:
+            pageNames = []
         tkinter.Frame.__init__(self, parent, kw)
         self.grid_location(0, 0)
         self.columnconfigure(0, weight=1)

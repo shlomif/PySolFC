@@ -228,7 +228,9 @@ class MfxMenubar(tkinter.Menu):
             label = label.replace('&', '')
         return name, label, underline
 
-    def add(self, itemType, cnf={}):
+    def add(self, itemType, cnf=None):
+        if cnf is None:
+            cnf = {}
         label = cnf.get("label")
         if label:
             name = cnf.get('name')

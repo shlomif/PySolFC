@@ -1405,10 +1405,14 @@ class EmulTkMenu:
             label = label.replace('&', '')
         return name, label, underline
 
-    def add_cascade(self, cnf={}, **kw):
+    def add_cascade(self, cnf=None, **kw):
+        if cnf is None:
+            cnf = {}
         self.add('cascade', cnf or kw)
 
-    def add(self, itemType, cnf={}):
+    def add(self, itemType, cnf=None):
+        if cnf is None:
+            cnf = {}
         label = cnf.get("label")
         if label:
             name = cnf.get('name')

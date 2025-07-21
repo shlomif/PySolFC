@@ -82,8 +82,7 @@ class GrandfathersClock(Game):
         self.setRegion(s.rows[:4], (-999, -999, x - l.XM // 2, y))
         self.setRegion(s.rows[4:], (-999,    y, x - l.XM // 2, 999999))
         d = [(0, 0), (1, 0.15), (2, 0.5), (2.5, 1.5), (2, 2.5), (1, 2.85)]
-        for i in range(len(d)):
-            d.append((0 - d[i][0], 3 - d[i][1]))
+        d += [(0 - x, 3 - y) for x, y in d]
         x0, y0 = l.XM, l.YM + dh - l.CH
         for i in range(12):
             j = (i + 5) % 12

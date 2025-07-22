@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-06-21 10:35-0400\n"
+"PO-Revision-Date: 2025-07-21 21:34-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2886,7 +2886,7 @@ msgstr ""
 msgid "Blue"
 msgstr "Blau"
 
-msgid "Bright Green"
+msgid "Bronze"
 msgstr ""
 
 msgid "Cyan"
@@ -2897,6 +2897,9 @@ msgstr ""
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
 msgstr "Grün"
+
+msgid "Lime"
+msgstr ""
 
 msgid "Magenta"
 msgstr ""
@@ -2928,6 +2931,9 @@ msgstr ""
 #: pysollib/tile/selecttile.py:79 pysollib/tk/selecttile.py:78
 msgid "Teal"
 msgstr "Krickente"
+
+msgid "Violet"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:862
 msgid "Tiles and Images"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2025-06-21 10:36-0400\n"
+"PO-Revision-Date: 2025-07-21 21:35-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -2927,7 +2927,7 @@ msgstr ""
 msgid "Blue"
 msgstr "Bleu"
 
-msgid "Bright Green"
+msgid "Bronze"
 msgstr ""
 
 msgid "Cyan"
@@ -2938,6 +2938,9 @@ msgstr ""
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
 msgstr "Vert"
+
+msgid "Lime"
+msgstr ""
 
 msgid "Magenta"
 msgstr ""
@@ -2969,6 +2972,9 @@ msgstr ""
 #: pysollib/tile/selecttile.py:79 pysollib/tk/selecttile.py:78
 msgid "Teal"
 msgstr "Sarcelle"
+
+msgid "Violet"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:862
 msgid "Tiles and Images"

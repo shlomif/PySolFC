@@ -2757,7 +2757,7 @@ msgstr ""
 msgid "Blue"
 msgstr ""
 
-msgid "Bright Green"
+msgid "Bronze"
 msgstr ""
 
 msgid "Cyan"
@@ -2767,6 +2767,9 @@ msgstr ""
 #: pysollib/tile/selecttile.py:75 pysollib/tk/selecttile.py:74
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
+msgstr ""
+
+msgid "Lime"
 msgstr ""
 
 msgid "Magenta"
@@ -2798,6 +2801,9 @@ msgstr ""
 #: pysollib/kivy/menubar.py:857 pysollib/pysolgtk/selecttile.py:110
 #: pysollib/tile/selecttile.py:79 pysollib/tk/selecttile.py:78
 msgid "Teal"
+msgstr ""
+
+msgid "Violet"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:862
@@ -3222,6 +3228,9 @@ msgstr ""
 #: pysollib/kivy/tkhtml.py:437 pysollib/pysolgtk/tkhtml.py:220
 #: pysollib/tile/tkhtml.py:85 pysollib/tk/tkhtml.py:80
 msgid "Forward"
+msgstr ""
+
+msgid "Browser"
 msgstr ""
 
 #: pysollib/kivy/tkhtml.py:438 pysollib/pysolgtk/tkhtml.py:221

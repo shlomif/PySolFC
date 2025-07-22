@@ -90,6 +90,8 @@ class Ishido_Talon(OpenTalonStack):
                                 shadow=shadow)
 
     def highlightMatchingCards(self, event):
+        if len(self.cards) < 1:
+            return 0
         info = []
         found = 0
         col_1 = self.game.app.opt.colors['cards_1']

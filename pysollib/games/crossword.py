@@ -36,7 +36,6 @@ from pysollib.stack import \
 # * Crossword
 # ************************************************************************
 
-
 class Crossword_Hint(AbstractHint):
 
     def computeHints(self):
@@ -53,6 +52,32 @@ class Crossword_Hint(AbstractHint):
             if game.isValidPlay(r.id, game.s.talon.getCard().rank + 1):
                 # TODO: Check a few moves ahead to get better hints.
                 self.addHint(5000, 1, game.s.talon, r)
+
+
+class Crossword_TalonStack(OpenTalonStack):
+
+    def highlightMatchingCards(self, event):
+        if len(self.cards) < 1:
+            return 0
+        info = []
+        found = 0
+        col_1 = self.game.app.opt.colors['cards_1']
+        col_2 = self.game.app.opt.colors['cards_2']
+        for s in self.game.s.rows:
+            if len(s.cards) > 0:
+                continue
+            if self.game.isValidPlay(s.id, self.cards[-1].rank + 1):
+                found = 1
+                info.append((s, col_1))
+        if found:
+            if info:
+                self.game.stats.highlight_cards += 1
+            info.append((self, col_2))
+            return self.game._highlightEmptyStack(
+                info, self.game.app.opt.timeouts['highlight_cards'])
+        if not self.basicIsBlocked():
+            self.game.highlightNotMatching()
+        return 0
 
 
 class Crossword_RowStack(ReserveStack):
@@ -97,11 +122,34 @@ class Crossword_FinalCard(ReserveStack):
     def canMoveCards(self, cards):
         return True
 
+    def highlightMatchingCards(self, event):
+        if len(self.cards) < 1:
+            return 0
+        info = []
+        found = 0
+        col_1 = self.game.app.opt.colors['cards_1']
+        col_2 = self.game.app.opt.colors['cards_2']
+        for s in self.game.s.rows:
+            if len(s.cards) > 0:
+                continue
+            if self.game.isValidPlay(s.id, self.cards[-1].rank + 1):
+                found = 1
+                info.append((s, col_1))
+        if found:
+            if info:
+                self.game.stats.highlight_cards += 1
+            info.append((self, col_2))
+            return self.game._highlightEmptyStack(
+                info, self.game.app.opt.timeouts['highlight_cards'])
+        if not self.basicIsBlocked():
+            self.game.highlightNotMatching()
+        return 0
+
     getBottomImage = Stack._getNoneBottomImage
 
 
 class Crossword(Game):
-    Talon_Class = OpenTalonStack
+    Talon_Class = Crossword_TalonStack
     RowStack_Class = StackWrapper(Crossword_RowStack, max_move=0)
     FinalCards_Class = StackWrapper(Crossword_FinalCard, max_move=0)
     Hint_Class = Crossword_Hint

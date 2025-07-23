@@ -658,10 +658,11 @@ class Nestor(Game):
     #
 
     def _checkRow(self, cards):
-        for i in range(len(cards)):
-            for j in range(i):
-                if cards[i].rank == cards[j].rank:
-                    return j
+        seen = {}
+        for i, card in enumerate(cards):
+            if card.rank in seen:
+                return seen[card.rank]
+            seen[card.rank] = i
         return -1
 
     def _shuffleHook(self, cards):

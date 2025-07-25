@@ -635,13 +635,9 @@ class Trapdoor_Talon(DealRowTalonStack):
         if sound:
             self.game.startDealSample()
         n = 0
-        rows = self.game.s.rows
-        reserves = self.game.s.reserves
-        for i in range(len(rows)):
-            r1 = reserves[i]
-            r2 = rows[i]
-            if r1.cards:
-                r1.moveMove(1, r2)
+        for row, reserve in zip(self.game.s.rows, self.game.s.reserves):
+            if reserve.cards:
+                reserve.moveMove(1, row)
                 n += 1
         n += self.dealRowAvail(rows=self.game.s.reserves, sound=False)
         if sound:

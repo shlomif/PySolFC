@@ -482,20 +482,20 @@ class Decade(PushPin):
 class SevenUp_Hint(AbstractHint):
 
     def computeHints(self):
-        game = self.game
-        rows = game.s.rows
-        for i in range(len(rows)):
-            if rows[i].cards and rows[i].cards[0].rank == 6:
-                self.addHint(5000, 1, rows[i], self.game.s.foundations[0])
+        rows = self.game.s.rows
+        for i, row in enumerate(rows):
+            if row.cards and row.cards[0].rank == 6:
+                self.addHint(5000, 1, row, self.game.s.foundations[0])
             for j in range(i + 1, len(rows)):
-                total = 0
-                count = 0
-                for k in range(i, j):
-                    if self.game.s.rows[k].cards:
-                        total += self.game.s.rows[k].cards[0].rank + 1
-                        count += 1
+                cards_in_between = [
+                    rows[k].cards[0].rank + 1
+                    for k in range(i, j)
+                    if rows[k].cards
+                ]
+                count = len(cards_in_between)
+                total = sum(cards_in_between)
                 if total % 7 == 0 and 1 < count <= 4:
-                    self.addHint(5000, 1, rows[i], rows[j - 1])
+                    self.addHint(5000, 1, row, rows[j - 1])
 
 
 class SevenUp_RowStack(Decade_RowStack):

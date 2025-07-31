@@ -124,14 +124,13 @@ class MfxDialog(_MyDialog):
 
     def createButtons(self, box, kw):
         strings, default = kw['strings'], kw['default']
-        for i in range(len(strings)):
-            text = strings[i]
-            if not text:
+        for i, item in enumerate(strings):
+            if not item:
                 continue
-            if isinstance(text, (list, tuple)):
-                text, index = text
+            if isinstance(item, (list, tuple)):
+                text, index = item
             else:  # str
-                index = i
+                text, index = item, i
             text = text.replace('&', '_')
             b = gtk.Button(text)
             b.set_property('can-default', True)

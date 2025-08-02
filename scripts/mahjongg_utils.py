@@ -28,8 +28,8 @@ def encode_layout(layout):
     # encode positions
     s = '0'
     # layout.sort()
-    x_max = max([t[1] for t in layout])
-    y_max = max([t[2] for t in layout])
+    x_max = max(t[1] for t in layout)
+    y_max = max(t[2] for t in layout)
     for x in range(x_max+1):
         for y in range(y_max+1):
             mylist = [t[0] for t in layout if t[1] == x and t[2] == y]
@@ -142,10 +142,10 @@ def parse_xmahjongg(filename):
 
 
 def normalize(mylist):
-    minx = min([i[1] for i in mylist])
+    minx = min(i[1] for i in mylist)
     if minx:
         mylist = [(i[0], i[1]-minx, i[2]) for i in mylist]
-    miny = min([i[2] for i in mylist])
+    miny = min(i[2] for i in mylist)
     if miny:
         mylist = [(i[0], i[1], i[2]-miny) for i in mylist]
     return mylist

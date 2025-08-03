@@ -92,9 +92,8 @@ def by_category():
             games_by_cat[gt] += 1
         else:
             games_by_cat[gt] = 1
-    games_by_cat_list = [(i, j) for i, j in games_by_cat.items()]
-    games_by_cat_list.sort(key=lambda x: x[1])
-    games_by_cat_list = games_by_cat_list[::-1]
+    games_by_cat_list = sorted(
+        games_by_cat.items(), key=lambda x: x[1], reverse=True)
 #     print '<table border="2"><tr><th>Name</th><th>Number</th></tr>'
 #     for i in games_by_cat_list:
 #         print '<tr><td>%s</td><td>%s</td></tr>' % i

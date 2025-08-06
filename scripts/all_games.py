@@ -102,7 +102,6 @@ def by_category():
     for i in games_by_cat_list:
         print('<li>%s (%s games)</li>' % i)
     print('</ul>')
-    return
 
 
 def by_type():
@@ -128,7 +127,6 @@ def by_type():
     for i in games_by_type_list:
         print('<li>%s (%s games)</li>' % i)
     print('</ul>')
-    return
 
 
 def all_games(sort_by='id'):

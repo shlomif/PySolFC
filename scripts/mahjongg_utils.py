@@ -92,8 +92,7 @@ def parse_ace(filename):
         if x <= 0:
             x = -x
             y, z = int(mylist.pop()), int(mylist.pop())
-            if layer < z:
-                layer = z
+            layer = max(layer, z)
         layout.append((z, x, y))
     layout.sort()
     return normalize(layout)

@@ -117,8 +117,7 @@ def by_type():
             games_by_type[gt] += 1
         else:
             games_by_type[gt] = 1
-    games_by_type_list = list(games_by_type.items())
-    games_by_type_list.sort(key=lambda x: x[0])
+    games_by_type_list = sorted(games_by_type.items(), key=lambda x: x[0])
     #  print '<table border="2"><tr><th>Name</th><th>Number</th></tr>'
     #  for i in games_by_type_list:
     #      print '<tr><td>%s</td><td>%s</td></tr>' % i
@@ -213,8 +212,7 @@ def get_text():
             games_list[gi.short_name] = ''
         for n in gi.altnames:
             games_list[n] = ''
-    games_list = list(games_list.keys())
-    games_list.sort()
+    games_list = sorted(games_list.keys())
     print('''\
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR ORGANIZATION
@@ -248,8 +246,7 @@ def old_plain_text():
         #    games_list[gi.short_name] = ''
         for n in gi.altnames:
             games_list[n] = ''
-    games_list = games_list.keys()
-    games_list.sort()
+    games_list = sorted(games_list.keys())
     for g in games_list:
         print(g)
 

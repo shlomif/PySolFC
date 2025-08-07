@@ -346,6 +346,7 @@ class SalicLaw(DerKatzenschwanz):
         else:
             s.talon = self.Talon_Class(l.XM + 9 * l.XS, l.YM, self)
             l.createText(s.talon, "s")
+        self.setRegion(s.rows, (-999, -999, 999999, 999999))
 
         # define stack-groups
         l.defaultStackGroups()

@@ -128,9 +128,8 @@ class PysolMenubarTk(PysolMenubarTkCommon):
             style_path = themed_style.ThemedStyle(self.top)
         except ImportError:
             style_path = ttk.Style(self.top)
-        all_themes = list(style_path.theme_names())
+        all_themes = sorted(style_path.theme_names())
 
-        all_themes.sort()
         #
         tn = {
             'alt':         n_('Alt/Revitalized'),

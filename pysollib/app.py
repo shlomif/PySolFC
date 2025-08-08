@@ -1078,9 +1078,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return wa+la
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGamesIdSortedByWon(self, player=''):
         if player == '':
@@ -1089,9 +1089,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return wa
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGamesIdSortedByLost(self, player=''):
         if player == '':
@@ -1100,9 +1100,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return la
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGamesIdSortedByPercent(self, player=''):
         if player == '':
@@ -1111,9 +1111,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return float(wa)/(1 if wa+la == 0 else wa+la)
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGamesIdSortedByPlayingTime(self, player=''):
         if player == '':
@@ -1122,9 +1122,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return ta
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGamesIdSortedByMoves(self, player=''):
         if player == '':
@@ -1133,9 +1133,9 @@ class Application:
         def _key(a):
             wa, la, ta, ma = self.stats.getFullStats(player, a)
             return ma
-        games = list(self.gdb.getGamesIdSortedByName())
-        games.sort(key=_key)
-        return games[::-1]
+        return sorted(
+            self.gdb.getGamesIdSortedByName(), key=_key, reverse=True
+        )
 
     def getGameInfo(self, id):
         return self.gdb.get(id)
@@ -1342,9 +1342,7 @@ class Application:
         """docstring for _my_list_dir"""
         if dirname and os.path.isdir(dirname):
             names = os.listdir(dirname)
-            names = list(map(os.path.normcase, names))
-            names.sort()
-            return names
+            return sorted(map(os.path.normcase, names))
         return []
 
     #

@@ -102,8 +102,7 @@ class ResourceManager:
 
     def getAllSortedByName(self):
         if self._objects_by_name is None:
-            lst = [(obj.getSortKey(), obj) for obj in self._objects]
-            lst.sort()
+            lst = sorted((obj.getSortKey(), obj) for obj in self._objects)
             self._objects_by_name = tuple(item[1] for item in lst)
         return self._objects_by_name
 
@@ -140,8 +139,7 @@ class ResourceManager:
                     if s[-2:] == "-*":
                         d = os.path.normpath(os.path.join(dir, s[:-2]))
                         self._addDir(result, d)
-                        globdirs = glob.glob(d + "-*")
-                        globdirs.sort()
+                        globdirs = sorted(glob.glob(d + "-*"))
                         for d in globdirs:
                             self._addDir(result, d)
                     else:

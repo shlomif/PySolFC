@@ -73,8 +73,7 @@ class SelectCardsetData(SelectDialogTreeData):
             None, None, _("(no cardsets)"), key=None), ]
         #
         select_by_type = None
-        items = list(CSI.TYPE.items())
-        items.sort(key=lambda x: x[1])
+        items = sorted(CSI.TYPE.items(), key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_types.get(key):
@@ -86,8 +85,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Type"), tuple(nodes), expanded=1)
         #
         select_by_style = None
-        items = list(CSI.STYLE.items())
-        items.sort(key=lambda x: x[1])
+        items = sorted(CSI.STYLE.items(), key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_styles.get(key):
@@ -103,8 +101,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Style"), tuple(nodes))
         #
         select_by_nationality = None
-        items = list(CSI.NATIONALITY.items())
-        items.sort(key=lambda x: x[1])
+        items = sorted(CSI.NATIONALITY.items(), key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_nationalities.get(key):
@@ -122,8 +119,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Nationality"), tuple(nodes))
         #
         select_by_date = None
-        items = list(CSI.DATE.items())
-        items.sort(key=lambda x: x[1])
+        items = sorted(CSI.DATE.items(), key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_dates.get(key):
@@ -177,8 +173,7 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
         self.no_contents = [SelectCardsetLeaf(None, None, _("(no cardsets)"),
                             key=None), ]
         #
-        items = list(CSI.TYPE.items())
-        items.sort(key=lambda x: x[1])
+        items = sorted(CSI.TYPE.items(), key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_types.get(key):
@@ -919,8 +914,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
                       padx=1, pady=1)
         row += 1
 
-        typeValues = list(criteria.typeOptions.keys())
-        typeValues.sort()
+        typeValues = sorted(criteria.typeOptions.keys())
 
         self.typeValues = criteria.typeOptions
 
@@ -935,8 +929,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
                       padx=1, pady=1)
         row += 1
 
-        subtypeValues = list(criteria.subtypeOptions.keys())
-        subtypeValues.sort()
+        subtypeValues = sorted(criteria.subtypeOptions.keys())
 
         labelSubtype = tkinter.Label(top_frame, text=_("Subtype:"),
                                      anchor="w")
@@ -952,8 +945,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         self.updateSubtypes()
         row += 1
 
-        styleValues = list(criteria.styleOptions.keys())
-        styleValues.sort()
+        styleValues = sorted(criteria.styleOptions.keys())
 
         labelStyle = tkinter.Label(top_frame, text=_("Style:"), anchor="w")
         labelStyle.grid(row=row, column=0, columnspan=1, sticky='ew',
@@ -965,8 +957,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
                        padx=1, pady=1)
         row += 1
 
-        dateValues = list(criteria.dateOptions.keys())
-        dateValues.sort()
+        dateValues = sorted(criteria.dateOptions.keys())
 
         labelDate = tkinter.Label(top_frame, text=_("Date:"), anchor="w")
         labelDate.grid(row=row, column=0, columnspan=1, sticky='ew',
@@ -978,8 +969,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
                       padx=1, pady=1)
         row += 1
 
-        natValues = list(criteria.natOptions.keys())
-        natValues.sort()
+        natValues = sorted(criteria.natOptions.keys())
 
         labelNationality = tkinter.Label(top_frame, text=_("Nationality:"),
                                          anchor="w")
@@ -1014,8 +1004,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
             self.subtypeSelect['state'] = 'readonly'
             subtypeOptions = dict((v, k) for k, v in
                                   subtypeOptions.items())
-            subtypeOptionsK = list(subtypeOptions.keys())
-            subtypeOptionsK.sort()
+            subtypeOptionsK = sorted(subtypeOptions.keys())
             self.subtypeSelect['values'] = subtypeOptionsK
             if self.subtype.get() not in subtypeOptionsK:
                 self.subtype.set("")

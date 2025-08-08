@@ -386,8 +386,7 @@ class DirectoryBrowser(MfxTreeInCanvas):
         dir = node.key
         print("Getting %s" % dir)
         try:
-            filenames = os.listdir(dir)
-            filenames.sort()
+            filenames = sorted(os.listdir(dir))
         except EnvironmentError:
             return ()
         contents = []

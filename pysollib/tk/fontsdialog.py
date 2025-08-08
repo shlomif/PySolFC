@@ -100,8 +100,7 @@ class FontChooserDialog(MfxDialog):
         self.size_var.set(self.font_size)
         self.weight_var.set(self.font_weight == 'bold')
         self.slant_var.set(self.font_slant == 'italic')
-        font_families = list(tkinter.font.families())
-        font_families.sort()
+        font_families = sorted(tkinter.font.families())
         selected = -1
         n = 0
         self.list_box.insert('end', *font_families)

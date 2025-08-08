@@ -858,9 +858,7 @@ class GameManager:
 
     def getGamesIdSortedById(self):
         if self.__games_by_id is None:
-            lst = list(self.__games.keys())
-            lst.sort()
-            self.__games_by_id = tuple(lst)
+            self.__games_by_id = tuple(sorted(self.__games.keys()))
         return self.__games_by_id
 
     def getGamesIdSortedByName(self):

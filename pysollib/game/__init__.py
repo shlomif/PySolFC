@@ -346,8 +346,7 @@ class StackRegions(NewStruct):
     def optimize(self, remaining):
         """docstring for optimize"""
         # sort data by priority
-        self.data.sort()
-        self.data.reverse()
+        self.data.sort(reverse=True)
         # copy (stacks, rect) to info
         self.info = []
         for d in self.data:

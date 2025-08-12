@@ -126,9 +126,7 @@ class Display_Talon(WasteTalonStack):
         game, num_cards = self.game, len(self.cards)
         if len(self.waste.cards) > 0:
             game.moveMove(1, self.waste, game.s.reserves[0], frames=2)
-        rows = list(game.s.reserves)[:]
-        rows.reverse()
-        for r in rows:
+        for r in reversed(game.s.reserves):
             while r.cards:
                 num_cards = num_cards + 1
                 game.moveMove(1, r, self, frames=2)

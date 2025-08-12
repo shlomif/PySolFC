@@ -155,8 +155,7 @@ class AbstractHint(HintInterface):
     def _returnHints(self):
         hints = self.hints
         self.reset()
-        hints.sort()
-        hints.reverse()
+        hints.sort(reverse=True)
         return hints
 
     #

@@ -181,9 +181,7 @@ class Pegged(Game):
     #
 
     def shuffle(self):
-        cards = list(self.cards)
-        cards.reverse()
-        for card in cards:
+        for card in reversed(self.cards):
             self.s.talon.addCard(card, update=0)
             card.showBack(unhide=0)
 

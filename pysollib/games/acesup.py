@@ -178,9 +178,7 @@ class PerpetualMotion_Talon(DealRowTalonStack):
         if sound:
             self.game.startDealSample()
         game, num_cards = self.game, len(self.cards)
-        rows = list(game.s.rows)[:]
-        rows.reverse()
-        for r in rows:
+        for r in reversed(game.s.rows):
             while r.cards:
                 num_cards = num_cards + 1
                 game.moveMove(1, r, self, frames=4)
@@ -270,8 +268,7 @@ class Valentine_Talon(WasteTalonStack):
         if not self.game.s.waste.cards and self.cards:
             return WasteTalonStack.dealCards(self, sound=sound)
         game, num_cards = self.game, len(self.cards)
-        rows = list(game.s.rows)[:]
-        rows.reverse()
+        rows = list(reversed(game.s.rows))
         for r in rows:
             while r.cards:
                 num_cards = num_cards + 1

@@ -114,8 +114,7 @@ class FontChooserDialog(MfxDialog):
                         variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
-        font_families = list(tkinter.font.families())
-        font_families.sort()
+        font_families = sorted(tkinter.font.families())
         selected = -1
         n = 0
         self.list_box.insert('end', *font_families)

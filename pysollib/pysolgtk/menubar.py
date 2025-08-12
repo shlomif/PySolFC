@@ -447,8 +447,7 @@ class PysolMenubarTk:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
-        games = games.items()
-        games.sort()
+        games = sorted(games.items())
         #
         g0 = []
         c0 = c1 = games[0][0]

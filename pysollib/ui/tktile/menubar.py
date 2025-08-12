@@ -24,8 +24,7 @@ def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
     submenu = MfxMenu(menu, label=n_('Icon style'), tearoff=tearoff)
-    styledirs = os.listdir(data_dir)
-    styledirs.sort()
+    styledirs = sorted(os.listdir(data_dir))
     for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
@@ -117,8 +116,7 @@ def createOtherGraphicsMenu(menubar, menu):
                 value=f, command=menubar.mOptDemoLogoStyle)
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'dialog')
     submenu = MfxMenu(menu, label=n_('D&ialog icons'), tearoff=tearoff)
-    styledirs = os.listdir(data_dir)
-    styledirs.sort()
+    styledirs = sorted(os.listdir(data_dir))
     for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d)):
@@ -129,8 +127,7 @@ def createOtherGraphicsMenu(menubar, menu):
                 value=f, command=menubar.mOptDialogIconStyle)
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'pause')
     submenu = MfxMenu(menu, label=n_('&Pause text'), tearoff=tearoff)
-    styledirs = os.listdir(data_dir)
-    styledirs.sort()
+    styledirs = sorted(os.listdir(data_dir))
     for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d)):
@@ -142,8 +139,7 @@ def createOtherGraphicsMenu(menubar, menu):
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images',
                             'redealicons')
     submenu = MfxMenu(menu, label=n_('&Redeal icons'), tearoff=tearoff)
-    styledirs = os.listdir(data_dir)
-    styledirs.sort()
+    styledirs = sorted(os.listdir(data_dir))
     for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d)):
@@ -154,8 +150,7 @@ def createOtherGraphicsMenu(menubar, menu):
                 value=f, command=menubar.mOptRedealIconStyle)
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'tree')
     submenu = MfxMenu(menu, label=n_('&Tree icons'), tearoff=tearoff)
-    styledirs = os.listdir(data_dir)
-    styledirs.sort()
+    styledirs = sorted(os.listdir(data_dir))
     for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d)):

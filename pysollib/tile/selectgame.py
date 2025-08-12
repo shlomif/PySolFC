@@ -1088,8 +1088,7 @@ class SelectGameAdvancedSearch(MfxDialog):
                       padx=1, pady=1)
         row += 1
 
-        categoryValues = list(criteria.categoryOptions.keys())
-        categoryValues.sort()
+        categoryValues = sorted(criteria.categoryOptions.keys())
 
         self.categoryValues = criteria.categoryOptions
 
@@ -1105,8 +1104,7 @@ class SelectGameAdvancedSearch(MfxDialog):
                           padx=1, pady=1)
         row += 1
 
-        subcategoryValues = list(criteria.subcategoryOptions.keys())
-        subcategoryValues.sort()
+        subcategoryValues = sorted(criteria.subcategoryOptions.keys())
 
         labelSubcategory = tkinter.Label(top_frame, text=_("Subcategory:"),
                                          anchor="w")
@@ -1122,8 +1120,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         self.updateSubcategories()
         row += 1
 
-        typeValues = list(criteria.typeOptions.keys())
-        typeValues.sort()
+        typeValues = sorted(criteria.typeOptions.keys())
 
         labelType = tkinter.Label(top_frame, text=_("Type:"), anchor="w")
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
@@ -1309,8 +1306,7 @@ class SelectGameAdvancedSearch(MfxDialog):
             self.subcategorySelect['state'] = 'readonly'
             subcategoryOptions = dict((v, k) for k, v in
                                       subcategoryOptions.items())
-            subcategoryOptionsK = list(subcategoryOptions.keys())
-            subcategoryOptionsK.sort()
+            subcategoryOptionsK = sorted(subcategoryOptions.keys())
             self.subcategorySelect['values'] = subcategoryOptionsK
             if self.subcategory.get() not in subcategoryOptionsK:
                 self.subcategory.set("")

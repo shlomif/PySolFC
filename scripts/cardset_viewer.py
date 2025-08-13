@@ -189,8 +189,7 @@ def read_into_listbox():
     if ls:
         cardsets_dict = create_cs_list(ls)
 
-        cardsets_list = list(cardsets_dict)
-        cardsets_list.sort()
+        cardsets_list = sorted(cardsets_dict)
 
         list_box.delete(0, tkinter.END)
 

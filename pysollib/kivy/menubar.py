@@ -1240,9 +1240,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
         data_dir = os.path.join(self.app.dataloader.dir, 'images', 'pause')
         dl = tv.add_node(
             LTreeNode(text=_('Pause text')), rg)
-        styledirs = os.listdir(data_dir)
-        styledirs.sort()
-        for f in styledirs:
+        for f in sorted(os.listdir(data_dir)):
             d = os.path.join(data_dir, f)
             if os.path.isdir(d) and os.path.exists(os.path.join(d)):
                 name = f.replace('_', ' ').capitalize()
@@ -1255,9 +1253,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
                                 'redealicons')
         dl = tv.add_node(
             LTreeNode(text=_('Redeal icons')), rg)
-        styledirs = os.listdir(data_dir)
-        styledirs.sort()
-        for f in styledirs:
+        for f in sorted(os.listdir(data_dir)):
             d = os.path.join(data_dir, f)
             if os.path.isdir(d) and os.path.exists(os.path.join(d)):
                 name = f.replace('_', ' ').capitalize()

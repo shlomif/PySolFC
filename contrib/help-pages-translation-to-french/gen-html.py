@@ -158,10 +158,8 @@ def gen_main_html():
 
 def gen_rules_html():
     # ls = glob(os.path.join('rules', '*.html'))
-    rules_ls = os.listdir('rules')
-    rules_ls.sort()
-    wikipedia_ls = os.listdir('wikipedia')
-    wikipedia_ls.sort()
+    rules_ls = sorted(os.listdir('rules'))
+    wikipedia_ls = sorted(os.listdir('wikipedia'))
 
     games = GAME_DB.getGamesIdSortedByName()
     rules_list = []

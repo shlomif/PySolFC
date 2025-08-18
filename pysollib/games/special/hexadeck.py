@@ -1632,6 +1632,8 @@ class MagicMontana(Montana):
 # ************************************************************************
 
 class WizardsStoreroom(AbstractHexADeckGame):
+    Hint_Class = CautiousDefaultHint
+
     MAX_ROUNDS = 2
 
     #

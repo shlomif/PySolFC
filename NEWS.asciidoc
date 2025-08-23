@@ -1,5 +1,10 @@
 [[news]]
 === News
+* _23 August, 2025:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.4.1/[PySolFC
+v3.4.1]. New in this release:
+** Preview graphics enhancements.
+** Many bugfixes and cleanup/enhancements.
 * _14 June, 2025:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.4.0/[PySolFC
 v3.4.0]. Additionally, there is a new Cardsets release

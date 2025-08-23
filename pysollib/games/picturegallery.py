@@ -322,7 +322,7 @@ class HugePictureGallery(PictureGallery):
 
 
 class GreatWheel_Hint(PictureGallery_Hint):
-    shallMovePile = PictureGallery_Hint._cautiousShallMovePile
+    shallMovePile = PictureGallery_Hint._cautiousDemoShallMovePile
 
 
 class GreatWheel_Foundation(PictureGallery_Foundation):

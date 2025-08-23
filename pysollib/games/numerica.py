@@ -670,7 +670,7 @@ class Toad(Game):
 # ************************************************************************
 
 class Shifting_Hint(Numerica_Hint):
-    shallMovePile = DefaultHint._cautiousShallMovePile
+    shallMovePile = DefaultHint._cautiousDemoShallMovePile
 
 
 class Shifting_RowStack(Numerica_RowStack):

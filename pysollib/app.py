@@ -202,7 +202,7 @@ class Application:
         while True:
             logging.info('App: gameproc waiting for game to start')
             (id_, random) = yield
-            logging.info('App: game started {},{}'.format(id_, random))
+            logging.info('App: game started %s,%s', id_, random)
             self.runGame(id_, random)
 
     def _load_held_or_saved_game(self, tmpgame):

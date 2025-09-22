@@ -1,5 +1,8 @@
 name: CI tests at GitHub
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ master ]

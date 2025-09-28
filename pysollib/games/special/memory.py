@@ -455,6 +455,9 @@ class Families_RowStack(Memory_RowStack):
         self.game.checkForWin()
         return 1
 
+    rightclickHandler = clickHandler
+    doubleclickHandler = clickHandler
+
 
 class Families(Concentration):
     Hint_Class = None

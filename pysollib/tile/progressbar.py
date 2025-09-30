@@ -49,10 +49,10 @@ class PysolProgressBar:
         # style.configure('TProgressbar', background=color)
         if images:
             self.f1 = ttk.Label(self.frame, image=images[0])
-            self.f1.pack(side='left', ipadx=8, ipady=4)
+            self.f1.pack(side='left', padx=(4, 8), ipady=4)
             self.progress.pack(side='left', expand=True, fill='x')
             self.f2 = ttk.Label(self.frame, image=images[1])
-            self.f2.pack(side='left', ipadx=8, ipady=4)
+            self.f2.pack(side='left', padx=(8, 4), ipady=4)
         else:
             self.progress.pack(expand=True, fill='x')
         self.frame.pack(expand=True, fill='both')

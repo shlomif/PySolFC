@@ -1197,8 +1197,7 @@ class Application:
                 names.append(n)
         if self.opt.player not in names:
             names.append(self.opt.player)
-        names.sort()
-        return names
+        return sorted(names)
 
     def getGamesForSolver(self):
         return self.gdb.getGamesForSolver()
@@ -1245,13 +1244,12 @@ class Application:
         found_names = []  # (to check for duplicates)
         for dirname in dirs:
             try:
-                subdirs = [os.path.join(dirname, subdir)
-                           for subdir in os.listdir(dirname)
-                           if subdir.startswith('cardset-')]
+                subdirs = sorted(os.path.join(dirname, subdir)
+                                 for subdir in os.listdir(dirname)
+                                 if subdir.startswith('cardset-'))
             except EnvironmentError:
                 traceback.print_exc()
                 continue
-            subdirs.sort()
             for d in subdirs:
                 config_txt_path = os.path.join(d, "config.txt")
                 if not os.path.isfile(config_txt_path):
@@ -1332,8 +1330,7 @@ class Application:
             except EnvironmentError:
                 pass
         # register tiles
-        found.sort()
-        for f in found:
+        for f in sorted(found):
             obj = f[1]
             if not manager.getByName(obj.name):
                 manager.register(obj)

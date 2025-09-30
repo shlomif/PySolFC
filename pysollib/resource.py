@@ -664,8 +664,7 @@ class CardsetManager(ResourceManager):
                                        _("With %(cards)d or more cards" + ")")
                                        % {'cards': required_cards_needed[t]})
 
-        missing.sort()
-        return missing
+        return sorted(missing)
 
 
 # ************************************************************************

@@ -153,9 +153,8 @@ class AbstractHint(HintInterface):
 
     # clean up and return hints sorted by score
     def _returnHints(self):
-        hints = self.hints
+        hints = sorted(self.hints, reverse=True)
         self.reset()
-        hints.sort(reverse=True)
         return hints
 
     #

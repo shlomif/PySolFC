@@ -20,8 +20,7 @@ def decode_layout(layout):
         assert n >= 0 and tx >= 0 and ty >= 0
         for tl in range(int(level), int(level) + int(height)):
             tiles.append((tl, tx, ty))
-    tiles.sort()
-    return tiles
+    return sorted(tiles)
 
 
 def encode_layout(layout):
@@ -75,8 +74,7 @@ def parse_kyodai(filename):
             y = 0
             z += 1
         i += 34
-    layout.sort()
-    return normalize(layout)
+    return normalize(sorted(layout))
 
 
 def parse_ace(filename):
@@ -94,8 +92,7 @@ def parse_ace(filename):
             y, z = int(mylist.pop()), int(mylist.pop())
             layer = max(layer, z)
         layout.append((z, x, y))
-    layout.sort()
-    return normalize(layout)
+    return normalize(sorted(layout))
 
 
 def parse_kmahjongg(filename):
@@ -119,8 +116,7 @@ def parse_kmahjongg(filename):
         if n == 16:
             n = 0
             level += 1
-    layout.sort()
-    return normalize(layout)
+    return normalize(sorted(layout))
 
 
 def parse_xmahjongg(filename):
@@ -136,8 +132,7 @@ def parse_xmahjongg(filename):
             continue
         row, col, lev = s.split()
         layout.append((int(lev), int(col), int(row)))
-    layout.sort()
-    return normalize(layout)
+    return normalize(sorted(layout))
 
 
 def normalize(mylist):

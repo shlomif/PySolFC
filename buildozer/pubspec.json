@@ -11,10 +11,11 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 102130200,
-      "versionName": "3.2.0",
+      "versionCode": 102130401,
+      "versionName": "3.4.1",
       "outputFile": "pysolfc-release.apk"
     }
   ],
-  "elementType": "File"
+  "elementType": "File",
+  "minSdkVersionForDexing": 21
 }

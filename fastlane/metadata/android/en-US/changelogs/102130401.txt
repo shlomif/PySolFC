@@ -1,0 +1,3 @@
+
+- some new games and game variants.
+- enhancements and bug fixes (see https://pysolfc.sourceforge.io)

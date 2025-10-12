@@ -38,3 +38,4 @@ buildozer/support*
 buildozer/ENV
 buildozer/VENV
 venv*
+local-comments

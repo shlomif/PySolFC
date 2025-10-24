@@ -124,6 +124,19 @@ presets = {
         'rows_type': 'Spider same suit',
         'reserves_num': 0,
         'deal_type': 'Triangle',
-        },
+    },
+
+    'Somerset': {
+        'preset': 'Somerset',
+        'name': n_('My Somerset'),
+        'skill_level': 'Mostly skill',
+        'layout': 'Klondike',
+        'rows_num': 10,
+        'rows_max_move': 'Top card',
+        'rows_super_move': 1,
+        'reserves_num': 0,
+        'deal_face_up': 8,
+        'deal_type': 'Triangle',
+    },
 
 }

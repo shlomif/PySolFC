@@ -174,6 +174,13 @@ DealToWaste = WizSetting(
     label=_('# of cards dealt to the waste:'),
     var_name='deal_to_waste',
     )
+SingleCardWaste = WizSetting(
+    values_map=(0, 1),
+    default=0,
+    label=_('Single card waste:'),
+    var_name='single_card_waste',
+    widget='check',
+    )
 TalonShuffle = WizSetting(
     values_map=(0, 1),
     default=0,
@@ -368,6 +375,7 @@ WizardWidgets = (
     TalonType,
     Redeals,
     DealToWaste,
+    SingleCardWaste,
     TalonShuffle,
     _('Foundations'),
     FoundType,

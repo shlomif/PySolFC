@@ -1765,6 +1765,9 @@ msgstr ""
 msgid "# of cards dealt to the waste:"
 msgstr ""
 
+msgid "Single card waste:"
+msgstr ""
+
 #: pysollib/wizardutil.py:171
 msgid "Shuffle during redeal:"
 msgstr ""

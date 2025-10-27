@@ -200,7 +200,11 @@ class CustomGame(Game):
         # waste
         if s['talon'] is WasteTalonStack:
             layout_kw['waste'] = True
-            layout_kw['waste_class'] = WasteStack
+            if s['single_card_waste']:
+                layout_kw['waste_class'] = StackWrapper(WasteStack,
+                                                        max_cards=1)
+            else:
+                layout_kw['waste_class'] = WasteStack
 
         Layout(self).createGame(
             layout_method=s['layout'],

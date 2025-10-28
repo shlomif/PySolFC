@@ -52,12 +52,12 @@ jobs:
         --skip-jenkins
         PySolFC.dmg dist
     - name: Upload zipped app
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: pysolfc-app
         path: PySolFC-app.zip
     - name: Upload dmg
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: pysolfc-dmg
         path: PySolFC.dmg

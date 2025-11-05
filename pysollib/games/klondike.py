@@ -1099,20 +1099,28 @@ class ThirtySix(Klondike):
 
 
 class SixBySix(ThirtySix):
+    CARDSPERROW = 6
 
     Talon_Class = StackWrapper(DealFirstRowTalonStack, max_move=0)
     RowStack_Class = StackWrapper(Spider_SS_RowStack, base_rank=ANY_RANK)
 
     def createGame(self):
-        Klondike.createGame(self, rows=6, max_rounds=1, waste=0)
+        Klondike.createGame(self, rows=6, max_rounds=1, waste=0, playcards=16)
 
     def startGame(self):
         self.startDealSample()
-        for i in range(6):
+        for i in range(self.CARDSPERROW):
             self.s.talon.dealRow()
             while True:
                 if not self._fillOne():
                     break
+
+
+class Eights(SixBySix):
+    CARDSPERROW = 8
+
+    def createGame(self):
+        Klondike.createGame(self, rows=8, max_rounds=1, waste=0, playcards=20)
 
 
 class TakingSilk(ThirtySix):
@@ -1804,3 +1812,6 @@ registerGame(GameInfo(956, JokeKlon, "Joke Klon",
 registerGame(GameInfo(957, JokeKlonByThrees, "Joke Klon (Draw 3)",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_MOSTLY_LUCK,
                       subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))
+registerGame(GameInfo(982, Eights, "Eights",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Les Huits",)))

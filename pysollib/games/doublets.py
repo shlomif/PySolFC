@@ -25,6 +25,8 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         ReserveStack, \
@@ -72,9 +74,10 @@ class Doublets(Game):
                                                  dir=0, mod=13,
                                                  max_move=0, max_cards=48))
         l.createText(s.foundations[0], "s")
-#         help = "A, 2, 4, 8, 3, 6, Q, J, 9, 5, 10, 7, A, ..."
-#         self.texts.help = MfxCanvasText(
-#             self.canvas, x + l.CW//2, y + l.YS + l.YM, anchor="n", text=help)
+        help = _("A 2 4 8 3 6 Q J 9 5 T 7 A...")
+        self.texts.help = MfxCanvasText(
+            self.canvas, x + l.CW // 2, y + l.YS + (2 * l.YM), anchor="n",
+            text=help, font=self.app.getFont("canvas_fixed"))
         x, y = l.XM, l.YM + 3*l.YS//2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")

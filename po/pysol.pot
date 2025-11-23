@@ -2243,6 +2243,9 @@ msgid "\n"
 "8: 3 J 6 A 9 4 Q 7 2 T 5 K"
 msgstr ""
 
+msgid "A 2 4 8 3 6 Q J 9 5 T 7 A..."
+msgstr ""
+
 msgid "Dungeon"
 msgstr ""
 

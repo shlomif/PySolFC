@@ -67,10 +67,12 @@ Additional user supplied data:
   NOTE:
   To be able to add additional resources to your app, you need to
   enable storage access in the android settings for the app. Go to
-  Settings/Apps/PySolFC/Permissions.
+  Settings/Apps/PySolFC/Permissions. As of Android 11++ the storage
+  permissions may have been moved away from the 'Apps' settings into
+  the 'Special permissions' settings screen.
 
-  Resources are stored in ~/.PySolFC/. On an android device this is
-  equivalent to /sdcard/.PySolFC/.
+  With these permissions enabled resources are then stored in ~/.PySolFC/.
+  On an android device this is equivalent to /sdcard/.PySolFC/.
 
   Additional cardsets can be installed in ~/.PySolFC/cardsets/.
   Important: Cardsets must use the 'png' image format. Use

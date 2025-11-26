@@ -30,6 +30,7 @@ class AndroidPerms:
         self.build = jnius.autoclass("android.os.Build")
         self.version = jnius.autoclass("android.os.Build$VERSION")
         self.vcodes = jnius.autoclass("android.os.Build$VERSION_CODES")
+        self.environment = jnius.autoclass("android.os.Environment")
 
     def getPerm(self, permission):
         if jnius is None:
@@ -42,8 +43,11 @@ class AndroidPerms:
         if jnius is None:
             return True
         haveperms = True
-        for perm in permissions:
-            haveperms = haveperms and self.getPerm(perm)
+        if self.version.SDK_INT > 29:
+            haveperms = self.environment.isExternalStorageManager();
+        else:
+            for perm in permissions:
+                haveperms = haveperms and self.getPerm(perm)
         return haveperms
 
     # invoke the permissions dialog

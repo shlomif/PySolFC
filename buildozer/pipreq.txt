@@ -1,10 +1,10 @@
 attrs==23.2.0
 build==1.2.1
--e git+https://github.com/kivy/buildozer.git@3ebc09e885457db4747e67a1250c2aea1ca7a046#egg=buildozer
+git+https://github.com/kivy/buildozer.git@3ebc09e885457db4747e67a1250c2aea1ca7a046#egg=buildozer
 certifi==2024.2.2
 colorama==0.4.6
 configobj==5.0.8
-Kivy==2.3.0
+Kivy==2.3.1
 pip==24.0
 pysol_cards==0.16.0
 setuptools==69.1.1

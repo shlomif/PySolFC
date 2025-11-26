@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VP4A='c63d8e2a91ce7180811a37eae489f772fb766a9d'
+VP4A=$(cat buildozer.spec | grep -e "^p4a[.]commit" | sed -E "s/.*= *([0-9,A-F,a-f]*).*/\1/")
 VBUILDOZER='3ebc09e885457db4747e67a1250c2aea1ca7a046'
 VCPYTHON='v3.11.5'
 VCYTHON='3.0.10'

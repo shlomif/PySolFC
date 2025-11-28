@@ -570,7 +570,7 @@ class CardsetManager(ResourceManager):
         if not self._check(cs):
             return
         cs.ncards = len(cs.ranks) * len(cs.suits) + len(cs.trumps)
-        cs.name = cs.name[:30]
+        cs.name = cs.name[:50]
         if not (CSI.SIZE_TINY <= cs.si.size <= CSI.SIZE_HIRES):
             CW, CH = cs.CARDW, cs.CARDH
             if CW <= 55 and CH <= 72:

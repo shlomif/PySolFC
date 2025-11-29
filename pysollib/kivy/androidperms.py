@@ -44,7 +44,7 @@ class AndroidPerms:
             return True
         haveperms = True
         if self.version.SDK_INT > 29:
-            haveperms = self.environment.isExternalStorageManager();
+            haveperms = self.environment.isExternalStorageManager()
         else:
             for perm in permissions:
                 haveperms = haveperms and self.getPerm(perm)

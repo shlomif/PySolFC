@@ -146,7 +146,7 @@ Line 2
 
 ( *TIP:* You could add a number prefix (e.g. 123-cardset-name) )
 
-`<cardset_name>`: Your cardset name as it should appear in the cardset manager.  Note that a cardset name of more than 30 characters will be truncated.
+`<cardset_name>`: Your cardset name as it should appear in the cardset manager.  Note that a cardset name of more than 50 characters will be truncated.
 
 Line 3
 ------

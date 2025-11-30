@@ -10,7 +10,7 @@ install:
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order==0.18.2
-        pycotap pygame pyinstaller pysol-cards setuptools
+        pycotap pygame-ce pyinstaller pysol-cards setuptools
         ttkthemes accessible-output2
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe

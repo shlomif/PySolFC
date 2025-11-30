@@ -36,7 +36,7 @@ can be implemented.
 
 - For sound support (optional)
   - PySol-Sound-Server fork: https://github.com/shlomif/pysol-sound-server (mp3, wav, tracker music)
-  - (or: ) PyGame: https://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
+  - (or: ) PyGame (or PyGame CE): https://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
 - Other packages (optional):
   - Pillow (Python Imaging Library): https://pillow.readthedocs.io/

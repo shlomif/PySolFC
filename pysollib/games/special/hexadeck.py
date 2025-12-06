@@ -31,20 +31,22 @@ from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
-from pysollib.pysoltk import MfxCanvasText
+from pysollib.pysoltk import MfxCanvasText, get_text_width
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
         BasicRowStack, \
         InitialDealTalonStack, \
         OpenStack, \
+        RK_FoundationStack, \
         ReserveStack, \
         SS_FoundationStack, \
+        Stack, \
         StackWrapper, \
         WasteStack, \
         WasteTalonStack, \
         Yukon_AC_RowStack
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, SUITS_PL, \
+from pysollib.util import ANY_RANK, ANY_SUIT, HEART, NO_RANK, SUITS_PL, \
     UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************
@@ -56,6 +58,12 @@ class HexADeck_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0, max_cards=12)
         SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
+
+
+class HexADeck_RK_FoundationStack(RK_FoundationStack):
+    def __init__(self, x, y, game, **cap):
+        kwdefault(cap, max_move=0, max_cards=12)
+        RK_FoundationStack.__init__(self, x, y, game, **cap)
 
 
 class HexATrump_Foundation(HexADeck_FoundationStack):
@@ -286,7 +294,7 @@ class Merlins_ReserveStack(ReserveStack):
 # ************************************************************************
 
 class AbstractHexADeckGame(Game):
-    RANKS = (_("Ace"), "2", "3", "4", "5", "6", "7", "8", "9",
+    RANKS = (_("1"), "2", "3", "4", "5", "6", "7", "8", "9",
              "A", "B", "C", "D", "E", "F", "10")
     WIZARDS = ("4", "3", "2", "1")
 
@@ -1774,9 +1782,175 @@ class WizardsCastle(AbstractHexADeckGame):
         return (card1.suit == card2.suit and
                 (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
+
+# ************************************************************************
+# * Hex of Hearts
+# ************************************************************************
+
+class HexOfHearts_Hint(DefaultHint):
+    # FIXME: demo logic is a complete nonsense
+    def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
+        assert r is self.game.s.waste and len(pile) == 1
+        score = 30000
+        if len(t.cards) == 0:
+            score = score - (15 - r.cards[0].rank) * 1000
+        elif t.cards[-1].rank < r.cards[0].rank:
+            score = 10000 + t.cards[-1].rank - len(t.cards)
+        elif t.cards[-1].rank == r.cards[0].rank:
+            score = 20000
+        else:
+            score = score - (t.cards[-1].rank - r.cards[0].rank) * 1000
+        return score, color
+
+
 # ************************************************************************
 # *
 # ************************************************************************
+
+class HexOfHearts_Foundation(HexADeck_RK_FoundationStack):
+    def updateText(self, update_empty=True):
+        if self.game.preview > 1:
+            return
+        if self.texts.misc:
+            if len(self.cards) == 0:
+                if update_empty:
+                    rank = self.cap.base_rank
+                    self.texts.misc.config(text=self.game.RANKS[rank])
+                else:
+                    self.texts.misc.config(text="")
+            elif len(self.cards) == self.cap.max_cards:
+                self.texts.misc.config(text="")
+            else:
+                rank = (self.cards[-1].rank + self.cap.dir) % 17
+                if rank < 16:
+                    self.texts.misc.config(text=self.game.RANKS[rank])
+                else:
+                    self.texts.misc.config(text=_("Wizard"))
+
+    def acceptsCards(self, from_stack, cards):
+        rank = (self.cards[-1].rank + self.cap.dir) % 17
+        if rank == 16:
+            return cards[-1].suit == 4
+        else:
+            if self.cap.dir == 1 and cards[-1].suit != HEART:
+                return False
+            if self.cap.dir > 1 and cards[-1].suit == HEART:
+                return False
+            if cards[-1].suit == 4:
+                return False
+            return HexADeck_RK_FoundationStack.acceptsCards(self,
+                                                            from_stack,
+                                                            cards)
+
+
+class HexOfHearts_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        # this stack accepts any one card from the Waste pile
+        return from_stack is self.game.s.waste and len(cards) == 1
+
+    getBottomImage = Stack._getReserveBottomImage
+
+    def getHelp(self):
+        return _('Tableau. Build regardless of rank and suit.')
+
+
+class HexOfHearts(AbstractHexADeckGame):
+    Hint_Class = HexOfHearts_Hint
+    Foundation_Class = HexOfHearts_Foundation
+    RowStack_Class = StackWrapper(
+        HexOfHearts_RowStack, max_move=1, max_accept=1)
+
+    #
+    # game layout
+    #
+
+    def _getHelpText(self):
+        help = (_('''\
+1: 2 3 4 5 6 7 8 9 A B C D E F T W
+2: 4 6 8 A C E T 1 3 5 7 9 B D F W
+3: 6 9 C F 1 4 7 A D T 2 5 8 B E W
+4: 8 C T 3 7 B F 2 6 A E 1 5 9 D W'''))
+
+        # calculate text_width
+        lines = sorted(help.split('\n'), key=len)
+        max_line = lines[-1]
+        text_width = get_text_width(max_line,
+                                    font=self.app.getFont("canvas_fixed"))
+        return help, text_width
+
+    def createGame(self, playcards=20):
+
+        decks = self.gameinfo.decks
+        # create layout
+        l, s = Layout(self, TEXT_HEIGHT=40), self.s
+        help, text_width = self._getHelpText()
+        text_width += 2 * l.XM
+
+        # set window
+        w = l.XM + 1.5 + (4 * decks) * l.XS + text_width
+        h = max(2 * l.YS, playcards * l.YOFFSET)
+        self.setSize(w, l.YM + l.YS + l.TEXT_HEIGHT + h)
+
+        # create stacks
+        x0 = l.XM + l.XS * 3 // 2
+        x, y = x0, l.YM
+        for i in range(4 * decks):
+            stack = self.Foundation_Class(x, y, self, mod=17,
+                                          max_cards=17,
+                                          dir=i+1, base_rank=i)
+            s.foundations.append(stack)
+            tx, ty, ta, tf = l.getTextAttr(stack, "s")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+            x = x + l.XS
+        self.texts.help = MfxCanvasText(
+            self.canvas, x + l.XM, l.YM, text=help,
+            anchor="nw", font=self.app.getFont("canvas_fixed"))
+        x = x0
+        y = l.YM + l.YS + l.TEXT_HEIGHT
+        for i in range(4):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x = x + l.XS
+        self.setRegion(s.rows, (-999, y-l.CH//2, 999999, 999999))
+        x = l.XM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, "n")
+        y = y + l.YS
+        s.waste = WasteStack(x, y, self, max_cards=1)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    #
+    # game overrides
+    #
+
+    def _shuffleHook(self, cards):
+        # prepare first cards
+        decks = self.gameinfo.decks
+        topcards = [None] * (4 * decks)
+        for c in cards[:]:
+            if (c.rank <= ((4 * decks) - 1) and c.suit < 4 and
+                    topcards[c.rank] is None):
+                if c.rank == 0 and c.suit != HEART:
+                    continue
+                if c.rank > 0 and c.suit == HEART:
+                    continue
+                topcards[c.rank] = c
+                cards.remove(c)
+        topcards.reverse()
+        return cards + topcards
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def getHighlightPilesStacks(self):
+        return ()
 
 
 def r(id, gameclass, name, game_type, decks, redeals, skill_level,
@@ -1826,4 +2000,6 @@ r(16684, WizardsStoreroom, "Big Storeroom", GI.GT_HEXADECK, 2, 1,
   GI.SL_MOSTLY_SKILL)
 r(16685, WizardsCastle, "Wizard's Castle", GI.GT_HEXADECK, 1, 0,
   GI.SL_BALANCED)
+r(16686, HexOfHearts, "Hex of Hearts", GI.GT_HEXADECK, 1, 0,
+  GI.SL_MOSTLY_SKILL)
 del r

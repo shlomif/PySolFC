@@ -437,23 +437,22 @@ class GI:
         # from XM Solitaire should be researched before being added to PySol.
         #
         # still missing:
-        #       Agnes Three, Antares, Avenue, Baker's Fan, Baker's Spider,
-        #       Bedeviled, Binding, Black Spider, California, Color Cell,
-        #       Cornelius, Desert Fox, Double Antares, Double Antarctica,
-        #       Double Arctica, Double Baker's Spider, Double Cascade,
-        #       Double Majesty, Double Spidercells, Doublet Cell 5, Doubt,
-        #       Dream Fan, Dumfries Cell, Falcon Wing, Fan Nine, Four By Ten,
-        #       FreeCell AK, Gaps Alter, Gaps Diff, George V,
-        #       Grandmother's Clock, In a Frame, Inverted FreeCell, Kings,
-        #       Klondike FreeCell, La Cabane, La Double Entente,
-        #       Little Gazette, Magic FreeCell, Mini Gaps, Montreal,
-        #       Napoleon at Iena, Napoleon at Waterloo, Napoleon's Guards,
-        #       Oasis, Opera, Ordered Suits, Osmotic FreeCell, Pair FreeCell,
-        #       Pairs 2, Reserved Thirteens, Sept Piles 0, Short Solitaire,
-        #       Simple Alternations, Smart Osmosis, Step By Step,
-        #       Stripped FreeCell, Tarantula, Triple Dispute, Trusty Twenty,
-        #       Two Ways 3, Up Or Down, Versailles, Vertical FreeCell,
-        #       Wasp Baby, Yukon FreeCell
+        #       Agnes Three, Avenue, Baker's Fan, Baker's Spider, Bedeviled,
+        #       Binding, Black Spider, California, Color Cell, Cornelius,
+        #       Desert Fox, Double Antares, Double Antarctica, Double Arctica,
+        #       Double Baker's Spider, Double Cascade, Double Majesty,
+        #       Double Spidercells, Doublet Cell 5, Doubt, Dream Fan,
+        #       Dumfries Cell, Falcon Wing, Fan Nine, Four By Ten, FreeCell AK,
+        #       Gaps Alter, Gaps Diff, George V, Grandmother's Clock,
+        #       In a Frame, Inverted FreeCell, Kings, Klondike FreeCell,
+        #       La Cabane, La Double Entente, Little Gazette, Magic FreeCell,
+        #       Mini Gaps, Montreal, Napoleon at Iena, Napoleon at Waterloo,
+        #       Napoleon's Guards, Oasis, Opera, Ordered Suits,
+        #       Osmotic FreeCell, Pair FreeCell, Pairs 2, Reserved Thirteens,
+        #       Sept Piles 0, Short Solitaire, Simple Alternations,
+        #       Smart Osmosis, Step By Step, Stripped FreeCell, Tarantula,
+        #       Triple Dispute, Trusty Twenty, Two Ways 3, Up Or Down,
+        #       Versailles, Vertical FreeCell, Wasp Baby, Yukon FreeCell
         ("XM Solitaire", (
             2, 8, 9, 13, 15, 18, 19, 20, 29, 30, 31, 34, 36, 38, 41, 42,
             45, 46, 50, 53, 54, 56, 57, 64, 77, 78, 86, 96, 97, 98, 105,
@@ -465,7 +464,7 @@ class GI:
             476, 480, 484, 511, 512, 513, 516, 561, 610, 613, 625, 629,
             631, 638, 641, 647, 650, 655, 678, 684, 702, 734, 751, 784,
             825, 829, 834, 837, 844, 862, 867, 880, 889, 901, 911, 933,
-            941, 947, 953, 966
+            941, 947, 953, 966, 983
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -513,7 +512,7 @@ class GI:
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
                              800, 814, 820, 825, 889, 911, 926,
-                             941, 966)),
+                             941, 966, 983)),
         ("Mary Whitmore Jones", (421, 624,)),
         ("Jan Wolter", (917, 939, 946, 963,)),
         )
@@ -607,7 +606,7 @@ class GI:
         ('fc-3.4', tuple(range(971, 981)) + tuple(range(5419, 5421)) +
          tuple(range(16683, 16686)) + tuple(range(18005, 18007)) +
          (44, 526, 5906, 22399,)),
-        ('dev', tuple(range(981, 983)) + tuple(range(16686, 16687))),
+        ('dev', tuple(range(981, 984)) + tuple(range(16686, 16687))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

@@ -3,13 +3,16 @@ from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
-        AC_RowStack, \
-        OpenStack, \
-        SS_FoundationStack, \
-        SS_RowStack, \
-        WasteStack, \
-        WasteTalonStack
-from pysollib.util import ANY_RANK, RANKS
+    AC_RowStack, \
+    InitialDealTalonStack, \
+    OpenStack, \
+    ReserveStack, \
+    SS_FoundationStack, \
+    SS_RowStack, \
+    WasteStack, \
+    WasteTalonStack, \
+    Yukon_SS_RowStack
+from pysollib.util import ANY_RANK, KING, RANKS
 
 
 # ************************************************************************
@@ -36,6 +39,7 @@ class DemonsAndThieves_SS_RowStack(DemonsAndThieves_StackMethods, SS_RowStack):
 
 
 class DemonsAndThieves(Game):
+
     def createGame(self, max_rounds=3, num_deal=1,
                    text=True, round_text=True, dir=-1):
         # create layout
@@ -170,6 +174,62 @@ class DemonsAndThieves(Game):
         p.dump(self.base_card.id)
 
 
+# ************************************************************************
+# * Antares
+# ************************************************************************
+
+class Antares(Game):
+
+    def createGame(self):
+        # create layout
+        lay, s = Layout(self), self.s
+        decks = self.gameinfo.decks
+
+        # (piles up to 20 cards are playable in default window size)
+        h = max(3 * lay.YS, lay.YS + 13 * 10)
+        self.setSize(
+            lay.XM + 8.5 * lay.XS + lay.XM,
+            lay.YM + lay.YS + lay.TEXT_HEIGHT + h)
+
+        x, y = lay.XM, h
+        self.s.talon = InitialDealTalonStack(x, y, self)
+
+        # create stacks
+        x, y = lay.XM, lay.YM
+        for i in range(4):
+            for j in range(decks):
+                s.reserves.append(ReserveStack(x, y, self, max_accept=1))
+                x += lay.XS
+        x += (lay.XS * .5)
+        for i in range(4):
+            for j in range(decks):
+                s.foundations.append(SS_FoundationStack(x, y, self, i,
+                                                        max_move=0))
+                x += lay.XS
+
+        x, y = lay.XM, lay.YM + lay.YS
+
+        for i in range(4):
+            s.rows.append(DemonsAndThieves_AC_RowStack(x, y, self,
+                                                       base_rank=ANY_RANK))
+            x += lay.XS
+        x += (lay.XS * .5)
+        for i in range(4):
+            s.rows.append(Yukon_SS_RowStack(x, y, self, base_rank=KING))
+            x += lay.XS
+
+        # define stack-groups
+        lay.defaultStackGroups()
+
+    def startGame(self):
+        self._startDealNumRows(5)
+        self.s.talon.dealRow()
+        r = self.s.rows
+        self.s.talon.dealRow(rows=r[:4])
+
+
 # register the game
 registerGame(GameInfo(889, DemonsAndThieves, "Demons and Thieves",
                       GI.GT_FORTY_THIEVES, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(983, Antares, "Antares",
+                      GI.GT_FREECELL, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -1593,7 +1593,7 @@ class Beacon(Game):
             x += layout.XS
 
         x, y = layout.XM, self.height-layout.YS
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         layout.createText(s.talon, 'se')
 
         # define stack-groups

@@ -122,6 +122,7 @@ class MfxCanvasText(CanvasText):
 class MfxCanvas(tkinter.Canvas):
     def __init__(self, *args, **kw):
         tkinter.Canvas.__init__(self, *args, **kw)
+        # print(self.cget('width'))
         self.preview = 0
         self.busy = False
         # this is also used by lib-tk/Canvas.py
@@ -200,10 +201,10 @@ class MfxCanvas(tkinter.Canvas):
     def _geometry(self):
         w = self.winfo_width()
         if w == 1:
-            w = int(self.cget('width'))
+            w = int(self.winfo_fpixels(self.cget('width')))
         h = self.winfo_height()
         if h == 1:
-            h = int(self.cget('height'))
+            h = int(self.winfo_fpixels(self.cget('height')))
         scrollregion = self.cget('scrollregion')
         if not scrollregion:
             return w, h

@@ -45,7 +45,6 @@ from pysollib.stack import \
         SS_RowStack, \
         Stack, \
         StackWrapper, \
-        TalonStack, \
         UD_RK_RowStack, \
         WasteStack, \
         WasteTalonStack, \

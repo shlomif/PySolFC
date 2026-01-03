@@ -853,7 +853,7 @@ class GameManager:
         # Sort numbers numerically, and strings alphabetically
         def convert(text):
             return int(text) if text.isdigit() else text.lower()
-        
+
         return [convert(c) for c in re.split(r'(\d+)', text)]
 
     #

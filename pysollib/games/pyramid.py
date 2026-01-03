@@ -1941,7 +1941,7 @@ registerGame(GameInfo(655, Pharaohs, "Pharaohs",
                       altnames=("Three Pharaohs",)))
 registerGame(GameInfo(657, Baroness, "Baroness",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
-                      altnames=('Five Piles',)))
+                      altnames=('Five Piles', 'Foxfire 13')))
 registerGame(GameInfo(658, Apophis, "Apophis",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(659, Cheops, "Cheops",

@@ -162,6 +162,46 @@ class RussianAces(AcesUp):
 
 
 # ************************************************************************
+# * Joker Bombs
+# ************************************************************************
+
+class JokerBombs_Foundation(AcesUp_Foundation):
+    def acceptsCards(self, from_stack, cards):
+        if cards[0].suit == 4:
+            return True
+
+        return AcesUp_Foundation.acceptsCards(self, from_stack, cards)
+
+
+class JokerBombs_RowStack(AcesUp_RowStack):
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if self.cards[-1].suit == 4:
+            s = BasicRowStack.moveMove(self, ncards, to_stack, frames=frames,
+                                       shadow=shadow)
+
+            old_state = self.game.enterState(self.game.S_FILL)
+            self.game.saveStateMove(2 | 16)  # for undo
+
+            while self.cards:
+                self.game.flipMove(self)
+                self.game.moveMove(1, self, self.game.s.talon, frames=frames)
+            self.game.shuffleStackMove(self.game.s.talon)
+
+            self.game.saveStateMove(1 | 16)  # for redo
+            self.game.leaveState(old_state)
+
+            return s
+        else:
+            return BasicRowStack.moveMove(self, ncards, to_stack,
+                                          frames=frames, shadow=shadow)
+
+
+class JokerBombs(AcesUp):
+    RowStack_Class = StackWrapper(JokerBombs_RowStack, max_accept=1)
+    Foundation_Class = JokerBombs_Foundation
+
+
+# ************************************************************************
 # * Perpetual Motion
 # ************************************************************************
 
@@ -500,12 +540,12 @@ class MaineCoon(TabbyCat):
 
 # register the game
 registerGame(GameInfo(903, AcesUp, "Aces Up",                   # was: 52
-                      GI.GT_1DECK_TYPE | GI.GT_CHILDREN, 1, 0, GI.SL_LUCK,
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Aces High", "Drivel", "Discard")))
 registerGame(GameInfo(206, Fortunes, "Fortunes",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(213, RussianAces, "Russian Aces",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(130, PerpetualMotion, "Perpetual Motion",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
                       altnames=("First Law", "Narcotic")))
@@ -526,3 +566,6 @@ registerGame(GameInfo(758, MaineCoon, "Maine Coon",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(934, Valentine, "Valentine",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_LUCK))
+registerGame(GameInfo(984, JokerBombs, "Joker Bombs",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

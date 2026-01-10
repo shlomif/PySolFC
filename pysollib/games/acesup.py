@@ -182,9 +182,11 @@ class JokerBombs_RowStack(AcesUp_RowStack):
             old_state = self.game.enterState(self.game.S_FILL)
             self.game.saveStateMove(2 | 16)  # for undo
 
+            self.game.startDealSample()
             while self.cards:
                 self.game.flipMove(self)
                 self.game.moveMove(1, self, self.game.s.talon, frames=frames)
+            self.game.stopSamples()
             self.game.shuffleStackMove(self.game.s.talon)
 
             self.game.saveStateMove(1 | 16)  # for redo

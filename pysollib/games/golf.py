@@ -1128,7 +1128,6 @@ class Vague(Game):
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
-        self.s.talon.flipMove()
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:

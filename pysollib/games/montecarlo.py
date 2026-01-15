@@ -380,6 +380,65 @@ class SimpleTens(BlockTen):
 # * Crispy
 # ************************************************************************
 
+class Crispy_Hint(MonteCarlo_Hint):
+
+    def step010_movePile(self, r, pile, rows):
+        PICTURE_DESTS = {
+            KING:  (1, 2, 13, 14),
+            QUEEN: (4, 7, 8, 11),
+            JACK:  (0, 3, 12, 15),
+            }
+        lp = len(pile)
+        lr = len(r.cards)
+        assert 1 <= lp <= lr
+        rpile = r.cards[: (lr - lp)]
+
+        empty_row_seen = 0
+        r_is_waste = r in self.game.sg.talonstacks
+
+        for t in rows:
+            score, color = 0, None
+            if not self.shallMovePile(r, t, pile, rpile):
+                continue
+
+            if r_is_waste:
+                score, color = self._getMoveWasteScore(score, color, r, t, pile, rpile)
+            else:
+                if not t.cards:
+                    # DefaultHint skips whole-stack-to-empty; Crispy needs it for picture cards.
+                    if lp == lr:
+                        rank = pile[-1].rank
+                        if rank in (JACK, QUEEN, KING):
+                            dest_ids = PICTURE_DESTS[rank]
+
+                            # Crispy_RowStack.acceptsCards already enforces correct destinations,
+                            # but we double-check for safety:
+                            if t.id not in dest_ids:
+                                continue
+
+                            # NEW: don't shuffle picture cards between correct picture slots
+                            # (it doesn't change free spaces, it's just noise).
+                            if r.id in dest_ids:
+                                continue
+
+                            score = 90000
+                        else:
+                            continue
+                    else:
+                        continue
+
+                    if empty_row_seen:
+                        continue
+                    empty_row_seen = 1
+                else:
+                    score = 80000
+
+                score, color = self._getMovePileScore(score, color, r, t, pile, rpile)
+
+            self.addHint(score, lp, r, t, color)
+
+
+
 class Crispy_Talon(MonteCarlo_Talon):
 
     def canDealCards(self):
@@ -409,6 +468,7 @@ class Crispy_RowStack(MonteCarlo_RowStack):
 class Crispy(SimpleCarlo):
     Talon_Class = Crispy_Talon
     RowStack_Class = Crispy_RowStack
+    Hint_Class = Crispy_Hint
     FILL_STACKS_AFTER_DROP = False
     FILL_STACKS_BEFORE_SHIFT = True
 

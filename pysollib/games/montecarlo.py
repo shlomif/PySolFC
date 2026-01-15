@@ -413,7 +413,6 @@ class Crispy_Hint(MonteCarlo_Hint):
                 )
             else:
                 if not t.cards:
-                    # Crispy needs whole-stack-to-empty moves for picture cards.
                     if lp != lr:
                         continue
 
@@ -423,11 +422,9 @@ class Crispy_Hint(MonteCarlo_Hint):
 
                     dest_ids = PICTURE_DESTS[rank]
 
-                    # Enforce designated destinations (Crispy_RowStack does too).
                     if t.id not in dest_ids:
                         continue
 
-                    # Avoid shuffling picture cards between already-correct slots.
                     if r.id in dest_ids:
                         continue
 

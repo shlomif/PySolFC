@@ -380,14 +380,15 @@ class SimpleTens(BlockTen):
 # * Crispy
 # ************************************************************************
 
-class Crispy_Hint(MonteCarlo_Hint):
+PICTURE_DESTS = {
+    KING: (1, 2, 13, 14),
+    QUEEN: (4, 7, 8, 11),
+    JACK: (0, 3, 12, 15),
+}
 
+
+class Crispy_Hint(MonteCarlo_Hint):
     def step010_movePile(self, r, pile, rows):
-        PICTURE_DESTS = {
-            KING:  (1, 2, 13, 14),
-            QUEEN: (4, 7, 8, 11),
-            JACK:  (0, 3, 12, 15),
-            }
         lp = len(pile)
         lr = len(r.cards)
         assert 1 <= lp <= lr
@@ -402,45 +403,55 @@ class Crispy_Hint(MonteCarlo_Hint):
                 continue
 
             if r_is_waste:
-                score, color = self._getMoveWasteScore(score, color, r, t, pile, rpile)
+                score, color = self._getMoveWasteScore(
+                    score,
+                    color,
+                    r,
+                    t,
+                    pile,
+                    rpile,
+                )
             else:
                 if not t.cards:
-                    # DefaultHint skips whole-stack-to-empty; Crispy needs it for picture cards.
-                    if lp == lr:
-                        rank = pile[-1].rank
-                        if rank in (JACK, QUEEN, KING):
-                            dest_ids = PICTURE_DESTS[rank]
+                    # Crispy needs whole-stack-to-empty moves for picture cards.
+                    if lp != lr:
+                        continue
 
-                            # Crispy_RowStack.acceptsCards already enforces correct destinations,
-                            # but we double-check for safety:
-                            if t.id not in dest_ids:
-                                continue
+                    rank = pile[-1].rank
+                    if rank not in (JACK, QUEEN, KING):
+                        continue
 
-                            # NEW: don't shuffle picture cards between correct picture slots
-                            # (it doesn't change free spaces, it's just noise).
-                            if r.id in dest_ids:
-                                continue
+                    dest_ids = PICTURE_DESTS[rank]
 
-                            score = 90000
-                        else:
-                            continue
-                    else:
+                    # Enforce designated destinations (Crispy_RowStack does too).
+                    if t.id not in dest_ids:
+                        continue
+
+                    # Avoid shuffling picture cards between already-correct slots.
+                    if r.id in dest_ids:
                         continue
 
                     if empty_row_seen:
                         continue
+
+                    score = 90000
                     empty_row_seen = 1
                 else:
                     score = 80000
 
-                score, color = self._getMovePileScore(score, color, r, t, pile, rpile)
+                score, color = self._getMovePileScore(
+                    score,
+                    color,
+                    r,
+                    t,
+                    pile,
+                    rpile,
+                )
 
             self.addHint(score, lp, r, t, color)
 
 
-
 class Crispy_Talon(MonteCarlo_Talon):
-
     def canDealCards(self):
         if len(self.cards) == 0:
             return False
@@ -448,18 +459,17 @@ class Crispy_Talon(MonteCarlo_Talon):
 
 
 class Crispy_RowStack(MonteCarlo_RowStack):
-
     getBottomImage = BasicRowStack._getReserveBottomImage
 
     def acceptsCards(self, from_stack, cards):
         cr = cards[0].rank
         if len(self.cards) == 0:
             if cr == KING:
-                return self.id in (1, 2, 13, 14)
+                return self.id in PICTURE_DESTS[KING]
             if cr == QUEEN:
-                return self.id in (4, 7, 8, 11)
+                return self.id in PICTURE_DESTS[QUEEN]
             if cr == JACK:
-                return self.id in (0, 3, 12, 15)
+                return self.id in PICTURE_DESTS[JACK]
         if cr in (JACK, QUEEN, KING):
             return False
         return MonteCarlo_RowStack.acceptsCards(self, from_stack, cards)
@@ -477,16 +487,22 @@ class Crispy(SimpleCarlo):
 
     def isGameWon(self):
         for i in (1, 2, 13, 14):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != KING:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != KING
+            ):
                 return False
         for i in (4, 7, 8, 11):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != QUEEN:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != QUEEN
+            ):
                 return False
         for i in (0, 3, 12, 15):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != JACK:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != JACK
+            ):
                 return False
         for i in (5, 6, 9, 10):
             if len(self.s.rows[i].cards) != 0:

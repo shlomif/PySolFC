@@ -380,8 +380,75 @@ class SimpleTens(BlockTen):
 # * Crispy
 # ************************************************************************
 
-class Crispy_Talon(MonteCarlo_Talon):
+PICTURE_DESTS = {
+    KING: (1, 2, 13, 14),
+    QUEEN: (4, 7, 8, 11),
+    JACK: (0, 3, 12, 15),
+}
 
+
+class Crispy_Hint(MonteCarlo_Hint):
+    def step010_movePile(self, r, pile, rows):
+        lp = len(pile)
+        lr = len(r.cards)
+        assert 1 <= lp <= lr
+        rpile = r.cards[: (lr - lp)]
+
+        empty_row_seen = 0
+        r_is_waste = r in self.game.sg.talonstacks
+
+        for t in rows:
+            score, color = 0, None
+            if not self.shallMovePile(r, t, pile, rpile):
+                continue
+
+            if r_is_waste:
+                score, color = self._getMoveWasteScore(
+                    score,
+                    color,
+                    r,
+                    t,
+                    pile,
+                    rpile,
+                )
+            else:
+                if not t.cards:
+                    if lp != lr:
+                        continue
+
+                    rank = pile[-1].rank
+                    if rank not in (JACK, QUEEN, KING):
+                        continue
+
+                    dest_ids = PICTURE_DESTS[rank]
+
+                    if t.id not in dest_ids:
+                        continue
+
+                    if r.id in dest_ids:
+                        continue
+
+                    if empty_row_seen:
+                        continue
+
+                    score = 90000
+                    empty_row_seen = 1
+                else:
+                    score = 80000
+
+                score, color = self._getMovePileScore(
+                    score,
+                    color,
+                    r,
+                    t,
+                    pile,
+                    rpile,
+                )
+
+            self.addHint(score, lp, r, t, color)
+
+
+class Crispy_Talon(MonteCarlo_Talon):
     def canDealCards(self):
         if len(self.cards) == 0:
             return False
@@ -389,18 +456,17 @@ class Crispy_Talon(MonteCarlo_Talon):
 
 
 class Crispy_RowStack(MonteCarlo_RowStack):
-
     getBottomImage = BasicRowStack._getReserveBottomImage
 
     def acceptsCards(self, from_stack, cards):
         cr = cards[0].rank
         if len(self.cards) == 0:
             if cr == KING:
-                return self.id in (1, 2, 13, 14)
+                return self.id in PICTURE_DESTS[KING]
             if cr == QUEEN:
-                return self.id in (4, 7, 8, 11)
+                return self.id in PICTURE_DESTS[QUEEN]
             if cr == JACK:
-                return self.id in (0, 3, 12, 15)
+                return self.id in PICTURE_DESTS[JACK]
         if cr in (JACK, QUEEN, KING):
             return False
         return MonteCarlo_RowStack.acceptsCards(self, from_stack, cards)
@@ -409,6 +475,7 @@ class Crispy_RowStack(MonteCarlo_RowStack):
 class Crispy(SimpleCarlo):
     Talon_Class = Crispy_Talon
     RowStack_Class = Crispy_RowStack
+    Hint_Class = Crispy_Hint
     FILL_STACKS_AFTER_DROP = False
     FILL_STACKS_BEFORE_SHIFT = True
 
@@ -417,16 +484,22 @@ class Crispy(SimpleCarlo):
 
     def isGameWon(self):
         for i in (1, 2, 13, 14):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != KING:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != KING
+            ):
                 return False
         for i in (4, 7, 8, 11):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != QUEEN:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != QUEEN
+            ):
                 return False
         for i in (0, 3, 12, 15):
-            if len(self.s.rows[i].cards) != 0 and \
-                    self.s.rows[i].cards[0].rank != JACK:
+            if (
+                len(self.s.rows[i].cards) != 0
+                and self.s.rows[i].cards[0].rank != JACK
+            ):
                 return False
         for i in (5, 6, 9, 10):
             if len(self.s.rows[i].cards) != 0:

@@ -73,6 +73,7 @@ class EightOff(KingOnlyBakersGame):
     def createGame(self, rows=8, reserves=8):
         # create layout
         l, s = Layout(self), self.s
+        decks = self.gameinfo.decks
 
         # set window
         # (piles up to 16 cards are playable without
@@ -82,10 +83,11 @@ class EightOff(KingOnlyBakersGame):
         self.setSize(l.XM + maxrows*l.XS, l.YM + l.YS + h + l.YS)
 
         # create stacks
-        x, y = l.XM + (maxrows-4)*l.XS//2, l.YM
+        x, y = l.XM + (maxrows - (4 * decks)) * l.XS // 2, l.YM
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, i))
-            x = x + l.XS
+            for j in range(decks):
+                s.foundations.append(SS_FoundationStack(x, y, self, i))
+                x = x + l.XS
         x, y = l.XM + (maxrows-rows)*l.XS//2, y + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -109,6 +111,17 @@ class EightOff(KingOnlyBakersGame):
         self.s.talon.dealRow()
         r = self.s.reserves
         self.s.talon.dealRow(rows=[r[0], r[2], r[4], r[6]])
+
+
+class DoubleEightOff(EightOff):
+
+    def createGame(self, rows=8, reserves=8):
+        EightOff.createGame(self, rows=12)
+
+    def startGame(self):
+        self._startDealNumRows(7)
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
 
 
 # ************************************************************************
@@ -328,3 +341,5 @@ registerGame(GameInfo(629, Tuxedo, "Tuxedo",
 registerGame(GameInfo(713, Flipper, "Flipper",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(985, DoubleEightOff, "Double Eight Off",
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))

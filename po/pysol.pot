@@ -3653,6 +3653,18 @@ msgstr ""
 msgid "&Solid color..."
 msgstr ""
 
+msgid "Select File..."
+msgstr ""
+
+msgid "Scaling:"
+msgstr ""
+
+msgid "Preview:"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
 #: pysollib/pysolgtk/selecttile.py:174 pysollib/tile/selecttile.py:174
 #: pysollib/tk/selecttile.py:173
 msgid "Select table color"

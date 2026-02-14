@@ -22,20 +22,23 @@
 # ---------------------------------------------------------------------------##
 
 import os
+import shutil
 import tkinter
 import tkinter.colorchooser
 import tkinter.ttk as ttk
+from pathlib import Path
 
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
-from pysollib.resource import TTI
+from pysollib.resource import TTI, Tile
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
+from pysollib.util import IMAGE_EXTENSIONS
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolButton, PysolCombo, \
-                      PysolEntry, PysolNotebook
+from .tkwidget import MfxDialog, MfxMessageDialog, MfxScrolledCanvas, \
+                      PysolButton, PysolCombo, PysolEntry, PysolNotebook
 
 
 # ************************************************************************
@@ -175,6 +178,8 @@ class SelectTileDialogWithPreview(MfxDialog):
         notebook.add(tree_frame, text=_('Tree View'))
         search_frame = ttk.Frame(notebook)
         notebook.add(search_frame, text=_('Search'))
+        loadfile_frame = ttk.Frame(notebook)
+        notebook.add(loadfile_frame, text=_('Import File'))
 
         font = app.getFont("default")
         padx, pady = 4, 4
@@ -247,6 +252,103 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.textScale.grid(row=4, column=1, sticky='ew',
                                 padx=padx, pady=pady)
 
+        self.loadedFile = tkinter.StringVar()
+        self.nameFile = tkinter.StringVar()
+        self.fileScaling = tkinter.StringVar()
+        self.loadFileButton = PysolButton(loadfile_frame,
+                                          text=_('Select File...'),
+                                          prefixtext=self.loadedFile.get(),
+                                          command=self.loadFile)
+        self.loadFileButton.grid(
+                row=1, column=0, sticky='ew', padx=padx, pady=pady)
+        self.fileLabelMaxLen = 28
+        self.filelabel = tkinter.Label(loadfile_frame, text='',
+                                       justify='left', anchor='w',
+                                       width=self.fileLabelMaxLen)
+        self.filelabel.grid(
+                row=1, column=1, sticky='ew', padx=padx, pady=pady)
+
+        self.labelLoadScale = tkinter.Label(loadfile_frame,
+                                            text=_("Name:"),
+                                            anchor="w")
+        self.textLoadScale = PysolEntry(loadfile_frame, fieldname=_("Name:"),
+                                        textvariable=self.nameFile)
+        self.labelLoadScale.grid(row=2, column=0, sticky='ew',
+                                 padx=padx, pady=pady)
+        self.textLoadScale.grid(row=2, column=1, sticky='ew',
+                                padx=padx, pady=pady)
+
+        self.loadScaling = tkinter.StringVar()
+        self.loadScaling.set(next(key for key, value in
+                             self.scaleOptions.items()
+                             if value == app.opt.tabletile_scale_method))
+        self.labelLoadScale = tkinter.Label(loadfile_frame,
+                                            text=_("Scaling:"),
+                                            anchor="w")
+
+        scaleValues2 = scaleValues.copy()
+        scaleValues2.remove("Default")
+        self.fileScaling.set(scaleValues2[0])
+
+        self.textLoadScale = PysolCombo(loadfile_frame, values=scaleValues2,
+                                        fieldname=_("Scaling:"),
+                                        textvariable=self.fileScaling,
+                                        selectcommand=self.updateLoadPreview)
+        self.labelLoadScale.grid(row=3, column=0, sticky='ew',
+                                 padx=padx, pady=pady)
+        self.textLoadScale.grid(row=3, column=1, sticky='ew',
+                                padx=padx, pady=pady)
+
+        loadfile_preview_label = tkinter.Label(loadfile_frame,
+                                               text=_("Preview:"), anchor="w")
+        loadfile_preview_label.grid(row=4, column=0, columnspan=2, sticky='nw',
+                                    padx=padx, pady=pady)
+
+        # Container for preview so we can maintain aspect ratio
+        loadfile_preview_container = ttk.Frame(loadfile_frame)
+        loadfile_preview_container.grid(row=5, column=0, columnspan=2,
+                                        sticky='nsew', padx=padx, pady=pady)
+        self.loadfile_aspect_frame = ttk.Frame(loadfile_preview_container)
+        self.previewLoad = MfxScrolledCanvas(self.loadfile_aspect_frame,
+                                             hbar=0, vbar=0)
+        self.previewLoad.canvas.preview = 1  # fill canvas, no margins
+        self.previewLoad.frame.pack(fill='both', expand=True)
+
+        def ResizePreview(event):
+            # 16:9 to match most modern monitors
+            height = 9
+            width = 16
+
+            c = loadfile_preview_container
+            cw = event.width if event and getattr(event, 'width', None) \
+                else c.winfo_width()
+            if cw <= 1:
+                return
+
+            h = int(cw * height / width)
+            loadfile_preview_container.configure(height=h)
+            self.loadfile_aspect_frame.place(x=0, y=0, width=cw, height=h)
+
+        loadfile_preview_container.bind('<Configure>', ResizePreview)
+
+        def SetupPreview():
+            loadfile_preview_container.update_idletasks()
+            ResizePreview(None)
+
+        loadfile_preview_container.after(50, SetupPreview)
+
+        self.previewLoad.canvas.setTile(None)
+        self.previewLoad.canvas.config(bg=self.app.opt.colors['table'])
+
+        self.useFileButton = PysolButton(loadfile_frame, text=_('Import'),
+                                         command=self.useFile)
+        self.useFileButton.grid(row=6, column=0, sticky='w',
+                                padx=padx, pady=pady)
+        self.useFileButton.state(['disabled'])
+
+        loadfile_frame.columnconfigure(0, weight=1)
+        loadfile_frame.columnconfigure(1, weight=1)
+
         left_frame.rowconfigure(0, weight=1)
         left_frame.columnconfigure(0, weight=1)
         left_frame.columnconfigure(1, weight=1)
@@ -316,6 +418,28 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.updatePreview(self.preview_key,
                            self.scaleOptions[self.scaling.get()])
 
+    def updateLoadPreview(self, *args):
+        filename = self.loadedFile.get()
+        canvas = self.previewLoad.canvas
+        if not filename or not os.path.isfile(filename):
+            canvas.setTile(None)
+            canvas.config(bg=self.app.opt.colors['table'])
+            return
+        scaling = self.fileScaling.get()
+        stretch = 0
+        save_aspect = 0
+        if scaling == 'Stretch':
+            stretch = 1
+        elif scaling == 'Preserve aspect ratio':
+            stretch = 1
+            save_aspect = 1
+        if canvas.setTile(filename, stretch, save_aspect):
+            canvas.config(bg=self.app.top_bg)
+            canvas.setTextColor(self.app.opt.colors['text'])
+        else:
+            canvas.setTile(None)
+            canvas.config(bg=self.app.opt.colors['table'])
+
     def updateSearchList(self, searchString):
         self.criteria.name = searchString
         self.performSearch()
@@ -351,6 +475,78 @@ class SelectTileDialogWithPreview(MfxDialog):
         for result in results:
             self.list.insert(pos, result)
             pos += 1
+
+    def loadFile(self):
+        filetypes = [
+            ("All images", " ".join("%s" % type for type in IMAGE_EXTENSIONS)),
+            *[(_("%s files") % type.upper(), "*" + type)
+              for type in IMAGE_EXTENSIONS],
+            ("All files", "*.*")
+        ]
+
+        d = tkinter.filedialog.Open()
+        filename = d.show(filetypes=filetypes)
+        if filename:
+            self.loadedFile.set(filename)
+            name = Path(filename).name
+            if len(name) > self.fileLabelMaxLen:
+                name = name[:self.fileLabelMaxLen - 3] + '...'
+            self.filelabel.config(text=name)
+            self.nameFile.set(Path(filename).stem)
+            self.useFileButton.state(['!disabled'])
+            self.updateLoadPreview()
+
+    def useFile(self):
+        filename = self.loadedFile.get()
+        if not os.path.isfile(filename):
+            MfxMessageDialog(
+                self.top, title=_("Import File"),
+                text=_("The selected file no longer exists."), bitmap="error")
+            return
+        tile = Tile()
+        tile.filename = filename
+        scaling = self.fileScaling.get()
+        searchDirs = []
+        if scaling == 'Stretch':
+            tile.stretch = 1
+            searchDirs.append(os.path.join("tiles", "stretch"))
+        elif scaling == 'Preserve aspect ratio':
+            tile.stretch = 1
+            tile.save_aspect = 1
+            searchDirs.append(os.path.join("tiles", "save-aspect"))
+        elif scaling == 'Tile':
+            searchDirs.append("tiles-*")
+        tile.name = self.nameFile.get()
+        extension = Path(tile.filename).suffix
+        dirs = self.manager.getSearchDirs(
+            self.app, searchDirs, "PYSOL_TILES")
+        copySuccess = False
+        for dirname in dirs:
+            try:
+                shutil.copy2(tile.filename, os.path.join(dirname,
+                                                         (tile.name +
+                                                          extension)))
+                copySuccess = True
+            except EnvironmentError:
+                pass
+        if (not copySuccess):
+            MfxMessageDialog(
+                self.top, title=_("Import File"),
+                text=_("Failed to import file."), bitmap="error")
+            return
+
+        self.manager.register(tile)
+
+        # Refresh lists so the new tile appears and select it
+        self.performSearch()
+        try:
+            items = list(self.list.get(0, tkinter.END))
+            idx = items.index(tile.name)
+            self.tree.updateSelection(tile.index)
+            self.updatePreview(tile.index)
+            self.speakTileInfo(tile.name)
+        except (ValueError, tkinter.TclError):
+            pass
 
     def advancedSearch(self):
         d = SelectTileAdvancedSearch(self.top, _("Advanced search"),

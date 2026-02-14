@@ -540,7 +540,6 @@ class SelectTileDialogWithPreview(MfxDialog):
         # Refresh lists so the new tile appears and select it
         self.performSearch()
         try:
-            items = list(self.list.get(0, tkinter.END))
             self.tree.updateSelection(tile.index)
             self.updatePreview(tile.index)
             self.speakTileInfo(tile.name)

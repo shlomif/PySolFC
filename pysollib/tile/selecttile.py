@@ -541,7 +541,6 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.performSearch()
         try:
             items = list(self.list.get(0, tkinter.END))
-            idx = items.index(tile.name)
             self.tree.updateSelection(tile.index)
             self.updatePreview(tile.index)
             self.speakTileInfo(tile.name)

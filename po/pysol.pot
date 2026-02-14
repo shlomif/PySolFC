@@ -3653,6 +3653,9 @@ msgstr ""
 msgid "&Solid color..."
 msgstr ""
 
+msgid "Import File"
+msgstr ""
+
 msgid "Select File..."
 msgstr ""
 

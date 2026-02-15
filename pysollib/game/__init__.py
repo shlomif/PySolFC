@@ -1754,15 +1754,31 @@ class Game:
         if tkraise:
             for card in cards:
                 card.tkraise()
+
+        # Recalculate the destination every frame so the animation adapts to resizes.
         c0 = cards[0]
-        dx, dy = (x - c0.x) / float(frames), (y - c0.y) / float(frames)
-        tx, ty = 0, 0
+        if to_stack:
+            def _dest_func():
+                return to_stack.getPositionForNextCard()
+        else:
+            _static_dest = (x, y)
+            def _dest_func():
+                return _static_dest
+
         i = 1
         if clock:
             starttime = clock()
         while i < frames:
-            mx, my = int(round(dx * i)) - tx, int(round(dy * i)) - ty
-            tx, ty = tx + mx, ty + my
+            # Determine current destination for this frame
+            dest_x, dest_y = _dest_func()
+            dx_remain = dest_x - c0.x
+            dy_remain = dest_y - c0.y
+            remaining_frames = frames - i + 1
+            if remaining_frames <= 0:
+                remaining_frames = 1
+            # Move a fraction of the remaining distance
+            mx = int(round(dx_remain / remaining_frames))
+            my = int(round(dy_remain / remaining_frames))
             if i == 1 and shadow and from_stack:
                 # create shadows in the first frame
                 sx, sy = self.app.images.SHADOW_XOFFSET, \
@@ -1772,30 +1788,29 @@ class Game:
                 s.move(mx, my)
             for card in cards:
                 card.moveBy(mx, my)
-            self.canvas.update_idletasks()
+            # process events so resize handlers run
+            self.canvas.update()
             step = 1
             if clock:
-                endtime = starttime + i*SPF
+                endtime = starttime + i * SPF
                 sleep = endtime - clock()
                 if delay and sleep >= 0.005:
-                    # we're fast - delay
-                    # print "Delay frame", i, sleep
                     usleep(sleep)
-                elif skip and sleep <= -0.75*SPF:
-                    # we're slow - skip 1 or 2 frames
-                    # print "Skip frame", i, sleep
+                elif skip and sleep <= -0.75 * SPF:
                     step += 1
-                    if frames > 4 and sleep < -1.5*SPF:
+                    if frames > 4 and sleep < -1.5 * SPF:
                         step += 1
-                # print i, step, mx, my; time.sleep(0.5)
             i += step
-        # last frame: delete shadows, move card to final position
+
+        # last frame: delete shadows and move cards to final destination
         for s in shadows:
             s.delete()
-        dx, dy = x - c0.x, y - c0.y
+        dest_x, dest_y = _dest_func()
+        dx_final = dest_x - c0.x
+        dy_final = dest_y - c0.y
         for card in cards:
-            card.moveBy(dx, dy)
-        self.canvas.update_idletasks()
+            card.moveBy(dx_final, dy_final)
+        self.canvas.update()
 
     def doAnimatedFlipAndMove(self, from_stack, to_stack=None, frames=-1):
         if self.app.opt.animations == 0 or frames == 0:

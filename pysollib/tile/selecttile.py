@@ -261,7 +261,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                                           command=self.loadFile)
         self.loadFileButton.grid(
                 row=1, column=0, sticky='ew', padx=padx, pady=pady)
-        self.fileLabelMaxLen = 28
+        self.fileLabelMaxLen = 26
         self.filelabel = tkinter.Label(loadfile_frame, text='',
                                        justify='left', anchor='w',
                                        width=self.fileLabelMaxLen)
@@ -292,6 +292,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
         self.textLoadScale = PysolCombo(loadfile_frame, values=scaleValues2,
                                         fieldname=_("Scaling:"),
+                                        state='readonly',
                                         textvariable=self.fileScaling,
                                         selectcommand=self.updateLoadPreview)
         self.labelLoadScale.grid(row=3, column=0, sticky='ew',
@@ -504,7 +505,6 @@ class SelectTileDialogWithPreview(MfxDialog):
                 text=_("The selected file no longer exists."), bitmap="error")
             return
         tile = Tile()
-        tile.filename = filename
         scaling = self.fileScaling.get()
         searchDirs = []
         if scaling == 'Stretch':
@@ -517,16 +517,17 @@ class SelectTileDialogWithPreview(MfxDialog):
         elif scaling == 'Tile':
             searchDirs.append("tiles-*")
         tile.name = self.nameFile.get()
-        extension = Path(tile.filename).suffix
+        extension = Path(filename).suffix
         dirs = self.manager.getSearchDirs(
             self.app, searchDirs, "PYSOL_TILES")
         copySuccess = False
+        destPath = ""
         for dirname in dirs:
             try:
-                shutil.copy2(tile.filename, os.path.join(dirname,
-                                                         (tile.name +
-                                                          extension)))
+                destPath = os.path.join(dirname, (tile.name + extension))
+                shutil.copy2(filename, destPath)
                 copySuccess = True
+                break
             except EnvironmentError:
                 pass
         if (not copySuccess):
@@ -535,9 +536,12 @@ class SelectTileDialogWithPreview(MfxDialog):
                 text=_("Failed to import file."), bitmap="error")
             return
 
+        tile.filename = destPath
+
         self.manager.register(tile)
 
         # Refresh lists so the new tile appears and select it
+        self.refreshTreeData()
         self.performSearch()
         try:
             self.tree.updateSelection(tile.index)
@@ -545,6 +549,21 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.speakTileInfo(tile.name)
         except (ValueError, tkinter.TclError):
             pass
+
+    def refreshTreeData(self):
+        data = self.TreeDataHolder_Class.data
+        if data is None:
+            return
+        data.all_objects = self.manager.getAllSortedByName()
+        data.all_objects = [obj for obj in data.all_objects if not obj.error]
+        data.all_objects = [tile for tile in data.all_objects
+                            if tile.index > 0 and tile.filename]
+        # Clear cached subnodes so they re-fetch
+        for node in data.rootnodes:
+            if callable(getattr(node, 'select_func', None)) and not isinstance(
+                    getattr(node, 'select_func', None), (tuple, list)):
+                node.subnodes = None
+        self.tree.redraw()
 
     def advancedSearch(self):
         d = SelectTileAdvancedSearch(self.top, _("Advanced search"),

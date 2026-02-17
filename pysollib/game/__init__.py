@@ -1755,7 +1755,7 @@ class Game:
             for card in cards:
                 card.tkraise()
 
-        # Recalculate the destination every frame so the animation adapts to resizes.
+        # Recalculate every frame so the animation adapts 
         c0 = cards[0]
         if to_stack:
             def _dest_func():

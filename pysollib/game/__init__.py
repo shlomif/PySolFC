@@ -1758,10 +1758,12 @@ class Game:
         # Recalculate every frame so the animation adapts 
         c0 = cards[0]
         if to_stack:
+
             def _dest_func():
                 return to_stack.getPositionForNextCard()
         else:
             _static_dest = (x, y)
+            
             def _dest_func():
                 return _static_dest
 

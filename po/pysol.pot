@@ -3576,6 +3576,9 @@ msgstr ""
 msgid "New since"
 msgstr ""
 
+msgid "New since (inclusive)"
+msgstr ""
+
 msgid "Games played"
 msgstr ""
 

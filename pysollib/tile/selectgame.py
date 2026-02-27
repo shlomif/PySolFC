@@ -608,13 +608,17 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 for name, games in GI.GAMES_BY_PYSOL_VERSION:
                     if self.criteria.version == name:
                         version_found = True
-                        if game.id in games:
+                        if (game.id in games and
+                                self.criteria.versioncompare != "New since"):
                             version_okay = True
                             break
                     elif ((not version_found and
                            self.criteria.versioncompare == "Present in")
                           or (version_found and
-                              self.criteria.versioncompare == "New since")):
+                              (self.criteria.versioncompare
+                               == "New since (inclusive)"
+                               or self.criteria.versioncompare
+                               == "New since"))):
                         if game.id in games:
                             version_okay = True
                             break
@@ -1001,7 +1005,8 @@ class SearchCriteria:
                               "Variable redeals": -2,
                               "Other number of redeals": 4}
 
-        self.versionCompareOptions = ("New in", "Present in", "New since")
+        self.versionCompareOptions = ("New in", "Present in", "New since",
+                                      "New since (inclusive)")
 
         self.statisticsOptions = {"": "all",
                                   "Games played": "played",

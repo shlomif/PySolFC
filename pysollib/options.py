@@ -839,7 +839,10 @@ class Options:
         visible_buttons = self._getOption('general', 'visible_buttons', 'list')
         if visible_buttons is not None:
             for key in TOOLBAR_BUTTONS:
-                self.toolbar_vars[key] = (key in visible_buttons)
+                if key in visible_buttons:
+                    self.toolbar_vars[key] = True
+                elif key != 'deal':
+                    self.toolbar_vars[key] = False
         visible_status = self._getOption('general', 'visible_status', 'list')
         if visible_status is not None:
             for key, label in STATUSBAR_ITEMS:

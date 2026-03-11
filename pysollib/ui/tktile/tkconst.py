@@ -63,6 +63,7 @@ TOOLBAR_BUTTONS = (
     "save",
     "undo",
     "redo",
+    "deal",
     "autodrop",
     "shuffle",
     "hint",

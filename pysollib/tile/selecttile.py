@@ -206,7 +206,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
         self.list_searchtext.pack(side="top", fill='both',
                                   padx=padx, pady=pady, ipadx=1)
-        searchText.trace('w', self.basicSearch)
+        searchText.trace_add('write', self.basicSearch)
 
         searchbox.pack(side="top", fill="both")
 

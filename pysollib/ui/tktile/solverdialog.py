@@ -74,7 +74,7 @@ class BaseSolverDialog:
         spin = PysolSpinbox(frame, from_=1000, to=10e6,
                             increment=1000, textvariable=self.max_iters_var,
                             fieldname=_('Max iterations:'))
-        self.max_iters_var.trace('w', self._OnAssignToMaxIters)
+        self.max_iters_var.trace_add('write', self._OnAssignToMaxIters)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #

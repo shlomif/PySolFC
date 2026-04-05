@@ -824,7 +824,7 @@ class MyPysolScale:
         self.scale.bind("<FocusIn>", self._scale_focus)
 
         if self.variable:
-            self.variable.trace('w', self._trace_var)
+            self.variable.trace_add('write', self._trace_var)
         if value is not None:
             self._set_text(self._round(value))
             if self.variable:

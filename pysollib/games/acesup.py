@@ -176,8 +176,8 @@ class JokerBombs_Foundation(AcesUp_Foundation):
 class JokerBombs_RowStack(AcesUp_RowStack):
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         if self.cards[-1].suit == 4:
-            s = BasicRowStack.moveMove(self, ncards, to_stack, frames=frames,
-                                       shadow=shadow)
+            BasicRowStack.moveMove(self, ncards, to_stack, frames=frames,
+                                   shadow=shadow)
 
             old_state = self.game.enterState(self.game.S_FILL)
             self.game.saveStateMove(2 | 16)  # for undo
@@ -191,11 +191,9 @@ class JokerBombs_RowStack(AcesUp_RowStack):
 
             self.game.saveStateMove(1 | 16)  # for redo
             self.game.leaveState(old_state)
-
-            return s
         else:
-            return BasicRowStack.moveMove(self, ncards, to_stack,
-                                          frames=frames, shadow=shadow)
+            BasicRowStack.moveMove(self, ncards, to_stack,
+                                   frames=frames, shadow=shadow)
 
 
 class JokerBombs(AcesUp):

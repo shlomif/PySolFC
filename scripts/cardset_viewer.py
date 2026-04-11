@@ -79,8 +79,6 @@ def create_cs_list(ls):
 
 
 def show_cardset(*args):
-    global photolist
-
     if list_box.curselection():
 
         cs_name = list_box.get(list_box.curselection())
@@ -101,13 +99,10 @@ def show_cardset(*args):
 
         x_pos, y_pos, number = 0, 0, 0
 
-        photolist = []
-
         for file in ls:
 
             image = Image.open(file)
             photo = ImageTk.PhotoImage(image, master=root)
-            photolist.append(photo)
 
             image_width = photo.width()
             image_height = photo.height()

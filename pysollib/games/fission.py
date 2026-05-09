@@ -23,6 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import DefaultHint
 from pysollib.layout import Layout
 from pysollib.settings import TOOLKIT
 from pysollib.stack import \
@@ -50,16 +51,34 @@ class Fission_Reserve(OpenStack):
 
 class Fission_Foundation(SS_FoundationStack):
 
+    def hasCardAbove(self):
+        fs = self.game.s.foundations
+        return self.id >= 7 and len(fs[self.id - 7].cards) > 0
+
+    def hasCardBelow(self):
+        fs = self.game.s.foundations
+        if self.id >= len(fs) - 7:
+            return False
+        return len(fs[self.id + 7].cards) > 0
+
+    def isIsolated(self):
+        # No card above or below
+        return (not self.hasCardAbove() and
+                not self.hasCardBelow())
+
+    def isTerminalCap(self):
+        # Occupied above, no card below
+        if not self.hasCardAbove():
+            return False
+        if self.id >= len(self.game.s.foundations) - 7:
+            return True
+        return not self.hasCardBelow()
+
     def acceptsCards(self, from_stack, cards):
         if len(self.cards) == 0:
             return False
 
-        if (self.id >= 7 and
-                len(self.game.s.foundations[self.id - 7].cards) > 0):
-            return False
-
-        if (self.id < len(self.game.s.foundations) - 7 and
-                len(self.game.s.foundations[self.id + 7].cards) > 0):
+        if not self.isIsolated():
             return False
 
         if self.cards[0].suit != cards[0].suit:
@@ -68,9 +87,8 @@ class Fission_Foundation(SS_FoundationStack):
         return SS_FoundationStack.acceptsCards(self, from_stack, cards)
 
     def canMoveCards(self, cards):
-        if self.id < len(self.game.s.foundations) - 7:
-            if len(self.game.s.foundations[self.id + 7].cards) > 0:
-                return False
+        if self.hasCardBelow():
+            return False
 
         return SS_FoundationStack.canMoveCards(self, cards)
 
@@ -104,8 +122,107 @@ class Fission_Foundation(SS_FoundationStack):
                     s.group.tkraise()
 
 
+class Fission_Hint(DefaultHint):
+
+    SCORE_TOP_TIER_TO_FOUNDATION_MIN = 120000
+    SCORE_ISOLATED_BUILD_MIN = 96000
+    SCORE_TERMINAL_TO_RESERVE = 45000
+
+    def _fission_top_movable_card(self, stack):
+        if not stack.cards:
+            return None
+        card = stack.cards[-1]
+        if not stack.canMoveCards([card]):
+            return None
+        return card
+
+    def _getDropCardScore(self, score, color, r, t, ncards):
+        score, color = DefaultHint._getDropCardScore(
+            self, score, color, r, t, ncards)
+        if r in self.game.s.reserves and t in self.game.s.foundations:
+            score = max(score, self.SCORE_TOP_TIER_TO_FOUNDATION_MIN)
+        elif (t in self.game.s.foundations and r in self.game.s.foundations
+              and r.isTerminalCap()
+              and t.isIsolated()):
+            score = max(score, self.SCORE_TOP_TIER_TO_FOUNDATION_MIN)
+        elif t in self.game.s.foundations:
+            score = max(score, self.SCORE_ISOLATED_BUILD_MIN)
+        return score, color
+
+    def computeHints(self):
+        foundations = self.game.s.foundations
+        reserves = self.game.s.reserves
+
+        # 1 - Reserve to foundation
+        for r in reserves:
+            card = self._fission_top_movable_card(r)
+            if not card:
+                continue
+            pile = [card]
+            for t in foundations:
+                if not t.acceptsCards(r, pile):
+                    continue
+                score, color = self._getDropCardScore(
+                    0, None, r, t, len(pile))
+                self.addHint(score, len(pile), r, t, color)
+
+        # 2 - Terminal to isolated foundation (same as reserve to foundation).
+        for r in foundations:
+            if not r.isTerminalCap():
+                continue
+            card = self._fission_top_movable_card(r)
+            if not card:
+                continue
+            pile = [card]
+            for t in foundations:
+                if t is r or not t.isIsolated():
+                    continue
+                if not t.acceptsCards(r, pile):
+                    continue
+                score, color = self._getDropCardScore(
+                    0, None, r, t, len(pile))
+                self.addHint(score, len(pile), r, t, color)
+
+        # 3) Isolated to isolated foundation
+        for r in foundations:
+            if not r.isIsolated():
+                continue
+            card = self._fission_top_movable_card(r)
+            if not card:
+                continue
+            pile = [card]
+            for t in foundations:
+                if t is r or not t.isIsolated():
+                    continue
+                if not t.acceptsCards(r, pile):
+                    continue
+                score, color = self._getDropCardScore(
+                    0, None, r, t, len(pile))
+                self.addHint(score, len(pile), r, t, color)
+
+        # 4) Terminal foundation to reserve.
+        for f in foundations:
+            if not f.isTerminalCap():
+                continue
+            card = self._fission_top_movable_card(f)
+            if not card:
+                continue
+            pile = [card]
+            rpile = f.cards[:-1]
+            for t in reserves:
+                if not t.acceptsCards(f, pile):
+                    continue
+                rr = self.ClonedStack(f, stackcards=rpile)
+                if rr.acceptsCards(t, pile):
+                    continue
+                score = self.SCORE_TERMINAL_TO_RESERVE
+                score, color = self._getMovePileScore(
+                    score, None, f, t, pile, rpile)
+                self.addHint(score, len(pile), f, t, color)
+
+
 class Fission(Game):
-    Hint_Class = None
+    Hint_Class = Fission_Hint
 
     def createGame(self):
         # create layout
@@ -166,12 +283,7 @@ class Fission(Game):
         for f in self.s.foundations:
             if len(f.cards) == 0:
                 continue
-
-            if (f.id >= 7 and len(self.s.foundations[f.id - 7].cards) > 0):
-                return False
-
-            if (f.id < len(self.s.foundations) - 7 and
-                    len(self.s.foundations[f.id + 7].cards) > 0):
+            if not f.isIsolated():
                 return False
 
         return Game.isGameWon(self)

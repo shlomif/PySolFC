@@ -180,7 +180,7 @@ class Canfield(Game):
     # game overrides
     #
 
-    def startGame(self):
+    def startGame(self, num_rows=1):
         self.startDealSample()
         self.base_card = None
         self.updateText()
@@ -207,6 +207,8 @@ class Canfield(Game):
                 1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
         if self.s.reserves[0].canFlipCard():
             self.flipMove(self.s.reserves[0])
+        for i in range(num_rows-1):
+            self.s.talon.dealRow(frames=0, flip=0)
         self.s.talon.dealRow(reverse=1)
         self.s.talon.dealCards()          # deal first 3 cards to WasteStack
 
@@ -647,6 +649,20 @@ class Munger(Minerva):
 class Mystique(Munger):
     RowStack_Class = AC_RowStack
     INITIAL_RESERVE_CARDS = 9
+
+
+# ************************************************************************
+# * Candike
+# ************************************************************************
+
+class Candike(Canfield):
+    RowStack_Class = AC_RowStack
+
+    def createGame(self):
+        Canfield.createGame(self, rows=7)
+
+    def startGame(self):
+        Canfield.startGame(self, num_rows=2)
 
 
 # ************************************************************************
@@ -1135,3 +1151,5 @@ registerGame(GameInfo(922, QuadrupleCanfield, "Quadruple Canfield",
                       GI.GT_CANFIELD, 4, -1, GI.SL_BALANCED))
 registerGame(GameInfo(947, Club, "Club",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(989, Candike, "Candike",
+                      GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))

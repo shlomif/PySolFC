@@ -476,11 +476,11 @@ class GI:
         #       La Cabane, La Double Entente, Little Gazette, Magic FreeCell,
         #       Mini Gaps, Montreal, Napoleon at Iena, Napoleon at Waterloo,
         #       Napoleon's Guards, Oasis, Ordered Suits, Osmotic FreeCell,
-        #       Pair FreeCell, Pairs 2, Reserved Thirteens, Sept Piles 0,
-        #       Short Solitaire, Simple Alternations, Smart Osmosis,
-        #       Step By Step, Stripped FreeCell, Tarantula, Triple Dispute,
-        #       Trusty Twenty, Two Ways 3, Up Or Down, Versailles,
-        #       Vertical FreeCell, Wasp Baby, Yukon FreeCell
+        #       Pair FreeCell, Pairs 2, Presidium, Reserved Thirteens,
+        #       Sept Piles 0, Short Solitaire, Simple Alternations,
+        #       Smart Osmosis, Step By Step, Stripped FreeCell, Tarantula,
+        #       Triple Dispute, Trusty Twenty, Two Ways 3, Up Or Down,
+        #       Versailles, Vertical FreeCell, Wasp Baby, Yukon FreeCell
         ("XM Solitaire", (
             2, 8, 9, 13, 15, 18, 19, 20, 29, 30, 31, 34, 36, 38, 41, 42,
             45, 46, 50, 53, 54, 56, 57, 64, 77, 78, 86, 96, 97, 98, 105,
@@ -639,7 +639,7 @@ class GI:
         ('fc-3.4', tuple(range(971, 981)) + tuple(range(5419, 5421)) +
          tuple(range(16683, 16686)) + tuple(range(18005, 18007)) +
          (44, 526, 5906, 22399,)),
-        ('dev', tuple(range(981, 990)) + tuple(range(16686, 16687))),
+        ('dev', tuple(range(981, 990)) + (16686,)),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

@@ -1580,7 +1580,8 @@ registerGame(GameInfo(366, SimonJester, "Simon Jester",
 registerGame(GameInfo(382, Applegate, "Applegate",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(384, BigSpider, "Big Spider",
-                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Spiderwort",)))
 registerGame(GameInfo(401, GroundsForADivorce3Decks, "Big Divorce",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(441, York, "York",

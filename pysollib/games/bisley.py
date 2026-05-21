@@ -406,9 +406,10 @@ class Cringle(Game):
 
 # register the game
 registerGame(GameInfo(290, Bisley, "Bisley",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(372, DoubleBisley, "Double Bisley",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN | GI.GT_ORIGINAL,
                       2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(373, Gloria, "Gloria",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
@@ -422,6 +423,7 @@ registerGame(GameInfo(375, Mancunian, "Mancunian",
 registerGame(GameInfo(686, HospitalPatience, "Hospital Patience",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(692, BoardPatience, "Board Patience",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(747, Cringle, "Cringle",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

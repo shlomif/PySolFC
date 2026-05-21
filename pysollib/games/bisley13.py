@@ -86,4 +86,5 @@ class Bisley13(Bisley):
 
 # register the game
 registerGame(GameInfo(343001, Bisley13, "Bisley 13",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

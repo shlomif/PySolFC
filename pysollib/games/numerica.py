@@ -1348,6 +1348,9 @@ class TheBogey(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows)
 
+    def getAutoStacks(self, event=None):
+        return (), (), ()
+
 
 # ************************************************************************
 # * Ninety-One

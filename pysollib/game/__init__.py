@@ -2244,6 +2244,9 @@ class Game:
 
     # deal cards - return number of cards dealt
     def dealCards(self, sound=True):
+        # can't deal cards if the game is paused
+        if self.pause:
+            return 0
         # default: set state to deal and pass dealing to Talon
         if self.s.talon and self.canDealCards():
             self.finishMove()

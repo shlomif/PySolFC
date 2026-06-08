@@ -655,6 +655,11 @@ class LOptionsMenuGenerator(LTreeGenerator):
                               self.menubar.mOptShisenShowHint)
 
             self.addCheckNode(tv, rg,
+                              _('Show cascade (in Match Three games)'),
+                              self.menubar.tkopt.match_three_cascade,
+                              self.menubar.mOptMatchThreeCascade)
+
+            self.addCheckNode(tv, rg,
                               _('Deal all cards (in Accordion type games)'),
                               self.menubar.tkopt.accordion_deal_all,
                               self.menubar.mOptAccordionDealAll)
@@ -1532,6 +1537,7 @@ class PysolMenubarTk:
             stuck_notification=LBoolWrap(opt, "stuck_notification"),
             mahjongg_show_removed=LBoolWrap(opt, "mahjongg_show_removed"),
             shisen_show_hint=LBoolWrap(opt, "shisen_show_hint"),
+            match_three_cascade=LBoolWrap(opt, "match_three_cascade"),
             accordion_deal_all=LBoolWrap(opt, "accordion_deal_all"),
             pegged_auto_remove=LBoolWrap(opt, "pegged_auto_remove"),
             # sound
@@ -2369,6 +2375,11 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         self.game.quitGame(bookmark=1)
 
     def mOptShisenShowHint(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        # self.game.updateMenus()
+
+    def mOptMatchThreeCascade(self, *args):
         if self._cancelDrag(break_pause=False):
             return
         # self.game.updateMenus()

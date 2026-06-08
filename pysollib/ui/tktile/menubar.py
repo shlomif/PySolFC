@@ -303,6 +303,7 @@ class PysolMenubarTkCommon:
             stuck_notification=tkinter.BooleanVar(),
             mahjongg_show_removed=tkinter.BooleanVar(),
             shisen_show_hint=tkinter.BooleanVar(),
+            match_three_cascade=tkinter.BooleanVar(),
             accordion_deal_all=tkinter.BooleanVar(),
             pegged_auto_remove=tkinter.BooleanVar(),
             sound=tkinter.BooleanVar(),
@@ -381,6 +382,7 @@ class PysolMenubarTkCommon:
         tkopt.randomize_place.set(opt.randomize_place)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
+        tkopt.match_three_cascade.set(opt.match_three_cascade)
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
         tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
         tkopt.sound.set(opt.sound)
@@ -727,6 +729,10 @@ class PysolMenubarTkCommon:
             label=n_("Show hint &arrow (in Shisen-Sho games)"),
             variable=self.tkopt.shisen_show_hint,
             command=self.mOptShisenShowHint)
+        submenu.add_checkbutton(
+            label=n_("Show ca&scade (in Match Three games)"),
+            variable=self.tkopt.match_three_cascade,
+            command=self.mOptMatchThreeCascade)
         submenu.add_checkbutton(
             label=n_("&Deal all cards (in Accordion type games)"),
             variable=self.tkopt.accordion_deal_all,
@@ -1802,6 +1808,12 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
+        # self.game.updateMenus()
+
+    def mOptMatchThreeCascade(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.match_three_cascade = self.tkopt.match_three_cascade.get()
         # self.game.updateMenus()
 
     def mOptAccordionDealAll(self, *args):

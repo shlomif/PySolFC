@@ -79,6 +79,7 @@ GAME_BY_TYPE = {
     GI.GT_CRIBBAGE_TYPE: "Cribbage",
     GI.GT_ISHIDO: "Ishido",
     GI.GT_SAMEGAME: "Samegame",
+    GI.GT_MATCH_THREE: "Match Three",
 }
 
 

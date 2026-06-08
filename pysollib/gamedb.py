@@ -87,6 +87,7 @@ class GI:
     GT_KLONDIKE = 15
     GT_LIGHTS_OUT = 38
     GT_MAHJONGG = 16
+    GT_MATCH_THREE = 43
     GT_MATRIX = 17
     GT_MEMORY = 18
     GT_MONTANA = 19
@@ -165,6 +166,7 @@ class GI:
         GT_HEXADECK:            n_("Hex A Deck"),
         GT_ISHIDO:              n_("Ishido"),
         GT_LIGHTS_OUT:          n_("Lights Out"),
+        GT_MATCH_THREE:         n_("Match Three"),
         GT_MATRIX:              n_("Matrix"),
         GT_MEMORY:              n_("Memory"),
         GT_PEGGED:              n_("Pegged"),
@@ -287,6 +289,8 @@ class GI:
         (n_("Ishido type"), lambda gi, gt=GT_ISHIDO: gi.si.game_type == gt),
         (n_("Lights Out type"),
             lambda gi, gt=GT_LIGHTS_OUT: gi.si.game_type == gt),
+        (n_("Match Three type"),
+            lambda gi, gt=GT_MATCH_THREE: gi.si.game_type == gt),
         (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
         (n_("Memory type"), lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
         (n_("Pegged type"), lambda gi, gt=GT_PEGGED: gi.si.game_type == gt),
@@ -639,7 +643,8 @@ class GI:
         ('fc-3.4', tuple(range(971, 981)) + tuple(range(5419, 5421)) +
          tuple(range(16683, 16686)) + tuple(range(18005, 18007)) +
          (44, 526, 5906, 22399,)),
-        ('dev', tuple(range(981, 990)) + (16686,)),
+        ('dev', tuple(range(981, 990)) + tuple(range(19501, 19510)) +
+         (16686,)),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

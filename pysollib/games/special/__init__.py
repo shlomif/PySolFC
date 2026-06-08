@@ -29,6 +29,7 @@ from . import hexadeck  # noqa: F401
 from . import ishido  # noqa: F401
 from . import larasgame  # noqa: F401
 from . import lightsout  # noqa: F401
+from . import matchthree  # noqa: F401
 from . import matrix  # noqa: F401
 from . import memory  # noqa: F401
 from . import mughal  # noqa: F401

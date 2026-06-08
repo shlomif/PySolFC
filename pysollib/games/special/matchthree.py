@@ -31,8 +31,8 @@ from pysollib.settings import TOOLKIT
 from pysollib.stack import \
         AbstractFoundationStack, \
         InvisibleStack, \
-        RedealTalonStack, \
-        OpenStack
+        OpenStack, \
+        RedealTalonStack
 from pysollib.util import ANY_SUIT
 
 

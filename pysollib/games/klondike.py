@@ -757,7 +757,7 @@ class Gloucestershire(FlowerGarden):
 
     def createGame(self):
         FlowerGarden.createGame(self, rows=8)
-        
+
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.rows, frames=0)

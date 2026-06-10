@@ -410,7 +410,7 @@ class AbstractMatchThreeGame(Game):
                             seen.add((c, r))
                             matched.append(self.getStackAt(c, r))
         return matched
-    
+
     def _highlightCascadeMatch(self, stacks):
         if not stacks or self.demo:
             return

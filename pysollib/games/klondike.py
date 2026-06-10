@@ -709,14 +709,19 @@ class Stonewall(Klondike):
 
     DEAL = (0, 1, 0, 1, -1, 0, 1)
 
-    def createGame(self):
-        lay = Klondike.createGame(self, rows=6, waste=0, max_rounds=1, texts=0)
+    RESERVE_ROWS = 4
+    RESERVE_COLS = 4
+
+    def createGame(self, rows=6):
+        lay = Klondike.createGame(self, rows=rows, waste=0, max_rounds=1,
+                                  texts=0)
         s = self.s
-        h = max(self.height, lay.YM+4*lay.YS)
-        self.setSize(self.width + lay.XM+4*lay.XS, h)
-        for i in range(4):
-            for j in range(4):
-                x, y = self.width + (j-4)*lay.XS, lay.YM + i*lay.YS
+        h = max(self.height, lay.YM + self.RESERVE_ROWS * lay.YS)
+        self.setSize(self.width + lay.XM + self.RESERVE_COLS * lay.XS, h)
+        for i in range(self.RESERVE_ROWS):
+            for j in range(self.RESERVE_COLS):
+                x, y = (self.width + (j - self.RESERVE_COLS) * lay.XS,
+                        lay.YM + i * lay.YS)
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
         lay.defaultStackGroups()
 
@@ -728,7 +733,7 @@ class Stonewall(Klondike):
                 self.startDealSample()
             else:
                 self.s.talon.dealRow(flip=flip, frames=frames)
-        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealRowAvail(rows=self.s.reserves)
 
 
 class FlowerGarden(Stonewall):
@@ -742,6 +747,27 @@ class FlowerGarden(Stonewall):
 
 class Wildflower(FlowerGarden):
     RowStack_Class = Spider_SS_RowStack
+
+
+class Gloucestershire(FlowerGarden):
+    RowStack_Class = StackWrapper(AC_RowStack, max_move=1)
+
+    RESERVE_ROWS = 7
+    RESERVE_COLS = 8
+
+    def createGame(self):
+        FlowerGarden.createGame(self, rows=8)
+        
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.rows, frames=0)
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:], frames=0)
+        sr = self.RESERVE_ROWS * (self.RESERVE_COLS - 2)
+        self.s.talon.dealRowAvail(rows=self.s.reserves[0:sr], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRowAvail(rows=self.s.reserves[sr:])
 
 
 # ************************************************************************
@@ -1815,3 +1841,5 @@ registerGame(GameInfo(957, JokeKlonByThrees, "Joke Klon (Draw 3)",
 registerGame(GameInfo(982, Eights, "Eights",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("Les Huits",)))
+registerGame(GameInfo(990, Gloucestershire, "Gloucestershire",
+                      GI.GT_RAGLAN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))

@@ -1444,39 +1444,49 @@ class Game:
         cw, ch = self.app.images.getSize()
         cw -= 1
         ch -= 1
+        kx = self.keyboard_selected_stack.x
+        ky = self.keyboard_selected_stack.y
         for stack in self.allstacks:
             if (stack in self.s.internals or
                     stack == self.keyboard_selected_stack or
                     not stack.canSelect()):
                 continue
             if direction == 0:  # up
-                if ((stack.y >= self.keyboard_selected_stack.y) or
-                        (stack.x < self.keyboard_selected_stack.x - cw or
-                         stack.x > self.keyboard_selected_stack.x + cw) or
+                if ((stack.y >= ky) or
+                        (stack.x < kx - cw or
+                         stack.x > kx + cw) or
                         (currentstack is not None and
                          stack.y < currentstack.y)):
                     continue
             elif direction == 1:  # down
-                if ((stack.y <= self.keyboard_selected_stack.y) or
-                        (stack.x < self.keyboard_selected_stack.x - cw or
-                         stack.x > self.keyboard_selected_stack.x + cw) or
+                if ((stack.y <= ky) or
+                        (stack.x < kx - cw or
+                         stack.x > kx + cw) or
                         (currentstack is not None and
                          stack.y > currentstack.y)):
                     continue
             elif direction == 2:  # left
-                if ((stack.x >= self.keyboard_selected_stack.x) or
-                        (stack.y < self.keyboard_selected_stack.y - ch or
-                         stack.y > self.keyboard_selected_stack.y + ch) or
-                        (currentstack is not None and
-                         stack.x < currentstack.x)):
+                if ((stack.x >= kx) or
+                        (stack.y < ky - ch or
+                         stack.y > ky + ch)):
                     continue
+                if currentstack is not None:
+                    if stack.x < currentstack.x:
+                        continue
+                    if (stack.x == currentstack.x and
+                            abs(stack.y - ky) >= abs(currentstack.y - ky)):
+                        continue
             elif direction == 3:  # right
-                if ((stack.x <= self.keyboard_selected_stack.x) or
-                        (stack.y < self.keyboard_selected_stack.y - ch or
-                         stack.y > self.keyboard_selected_stack.y + ch) or
-                        (currentstack is not None and
-                         stack.x > currentstack.x)):
+                if ((stack.x <= kx) or
+                        (stack.y < ky - ch or
+                         stack.y > ky + ch)):
                     continue
+                if currentstack is not None:
+                    if stack.x > currentstack.x:
+                        continue
+                    if (stack.x == currentstack.x and
+                            abs(stack.y - ky) >= abs(currentstack.y - ky)):
+                        continue
             currentstack = stack
         if currentstack is not None:
             self.keyboard_selected_stack = currentstack

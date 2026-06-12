@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Jun 14 18:52:33 2025\n"
+"POT-Creation-Date: Thu Jun 11 22:36:57 2026\n"
 "PO-Revision-Date: 2025-06-14 19:09-0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -165,6 +165,9 @@ msgstr "Anno Domini"
 
 msgid "Another Round"
 msgstr "Другой Раунд"
+
+msgid "Antares"
+msgstr ""
 
 msgid "Ants"
 msgstr ""
@@ -599,6 +602,10 @@ msgstr "Канкан"
 
 msgid "Canberra"
 msgstr ""
+
+#, fuzzy
+msgid "Candike"
+msgstr "Клондайк"
 
 msgid "Candy"
 msgstr ""
@@ -1103,6 +1110,10 @@ msgstr "Двойной разводной мост"
 msgid "Double Easthaven"
 msgstr "Двойной кузнечик"
 
+#, fuzzy
+msgid "Double Eight Off"
+msgstr "Восемь удалённых"
+
 msgid "Double Fan"
 msgstr ""
 
@@ -1330,6 +1341,10 @@ msgstr "Восемь на восемь"
 msgid "Eighteens"
 msgstr ""
 
+#, fuzzy
+msgid "Eights"
+msgstr "Восемь мудрецов"
+
 msgid "Eighty Thieves"
 msgstr ""
 
@@ -1496,6 +1511,10 @@ msgstr "Рыба"
 
 msgid "Fish Face"
 msgstr "Рыбья голова"
+
+#, fuzzy
+msgid "Fission"
+msgstr "Полностью видимый 1"
 
 msgid "Five Aces"
 msgstr "Пять тузов"
@@ -1670,6 +1689,9 @@ msgstr ""
 msgid "Fourteen Puzzle"
 msgstr ""
 
+msgid "Foxfire 13"
+msgstr ""
+
 msgid "Frames"
 msgstr "Рамки"
 
@@ -1803,6 +1825,9 @@ msgstr "Вечерние сумерки"
 
 msgid "Gloria"
 msgstr "Глория"
+
+msgid "Gloucestershire"
+msgstr ""
 
 msgid "Gnat"
 msgstr "Комар"
@@ -1989,6 +2014,9 @@ msgid "Hex Labyrinth"
 msgstr "Шестнадцатеричный лабиринт"
 
 msgid "Hex Yukon"
+msgstr ""
+
+msgid "Hex of Hearts"
 msgstr ""
 
 msgid "Hidden Passages"
@@ -2193,6 +2221,10 @@ msgstr ""
 msgid "Joker"
 msgstr "Джокер"
 
+#, fuzzy
+msgid "Joker Bombs"
+msgstr "Хлопушка"
+
 msgid "Josephine"
 msgstr "Жозефина"
 
@@ -2225,6 +2257,9 @@ msgid "K for Kyodai Traditional"
 msgstr ""
 
 msgid "K.C."
+msgstr ""
+
+msgid "KM"
 msgstr ""
 
 msgid "Kali's Game"
@@ -2328,9 +2363,6 @@ msgid "Klondike Plus 16"
 msgstr "Клондайк Плюс 16"
 
 msgid "Klondike Territory"
-msgstr ""
-
-msgid "Km"
 msgstr ""
 
 msgid "Knockout"
@@ -2486,6 +2518,9 @@ msgid "Leprechaun"
 msgstr "Лепрехун"
 
 msgid "Les Deux"
+msgstr ""
+
+msgid "Les Huits"
 msgstr ""
 
 msgid "Les Quatre Coins"
@@ -2863,7 +2898,8 @@ msgstr "Маджонг K for Kyodai"
 msgid "Mahjongg K for Kyodai Traditional"
 msgstr ""
 
-msgid "Mahjongg Km"
+#, fuzzy
+msgid "Mahjongg KM"
 msgstr "Маджонг Km"
 
 msgid "Mahjongg Krebs"
@@ -3274,6 +3310,33 @@ msgstr "Марта"
 msgid "Master"
 msgstr "Мастер"
 
+msgid "Match Three 4 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 4 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 4 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 5 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 5 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 5 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 6 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 6 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 6 Colors 8x8"
+msgstr ""
+
 msgid "Mathematics"
 msgstr ""
 
@@ -3507,6 +3570,10 @@ msgstr "Фаворит Наполеона"
 msgid "Napoleon's Flank"
 msgstr "Фланг Наполеона"
 
+#, fuzzy
+msgid "Napoleon's Folly"
+msgstr "Фланг Наполеона"
+
 msgid "Napoleon's Shoulder"
 msgstr ""
 
@@ -3674,6 +3741,9 @@ msgstr "Открытая Хитрая лиса"
 msgid "Open Spider"
 msgstr "Открытый паук"
 
+msgid "Opera"
+msgstr ""
+
 msgid "Opus"
 msgstr "Опус"
 
@@ -3704,6 +3774,10 @@ msgstr "Сова"
 msgid "Ox"
 msgstr "Бык"
 
+#, fuzzy
+msgid "Pack of Thieves"
+msgstr "Сорок разбойников"
+
 msgid "Paganini"
 msgstr "Паганини"
 
@@ -3716,6 +3790,9 @@ msgstr "Пагода"
 
 msgid "Pagoda"
 msgstr "Пагода"
+
+msgid "Palace"
+msgstr ""
 
 msgid "Panopticon"
 msgstr "Паноптикум"
@@ -4664,6 +4741,10 @@ msgstr "Паутинные ячейки"
 
 msgid "Spiderette"
 msgstr "Паучиха"
+
+#, fuzzy
+msgid "Spiderwort"
+msgstr "Паук"
 
 msgid "Spidike"
 msgstr "Пауклонд"

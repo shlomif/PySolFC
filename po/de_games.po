@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Jun 14 18:52:33 2025\n"
+"POT-Creation-Date: Thu Jun 11 22:36:57 2026\n"
 "PO-Revision-Date: 2025-06-14 19:07-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
@@ -158,6 +158,9 @@ msgstr "Anno Domini"
 
 msgid "Another Round"
 msgstr "Noch eine Runde"
+
+msgid "Antares"
+msgstr ""
 
 msgid "Ants"
 msgstr ""
@@ -591,6 +594,10 @@ msgstr "Can Can"
 
 msgid "Canberra"
 msgstr ""
+
+#, fuzzy
+msgid "Candike"
+msgstr "Klondike"
 
 msgid "Candy"
 msgstr ""
@@ -1097,6 +1104,10 @@ msgstr "Doppelte Zugbrücke"
 msgid "Double Easthaven"
 msgstr "Doppelte Maßnahme "
 
+#, fuzzy
+msgid "Double Eight Off"
+msgstr "Acht aus"
+
 msgid "Double Fan"
 msgstr ""
 
@@ -1326,6 +1337,10 @@ msgstr "Acht zu Acht"
 msgid "Eighteens"
 msgstr ""
 
+#, fuzzy
+msgid "Eights"
+msgstr "Acht Sagen"
+
 msgid "Eighty Thieves"
 msgstr ""
 
@@ -1491,6 +1506,10 @@ msgstr "Fisch"
 
 msgid "Fish Face"
 msgstr "Fischgesicht"
+
+#, fuzzy
+msgid "Fission"
+msgstr "Vollvision 1"
 
 msgid "Five Aces"
 msgstr "Fünf Asse"
@@ -1665,6 +1684,9 @@ msgstr ""
 msgid "Fourteen Puzzle"
 msgstr ""
 
+msgid "Foxfire 13"
+msgstr ""
+
 msgid "Frames"
 msgstr "Rahmen"
 
@@ -1798,6 +1820,9 @@ msgstr "Zwielicht"
 
 msgid "Gloria"
 msgstr "Gloria"
+
+msgid "Gloucestershire"
+msgstr ""
 
 msgid "Gnat"
 msgstr "Mücke"
@@ -1985,6 +2010,9 @@ msgid "Hex Labyrinth"
 msgstr "Hex Labyrinth"
 
 msgid "Hex Yukon"
+msgstr ""
+
+msgid "Hex of Hearts"
 msgstr ""
 
 msgid "Hidden Passages"
@@ -2189,6 +2217,10 @@ msgstr ""
 msgid "Joker"
 msgstr "Joker"
 
+#, fuzzy
+msgid "Joker Bombs"
+msgstr "Kirschbombe"
+
 msgid "Josephine"
 msgstr "Josephine"
 
@@ -2221,6 +2253,9 @@ msgid "K for Kyodai Traditional"
 msgstr ""
 
 msgid "K.C."
+msgstr ""
+
+msgid "KM"
 msgstr ""
 
 msgid "Kali's Game"
@@ -2325,9 +2360,6 @@ msgid "Klondike Plus 16"
 msgstr "Klondike Plus 16"
 
 msgid "Klondike Territory"
-msgstr ""
-
-msgid "Km"
 msgstr ""
 
 msgid "Knockout"
@@ -2482,6 +2514,9 @@ msgid "Leprechaun"
 msgstr "Kobold"
 
 msgid "Les Deux"
+msgstr ""
+
+msgid "Les Huits"
 msgstr ""
 
 msgid "Les Quatre Coins"
@@ -2859,7 +2894,8 @@ msgstr "Mahjongg K for Kyodai"
 msgid "Mahjongg K for Kyodai Traditional"
 msgstr ""
 
-msgid "Mahjongg Km"
+#, fuzzy
+msgid "Mahjongg KM"
 msgstr "Mahjongg Km"
 
 msgid "Mahjongg Krebs"
@@ -3268,6 +3304,33 @@ msgstr "Marta"
 msgid "Master"
 msgstr "Meister"
 
+msgid "Match Three 4 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 4 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 4 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 5 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 5 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 5 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 6 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 6 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 6 Colors 8x8"
+msgstr ""
+
 msgid "Mathematics"
 msgstr ""
 
@@ -3499,6 +3562,10 @@ msgstr "Napoleon's Favoriten"
 msgid "Napoleon's Flank"
 msgstr "Napoleon's Flanke"
 
+#, fuzzy
+msgid "Napoleon's Folly"
+msgstr "Napoleon's Flanke"
+
 msgid "Napoleon's Shoulder"
 msgstr ""
 
@@ -3669,6 +3736,9 @@ msgstr "Öffne schlauer Fuchs"
 msgid "Open Spider"
 msgstr "Öffne Spinne"
 
+msgid "Opera"
+msgstr ""
+
 msgid "Opus"
 msgstr "Opus"
 
@@ -3699,6 +3769,10 @@ msgstr "Eule"
 msgid "Ox"
 msgstr "0x"
 
+#, fuzzy
+msgid "Pack of Thieves"
+msgstr "Vierzig Diebe"
+
 msgid "Paganini"
 msgstr "Paganini"
 
@@ -3711,6 +3785,9 @@ msgstr "Paganini"
 
 msgid "Pagoda"
 msgstr "Pagode"
+
+msgid "Palace"
+msgstr ""
 
 msgid "Panopticon"
 msgstr "Panoptikum"
@@ -4669,6 +4746,10 @@ msgstr "Spidercells"
 
 msgid "Spiderette"
 msgstr "Spiderrette"
+
+#, fuzzy
+msgid "Spiderwort"
+msgstr "Spinne"
 
 msgid "Spidike"
 msgstr "Spidike"

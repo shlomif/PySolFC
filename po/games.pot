@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Jun 14 18:52:33 2025\n"
+"POT-Creation-Date: Thu Jun 11 22:38:15 2026\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: C:\Users\Joe\Documents\Git\PySolFC\scripts\all_games.py 0.1\n"
+"Generated-By: scripts/all_games.py 0.1\n"
 
 
 msgid "1-2-3-4"
@@ -160,6 +160,9 @@ msgid "Anno Domini"
 msgstr ""
 
 msgid "Another Round"
+msgstr ""
+
+msgid "Antares"
 msgstr ""
 
 msgid "Ants"
@@ -589,6 +592,9 @@ msgid "Can Can"
 msgstr ""
 
 msgid "Canberra"
+msgstr ""
+
+msgid "Candike"
 msgstr ""
 
 msgid "Candy"
@@ -1089,6 +1095,9 @@ msgstr ""
 msgid "Double Easthaven"
 msgstr ""
 
+msgid "Double Eight Off"
+msgstr ""
+
 msgid "Double Fan"
 msgstr ""
 
@@ -1311,6 +1320,9 @@ msgstr ""
 msgid "Eighteens"
 msgstr ""
 
+msgid "Eights"
+msgstr ""
+
 msgid "Eighty Thieves"
 msgstr ""
 
@@ -1474,6 +1486,9 @@ msgid "Fish"
 msgstr ""
 
 msgid "Fish Face"
+msgstr ""
+
+msgid "Fission"
 msgstr ""
 
 msgid "Five Aces"
@@ -1647,6 +1662,9 @@ msgstr ""
 msgid "Fourteen Puzzle"
 msgstr ""
 
+msgid "Foxfire 13"
+msgstr ""
+
 msgid "Frames"
 msgstr ""
 
@@ -1777,6 +1795,9 @@ msgid "Gloaming"
 msgstr ""
 
 msgid "Gloria"
+msgstr ""
+
+msgid "Gloucestershire"
 msgstr ""
 
 msgid "Gnat"
@@ -1963,6 +1984,9 @@ msgid "Hex Labyrinth"
 msgstr ""
 
 msgid "Hex Yukon"
+msgstr ""
+
+msgid "Hex of Hearts"
 msgstr ""
 
 msgid "Hidden Passages"
@@ -2166,6 +2190,9 @@ msgstr ""
 msgid "Joker"
 msgstr ""
 
+msgid "Joker Bombs"
+msgstr ""
+
 msgid "Josephine"
 msgstr ""
 
@@ -2197,6 +2224,9 @@ msgid "K for Kyodai Traditional"
 msgstr ""
 
 msgid "K.C."
+msgstr ""
+
+msgid "KM"
 msgstr ""
 
 msgid "Kali's Game"
@@ -2299,9 +2329,6 @@ msgid "Klondike Plus 16"
 msgstr ""
 
 msgid "Klondike Territory"
-msgstr ""
-
-msgid "Km"
 msgstr ""
 
 msgid "Knockout"
@@ -2455,6 +2482,9 @@ msgid "Leprechaun"
 msgstr ""
 
 msgid "Les Deux"
+msgstr ""
+
+msgid "Les Huits"
 msgstr ""
 
 msgid "Les Quatre Coins"
@@ -2832,7 +2862,7 @@ msgstr ""
 msgid "Mahjongg K for Kyodai Traditional"
 msgstr ""
 
-msgid "Mahjongg Km"
+msgid "Mahjongg KM"
 msgstr ""
 
 msgid "Mahjongg Krebs"
@@ -3240,6 +3270,33 @@ msgstr ""
 msgid "Master"
 msgstr ""
 
+msgid "Match Three 4 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 4 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 4 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 5 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 5 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 5 Colors 8x8"
+msgstr ""
+
+msgid "Match Three 6 Colors 6x6"
+msgstr ""
+
+msgid "Match Three 6 Colors 7x7"
+msgstr ""
+
+msgid "Match Three 6 Colors 8x8"
+msgstr ""
+
 msgid "Mathematics"
 msgstr ""
 
@@ -3468,6 +3525,9 @@ msgstr ""
 msgid "Napoleon's Flank"
 msgstr ""
 
+msgid "Napoleon's Folly"
+msgstr ""
+
 msgid "Napoleon's Shoulder"
 msgstr ""
 
@@ -3633,6 +3693,9 @@ msgstr ""
 msgid "Open Spider"
 msgstr ""
 
+msgid "Opera"
+msgstr ""
+
 msgid "Opus"
 msgstr ""
 
@@ -3663,6 +3726,9 @@ msgstr ""
 msgid "Ox"
 msgstr ""
 
+msgid "Pack of Thieves"
+msgstr ""
+
 msgid "Paganini"
 msgstr ""
 
@@ -3673,6 +3739,9 @@ msgid "Pagat"
 msgstr ""
 
 msgid "Pagoda"
+msgstr ""
+
+msgid "Palace"
 msgstr ""
 
 msgid "Panopticon"
@@ -4614,6 +4683,9 @@ msgstr ""
 msgid "Spiderette"
 msgstr ""
 
+msgid "Spiderwort"
+msgstr ""
+
 msgid "Spidike"
 msgstr ""
 
@@ -5486,3 +5558,4 @@ msgstr ""
 
 msgid "Zodiac"
 msgstr ""
+

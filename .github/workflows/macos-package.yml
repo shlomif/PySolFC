@@ -30,6 +30,8 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         brew install create-dmg
     - name: Install missing pygame-ce macOS assets for py2app
+      env:
+        PYGAME_HIDE_SUPPORT_PROMPT: '1'
       run: |
         set -euo pipefail
         # py2app's pygame recipe copies freesansbold.ttf and pygame_icon.icns

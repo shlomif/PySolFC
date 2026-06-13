@@ -29,6 +29,21 @@ jobs:
           Pillow attrs configobj py2app pycotap pygame-ce pysol-cards setuptools ttkthemes accessible-output2
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         brew install create-dmg
+    - name: Install missing pygame-ce macOS assets for py2app
+      run: |
+        # py2app's pygame recipe copies freesansbold.ttf and pygame_icon.icns
+        # from the installed pygame package. pygame-ce omits macOS icon assets
+        # from wheels to save space (pygame-community/pygame-ce#2780), which
+        # breaks py2app unless we restore them here.
+        PYGAME_DIR=$(python3 -c "import pygame, os; print(os.path.dirname(pygame.__file__))")
+        for asset in freesansbold.ttf pygame_icon.icns; do
+          if [ ! -f "$PYGAME_DIR/$asset" ]; then
+            wget -q -O "$PYGAME_DIR/$asset" \
+              "https://raw.githubusercontent.com/pygame-community/pygame-ce/main/src_py/$asset"
+          fi
+        done
+        test -f "$PYGAME_DIR/pygame_icon.icns"
+        test -f "$PYGAME_DIR/freesansbold.ttf"
     - name: Get cardsets
       run: |
         wget -O cardsets-pack.tar.xz "https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-3.1.0.tar.xz/download"
@@ -39,7 +54,9 @@ jobs:
         make rules mo
     - name: Create the executable .app
       run: |
+        set -euo pipefail
         PYTHONPATH="." python3 setup_osx.py py2app
+        test -d dist/PySolFC.app
         zip -q -r -X PySolFC-app.zip dist
     - name: Make the .dmg for easy installation
       run:

@@ -1,5 +1,11 @@
 [[news]]
 === News
+* _13 June, 2026:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.6.0/[PySolFC
+v3.6.0]. New in this release:
+** 20 new games.
+** Ability to add table tile backgrounds from your own images, through the app itself.
+** Bugfixes and enhancements.
 * _23 August, 2025:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.4.1/[PySolFC
 v3.4.1]. New in this release:

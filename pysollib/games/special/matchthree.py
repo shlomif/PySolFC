@@ -107,11 +107,6 @@ class AbstractMatchThreeGame(Game):
 
     WIN_SCORE = 8000
 
-    def getStuck(self):
-        if self.moves_left <= 0:
-            return True
-        return Game.getStuck(self)
-
     def createGame(self):
         cols, rows = self.L
 

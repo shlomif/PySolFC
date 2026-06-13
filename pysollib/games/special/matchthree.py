@@ -107,6 +107,11 @@ class AbstractMatchThreeGame(Game):
 
     WIN_SCORE = 8000
 
+    def getStuck(self):
+        if self.moves_left <= 0:
+            return True
+        return Game.getStuck(self)
+
     def createGame(self):
         cols, rows = self.L
 
@@ -451,37 +456,37 @@ class MatchThree4_8x8(AbstractMatchThreeGame):
 class MatchThree5_6x6(MatchThree4_6x6):
     NCOLORS = 5
     NCARDS = 145
-    WIN_SCORE = 7000
+    WIN_SCORE = 6000
 
 
 class MatchThree5_7x7(MatchThree4_7x7):
     NCOLORS = 5
     NCARDS = 200
-    WIN_SCORE = 8500
+    WIN_SCORE = 7500
 
 
 class MatchThree5_8x8(MatchThree4_8x8):
     NCOLORS = 5
     NCARDS = 260
-    WIN_SCORE = 10000
+    WIN_SCORE = 9000
 
 
 class MatchThree6_6x6(MatchThree4_6x6):
     NCOLORS = 6
     NCARDS = 144
-    WIN_SCORE = 6000
+    WIN_SCORE = 4000
 
 
 class MatchThree6_7x7(MatchThree4_7x7):
     NCOLORS = 6
     NCARDS = 198
-    WIN_SCORE = 7500
+    WIN_SCORE = 5500
 
 
 class MatchThree6_8x8(MatchThree4_8x8):
     NCOLORS = 6
     NCARDS = 258
-    WIN_SCORE = 9000
+    WIN_SCORE = 7000
 
 # 10X10 is too easy to be worth including, commented for now.
 # class MatchThree4_10x10(AbstractMatchThreeGame):

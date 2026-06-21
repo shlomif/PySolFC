@@ -52,6 +52,9 @@ from pysollib.util import ACE, ANY_RANK, ANY_SUIT, NO_RANK, \
 
 class AcesUp_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
+        # Uncomment this if needed for testing - allows all cards to be
+        # moved to the foundation, due to the difficulty in winning.
+        # return cards[0].rank != ACE
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
             return False
         c = cards[0]
@@ -101,7 +104,8 @@ class AcesUp(Game):
             x = x + l.XS
         x = x + l.XS//2
         stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT, max_move=0,
-                                      dir=0, base_rank=ANY_RANK, max_cards=48)
+                                      dir=0, base_rank=ANY_RANK,
+                                      max_cards=self.gameinfo.ncards - 4)
         l.createText(stack, "s")
         s.foundations.append(stack)
 
@@ -120,7 +124,7 @@ class AcesUp(Game):
         self._startAndDealRow()
 
     def isGameWon(self):
-        if len(self.s.foundations[0].cards) != 48:
+        if len(self.s.foundations[0].cards) != self.gameinfo.ncards - 4:
             return False
         for s in self.s.rows:
             if len(s.cards) != 1 or s.cards[0].rank != ACE:

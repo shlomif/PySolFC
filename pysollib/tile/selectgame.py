@@ -349,7 +349,8 @@ class SelectGameDialog(MfxDialog):
 class SelectGameDialogWithPreview(SelectGameDialog):
     Tree_Class = SelectGameTreeWithPreview
 
-    def __init__(self, parent, title, app, gameid, bookmark=None, **kw):
+    def __init__(self, parent, title, app, gameid, bookmark=None,
+                 initial_tab=None, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
@@ -446,6 +447,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.list.config(yscrollcommand=self.list_scrollbar.set)
         self.list_scrollbar.config(command=self.list.yview)
 
+        self.notebook = notebook
+        search_focus = notebook.apply_initial_tab(
+            initial_tab, search_frame, self.list_searchtext)
+
         # LabelFrame
         info_frame = ttk.LabelFrame(right_frame, text=_('About game'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
@@ -498,7 +503,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.preview_game = None
         self.preview_app = None
         self.updatePreview(gameid, animations=0)
-        # focus = self.tree.frame
+        if search_focus is not None:
+            focus = search_focus
         self.mainloop(focus, kw.timeout, geometry=geometry)
 
     def initKw(self, kw):

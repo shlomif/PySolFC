@@ -133,7 +133,8 @@ class SelectTileDialogWithPreview(MfxDialog):
     TreeDataHolder_Class = SelectTileTree
     TreeData_Class = SelectTileData
 
-    def __init__(self, parent, title, app, manager, key=None, **kw):
+    def __init__(self, parent, title, app, manager, key=None,
+                 initial_tab=None, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
@@ -226,6 +227,10 @@ class SelectTileDialogWithPreview(MfxDialog):
 
         self.list.config(yscrollcommand=self.list_scrollbar.set)
         self.list_scrollbar.config(command=self.list.yview)
+
+        self.notebook = notebook
+        search_focus = notebook.apply_initial_tab(
+            initial_tab, search_frame, self.list_searchtext)
 
         if USE_PIL:
             self.scaleOptions = {"Default": 0,
@@ -366,7 +371,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.updatePreview(key, app.opt.tabletile_scale_method)
         #
         focus = self.createButtons(bottom_frame, kw)
-        focus = self.tree.frame
+        focus = search_focus or self.tree.frame
 
         self.mainloop(focus, kw.timeout, geometry=geometry)
 

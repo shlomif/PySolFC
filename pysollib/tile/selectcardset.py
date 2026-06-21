@@ -209,7 +209,8 @@ class SelectCardsetDialogWithPreview(MfxDialog):
     TreeDataHolder_Class = SelectCardsetTree
     TreeData_Class = SelectCardsetData
 
-    def __init__(self, parent, title, app, manager, key=None, **kw):
+    def __init__(self, parent, title, app, manager, key=None,
+                 initial_tab=None, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
@@ -300,6 +301,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
         self.list.config(yscrollcommand=self.list_scrollbar.set)
         self.list_scrollbar.config(command=self.list.yview)
+
+        self.notebook = notebook
+        search_focus = notebook.apply_initial_tab(
+            initial_tab, search_frame, self.list_searchtext)
 
         if USE_PIL:
             size_frame = ttk.Frame(notebook)
@@ -406,7 +411,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.updatePreview(key, overrideScale=True)
         #
         focus = self.createButtons(bottom_frame, kw)
-        focus = self.tree.frame
+        focus = search_focus or self.tree.frame
         self.mainloop(focus, kw.timeout, geometry=geometry)
 
     def destroy(self):

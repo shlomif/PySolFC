@@ -948,6 +948,9 @@ class PysolMenubarTkCommon:
         self._bindKey("",   "n", self.mNewGame)
         self._bindKey(ctrl, "w", self.mSelectGameDialog)
         self._bindKey(ctrl, "v", self.mSelectGameDialogWithPreview)
+        self._bindKey(ctrl + "Shift-", "v",
+                      lambda e: self.mSelectGameDialogWithPreview(
+                          initial_tab='search'))
         self._bindKey(ctrl, "r", lambda e: self.mSelectRandomGame())
         self._bindKey(ctrl, "m", self.mSelectGameById)
         self._bindKey(ctrl, "n", self.mNewGameWithNextId)
@@ -972,6 +975,9 @@ class PysolMenubarTkCommon:
         self._bindKey("",   "F3", self.mFindCard)
         self._bindKey(ctrl, "d", self.mDemo)
         self._bindKey(ctrl, "e", self.mSelectCardsetDialog)
+        self._bindKey(ctrl + "Shift-", "e",
+                      lambda e: self.mSelectCardsetDialog(
+                          initial_tab='search'))
         if USE_PIL:
             self._bindKey(ctrl, "plus", self.mIncreaseCardset)
             self._bindKey(ctrl, "equal", self.mIncreaseCardset)
@@ -1318,7 +1324,7 @@ class PysolMenubarTkCommon:
             app=self.app, gameid=self.game.id)
         return self._mSelectGameDialog(d)
 
-    def mSelectGameDialogWithPreview(self, *event):
+    def mSelectGameDialogWithPreview(self, *event, initial_tab=None):
         if self._cancelDrag(break_pause=False):
             return
         self.game.setCursor(cursor=CURSOR_WATCH)
@@ -1336,7 +1342,7 @@ class PysolMenubarTkCommon:
         d = self._calcSelectGameDialogWithPreview()(
             self.top, title=_("Select game"),
             app=self.app, gameid=self.game.id,
-            bookmark=bookmark)
+            bookmark=bookmark, initial_tab=initial_tab)
         return self._mSelectGameDialog(d)
 
     #
@@ -1986,7 +1992,7 @@ Unsupported game for import.
             if self.app.setTile(i):
                 self.tkopt.tabletile.set(i)
 
-    def mSelectTileDialog(self, *event):
+    def mSelectTileDialog(self, *event, initial_tab=None):
         if self._cancelDrag(break_pause=False):
             return
         key = self.app.tabletile_index
@@ -2000,7 +2006,7 @@ Unsupported game for import.
             self.top, app=self.app,
             title=_("Select table background"),
             manager=self.app.tabletile_manager,
-            key=key)
+            key=key, initial_tab=initial_tab)
         if self.game.pause:
             if wasPaused:
                 self.game.doPause()

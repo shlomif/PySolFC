@@ -995,14 +995,15 @@ class Application:
         return (gi.category == GI.GC_TRUMP_ONLY or
                 gi.category == GI.GC_MATCHING)
 
-    def selectCardset(self, title, key):
+    def selectCardset(self, title, key, initial_tab=None):
         wasPaused = False
         if not self.game.pause:
             self.game.doPause()
             wasPaused = True
         d = SelectCardsetDialogWithPreview(
             self.top, title=title, app=self,
-            manager=self.cardset_manager, key=key)
+            manager=self.cardset_manager, key=key,
+            initial_tab=initial_tab)
         if self.game.pause:
             if wasPaused:
                 self.game.doPause()

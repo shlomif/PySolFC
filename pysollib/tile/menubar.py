@@ -93,11 +93,12 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     # create the menubar
     #
 
-    def mSelectCardsetDialog(self, *event):
+    def mSelectCardsetDialog(self, *event, initial_tab=None):
         if self._cancelDrag(break_pause=False):
             return
         key = self.app.nextgame.cardset.index
-        cs = self.app.selectCardset(_("Select ")+CARDSET, key)
+        cs = self.app.selectCardset(
+            _("Select ")+CARDSET, key, initial_tab=initial_tab)
         if not cs:
             return
         self.app.nextgame.cardset = cs

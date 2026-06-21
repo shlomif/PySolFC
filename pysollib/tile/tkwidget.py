@@ -34,7 +34,7 @@ from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
 from pysollib.speech import Speech
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
-from pysollib.ui.tktile.tkutil import after, after_cancel
+from pysollib.ui.tktile.tkutil import after, after_cancel, after_idle
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
@@ -71,8 +71,6 @@ class MfxDialog:  # ex. _ToplevelDialog
     def mainloop(self, focus=None, timeout=0, transient=True, geometry=""):
         bind(self.top, "<Escape>", self.mCancel)
         bind(self.top, '<Alt-Key>', self.altKeyEvent)  # for accelerators
-        if focus is not None:
-            focus.focus()
         if transient:
             setTransient(self.top, self.parent)
             try:
@@ -82,6 +80,8 @@ class MfxDialog:  # ex. _ToplevelDialog
                     traceback.print_exc()
             if geometry != "":
                 self.top.geometry(geometry)
+            if focus is not None:
+                after_idle(self.top, focus.focus_set)
             if timeout > 0:
                 self.timer = after(self.top, timeout, self.mTimeout)
             try:
@@ -89,6 +89,8 @@ class MfxDialog:  # ex. _ToplevelDialog
             except SystemExit:
                 pass
             self.destroy()
+        elif focus is not None:
+            focus.focus_set()
 
     def destroy(self):
         after_cancel(self.timer)
@@ -1130,6 +1132,14 @@ class PysolNotebook(ttk.Notebook):
         content_text = self._get_screenreader_text(
             self.nametowidget(current_tab_id))
         self.speech.speak(tab_text + " " + _("Tab") + " " + content_text)
+
+    def apply_initial_tab(self, initial_tab, search_frame, search_entry=None):
+        if initial_tab != 'search':
+            return None
+        self.select(search_frame)
+        if search_entry is not None:
+            after_idle(self.winfo_toplevel(), search_entry.focus_set)
+        return search_entry
 
     def _get_screenreader_text(self, frame):
         for child in frame.winfo_children():

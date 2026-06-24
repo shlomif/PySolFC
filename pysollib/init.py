@@ -39,6 +39,31 @@ import pysollib.settings
 # ************************************************************************
 
 
+def _find_locale_dir():
+    # Locate the locale directory containing pysol.mo translations.
+    locale_locations = (
+        # locale/ next to the pysol.py script
+        sys.path[0],
+        # locale/ next to library.zip (py2exe)
+        os.path.dirname(sys.path[0]),
+        # locale/ in curdir (works for e.g. py2app)
+        os.curdir)
+    if getattr(sys, 'frozen', False):
+        # PyInstaller: sys.path[0] is often empty, and locale/ is installed
+        # next to the executable (see setup.py install_data in AppVeyor).
+        frozen_dirs = [os.path.dirname(os.path.abspath(sys.executable))]
+        meipass = getattr(sys, '_MEIPASS', None)
+        if meipass:
+            frozen_dirs.extend((meipass, os.path.dirname(meipass)))
+        locale_locations = tuple(frozen_dirs) + locale_locations
+
+    for par in locale_locations:
+        locale_dir = os.path.abspath(os.path.join(par, 'locale'))
+        if os.path.isdir(locale_dir):
+            return locale_dir
+    return None
+
+
 def init():
 
     if 'LANG' not in os.environ:
@@ -52,20 +77,10 @@ def init():
     locale.setlocale(locale.LC_ALL, '')
 
     # install gettext
-    locale_locations = (
-        # locale/ next to the pysol.py script
-        sys.path[0],
-        # locale/ next to library.zip (py2exe)
-        os.path.dirname(sys.path[0]),
-        # locale/ in curdir (works for e.g. py2app)
-        os.curdir)
     # leaving the domain unbound means sys.prefix+'/share/locale'
-
-    for par in locale_locations:
-        locale_dir = os.path.join(par, 'locale')
-        if os.path.isdir(locale_dir):
-            gettext.bindtextdomain('pysol', locale_dir)
-            break
+    locale_dir = _find_locale_dir()
+    if locale_dir:
+        gettext.bindtextdomain('pysol', locale_dir)
 
     gettext.textdomain('pysol')
 

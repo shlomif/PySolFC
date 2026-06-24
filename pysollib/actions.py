@@ -82,6 +82,7 @@ class PysolMenubar(PysolMenubarTk):
             shuffle=0,
             autodeal=0,
             quickplay=0,
+            cardbackground=0,
             demo=0,
             highlight_piles=0,
             autoscale=0,
@@ -162,6 +163,8 @@ class PysolMenubar(PysolMenubarTk):
             ms.autodeal = 1
         if autostacks[2]:
             ms.quickplay = 1
+        if len(game.app.images.getCardbacks()) > 1:
+            ms.cardbackground = 1
         if opt.highlight_piles and game.getHighlightPilesStacks():
             ms.highlight_piles = 1
         if opt.auto_scale:
@@ -220,6 +223,7 @@ class PysolMenubar(PysolMenubarTk):
         self.setMenuState(ms.autodrop, "options.automaticplay.autodrop")
         self.setMenuState(ms.autodeal, "options.automaticplay.autodeal")
         self.setMenuState(ms.quickplay, "options.automaticplay.quickplay")
+        self.setMenuState(ms.cardbackground, "options.cardbackground")
         if USE_PIL:
             self.setMenuState(ms.autoscale,
                               "options.cardsize.preserveaspectratio")

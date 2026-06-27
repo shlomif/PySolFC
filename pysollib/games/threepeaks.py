@@ -100,7 +100,22 @@ class ThreePeaks_RowStack(OpenStack):
 # * Three Peaks Game
 # ************************************************************************
 
-class ThreePeaks(Game):
+
+class ThreePeaksExposeFlip:
+    def getAutoStacks(self, event=None):
+        if event is None:
+            return ([], self.sg.dropstacks, self.sg.dropstacks)
+        return Game.getAutoStacks(self, event)
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        for r in self.s.rows:
+            if r.canFlipCard():
+                r.flipMove(animation=True)
+        self.leaveState(old_state)
+
+
+class ThreePeaks(ThreePeaksExposeFlip, Game):
 
     Waste_Class = StackWrapper(Golf_Waste, mod=13)
     Hint_Class = Golf_Hint
@@ -365,7 +380,7 @@ class Ricochet_RowStack(ThreePeaks_RowStack):
         self.game.leaveState(old_state)
 
 
-class Ricochet(Game):
+class Ricochet(ThreePeaksExposeFlip, Game):
 
     Waste_Class = StackWrapper(Ricochet_Waste, mod=13)
     Hint_Class = Golf_Hint

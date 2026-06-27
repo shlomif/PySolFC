@@ -209,6 +209,18 @@ class Interlock(Game):
                 closest, cdist = stack, dist
         return closest
 
+    def getAutoStacks(self, event=None):
+        if event is None:
+            return ([], self.sg.dropstacks, self.sg.dropstacks)
+        return Game.getAutoStacks(self, event)
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        for r in self.s.rows:
+            if r.canFlipCard():
+                r.flipMove(animation=True)
+        self.leaveState(old_state)
+
 
 # ************************************************************************
 # * Love A Duck

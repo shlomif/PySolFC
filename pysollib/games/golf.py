@@ -210,10 +210,19 @@ class Golf(Game):
 
     def getAutoStacks(self, event=None):
         if event is None:
-            # disable auto drop - this would ruin the whole gameplay
-            return (self.sg.dropstacks, (), ())
+            # disable auto drop and auto flip
+            # auto drop would ruin the gameplay
+            # auto flip causes issues with undo when multiple cards are flipped
+            return ([], (), ())
         # rightclickHandler
         return (self.sg.dropstacks, self.sg.dropstacks, ())
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        for r in self.s.rows:
+            if r.canFlipCard():
+                r.flipMove(animation=True)
+        self.leaveState(old_state)
 
 
 # ************************************************************************

@@ -30,7 +30,7 @@ from pathlib import Path
 
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
-from pysollib.resource import TTI, Tile
+from pysollib.resource import TTI, Tile, getNaturalSortKey
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
 from pysollib.util import IMAGE_EXTENSIONS
@@ -476,7 +476,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             if self.app.checkSearchString(self.criteria.name,
                                           tile.name):
                 results.append(tile.name)
-        results.sort(key=lambda x: x.lower())
+        results.sort(key=getNaturalSortKey)
         pos = 0
         for result in results:
             self.list.insert(pos, result)

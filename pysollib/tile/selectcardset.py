@@ -27,7 +27,7 @@ import tkinter.ttk as ttk
 
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
-from pysollib.resource import CSI
+from pysollib.resource import CSI, getNaturalSortKey
 from pysollib.speech import Speech
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
@@ -567,7 +567,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             if self.app.checkSearchString(self.criteria.name,
                                           cardset.name):
                 results.append(cardset.name)
-        results.sort(key=lambda x: x.lower())
+        results.sort(key=getNaturalSortKey)
         pos = 0
         for result in results:
             self.list.insert(pos, result)

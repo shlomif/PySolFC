@@ -21,13 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-import re
 from importlib import util
 
 import pysollib.settings
 from pysollib.mfxutil import Struct, print_err
 from pysollib.mygettext import _, n_
-from pysollib.resource import CSI
+from pysollib.resource import CSI, getNaturalSortKey
 
 
 # ************************************************************************
@@ -886,13 +885,6 @@ class GameManager:
             self.callback()
         self._num_games += 1
 
-    def getNaturalSortKey(self, text):
-        # Sort numbers numerically, and strings alphabetically
-        def convert(text):
-            return int(text) if text.isdigit() else text.lower()
-
-        return [convert(c) for c in re.split(r'(\d+)', text)]
-
     #
     # access games database - we do not expose hidden games
     #
@@ -910,14 +902,13 @@ class GameManager:
         if self.__games_by_name is None:
             l1, l2, l3 = [], [], []
             for id, gi in self.__games.items():
-                name = gi.name.lower()
-                l1.append((self.getNaturalSortKey(name), id))
+                l1.append((getNaturalSortKey(gi.name), id))
                 if gi.name != gi.short_name:
-                    name = gi.short_name.lower()
-                l2.append((self.getNaturalSortKey(name), id))
+                    l2.append((getNaturalSortKey(gi.short_name), id))
+                else:
+                    l2.append((getNaturalSortKey(gi.name), id))
                 for n in gi.altnames:
-                    name = n.lower()
-                    l3.append((self.getNaturalSortKey(name), id, n))
+                    l3.append((getNaturalSortKey(n), id, n))
             l1.sort(key=lambda x: x[0])
             l2.sort(key=lambda x: x[0])
             l3.sort(key=lambda x: x[0])

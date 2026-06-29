@@ -31,7 +31,7 @@ from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import KwStruct, Struct, destruct
 from pysollib.mfxutil import format_time
 from pysollib.mygettext import _
-from pysollib.resource import CSI
+from pysollib.resource import CSI, getNaturalSortKey
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
@@ -682,7 +682,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 for altname in game.altnames:
                     if self.app.checkSearchString(self.criteria.name, altname):
                         results.append(altname)
-        results.sort(key=self.app.gdb.getNaturalSortKey)
+        results.sort(key=getNaturalSortKey)
         pos = 0
         for result in results:
             self.list.insert(pos, result)

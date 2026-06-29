@@ -23,6 +23,7 @@
 
 import glob
 import os
+import re
 import traceback
 
 from pysollib.mfxutil import Image, KwStruct, Struct, USE_PIL
@@ -32,6 +33,14 @@ from pysollib.settings import DEBUG
 # ************************************************************************
 # * Abstract
 # ************************************************************************
+
+
+def getNaturalSortKey(text):
+    # Sort numbers numerically, and strings alphabetically
+    def convert(part):
+        return int(part) if part.isdigit() else part.lower()
+
+    return [convert(c) for c in re.split(r'(\d+)', text)]
 
 
 class Resource(Struct):
@@ -49,7 +58,7 @@ class Resource(Struct):
         Struct.__init__(self, **kw.getKw())
 
     def getSortKey(self):
-        return self.name.lower()
+        return getNaturalSortKey(self.name)
 
 
 class ResourceManager:

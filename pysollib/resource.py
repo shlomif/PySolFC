@@ -307,15 +307,15 @@ class CSI:
     # cardset styles
     STYLE = {
         35: _("Abstract"),              #
-        1:  _("Adult"),                #
-        2:  _("Animals"),              #
-        3:  _("Anime"),                #
-        4:  _("Art"),                  #
-        5:  _("Cartoons"),             #
-        6:  _("Children"),             #
-        7:  _("Classic Look"),         #
-        8:  _("Collectors"),           # scanned collectors cardsets
-        9:  _("Computers"),            #
+        1:  _("Adult"),                 #
+        2:  _("Animals"),               #
+        3:  _("Anime"),                 #
+        4:  _("Art"),                   #
+        5:  _("Cartoons"),              #
+        6:  _("Children"),              #
+        7:  _("Classic Look"),          #
+        8:  _("Collectors"),            # scanned collectors cardsets
+        9:  _("Computers"),             #
         36: _("Divination"),            # e.g. fortunetelling decks
         10:  _("Engines"),              #
         11:  _("Fantasy"),              #
@@ -533,36 +533,20 @@ class CardsetManager(ResourceManager):
         elif s == CSI.TYPE_MUGHAL_GANJIFA:
             cs.nbottoms = 11
         elif s == CSI.TYPE_NAVAGRAHA_GANJIFA:
-            # ???return 0                            ## FIXME
             cs.nbottoms = 12
         elif s == CSI.TYPE_DASHAVATARA_GANJIFA:
             cs.nbottoms = 13
         elif s == CSI.TYPE_TRUMP_ONLY:
-            # ???return 0                            ## FIXME
-            # cs.nbottoms = 7
-            # cs.ranks = ()
-            # cs.suits = ""
-            # cs.trumps = range(cs.ncards)
             cs.nbottoms = 1
             cs.nletters = 0
             cs.nshadows = 0
             cs.trumps = list(range(cs.ncards))
         elif s == CSI.TYPE_MATCHING:
-            # ???return 0                            ## FIXME
-            # cs.nbottoms = 7
-            # cs.ranks = ()
-            # cs.suits = ""
-            # cs.trumps = range(cs.ncards)
             cs.nbottoms = 1
             cs.nletters = 0
             cs.nshadows = 0
             cs.trumps = list(range(cs.ncards))
         elif s == CSI.TYPE_PUZZLE:
-            # ???return 0                            ## FIXME
-            # cs.nbottoms = 7
-            # cs.ranks = ()
-            # cs.suits = ""
-            # cs.trumps = range(cs.ncards)
             cs.nbottoms = 1
             cs.nletters = 0
             cs.nshadows = 0

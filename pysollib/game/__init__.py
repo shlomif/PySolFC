@@ -1733,17 +1733,6 @@ class Game:
         if self.app.opt.animations == 0 or frames == 0:
             return
 
-        if TOOLKIT == 'kivy':
-            c0 = cards[0]
-            dx, dy = (x - c0.x), (y - c0.y)
-            base = float(self.app.opt.animations)
-            duration = base*base/30.0 + 0.05
-            for card in cards:
-                card.animatedMove(dx, dy, duration)
-            # self.top.waitAnimation(swallow=True, pickup=True)
-            # synchronise: ev. per option ?
-            return
-
         # init timer - need a high resolution for this to work
         clock, delay, skip = None, 1, 1
         if self.app.opt.animations >= 2:
@@ -1767,6 +1756,15 @@ class Game:
             # if self.moves.state == self.S_INIT and frames > 4:
             #     frames //= 2
             return
+        if TOOLKIT == 'kivy':
+            c0 = cards[0]
+            dx, dy = (x - c0.x), (y - c0.y)
+            for card in cards:
+                card.animatedMove(dx, dy, SPF * frames)
+            # self.top.waitAnimation(swallow=True, pickup=True)
+            # synchronise: ev. per option ?
+            return
+
         if shadow < 0:
             shadow = self.app.opt.shadow
         shadows = ()

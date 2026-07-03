@@ -25,7 +25,7 @@ class CanvasItem:
         self.canvas.delete(self.id)
 
     def __getitem__(self, key):
-        v = self.canvas.tk.split(self.canvas.tk.call(
+        v = self.canvas.tk.splitlist(self.canvas.tk.call(
                 self.canvas._w, 'itemconfigure',
                 self.id, '-' + key))
         return v[4]

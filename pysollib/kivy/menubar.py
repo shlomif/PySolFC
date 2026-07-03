@@ -847,7 +847,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
         # -------------------------------------------
         # Cardsets and card backside options
 
-        from pysollib.resource import CSI
+        from pysollib.resource import CSI, getNaturalSortKey
 
         rg = tv.add_node(
             LTreeNode(text=_('Cardsets')))
@@ -861,6 +861,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
             for k in sorted(cdict.keys()):
                 name = CSI.TYPE_NAME[k]
                 csl = cdict[k]
+                csl.sort(key=lambda cst: getNaturalSortKey(cst[1].name))
                 rg1 = tv.add_node(LTreeNode(text=name), rg)
 
                 for cst in csl:
@@ -1014,13 +1015,10 @@ class LOptionsMenuGenerator(LTreeGenerator):
 
             if rg1 or rg2:
                 tm = self.app.tabletile_manager
-                # cnt = tm.len()
-                i = 1
-                while True:
-                    ti = tm.get(i)
-
-                    if ti is None:
-                        break
+                for ti in tm.getAllSortedByName():
+                    if ti.index == 0:
+                        continue
+                    i = ti.index
                     if ti.save_aspect == 0 and ti.stretch == 0 and rg1:
                         self.addRadioNode(tv, rg1,
                                           ti.name,
@@ -1031,7 +1029,6 @@ class LOptionsMenuGenerator(LTreeGenerator):
                                           ti.name,
                                           self.menubar.tkopt.tabletile, i,
                                           self.menubar.mOptTileSet)
-                    i += 1
 
         yield
         # -------------------------------------------

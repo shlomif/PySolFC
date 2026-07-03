@@ -1,47 +1,61 @@
 <h1>Installation</h1>
 <p>
-There is no need to compile anything since the whole program is just
-a Python script. Just run it, and that's all.
+PySolFC is free and open source software, released under the <a href="license.html">GNU GPL</a>.  It will run on Windows, Mac, Linux, Android, etc.  The easiest way to run is to use a self-contained installer, which is available for most supported operating systems.
+
+<h2>Windows</h2>
 <p>
-PySol requires Python 2.3 and Tcl/Tk 8.4 or better. Both packages are
-freely available for Unix, Windows and Macintosh platforms.
+You can download the latest Windows installer from <a href="https://sourceforge.net/projects/pysolfc/files/PySolFC/">SourceForge</a>.  The installer includes the app, Python and all of the requirements to run PySolFC.  A basic and a full installer are available - the full installer includes the app, plus the full set of cardsets and all of the extras.
+
+<h2>Linux</h2>
 <p>
-PySol is free <i>Open Source</i> software distributed under the terms of the
-<a href="license.html">GNU GPL</a>.
+PySolFC is available from <a href="https://flathub.org/apps/details/io.sourceforge.pysolfc.PySolFC">Flathub</a> (includes the full cardsets collection).  Your Linux distribution may also provide their own package, though note that these packages may not always be fully up-to-date.  Additionally, you can download a tarball from SourceForge.
 
-
-<h2>Windows 95/98/ME/NT/2000</h2>
-
-PySol now ships as a completely self-contained setup file, so there's
-no need to install anything else.
+<h2>Mac</h2>
 <p>
-If you want to modify the PySol source code or write your own
-Python programs you can get the development system from
-<a href="http://www.python.org/download/download_windows.html">http://www.python.org/download/download_windows.html</a>
+You can download a .DMG package from SourceForge, and install it like any Mac application.  Like with the Windows installer, a basic and full package are both available.
 
-
-<h2>Unix</h2>
-
-There are good chances that your system already ships with Python and Tcl/Tk.<br>
-Otherwise visit
-<a href="http://www.python.org/download/">http://www.python.org/download/</a>
-for full source code.
+<h2>Android</h2>
 <p>
-Also, installable packages exist for all major Linux distributions,
-FreeBSD and HPUX.
+An Android package is available to install from <a href="https://f-droid.org/packages/org.lufebe16.pysolfc/">F-Droid</a>.
 
-
-<h2>Macintosh</h2>
-
-Self installing exectuables for Python and Tcl/Tk are available from<br>
-<a href="http://www.python.org/download/download_mac.html">http://www.python.org/download/download_mac.html</a>
+<h2>Cardsets and Other Files</h2>
 <p>
-As I don't have access to a Mac I'd appreciate any detailed feedback on
-installation and look & feel. "Porting" from X11 to Windows only required some
-minor changes in the default font settings, so I hope the situation on Macs is
-similar.
+Additional cardsets, music, and settings are stored under <code>~/.PySolFC/</code> (or <code>%APPDATA%\PySolFC\</code> on Windows), organized as follows:
+<ul>
+<li><code>cardsets/</code> - cardsets and card images</li>
+<li><code>music/</code> - background music tracks</li>
+<li><code>tiles/</code> - table tile backgrounds</li>
+<li><code>plugins/</code> - <a href="plugins.html">app plugins</a></li>
+<li>Folders for saved games, options, and statistics</li>
+</ul>
 <p>
-[ I have been told that PySol works fine on a Mac - just drop "pysol.py"
-  on the Python interpreter and that's it. But for some reason you must
-  assign a large amount of memory to the Python interpreter. ]
+The app's install directory also contains bundled cardsets and data; the folders above are where per-user content and settings are stored.
+<p>
+You can download additional content from SourceForge, though the full collection is already included if you downloaded a full Windows/Mac package or the Flathub version:
+<ul>
+<li><a href="https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/">Cardsets</a></li>
+<li><a href="https://sourceforge.net/projects/pysolfc/files/PySol-Music/">Music</a></li>
+</ul>
 
+<h2>Updating</h2>
+<p>
+You can check for new versions on the PySolFC website, the news page in the online documentation, along with the SourceForge/Flathub/F-Droid sites.  Statistics, options, and user data in your PySolFC user folder will be retained across updates.
+
+<h2>Running from Source</h2>
+<p>
+Developers can also run PySolFC from the source code.  You can clone the <a href="https://github.com/shlomif/PySolFC">GitHub repository</a> and run
+<code>python3 pysol.py</code> after installing Python 3.7+, Tkinter, and the <code>pysol-cards</code> package. See the repository's README for the full details.
+
+<h2>Running from Command Line</h2>
+<p>
+A number of command line options are available for special run options, i.e. <code>pysol.py --game="FreeCell"</code>.  Run with the <code>--help</code> command parameter for more details on the different options. 
+
+<h2>Troubleshooting</h2>
+<p>
+The following errors might occur during installation:
+<ul>
+<li>"No cardsets were found." - Install the cardsets package as described above.</li>
+<li>If you are using a cardsets package from a Linux distribution, it may not align with the app if running from source or a different installer.  Uninstall the distro's cardsets package and install the one from SourceForge.</li>
+<li>If you get a missing cardset types warning, update the cardsets package.  Certain games may not work properly otherwise.</li>
+<li>See also the <a href="faq.html">FAQ</a>.</li>
+</ul>

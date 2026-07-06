@@ -4101,6 +4101,24 @@ msgstr "Bardzo duże zestawy kart"
 msgid "Hi-Res cardsets"
 msgstr "Wysoka rozdzielczość zestawu kart"
 
+msgid "Tiny"
+msgstr ""
+
+msgid "Small"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Large"
+msgstr ""
+
+msgid "Extra Large"
+msgstr ""
+
+msgid "Hi-Res"
+msgstr ""
+
 #: pysollib\pysolgtk\selectcardset.py:171 pysollib\tile\selectcardset.py:85
 #: pysollib\tile\selectcardset.py:184 pysollib\tk\selectcardset.py:81
 #: pysollib\tk\selectcardset.py:178

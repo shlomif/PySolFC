@@ -756,7 +756,8 @@ class CardsetInfoDialog(MfxDialog):
             (_('Nationality:'),   nationalities),
             (_('Year:'),          year),
             (_('Num. cards:'),    str(cardset.ncards)),
-            (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
+            (_('Size:'), '%d x %d (%s)' % (cardset.CARDW, cardset.CARDH,
+                                           CSI.SIZE_NAME.get(cardset.si.size)))
                 ):
             if t is not None:
                 label = ttk.Label(info_frame, text=n,

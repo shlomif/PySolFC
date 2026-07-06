@@ -4436,6 +4436,24 @@ msgstr ""
 msgid "Hi-Res cardsets"
 msgstr ""
 
+msgid "Tiny"
+msgstr ""
+
+msgid "Small"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Large"
+msgstr ""
+
+msgid "Extra Large"
+msgstr ""
+
+msgid "Hi-Res"
+msgstr ""
+
 #: pysollib\pysolgtk\selectcardset.py:171
 #: pysollib\tile\selectcardset.py:85
 #: pysollib\tile\selectcardset.py:184

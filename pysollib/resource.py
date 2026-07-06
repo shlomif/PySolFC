@@ -389,6 +389,15 @@ class CSI:
         22:  "2200 - 2299",
     }
 
+    SIZE_NAME = {
+        1:  _("Tiny"),
+        2:  _("Small"),
+        3:  _("Medium"),
+        4:  _("Large"),
+        5:  _("Extra Large"),
+        6:  _("Hi-Res"),
+    }
+
 
 class CardsetConfig(Struct):
     # see config.txt and _readCardsetConfig()

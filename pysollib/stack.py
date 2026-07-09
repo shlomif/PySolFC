@@ -643,25 +643,38 @@ class Stack:
     #
 
     def playFlipMove(self, sound=True, animation=False):
-        if sound:
-            self.game.playSample("flip", 5)
-        self.flipMove(animation=animation)
-        if not self.game.checkForWin():
-            self.game.autoPlay()
-        self.game.finishMove()
+        # Block input for the whole turn (move + autoplay + finishMove).
+        # Drag moves use frames=-2 (no animation) so animatedMoveTo's busy
+        # guard does not apply; autoPlay may still call canvas.update()
+        old_busy = self.game.busy
+        self.game.busy = 1
+        try:
+            if sound:
+                self.game.playSample("flip", 5)
+            self.flipMove(animation=animation)
+            if not self.game.checkForWin():
+                self.game.autoPlay()
+            self.game.finishMove()
+        finally:
+            self.game.busy = old_busy
 
     def playMoveMove(self, ncards, to_stack, frames=-1, shadow=-1, sound=True):
-        if sound:
-            if to_stack in self.game.s.foundations:
-                self.game.playSample("drop", priority=30)
-            else:
-                self.game.playSample("move", priority=10)
-        self.moveMove(ncards, to_stack, frames=frames, shadow=shadow)
-        if not self.game.checkForWin():
-            # let the player put cards back from the foundations
-            if self not in self.game.s.foundations:
-                self.game.autoPlay()
-        self.game.finishMove()
+        old_busy = self.game.busy
+        self.game.busy = 1
+        try:
+            if sound:
+                if to_stack in self.game.s.foundations:
+                    self.game.playSample("drop", priority=30)
+                else:
+                    self.game.playSample("move", priority=10)
+            self.moveMove(ncards, to_stack, frames=frames, shadow=shadow)
+            if not self.game.checkForWin():
+                # let the player put cards back from the foundations
+                if self not in self.game.s.foundations:
+                    self.game.autoPlay()
+            self.game.finishMove()
+        finally:
+            self.game.busy = old_busy
 
     #
     # Appearance {view}

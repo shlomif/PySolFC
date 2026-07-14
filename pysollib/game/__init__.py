@@ -37,7 +37,7 @@ from pysol_cards.random import random__int2str
 from pysollib.game.dump import pysolDumpGame
 from pysollib.gamedb import GI
 from pysollib.help import help_about
-from pysollib.hint import DefaultHint
+from pysollib.hint import DefaultHint, HINT_LEVEL_SOLVER, HINT_LEVEL_STUCK
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 from pysollib.mfxutil import Struct, SubclassResponsibility, destruct
 from pysollib.mfxutil import format_time, print_err
@@ -666,7 +666,7 @@ class Game:
         self.showHelp()                 # just in case
         hint_class = self.getHintClass()
         if hint_class is not None:
-            self.Stuck_Class = hint_class(self, 0)
+            self.Stuck_Class = hint_class(self, HINT_LEVEL_STUCK)
         self.busy = old_busy
 
     def _checkGame(self):
@@ -2826,7 +2826,7 @@ class Game:
     # compute all hints for the current position
     # this is the only method that actually uses class Hint
     def getHints(self, level, taken_hint=None):
-        if level == 3:
+        if level == HINT_LEVEL_SOLVER:
             # if self.solver is None:
             # return None
             return self.solver.getHints(taken_hint)
@@ -3220,14 +3220,34 @@ class Game:
         self.demo_logo = self.app.gimages.demo[int(n)]
         self.canvas.setTopImage(self.demo_logo)
 
+    def _iterMovablePiles(self, stack):
+        # Yield every face-up suffix pile the stack may move (longest first).
+        cards = stack.cards
+        if not cards:
+            return
+        start = 0
+        for i, c in enumerate(cards):
+            if c.face_up:
+                start = i
+                break
+        piles = []
+        for i in range(start, len(cards)):
+            pile = cards[i:]
+            if stack.canMoveCards(pile):
+                piles.append(pile)
+        for pile in reversed(piles):
+            yield pile
+
     def getStuck(self):
-        h = self.Stuck_Class.getHints(None)
+        h = self.Stuck_Class.getHints(None) or []
         if h:
             self.failed_snapshots = []
             return True
         if not self.canDealCards():
             return False
-        # can deal cards: do we have any hints in previous deals ?
+        # No table/waste moves, but dealing (or a waste redeal) is still
+        # possible. Remember this layout; if we return here after dealing
+        # through the talon/waste with no progress, treat as stuck.
         sn = self.getSnapshot()
         if sn in self.failed_snapshots:
             return False

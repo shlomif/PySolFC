@@ -23,6 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
@@ -96,7 +97,26 @@ class MatchThree_RowStack(OpenStack):
         return adjacentRows
 
 
+class MatchThree_Hint(AbstractHint):
+    def computeHints(self):
+        game = self.game
+        seen = set()
+        for r in game.s.rows:
+            if not r.cards:
+                continue
+            for t in r.getAdjacent(r.id):
+                if not t.cards:
+                    continue
+                pair = (min(r.id, t.id), max(r.id, t.id))
+                if pair in seen:
+                    continue
+                if t.acceptsCards(r, r.cards):
+                    seen.add(pair)
+                    self.addHint(1000, 1, r, t)
+
+
 class AbstractMatchThreeGame(Game):
+    Hint_Class = MatchThree_Hint
     RowStack_Class = MatchThree_RowStack
 
     NCOLORS = 4

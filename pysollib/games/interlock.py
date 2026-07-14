@@ -23,7 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
-from pysollib.hint import Yukon_Hint
+from pysollib.hint import Yukon_Hint, hint_level_is_stuck
 from pysollib.layout import Layout
 from pysollib.mygettext import _
 from pysollib.stack import \
@@ -66,6 +66,12 @@ class Interlock_Hint(Yukon_Hint):
         if rp is None and tp is None:
             return True
         return False
+
+    def step010b_getPiles(self, stack):
+        if hint_level_is_stuck(self.level):
+            p = stack.getPile()
+            return (p, ) if p else ()
+        return Yukon_Hint.step010b_getPiles(self, stack)
 
 
 class Interlock_StackMethods:

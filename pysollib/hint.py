@@ -35,6 +35,31 @@ from pysollib.util import KING
 
 FCS_VERSION = None
 
+# Hint levels form an ordinal capability ladder (except HINT_LEVEL_STUCK):
+#   >= HINT_LEVEL_DEBUG  step020/030 (split-pile setup moves)
+#   >= HINT_LEVEL_DEMO   flip, deal, demo loop guards
+# HINT_LEVEL_STUCK is outside that ladder and used only for stuck checks.
+HINT_LEVEL_STUCK = -1
+HINT_LEVEL_PLAYER = 0
+HINT_LEVEL_DEBUG = 1
+HINT_LEVEL_DEMO = 2
+HINT_LEVEL_SOLVER = 3
+
+
+def hint_level_is_stuck(level):
+    return level == HINT_LEVEL_STUCK
+
+
+def hint_level_is_demo_or_above(level):
+    return level >= HINT_LEVEL_DEMO
+
+
+def hint_level_avoids_move_loops(level):
+    # Demo avoids reversible shuffles so it can stop; stuck must do the same
+    # or it will treat ping-pong tableau moves as "not stuck".
+    return hint_level_is_demo_or_above(level) or hint_level_is_stuck(level)
+
+
 # ************************************************************************
 # * HintInterface is an abstract class that defines the public
 # * interface - it only consists of the constructor
@@ -45,9 +70,11 @@ FCS_VERSION = None
 
 
 class HintInterface:
-    # level == 0: show hint (key `H')
-    # level == 1: show hint and display score value (key `Ctrl-H')
-    # level == 2: demo
+    # HINT_LEVEL_PLAYER: show hint (key `H')
+    # HINT_LEVEL_DEBUG: show hint and display score value (key `Ctrl-H')
+    # HINT_LEVEL_DEMO: demo
+    # HINT_LEVEL_SOLVER: solver dialog
+    # HINT_LEVEL_STUCK: stuck check only (not used by getHints())
     def __init__(self, game, level):
         pass
 
@@ -65,7 +92,8 @@ class HintInterface:
     #    A forced_move is the next move that must be taken after this move
     #    in order to avoid endless loops during demo play.
     #
-    # Deal and flip may only happen if self.level >= 2 (i.e. demo).
+    # Deal may only happen if self.level >= HINT_LEVEL_DEMO (i.e. demo).
+    # Flip may happen at HINT_LEVEL_DEMO or HINT_LEVEL_STUCK.
     #
     # See Game.showHint() for more information.
     def getHints(self, taken_hint=None):
@@ -83,7 +111,7 @@ class AbstractHint(HintInterface):
         self.game = game
         self.level = level
         self.score_flatten_value = 0
-        if self.level == 0:
+        if self.level == HINT_LEVEL_PLAYER:
             self.score_flatten_value = 10000
         # temporaries within getHints()
         self.bonus_color = None
@@ -178,7 +206,8 @@ class AbstractHint(HintInterface):
         if taken_hint and taken_hint[6]:
             return [taken_hint[6]]
         # 2) try if we can flip a card
-        if self.level >= 2:
+        if hint_level_is_demo_or_above(self.level) or \
+                hint_level_is_stuck(self.level):
             for r in game.allstacks:
                 if r.canFlipCard():
                     self.addHint(self.SCORE_FLIP, 1, r, r)
@@ -187,7 +216,7 @@ class AbstractHint(HintInterface):
         # 3) ask subclass to do something useful
         self.computeHints()
         # 4) try if we can deal cards
-        if self.level >= 2:
+        if hint_level_is_demo_or_above(self.level):
             if game.canDealCards():
                 self.addHint(self.SCORE_DEAL, 0, game.s.talon, None)
             # A few games have multiple waste stacks.  In these games,
@@ -239,12 +268,12 @@ class AbstractHint(HintInterface):
             return 0
         return 1
 
-    # same, but only check for loops only when in demo mode
+    # same, but only check for loops in demo / stuck checks
     def _cautiousDemoShallMovePile(self, from_stack, to_stack, pile, rpile):
         if from_stack is to_stack or not \
                 to_stack.acceptsCards(from_stack, pile):
             return 0
-        if self.level >= 2:
+        if hint_level_avoids_move_loops(self.level):
             #
             if len(rpile) == 0:
                 return 1
@@ -454,27 +483,42 @@ class DefaultHint(AbstractHint):
     # compute hints - main hint intelligence
     #
 
+    def shallMovePile(self, from_stack, to_stack, pile, rpile):
+        # Klondike-family stuck must ignore reversible shuffles (same idea as
+        # CautiousDefaultHint / demo loop avoidance), or dead deals never get
+        # marked stuck while Autopilot still stops.
+        if hint_level_is_stuck(self.level):
+            return AbstractHint._cautiousShallMovePile(
+                self, from_stack, to_stack, pile, rpile)
+        return AbstractHint._defaultShallMovePile(
+            self, from_stack, to_stack, pile, rpile)
+
     def computeHints(self):
         game = self.game
+        stuck = hint_level_is_stuck(self.level)
 
         # 1) check Tableau piles
         self.step010(game.sg.dropstacks, game.s.rows)
 
         # 2) try if we can move part of a pile within the RowStacks
         #    so that we can drop a card afterwards
-        if not self.hints and self.level >= 1:
+        # Stuck mirrors demo/debug gating (only when nothing found yet).
+        # Forcing these steps invented pointless moves and hid real stuck.
+        if not self.hints and (stuck or self.level >= HINT_LEVEL_DEBUG):
             self.step020(game.s.rows, game.s.foundations)
 
         # 3) try if we should move a card from a Foundation to a RowStack
-        if not self.hints and self.level >= 1:
+        if (not stuck and not self.hints and
+                self.level >= HINT_LEVEL_DEBUG):
             self.step030(game.s.foundations, game.s.rows, game.sg.dropstacks)
 
-        # 4) try if we can move a card from a RowStack to a ReserveStack
-        if not self.hints or self.level == 0:
+        # 4/5) reserves: player always; stuck/demo only if still empty
+        if stuck:
+            if not self.hints:
+                self.step040(game.s.rows, game.sg.reservestacks)
+                self.step050(game.sg.reservestacks, game.s.rows)
+        elif not self.hints or self.level == HINT_LEVEL_PLAYER:
             self.step040(game.s.rows, game.sg.reservestacks)
-
-        # 5) try if we should move a card from a ReserveStack to a RowStack
-        if not self.hints or self.level == 0:
             self.step050(game.sg.reservestacks, game.s.rows)
 
         # Don't be too clever and give up ;-)
@@ -495,7 +539,7 @@ class DefaultHint(AbstractHint):
                 score, color = self._getDropCardScore(
                     score, color, r, t, ncards)
                 self.addHint(score, ncards, r, t, color)
-                if score >= 90000 and self.level >= 1:
+                if score >= 90000 and self.level >= HINT_LEVEL_DEBUG:
                     break
             # 1b) try if we can move cards to one of the RowStacks
             for pile in self.step010b_getPiles(r):
@@ -504,7 +548,8 @@ class DefaultHint(AbstractHint):
 
     def step010b_getPiles(self, stack):
         # return all moveable piles for this stack, longest one first
-        return (stack.getPile(), )
+        p = stack.getPile()
+        return (p, ) if p else ()
 
     def _shouldSkipWholePileToEmptyRow(self, r, t, lp, lr):
         # Some games may need to allow moving piles between empty rows.
@@ -641,11 +686,12 @@ class DefaultHint(AbstractHint):
             for t in reservestacks:
                 if t is r or not t.acceptsCards(r, pile):
                     continue
-                if rr.acceptsCards(t, pile):
-                    # the pile we are going to move from r to t
-                    # could be moved back from t ro r - this is
-                    # dangerous as we can create loops...
-                    continue
+                if hint_level_avoids_move_loops(self.level):
+                    if rr.acceptsCards(t, pile):
+                        # the pile we are going to move from r to t
+                        # could be moved back from t ro r - this is
+                        # dangerous as we can create loops...
+                        continue
                 score = 10000
                 score, color = self._getMovePileScore(
                     score, None, r, t, pile, rpile)
@@ -657,7 +703,23 @@ class DefaultHint(AbstractHint):
     def step050(self, reservestacks, rows):
         if not reservestacks:
             return
-        # FIXME
+        for r in reservestacks:
+            card = r.getCard()
+            if not card or not r.canMoveCards([card]):
+                continue
+            pile = [card]
+            for t in rows:
+                if t is r or not t.acceptsCards(r, pile):
+                    continue
+                if hint_level_avoids_move_loops(self.level):
+                    tt = self.ClonedStack(t, stackcards=t.cards[:])
+                    if tt.acceptsCards(r, pile):
+                        continue
+                score = 10000
+                score, color = self._getMovePileScore(
+                    score, None, r, t, pile, [])
+                self.addHint(score, len(pile), r, t, color)
+                break
 
 
 # ************************************************************************
@@ -665,8 +727,8 @@ class DefaultHint(AbstractHint):
 # ************************************************************************
 
 class CautiousDefaultHint(DefaultHint):
-    # shallMovePile = DefaultHint._cautiousShallMovePile
-    shallMovePile = DefaultHint._cautiousDemoShallMovePile
+    shallMovePile = DefaultHint._cautiousShallMovePile
+    # shallMovePile = DefaultHint._cautiousDemoShallMovePile
 
     def _preferHighRankMoves(self):
         return 1

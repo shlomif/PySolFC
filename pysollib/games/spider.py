@@ -26,7 +26,12 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
-from pysollib.hint import SpiderType_Hint, YukonType_Hint
+from pysollib.hint import (
+    HINT_LEVEL_DEBUG,
+    SpiderType_Hint,
+    YukonType_Hint,
+    hint_level_is_stuck,
+)
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
@@ -90,7 +95,11 @@ class Spider_Hint(SpiderType_Hint):
                 # The pile will get moved onto the correct suit
                 if len(rpile) == 0 or pile[0].suit != rpile[-1].suit:
                     return True
-            if self.level <= 1 and len(rpile) == 0:
+            # Stuck must not accept reversible whole-pile shuffles, even
+            # though player hints (level <= 1) are more lenient.
+            if hint_level_is_stuck(self.level):
+                return False
+            if self.level <= HINT_LEVEL_DEBUG and len(rpile) == 0:
                 return True
             return False
         return True

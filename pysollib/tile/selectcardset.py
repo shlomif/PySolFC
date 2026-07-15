@@ -791,7 +791,7 @@ class CardsetInfoDialog(MfxDialog):
         # bg = top_frame["bg"]
         bg = 'white'
         text_w = PysolText(frame, bd=1, relief="sunken", wrap="word",
-                           padx=4, width=64, height=8, bg=bg)
+                           padx=4, width=66, height=8, bg=bg)
         text_w.grid(row=row, column=0, sticky='nsew')
         sb = ttk.Scrollbar(frame)
         sb.grid(row=row, column=1, sticky='ns')

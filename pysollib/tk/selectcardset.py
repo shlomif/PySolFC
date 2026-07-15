@@ -476,7 +476,7 @@ class CardsetInfoDialog(MfxDialog):
         # bg = top_frame["bg"]
         bg = 'white'
         text_w = tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
-                              padx=4, width=64, height=16, bg=bg)
+                              padx=4, width=66, height=16, bg=bg)
         text_w.grid(row=1, column=0, sticky='nsew')
         sb = tkinter.Scrollbar(frame)
         sb.grid(row=1, column=1, sticky='ns')

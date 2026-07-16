@@ -4442,6 +4442,7 @@ msgstr ""
 msgid "Small"
 msgstr ""
 
+msgctxt "size"
 msgid "Medium"
 msgstr ""
 

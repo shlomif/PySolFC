@@ -63,3 +63,9 @@ fix_gettext()
 
 _ = gettext.ugettext
 ungettext = gettext.ungettext
+
+
+def pgettext(context, message):
+    key = "%s\x04%s" % (context, message)
+    translated = _(key)
+    return message if translated == key else translated

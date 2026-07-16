@@ -27,7 +27,7 @@ import re
 import traceback
 
 from pysollib.mfxutil import Image, KwStruct, Struct, USE_PIL
-from pysollib.mygettext import _
+from pysollib.mygettext import _, pgettext
 from pysollib.settings import DEBUG
 
 # ************************************************************************
@@ -392,7 +392,7 @@ class CSI:
     SIZE_NAME = {
         1:  _("Tiny"),
         2:  _("Small"),
-        3:  _("Medium"),
+        3:  pgettext("size", "Medium"),
         4:  _("Large"),
         5:  _("Extra Large"),
         6:  _("Hi-Res"),

@@ -10,16 +10,16 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
     - uses: actions/checkout@v7
-    - name: Set up python
+    - name: "Set up python (universal2: arm64 + x86_64)"
       env:
-        PYVER: '3.9.7'
-        PYVER_SHORT: '3.9'
+        PYVER: '3.11.9'
+        PYVER_SHORT: '3.11'
       run: |
-        wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macosx10.9.pkg"
+        wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macos11.pkg"
         sudo installer -pkg python.pkg -target /
         echo "/Library/Frameworks/Python.framework/Versions/${PYVER_SHORT}/bin" >> $GITHUB_PATH
     - name: Install dependencies
@@ -67,6 +67,21 @@ jobs:
         PYTHONPATH="." python3 setup_osx.py py2app
         test -d dist/PySolFC.app
         zip -q -r -X PySolFC-app.zip dist
+    - name: Verify the app is universal2 (arm64 + x86_64)
+      run: |
+        set -euo pipefail
+        check_universal2() {
+          archs="$(lipo -archs "$1" 2>/dev/null || true)"
+          case "$archs" in
+            *arm64*x86_64*|*x86_64*arm64*) ;;
+            *) echo "ERROR: $1 is not universal2 (archs: ${archs:-none})"; exit 1 ;;
+          esac
+        }
+        check_universal2 "dist/PySolFC.app/Contents/MacOS/PySolFC"
+        pygame_ext=$(find dist/PySolFC.app -name 'base.cpython-*-darwin.so' -path '*/pygame/*' | head -1)
+        test -n "$pygame_ext"
+        check_universal2 "$pygame_ext"
+        echo "OK: app and pygame-ce are both universal2."
     - name: Make the .dmg for easy installation
       run:
         create-dmg --volname "Install PySolFC"

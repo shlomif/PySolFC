@@ -921,14 +921,9 @@ class MfxCanvas(LImage):
 
     def hideAllItems(self):
         print('MfxCanvas: hideAllItems')
-        # TBD
-        # Wir lassen das. Das TopImage deckt alles ab. Spielen ist
-        # nicht möglich.
 
     def showAllItems(self):
         print('MfxCanvas: showAllItems')
-        # TBD
-        # Brauchts darum auch nicht.
 
     # Erweiterungen fuer Tk Canvas (prüfen was noch nötig!!).
 

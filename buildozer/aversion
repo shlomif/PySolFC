@@ -8,12 +8,15 @@ else
 	exit 1
 fi
 
-# current android version mumber.
-version="3.4.1"
+# Keep the Android package version in sync with the application source.
+version=$(PYTHONPATH="$appdir" python3 -c \
+  'from pysollib.settings import VERSION; print(VERSION)')
 sversion=$(echo $version  | sed -E "s:(.*)\..*:\1:")
 tuple=$(echo $version | sed -E "s:(.*)\.(.*)\.(.*):(\1, \2, \3):")
 
 # patch different version info accordingly.
-sed -E "s:VERSION_TUPLE =.*:VERSION_TUPLE = $tuple:" -i $appdir/pysollib/settings.py
-sed -E "s:(.*\(')dev(',.*):\1fc-$sversion\2:" -i $appdir/pysollib/gamedb.py
+sed -E "s:VERSION_TUPLE =.*:VERSION_TUPLE = $tuple:" $appdir/pysollib/settings.py > $appdir/pysollib/settings.py.tmp
+mv $appdir/pysollib/settings.py.tmp $appdir/pysollib/settings.py
+sed -E "s:(.*\(')dev(',.*):\1fc-$sversion\2:" $appdir/pysollib/gamedb.py > $appdir/pysollib/gamedb.py.tmp
+mv $appdir/pysollib/gamedb.py.tmp $appdir/pysollib/gamedb.py
 echo "VERSION = $version"

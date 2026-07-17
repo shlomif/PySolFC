@@ -921,14 +921,13 @@ class MfxCanvas(LImage):
 
     def hideAllItems(self):
         print('MfxCanvas: hideAllItems')
-        # TBD
-        # Wir lassen das. Das TopImage deckt alles ab. Spielen ist
-        # nicht möglich.
+        # No-op here: the pause overlay (setTopImage) does not consume
+        # touch events on its own, so blocking input during pause is
+        # handled in LImageItem.on_touch_down/on_touch_up (LApp.py).
 
     def showAllItems(self):
         print('MfxCanvas: showAllItems')
-        # TBD
-        # Brauchts darum auch nicht.
+        # See hideAllItems above.
 
     # Erweiterungen fuer Tk Canvas (prüfen was noch nötig!!).
 

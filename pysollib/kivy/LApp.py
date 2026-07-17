@@ -763,6 +763,14 @@ class LImageItem(BoxLayout, LBase):
     LB241111.
     '''
 
+    def _is_paused(self):
+        if self.game is not None:
+            return bool(self.game.pause)
+        lapp = App.get_running_app()
+        app = getattr(lapp, 'app', None)
+        game = getattr(app, 'game', None)
+        return bool(game and game.pause)
+
     def send_event_pressed_n(self, event, n):
         r = EVENT_PROPAGATE
         if self.group and n in self.group.bindings:
@@ -787,6 +795,9 @@ class LImageItem(BoxLayout, LBase):
         return r
 
     def on_touch_down(self, touch):
+
+        if self._is_paused():
+            return False
 
         # print('LCardImage: size = %s' % self.size)
         if self.collide_point(*touch.pos):
@@ -846,6 +857,9 @@ class LImageItem(BoxLayout, LBase):
             print('ungrab')
             touch.ungrab(self)
             return True
+
+        if self._is_paused():
+            return False
 
         if self.collide_point(*touch.pos):
 

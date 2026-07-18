@@ -172,6 +172,9 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
             rely = 0.3
     x = m_x + int((m_width - w_width) * relx)
     y = m_y + int((m_height - w_height) * rely)
+    # let's try this instead in case it ends up outside of screen
+    x = max(m_x, min(x, m_x + m_width - w_width))
+    y = max(m_y, min(y, m_y + m_height - w_height))
     return x, y
 
 

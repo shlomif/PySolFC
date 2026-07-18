@@ -912,6 +912,10 @@ class PysolMenubarTkCommon:
         # The tk-provided menu item expects this callback.
         self.top.createcommand('tk::mac::ShowHelp', self.mHelp)
 
+        if WIN_SYSTEM == "aqua":
+            self.top.createcommand(
+                'tk::mac::Quit', lambda: self.top.after_idle(self.mQuit))
+
         menu = MfxMenu(self.menubar, label=n_("&Help"))
         if WIN_SYSTEM != "aqua":
             menu.add_command(

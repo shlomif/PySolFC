@@ -67,6 +67,18 @@ def wm_get_geometry(window):
     return lst
 
 
+def restore_window_geometry(window, opt):
+    if opt.wm_maximized or opt.wm_fullscreen:
+        return
+    x, y, w, h = opt.window_geometry
+    if w <= 0 or h <= 0:
+        return
+    try:
+        window.wm_geometry("%dx%d+%d+%d" % (w, h, x, y))
+    except tkinter.TclError:
+        pass
+
+
 # ************************************************************************
 # * window util
 # ************************************************************************

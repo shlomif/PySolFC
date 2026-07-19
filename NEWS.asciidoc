@@ -1,5 +1,10 @@
 [[news]]
 === News
+* _19 July, 2026:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.6.1/[PySolFC
+v3.6.1]. New in this release:
+** Improved Python 3.14 support.
+** Many bugfixes.
 * _13 June, 2026:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.6.0/[PySolFC
 v3.6.0]. New in this release:

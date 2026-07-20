@@ -6,7 +6,7 @@ Command to create a macOS app bundle:
 import os
 import shutil
 import sys
-from subprocess import call
+from subprocess import CalledProcessError, call, check_output
 
 from pysollib.settings import PACKAGE, VERSION
 
@@ -36,6 +36,19 @@ if not os.path.exists(SOLVER_LIB_PATH):
     SOLVER_LIB_PATH = None
     SOLVER = []
 
+# libwebp (a Pillow dependency) depends on libsharpyuv via a bare
+# @rpath reference that py2app's dependency walker doesn't follow.
+# Bundle it explicitly, same as the solver lib above.
+SHARPYUV_LIB_PATH = None
+try:
+    _webp_prefix = check_output(
+        ["brew", "--prefix", "webp"]).decode().strip()
+    _candidate = os.path.join(_webp_prefix, "lib", "libsharpyuv.0.dylib")
+    if os.path.exists(_candidate):
+        SHARPYUV_LIB_PATH = _candidate
+except (OSError, CalledProcessError):
+    pass
+
 GETINFO_STRING = "PySol Fan Club Edition \
                 %s %s, (C) 1998-2003 Markus F.X.J Oberhumer \
                 (C) 2006-2007 Skomoroh" % (PACKAGE, VERSION)
@@ -55,7 +68,8 @@ ICON_FILE = 'data/PySol.icns'
 DATA_FILES = ['docs', 'data', 'locale', 'scripts', 'COPYING', 'README.md',
               ] + SOLVER
 RESOURCES = []
-FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
+FRAMEWORKS = ([SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []) + \
+             ([SHARPYUV_LIB_PATH] if SHARPYUV_LIB_PATH else [])
 # with argv_emulation=True, the app window is not shown when launched
 OPTIONS = dict(argv_emulation=False,
                emulate_shell_environment=True,
@@ -84,3 +98,18 @@ if SOLVER and "py2app" in sys.argv:
          @executable_path/../Frameworks/libfreecell-solver.0.dylib fc-solve",
          shell=True
          )
+    os.chdir(top)
+
+# Point libwebp at the bundled libsharpyuv instead of its broken
+# original rpath.
+if SHARPYUV_LIB_PATH and "py2app" in sys.argv:
+    frameworks_dir = os.path.join(
+        top, 'dist', '%s.app' % PACKAGE, 'Contents', 'Frameworks')
+    for name in os.listdir(frameworks_dir):
+        if name.startswith('libwebp'):
+            call([
+                'install_name_tool', '-change',
+                '@rpath/libsharpyuv.0.dylib',
+                '@executable_path/../Frameworks/libsharpyuv.0.dylib',
+                os.path.join(frameworks_dir, name),
+                ])

@@ -113,3 +113,12 @@ if SHARPYUV_LIB_PATH and "py2app" in sys.argv:
                 '@executable_path/../Frameworks/libsharpyuv.0.dylib',
                 os.path.join(frameworks_dir, name),
                 ])
+
+# install_name_tool invalidates py2app's ad-hoc signature above, and
+# macOS refuses to launch a bundle whose seal doesn't match its
+# contents. Re-sign after any post-processing.
+if (SOLVER or SHARPYUV_LIB_PATH) and "py2app" in sys.argv:
+    call([
+        'codesign', '--force', '--deep', '--sign', '-',
+        os.path.join(top, 'dist', '%s.app' % PACKAGE),
+        ])

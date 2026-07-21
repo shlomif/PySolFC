@@ -140,6 +140,11 @@ class LMenuBase:
             LTreeSliderNode(variable=auto_var, setup=auto_setup), rg)
         return rg1
 
+    def addBackNode(self, tv):
+        tv.add_node(LTreeNode(
+            text=_('< Back'),
+            command=self.make_command(self.menubar.mMainMenuDialog)))
+
 # ************************************************************************
 # * Tree Generators
 # ************************************************************************
@@ -323,6 +328,8 @@ class FileMenuDialog(LMenuDialog):
         return doit
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         rg = tv.add_node(
             LTreeNode(text=_('Recent games')))
         recids = self.app.opt.recent_gameid
@@ -370,6 +377,8 @@ class EditMenuDialog(LMenuDialog):  # Tools
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('New game'), command=self.menubar.mNewGame))
         tv.add_node(LTreeNode(
@@ -452,6 +461,8 @@ class GameMenuDialog(LMenuDialog):
         return stats_command
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('Current game...'),
             command=self.auto_close(
@@ -515,6 +526,8 @@ class AssistMenuDialog(LMenuDialog):
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('Hint'), command=self.menubar.mHint))
 
@@ -552,6 +565,8 @@ class AssistMenuDialog(LMenuDialog):
 
 class LOptionsMenuGenerator(LTreeGenerator):
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         # -------------------------------------------
         # Automatic play settings
 
@@ -1344,6 +1359,8 @@ class HelpMenuDialog(LMenuDialog):
         super().__init__(menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(
             LTreeNode(
                 text=_('Contents'),

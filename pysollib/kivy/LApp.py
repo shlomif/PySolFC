@@ -1788,8 +1788,8 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def pushWork(self, key, widget):
         if (widget):
-            if key != 'playground' and not getattr(widget, 'is_overlay',
-                                                     False):
+            is_overlay = getattr(widget, 'is_overlay', False)
+            if key != 'playground' and not is_overlay:
                 for k, w in list(self.workStack.items):
                     if k not in ('playground', key) and not getattr(
                             w, 'is_overlay', False):

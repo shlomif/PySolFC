@@ -1197,6 +1197,7 @@ class LTopLevel0(LTopLevelBase, LBase):
         super().__init__(title=title, **kw)
 
         self.main = top
+        self.is_overlay = True
         self.titleline.bind(on_press=self.onClick)
         self.main.pushWork(self.title, self)
 
@@ -1787,6 +1788,12 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def pushWork(self, key, widget):
         if (widget):
+            is_overlay = getattr(widget, 'is_overlay', False)
+            if key != 'playground' and not is_overlay:
+                for k, w in list(self.workStack.items):
+                    if k not in ('playground', key) and not getattr(
+                            w, 'is_overlay', False):
+                        self.workStack.pop(k)
             self.workStack.push(key, widget)
             self.rebuildContainer()
 

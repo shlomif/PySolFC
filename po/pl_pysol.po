@@ -2881,6 +2881,10 @@ msgstr ""
 msgid "Full picture"
 msgstr ""
 
+#: pysollib\kivy\menubar.py:146 pysollib\kivy\selectgame.py:493
+msgid "< Back"
+msgstr ""
+
 #: pysollib\kivy\menubar.py:265
 msgid "File"
 msgstr "Plik"

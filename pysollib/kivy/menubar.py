@@ -142,7 +142,7 @@ class LMenuBase:
 
     def addBackNode(self, tv):
         tv.add_node(LTreeNode(
-            text=_('< Back'),
+            text='[b]' + _('< Back') + '[/b]',
             command=self.make_command(self.menubar.mMainMenuDialog)))
 
 # ************************************************************************

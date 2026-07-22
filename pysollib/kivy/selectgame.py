@@ -490,7 +490,8 @@ class SelectGameDialog:
         def back_command():
             parent.popWork('SelectGame')
             self.app.menubar.mMainMenuDialog()
-        tv.add_node(LTreeNode(text=_('< Back'), command=back_command))
+        tv.add_node(LTreeNode(
+            text='[b]' + _('< Back') + '[/b]', command=back_command))
 
         # tree in einem Scrollwindow präsentieren.
 

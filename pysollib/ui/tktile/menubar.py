@@ -705,7 +705,7 @@ class PysolMenubarTkCommon:
             variable=self.tkopt.highlight_cards,
             command=self.mOptEnableHighlightCards)
         submenu.add_checkbutton(
-            label=n_("Enable highlight same &rank"),
+            label=n_("Enable highlight same &rank/suit"),
             variable=self.tkopt.highlight_samerank,
             command=self.mOptEnableHighlightSameRank)
         submenu.add_checkbutton(

@@ -3220,7 +3220,7 @@ msgid "Enable highlight cards"
 msgstr ""
 
 #: pysollib\kivy\menubar.py:626
-msgid "Enable highlight same rank"
+msgid "Enable highlight same rank/suit"
 msgstr ""
 
 #: pysollib\kivy\menubar.py:631
@@ -4766,7 +4766,7 @@ msgstr ""
 #: pysollib\pysolgtk\tkstats.py:529
 #: pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
+msgid "Highlight same rank/suit: "
 msgstr ""
 
 #: pysollib\pysolgtk\tkstats.py:531
@@ -5414,7 +5414,7 @@ msgstr ""
 #: pysollib\tile\timeoutsdialog.py:68
 #: pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
+msgid "Highlight same rank/suit:"
 msgstr ""
 
 #: pysollib\tile\tkstats.py:54
@@ -6174,12 +6174,12 @@ msgstr ""
 
 #: pysollib\ui\tktile\colorsdialog.py:79
 #: data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
+msgid "Highlight same rank/suit 1:"
 msgstr ""
 
 #: pysollib\ui\tktile\colorsdialog.py:80
 #: data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
+msgid "Highlight same rank/suit 2:"
 msgstr ""
 
 #: pysollib\ui\tktile\colorsdialog.py:81
@@ -6549,7 +6549,7 @@ msgid "Enable highlight &cards"
 msgstr ""
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
+msgid "Enable highlight same &rank/suit"
 msgstr ""
 
 #: pysollib\ui\tktile\menubar.py:712

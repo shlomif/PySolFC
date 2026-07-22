@@ -3070,8 +3070,8 @@ msgid "Enable highlight cards"
 msgstr "Włącz podświetlanie kart"
 
 #: pysollib\kivy\menubar.py:626
-msgid "Enable highlight same rank"
-msgstr "Podświetlaj karty o jednakowej sile"
+msgid "Enable highlight same rank/suit"
+msgstr "Podświetlaj karty o jednakowej sile/kolorze"
 
 #: pysollib\kivy\menubar.py:631
 msgid "Enable face-down peek"
@@ -4382,8 +4382,8 @@ msgstr "Podświetlenie kart: "
 
 #: pysollib\pysolgtk\tkstats.py:529 pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
-msgstr "Podświetlenie jednakowych wartości: "
+msgid "Highlight same rank/suit: "
+msgstr "Podświetlenie jednakowych wartości/kolorów: "
 
 #: pysollib\pysolgtk\tkstats.py:531 pysollib\tile\tkstats.py:697
 #: pysollib\tk\tkstats.py:617
@@ -4962,8 +4962,8 @@ msgstr "Podświetlanie kart:"
 
 #: pysollib\tile\timeoutsdialog.py:68 pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
-msgstr "Podświetlanie kart o jednakowej wartości:"
+msgid "Highlight same rank/suit:"
+msgstr "Podświetlanie kart o jednakowej wartości/koloru:"
 
 #: pysollib\tile\tkstats.py:54
 msgid "Demo Statistics"
@@ -5744,12 +5744,12 @@ msgid "Highlight cards 2:"
 msgstr "Podświetlanie kart 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:79 data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
-msgstr "Podświetlaj karty o tej samej sile 1:"
+msgid "Highlight same rank/suit 1:"
+msgstr "Podświetlaj karty o tej samej sile/kolorze 1:"
 
 #: pysollib\ui\tktile\colorsdialog.py:80 data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
-msgstr "Podświetlaj karty o tej samej sile 2:"
+msgid "Highlight same rank/suit 2:"
+msgstr "Podświetlaj karty o tej samej sile/kolorze 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:81 data\pysolfc.glade:2187
 msgid "Hint arrow:"
@@ -6115,8 +6115,8 @@ msgid "Enable highlight &cards"
 msgstr "Włącz podświetlanie kart"
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
-msgstr "Podświetlaj karty o jednakowej sile"
+msgid "Enable highlight same &rank/suit"
+msgstr "Podświetlaj karty o jednakowej sile/kolorze"
 
 #: pysollib\ui\tktile\menubar.py:712
 msgid "Enable face-down &peek"

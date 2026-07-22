@@ -64,7 +64,7 @@ class TimeoutsDialog(MfxDialog):
                                self.highlight_piles_sleep_var),
                            (_('Highlight cards:'),
                                self.highlight_cards_sleep_var),
-                           (_('Highlight same rank:'),
+                           (_('Highlight same rank/suit:'),
                                self.highlight_samerank_sleep_var),
                            ):
             tkinter.Label(frame, text=title, anchor='w'

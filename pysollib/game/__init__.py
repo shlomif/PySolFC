@@ -418,7 +418,7 @@ class GameStatsStruct(NewStruct):
     highlight_piles = attr.ib(default=0)
     # number of highlight matching cards consumed
     highlight_cards = attr.ib(default=0)
-    # number of highlight same rank consumed
+    # number of highlight same rank/suit consumed
     highlight_samerank = attr.ib(default=0)
     undo_moves = attr.ib(default=0)             # number of undos
     redo_moves = attr.ib(default=0)             # number of redos
@@ -2608,7 +2608,7 @@ class Game:
         for s in self.allstacks:
             for c in s.cards:
                 if c.suit == suit and c.rank == rank:
-                    if s.basicShallHighlightSameRank(c):
+                    if s.basicShallHighlight(c):
                         info.append((s, c, c, col))
         return self._highlightCards(info, 0)
 

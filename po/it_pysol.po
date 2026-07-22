@@ -3064,8 +3064,8 @@ msgstr "Abilita evidenzia &carte"
 
 #: pysollib\kivy\menubar.py:626
 #, fuzzy
-msgid "Enable highlight same rank"
-msgstr "Abilita evidenzia stesso valo&re"
+msgid "Enable highlight same rank/suit"
+msgstr "Abilita evidenzia stesso valo&re/seme"
 
 #: pysollib\kivy\menubar.py:631
 msgid "Enable face-down peek"
@@ -4414,8 +4414,8 @@ msgstr "Evidenzia carte: "
 
 #: pysollib\pysolgtk\tkstats.py:529 pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
-msgstr "Evidenzia stesso valore: "
+msgid "Highlight same rank/suit: "
+msgstr "Evidenzia stesso valore/seme: "
 
 #: pysollib\pysolgtk\tkstats.py:531 pysollib\tile\tkstats.py:697
 #: pysollib\tk\tkstats.py:617
@@ -4995,8 +4995,8 @@ msgstr "Evidenzia carte:"
 
 #: pysollib\tile\timeoutsdialog.py:68 pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
-msgstr "Evidenzia stesso valore:"
+msgid "Highlight same rank/suit:"
+msgstr "Evidenzia stesso valore/seme:"
 
 #: pysollib\tile\tkstats.py:54
 msgid "Demo Statistics"
@@ -5766,12 +5766,12 @@ msgid "Highlight cards 2:"
 msgstr "Evidenzia le carte 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:79 data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
-msgstr "Evidenzia stesso valore 1:"
+msgid "Highlight same rank/suit 1:"
+msgstr "Evidenzia stesso valore/seme 1:"
 
 #: pysollib\ui\tktile\colorsdialog.py:80 data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
-msgstr "Evidenzia stesso valore 2:"
+msgid "Highlight same rank/suit 2:"
+msgstr "Evidenzia stesso valore/seme 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:81 data\pysolfc.glade:2187
 msgid "Hint arrow:"
@@ -6138,8 +6138,8 @@ msgid "Enable highlight &cards"
 msgstr "Abilita evidenzia &carte"
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
-msgstr "Abilita evidenzia stesso valo&re"
+msgid "Enable highlight same &rank/suit"
+msgstr "Abilita evidenzia stesso valo&re/seme"
 
 #: pysollib\ui\tktile\menubar.py:712
 msgid "Enable face-down &peek"

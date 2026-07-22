@@ -3049,8 +3049,8 @@ msgid "Enable highlight cards"
 msgstr "Surbrillance des cartes"
 
 #: pysollib\kivy\menubar.py:626
-msgid "Enable highlight same rank"
-msgstr "Surbrillance des équivalents"
+msgid "Enable highlight same rank/suit"
+msgstr "Surbrillance des équivalents/couleurs"
 
 #: pysollib\kivy\menubar.py:631
 msgid "Enable face-down peek"
@@ -4356,8 +4356,8 @@ msgstr "Surbrillance cartes: "
 
 #: pysollib\pysolgtk\tkstats.py:529 pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
-msgstr "Surbrillance valeurs identiques: "
+msgid "Highlight same rank/suit: "
+msgstr "Surbrillance valeurs/couleurs identiques: "
 
 #: pysollib\pysolgtk\tkstats.py:531 pysollib\tile\tkstats.py:697
 #: pysollib\tk\tkstats.py:617
@@ -4935,8 +4935,8 @@ msgstr "Surbrillance cartes:"
 
 #: pysollib\tile\timeoutsdialog.py:68 pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
-msgstr "Surbrillance valeurs identiques:"
+msgid "Highlight same rank/suit:"
+msgstr "Surbrillance valeurs/couleurs identiques:"
 
 #: pysollib\tile\tkstats.py:54
 msgid "Demo Statistics"
@@ -5704,12 +5704,12 @@ msgid "Highlight cards 2:"
 msgstr "Surbrillance cartes 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:79 data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
-msgstr "Surbrillance valeurs identiques 1:"
+msgid "Highlight same rank/suit 1:"
+msgstr "Surbrillance valeurs/couleurs identiques 1:"
 
 #: pysollib\ui\tktile\colorsdialog.py:80 data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
-msgstr "Surbrillance valeurs identiques 2:"
+msgid "Highlight same rank/suit 2:"
+msgstr "Surbrillance valeurs/couleurs identiques 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:81 data\pysolfc.glade:2187
 msgid "Hint arrow:"
@@ -6075,8 +6075,8 @@ msgid "Enable highlight &cards"
 msgstr "Surbrillance des &cartes"
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
-msgstr "Surbrillance des &équivalents"
+msgid "Enable highlight same &rank/suit"
+msgstr "Surbrillance des &équivalents/couleurs"
 
 #: pysollib\ui\tktile\menubar.py:712
 msgid "Enable face-down &peek"

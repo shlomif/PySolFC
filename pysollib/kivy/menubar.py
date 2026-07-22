@@ -640,7 +640,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
                               self.menubar.mOptEnableHighlightCards)
 
             self.addCheckNode(tv, rg,
-                              _('Enable highlight same rank'),
+                              _('Enable highlight same rank/suit'),
                               self.menubar.tkopt.highlight_samerank,
                               self.menubar.mOptEnableHighlightSameRank)
 

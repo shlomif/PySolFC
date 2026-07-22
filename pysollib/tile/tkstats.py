@@ -692,7 +692,7 @@ class Status_StatsDialog(MfxMessageDialog):
             n = n + len(s.cards)
         w1 = (_("Highlight piles: ") + str(stats.highlight_piles) + "\n" +
               _("Highlight cards: ") + str(stats.highlight_cards) + "\n" +
-              _("Highlight same rank: ") +
+              _("Highlight same rank/suit: ") +
               str(stats.highlight_samerank) + "\n" +
               _('Face-down peeks: ') + str(stats.peeks) + '\n')
         if game.s.talon:

@@ -65,7 +65,8 @@ class TimeoutsDialog(MfxDialog):
             (_('Raise card:'),          self.raise_card_sleep_var),
             (_('Highlight piles:'),     self.highlight_piles_sleep_var),
             (_('Highlight cards:'),     self.highlight_cards_sleep_var),
-            (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
+            (_('Highlight same rank/suit:'),
+             self.highlight_samerank_sleep_var),
                 ):
             ttk.Label(
                 lframe, text=title, anchor='w').grid(

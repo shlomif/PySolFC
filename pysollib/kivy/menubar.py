@@ -453,7 +453,7 @@ class GameMenuDialog(LMenuDialog):
         super().__init__(
             menubar, parent, title, app, **kw)
 
-    def make_command(self, key, command):
+    def make_stats_command(self, key, command):
         def stats_command():
             kw = {}
             kw['mode'] = key
@@ -466,11 +466,13 @@ class GameMenuDialog(LMenuDialog):
         tv.add_node(LTreeNode(
             text=_('Current game...'),
             command=self.auto_close(
-                self.make_command(101, self.menubar.mPlayerStats))), None)
+                self.make_stats_command(101, self.menubar.mPlayerStats))),
+            None)
 
         # tv.add_node(LTreeNode(
         #   text='All games ...',
-        #   command=self.make_command(102, self.menubar.mPlayerStats)), None)
+        #   command=self.make_stats_command(102, self.menubar.mPlayerStats)),
+        #   None)
 
     # -------------------------------------------
     # TBD ? - just to remember original tk code.

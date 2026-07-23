@@ -124,6 +124,7 @@ use_cardset_bottoms = boolean
 dragcursor = boolean
 save_games_geometry = boolean
 game_geometry = int_list(min=2, max=2)
+window_geometry = int_list(min=4, max=4)
 topmost_dialogs = boolean
 sound = boolean
 sound_mode = integer(0, 1)
@@ -515,6 +516,7 @@ class Options:
         # saved games geometry (gameid: (width, height))
         self.games_geometry = {}
         self.game_geometry = (0, 0)  # game geometry before exit
+        self.window_geometry = (0, 0, 0, 0)
         self.offsets = {}           # cards offsets
         #
         self.randomize_place = False
@@ -730,6 +732,7 @@ class Options:
         for key, val in self.games_geometry.items():
             config['games_geometry'][str(key)] = val
         config['general']['game_geometry'] = self.game_geometry
+        config['general']['window_geometry'] = self.window_geometry
 
         # offsets
         for key, val in self.offsets.items():
@@ -926,6 +929,13 @@ class Options:
         if game_geometry is not None:
             try:
                 self.game_geometry = tuple(int(i) for i in game_geometry)
+            except Exception:
+                traceback.print_exc()
+        window_geometry = self._getOption(
+            'general', 'window_geometry', 'list')
+        if window_geometry is not None:
+            try:
+                self.window_geometry = tuple(int(i) for i in window_geometry)
             except Exception:
                 traceback.print_exc()
 

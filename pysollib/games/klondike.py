@@ -25,12 +25,14 @@ import pysollib.game
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.canfield import CanfieldRush_Talon
+from pysollib.games.klondike_solvable_seeds import SOLVABLE_SEEDS
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.hint import KlondikeType_Hint
 from pysollib.layout import Layout
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mygettext import _
+from pysollib.pysolrandom import construct_random
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
@@ -102,6 +104,20 @@ class Klondike(Game):
             self.s.talon.dealCards()      # deal first card to WasteStack
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+# ************************************************************************
+# * Klondike (Always Solvable)
+# ************************************************************************
+
+class KlondikeAlwaysSolvable(Klondike):
+    # picks a known-solvable seed for a fresh deal; leaves explicit
+    # seeds (e.g. "enter game number") alone
+    def createRandom(self, random):
+        if random is None and SOLVABLE_SEEDS:
+            seed = self.app.gamerandom.choice(SOLVABLE_SEEDS)
+            random = construct_random(str(seed))
+        Game.createRandom(self, random)
 
 
 # ************************************************************************
@@ -1658,6 +1674,9 @@ class EightSages(Klondike):
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
                       altnames=("Classic Solitaire", "American Patience")))
+registerGame(GameInfo(991, KlondikeAlwaysSolvable,
+                      "Klondike (Always Solvable)",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(61, CasinoKlondike, "Casino Klondike",
                       GI.GT_KLONDIKE | GI.GT_SCORE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(129, VegasKlondike, "Vegas Klondike",

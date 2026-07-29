@@ -644,6 +644,7 @@ class GI:
          (44, 526, 5906, 22399,)),
         ('fc-3.6', tuple(range(981, 991)) + tuple(range(19501, 19510)) +
          (16686,)),
+        ('dev', (991,)),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

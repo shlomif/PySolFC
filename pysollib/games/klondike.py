@@ -25,7 +25,8 @@ import pysollib.game
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.canfield import CanfieldRush_Talon
-from pysollib.games.klondike_solvable_seeds import SOLVABLE_SEEDS
+from pysollib.games.solvable_seeds.klondike_solvable_seeds import \
+        SOLVABLE_SEEDS
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.hint import KlondikeType_Hint

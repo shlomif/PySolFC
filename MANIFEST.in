@@ -13,6 +13,7 @@ include pysollib/tk/*.py pysollib/tile/*.py pysollib/pysolgtk/*.py
 include pysollib/game/*.py
 include pysollib/games/*.py pysollib/games/special/*.py
 include pysollib/games/mahjongg/*.py
+include pysollib/games/solvable_seeds/*.py
 include data/tcl/*.tcl
 include data/pysol.desktop
 include data/pysolfc.glade

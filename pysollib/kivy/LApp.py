@@ -1885,6 +1885,13 @@ class LApp(App):
         logging.info('top = %s', str(self.baseWindow))
 
         self.mainWindow = LMainWindow()
+        self.androidSafeArea = None
+        if platform == 'android':
+            from pysollib.kivy.androidsafearea import AndroidSafeArea
+            self.androidSafeArea = AndroidSafeArea()
+            self._androidSafeAreaTries = 0
+            self._applyAndroidSafeArea()
+            Window.bind(on_resize=self._applyAndroidSafeArea)
         Cache.register('LAppCache', limit=10)
         Cache.append('LAppCache', 'baseWindow', self.baseWindow, timeout=0)
         Cache.append('LAppCache', 'mainWindow', self.mainWindow, timeout=0)
@@ -1912,6 +1919,23 @@ class LApp(App):
         anim = Animation(opacity=1,duration=0.7) # noqa
         Clock.schedule_once(lambda dt: anim.start(self.baseWindow),0.3) # noqa
         Clock.schedule_once(lambda dt: set_fullscreen(True),0.0) # noqa
+
+    def _applyAndroidSafeArea(self, *args):
+        safe_area = self.androidSafeArea
+        if safe_area is None:
+            return
+        if safe_area.refresh():
+            self._androidSafeAreaTries = 0
+            self.mainWindow.padding = [
+                safe_area.left, safe_area.top,
+                safe_area.right, safe_area.bottom]
+            logging.info('LApp: mainWindow.padding set to %s',
+                         self.mainWindow.padding)
+        elif self._androidSafeAreaTries < 25:
+            self._androidSafeAreaTries += 1
+            Clock.schedule_once(self._applyAndroidSafeArea, 0.2)
+        else:
+            logging.info('LApp: _applyAndroidSafeArea gave up retrying')
 
     def on_start(self):
         logging.info("LApp: on_start")

@@ -2984,6 +2984,11 @@ class Game:
             return
         if self.moves.index == 0:
             return
+        # If the game was already over, replaying must not award another win
+        # (restart clears local hint/demo counters, which could upgrade a
+        # helped finish into a scored win).
+        skip_win = bool(
+            self.finished or self.isGameWon() or self.gstats.updated < 0)
         # Capture history up to the current position before restart wipes it
         script = list(self.moves.history[:self.moves.index])
         random = self.random
@@ -3002,6 +3007,7 @@ class Game:
             start_demo_moves=self.stats.demo_moves,
             info_text=None,
             replay=True,
+            skip_win=skip_win,
         )
         self.hints.list = None
         self.createDemoInfoText()
@@ -3021,14 +3027,14 @@ class Game:
         if not self.demo or self.demo.keypress:
             self.stopDemo()
             return
-        # Force demo-style animation for stored drag moves (frames=-2).
-        # Talon deals use the quicker deal frames (same as WasteTalonStack).
+        # Only rewrite drag moves (frames=-2). Preserve game-level overrides
+        # such as Match Three's frames=0 swap helpers, cascade, and fills.
         step = self.moves.history[self.moves.index]
         saved_frames = []
         for am in step:
-            if hasattr(am, 'frames'):
+            if getattr(am, 'frames', None) == -2:
                 saved_frames.append((am, am.frames))
-                am.frames = 4 if self._isTalonDealAtomic(am) else -1
+                am.frames = -1
         try:
             self.redo()
         finally:
@@ -3036,8 +3042,13 @@ class Game:
                 am.frames = frames
         self.top.update_idletasks()
         if self.isGameWon():
-            # End demo so checkForWin uses the normal win path
+            skip_win = getattr(self.demo, 'skip_win', False)
             self.stopDemo()
+            if skip_win:
+                # Already finished before Replay — restore finished state only
+                self.finished = True
+                self.updateMenus()
+                return
             self.checkForWin()
             return
         if self.demo and not self.demo.keypress:
@@ -3062,15 +3073,18 @@ class Game:
     def _showReplayHint(self):
         """Show a demo-style hint arrow before the next replayed move.
 
-        Demo only pauses with an arrow for stack-to-stack moves; flips and
-        deals return from showHint without sleeping. Mirror that here so
-        autoplay fill steps and talon deals do not insert long pauses.
+        Prefer the first *animated* stack-to-stack move (frames != 0). Instant
+        helper moves (frames=0), talon deals, and flips get no arrow — same as
+        demo, and required for games like Match Three where a swap is stored as
+        several atomic moves (invisible swap helpers + cascade fills).
         """
         demo = self.demo
         if not demo or demo.sleep <= 0:
             return
         for am in self.moves.history[self.moves.index]:
             if isinstance(am, (AMoveMove, AFlipAndMoveMove)):
+                if getattr(am, 'frames', -1) == 0:
+                    continue
                 if self._isTalonDealAtomic(am):
                     return
                 from_stack = self.allstacks[am.from_stack_id]
@@ -3078,7 +3092,7 @@ class Game:
                 ncards = am.ncards if isinstance(am, AMoveMove) else 1
                 self.drawHintArrow(from_stack, to_stack, ncards, demo.sleep)
                 return
-            # Flip/redeal: no arrow or pause (same as showHint)
+            # Flip/redeal with no prior animated move: no arrow (same as showHint)
             if isinstance(am, (AFlipMove, ASingleFlipMove, AFlipAllMove,
                                ATurnStackMove, ANextRoundMove)):
                 return

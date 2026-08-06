@@ -3092,7 +3092,8 @@ class Game:
                 ncards = am.ncards if isinstance(am, AMoveMove) else 1
                 self.drawHintArrow(from_stack, to_stack, ncards, demo.sleep)
                 return
-            # Flip/redeal with no prior animated move: no arrow (same as showHint)
+            # Flip/redeal with no prior animated move: no arrow
+            # (same as showHint)
             if isinstance(am, (AFlipMove, ASingleFlipMove, AFlipAllMove,
                                ATurnStackMove, ANextRoundMove)):
                 return

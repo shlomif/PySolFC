@@ -2975,12 +2975,124 @@ class Game:
         self.busy = False
         self.updateMenus()
 
+    #
+    # Replay - restart same deal and play back recorded moves via redo()
+    #
+
+    def startReplay(self):
+        if not self.top or self.preview or self.demo:
+            return
+        if self.moves.index == 0:
+            return
+        # Capture history up to the current position before restart wipes it
+        script = list(self.moves.history[:self.moves.index])
+        random = self.random
+        self.endGame(restart=1)
+        self.newGame(restart=1, random=random, autoplay=0)
+        self.moves.history = script
+        self.moves.index = 0
+        self.demo = Struct(
+            level=2,
+            mixed=0,
+            sleep=self.app.opt.timeouts['demo'],
+            last_deal=[],
+            snapshots=[],
+            hint=None,
+            keypress=None,
+            start_demo_moves=self.stats.demo_moves,
+            info_text=None,
+            replay=True,
+        )
+        self.hints.list = None
+        self.createDemoInfoText()
+        self.createDemoLogo()
+        after_idle(self.top, self.replayEvent)
+
+    def replayEvent(self):
+        # Note: other events are allowed to stop self.demo at any time
+        if not self.demo or self.demo.keypress:
+            self.stopDemo()
+            return
+        if self.moves.index >= len(self.moves.history):
+            self.stopDemo()
+            return
+        # Match demo pacing: hint arrow + pause before the move (not after)
+        self._showReplayHint()
+        if not self.demo or self.demo.keypress:
+            self.stopDemo()
+            return
+        # Force demo-style animation for stored drag moves (frames=-2).
+        # Talon deals use the quicker deal frames (same as WasteTalonStack).
+        step = self.moves.history[self.moves.index]
+        saved_frames = []
+        for am in step:
+            if hasattr(am, 'frames'):
+                saved_frames.append((am, am.frames))
+                am.frames = 4 if self._isTalonDealAtomic(am) else -1
+        try:
+            self.redo()
+        finally:
+            for am, frames in saved_frames:
+                am.frames = frames
+        self.top.update_idletasks()
+        if self.isGameWon():
+            # End demo so checkForWin uses the normal win path
+            self.stopDemo()
+            self.checkForWin()
+            return
+        if self.demo and not self.demo.keypress:
+            self.top.busyUpdate()
+            after_idle(self.top, self.replayEvent)
+        else:
+            self.stopDemo()
+
+    def _isTalonDealAtomic(self, am):
+        """True for Klondike-like deals from the talon onto the waste."""
+        if not isinstance(am, (AMoveMove, AFlipAndMoveMove)):
+            return False
+        s = getattr(self, 's', None)
+        if not s:
+            return False
+        talon, waste = getattr(s, 'talon', None), getattr(s, 'waste', None)
+        if not talon or not waste:
+            return False
+        return (am.from_stack_id == talon.id and
+                am.to_stack_id == waste.id)
+
+    def _showReplayHint(self):
+        """Show a demo-style hint arrow before the next replayed move.
+
+        Demo only pauses with an arrow for stack-to-stack moves; flips and
+        deals return from showHint without sleeping. Mirror that here so
+        autoplay fill steps and talon deals do not insert long pauses.
+        """
+        demo = self.demo
+        if not demo or demo.sleep <= 0:
+            return
+        for am in self.moves.history[self.moves.index]:
+            if isinstance(am, (AMoveMove, AFlipAndMoveMove)):
+                if self._isTalonDealAtomic(am):
+                    return
+                from_stack = self.allstacks[am.from_stack_id]
+                to_stack = self.allstacks[am.to_stack_id]
+                ncards = am.ncards if isinstance(am, AMoveMove) else 1
+                self.drawHintArrow(from_stack, to_stack, ncards, demo.sleep)
+                return
+            # Flip/redeal: no arrow or pause (same as showHint)
+            if isinstance(am, (AFlipMove, ASingleFlipMove, AFlipAllMove,
+                               ATurnStackMove, ANextRoundMove)):
+                return
+
     # demo event - play one demo move and check for win/loss
     def demoEvent(self):
         # note: other events are allowed to stop self.demo at any time
         if not self.demo or self.demo.keypress:
             self.stopDemo()
             # self.updateMenus()
+            return
+        # Replay uses its own event loop; never run AI demo moves during replay
+        if getattr(self.demo, 'replay', False):
+            after_idle(self.top, self.replayEvent)
             return
         finished = self.playOneDemoMove(self.demo)
         self.finishMove()

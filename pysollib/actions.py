@@ -84,6 +84,7 @@ class PysolMenubar(PysolMenubarTk):
             quickplay=0,
             cardbackground=0,
             demo=0,
+            replay=0,
             highlight_piles=0,
             autoscale=0,
             find_card=0,
@@ -147,6 +148,7 @@ class PysolMenubar(PysolMenubarTk):
                 ms.redo = 1
         if game.moves.index > 0:
             ms.restart = 1
+            ms.replay = 1
         if game.canDealCards():
             ms.deal = 1
         if game.getHintClass() is not None:
@@ -204,6 +206,7 @@ class PysolMenubar(PysolMenubarTk):
         self.setMenuState(ms.redo, "edit.redoall")
         self.updateBookmarkMenuState()
         self.setMenuState(ms.restart, "edit.restart")
+        self.setMenuState(ms.replay, "edit.replay")
         self.setMenuState(ms.custom_game, "edit.editcurrentgame")
         self.setMenuState(ms.custom_game, "edit.deletecurrentgame")
         # Game menu
@@ -777,6 +780,17 @@ class PysolMenubar(PysolMenubarTk):
                     return
         # self.app.demo_counter = 0
         self.game.startDemo(mixed=mixed)
+
+    def mReplay(self, *args):
+        if self._cancelDrag():
+            return
+        if self.game.moves.index == 0:
+            return
+        if self.changed(restart=1):
+            if not self.game.areYouSure(_("Replay"),
+                                        _("Replay this game?")):
+                return
+        self.game.startReplay()
 
     #
     # Options menu

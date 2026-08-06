@@ -563,6 +563,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("Restart"),
             command=self.mRestart, accelerator=m+"G")
+        menu.add_command(
+            label=n_("&Replay"),
+            command=self.mReplay)
 
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))

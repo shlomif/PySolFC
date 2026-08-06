@@ -383,6 +383,8 @@ class EditMenuDialog(LMenuDialog):  # Tools
             text=_('New game'), command=self.menubar.mNewGame))
         tv.add_node(LTreeNode(
             text=_('Restart game'), command=self.menubar.mRestart))
+        tv.add_node(LTreeNode(
+            text=_('Replay'), command=self.auto_close(self.menubar.mReplay)))
 
         tv.add_node(LTreeNode(
             text=_('Undo'), command=self.menubar.mUndo))

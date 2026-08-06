@@ -67,6 +67,18 @@ def wm_get_geometry(window):
     return lst
 
 
+def restore_window_geometry(window, opt):
+    if opt.wm_maximized or opt.wm_fullscreen:
+        return
+    x, y, w, h = opt.window_geometry
+    if w <= 0 or h <= 0:
+        return
+    try:
+        window.wm_geometry("%dx%d+%d+%d" % (w, h, x, y))
+    except tkinter.TclError:
+        pass
+
+
 # ************************************************************************
 # * window util
 # ************************************************************************
@@ -153,8 +165,6 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
                 relx = 0.5
             if rely is None:
                 rely = 0.5
-        m_x = max(m_x, 0)
-        m_y = max(m_y, 0)
     else:
         if relx is None:
             relx = 0.5
@@ -162,16 +172,9 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
             rely = 0.3
     x = m_x + int((m_width - w_width) * relx)
     y = m_y + int((m_height - w_height) * rely)
-    # print x, y, w_width, w_height, m_x, m_y, m_width, m_height
-    # make sure the widget is fully on screen
-    if x < 0:
-        x = 0
-    elif x + w_width + 32 > s_width:
-        x = max(0, (s_width - w_width) // 2)
-    if y < 0:
-        y = 0
-    elif y + w_height + 32 > s_height:
-        y = max(0, (s_height - w_height) // 2)
+    # let's try this instead in case it ends up outside of screen
+    x = max(m_x, min(x, m_x + m_width - w_width))
+    y = max(m_y, min(y, m_y + m_height - w_height))
     return x, y
 
 

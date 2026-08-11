@@ -552,6 +552,9 @@ class Game:
         self.pause = False
         self.finished = False
         self.stuck = False
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         self.version = VERSION
         self.version_tuple = VERSION_TUPLE
         self.cards = []
@@ -729,6 +732,7 @@ class Game:
         bind(self.canvas,
              self._calcMouseBind("<{mouse_button3}>"), self.redoHandler)
         bind(self.canvas, '<Unmap>', self._unmapHandler)
+        bind(self.canvas, '<Map>', self._mapHandler)
         bind(self.canvas, '<Configure>', self._configureHandler, add=True)
 
     def __createCommon(self, app):
@@ -822,6 +826,9 @@ class Game:
                 dealer=None):
         self.finished = False
         self.stuck = False
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
         self.stopWinAnimation()
@@ -1005,6 +1012,9 @@ class Game:
         if self.preview:
             return
         self.app.wm_save_state()
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         if self.pause:
             self.doPause()
         if holdgame:
@@ -1571,9 +1581,47 @@ class Game:
 
     def _unmapHandler(self, event):
         # pause game if root window has been iconified
-        if self.app and not self.pause:
+        if not self.app or self.pause:
+            return
+        # mPause/_cancelDrag refuses while busy (e.g. auto-drop); pause
+        # directly so minimize still stops play
+        if self.busy:
+            self.doPause()
+            self.app.menubar._setPauseMenu(self.pause)
+        else:
             self.app.menubar.mPause()
         # should return EVENT_HANDLED or EVENT_PROPAGATE
+
+    def _mapHandler(self, event):
+        # show win dialog deferred while the main window was iconified
+        if self._pending_win_status is None:
+            return
+        if self._isMainWindowIconic():
+            return
+        status = self._pending_win_status
+        top_msg = self._pending_win_top_msg
+        time_str = self._pending_win_time
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
+        if self.pause:
+            # doPause() returns early when finished; clear pause UI directly
+            self.pause = False
+            self.canvas.setTopImage(None)
+            self.pause_logo = None
+            self.canvas.showAllItems()
+            if self.app:
+                self.app.menubar._setPauseMenu(False)
+        self._showWinDialog(status, top_msg, time_str)
+        # should return EVENT_HANDLED or EVENT_PROPAGATE
+
+    def _isMainWindowIconic(self):
+        if self.top is None:
+            return False
+        try:
+            return self.top.wm_state() == 'iconic'
+        except Exception:
+            return False
 
     _resizeHandlerID = None
 
@@ -2406,16 +2454,31 @@ class Game:
             if not self.app.opt.display_win_message:
                 return True
             self.top.waitAnimation()
-        if status == 2:
+        top_msg = ''
+        time_str = ''
+        if status in (1, 2):
             top_msg = self.updateStats()
-            time = self.getTime()
-            self.finished = True
+            time_str = self.getTime()
+        self.finished = True
+        self.updateMenus()
+        # Avoid a modal win dialog while iconified — it can prevent restore.
+        if TOOLKIT != 'kivy' and self._isMainWindowIconic():
+            self._pending_win_status = status
+            self._pending_win_top_msg = top_msg
+            self._pending_win_time = time_str
+            return True
+        return self._showWinDialog(status, top_msg, time_str)
+
+    def _showWinDialog(self, status, top_msg='', time_str=''):
+        if status == 2:
+            if not time_str:
+                time_str = self.getTime()
             self.playSample("gameperfect", priority=1000)
             self.winAnimation(perfect=1)
             text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
                              'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % {'time': time, 'n': self.moves.index}
+            text = text % {'time': time_str, 'n': self.moves.index}
             congrats = _('Congratulations, this\nwas a truly perfect game!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
@@ -2424,15 +2487,14 @@ class Game:
                          _("&Cancel")),
                 image=self.app.gimages.logos[5])
         elif status == 1:
-            top_msg = self.updateStats()
-            time = self.getTime()
-            self.finished = True
+            if not time_str:
+                time_str = self.getTime()
             self.playSample("gamewon", priority=1000)
             self.winAnimation()
             text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
                              'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % {'time': time, 'n': self.moves.index}
+            text = text % {'time': time_str, 'n': self.moves.index}
             congrats = _('Congratulations, you did it!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
@@ -2441,14 +2503,12 @@ class Game:
                          _("&Cancel")),
                 image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
-            self.finished = True
             self.playSample("gamefinished", priority=1000)
             d = MfxMessageDialog(
                 self.top, title=_("Game finished"), bitmap="info",
                 text=_("\nGame finished\n"),
                 strings=(_("&New game"), None, None, _("&Close")))
         else:
-            self.finished = True
             self.playSample("gamelost", priority=1000)
             text = _("Game finished, but not without my help...")
             if self.stats.hints > 0 and not self.app.opt.free_hint:
@@ -2466,7 +2526,6 @@ class Game:
                 self.top, title=_("Game finished"), bitmap="info",
                 text=_(text + '\n\n' + hintsused),
                 strings=(_("&New game"), _("&Restart"), None, _("&Cancel")))
-        self.updateMenus()
         if TOOLKIT == 'kivy':
             return True
         if d.status == 0 and d.button == 0:
@@ -2545,6 +2604,9 @@ class Game:
         flipstacks, dropstacks, quickstacks = self.getAutoStacks()
         done_something = 1
         while done_something:
+            # stop when paused / minimized (Unmap pauses the game)
+            if self.pause or self._isMainWindowIconic():
+                return 0
             done_something = 0
             # a) flip top cards face-up
             if autofaceup and flipstacks:

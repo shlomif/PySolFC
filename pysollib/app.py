@@ -553,41 +553,26 @@ class Application:
         if TOOLKIT == 'tk' and self.opt.button_icon_style != 'none':
             dirname = os.path.join('images', 'buttons',
                                    self.opt.button_icon_style)
-            for n, f in (
-                (_('&OK'), 'ok'),
-                (_('&Select'), 'ok'),
-                (_('&Nice'), 'ok'),
-                (_('&Enjoy'), 'ok'),
-                (_("&Great"), 'ok'),
-                (_("&Cool"), 'ok'),
-                (_("&Yeah"), 'ok'),
-                (_("&Wow"), 'ok'),
-                (_("&Oh well"), 'ok'),
-                (_("&That's life"), 'ok'),
-                (_("&Hmm"), 'ok'),
-                (_('&Cancel'), 'cancel'),
-                (_('&Close'), 'cancel'),
-                (_("&Apply"), 'apply'),
-                (_("&Start"), 'apply'),
-                (_('&New'), 'new'),
-                (_('&New game'), 'new'),
-                (_('&Back to game'), 'back'),
-                (_('&Reset...'), 'reset'),
-                (_('&Restart'), 'reset'),
-                (_('&Rules'), 'help'),
-                (_('&Info...'), 'help'),
-                (_('&Credits'), 'help'),
-                (_('&Next number'), 'next'),
-                (_('&Play'), 'next'),
-                (_('&Play this game'), 'next'),
-                (_('C&lear'), 'clear'),
-                (_('&Solid color...'), 'color'),
-                (_('&Save to file'), 'save'),
-                (_('&Statistics...'), 'statistics'),
+            for f, labels in (
+                ('ok', (_('&OK'), _('&Select'), _('&Nice'), _('&Enjoy'),
+                        _('&Great'), _('&Cool'), _('&Yeah'), _('&Wow'),
+                        _('&Oh well'), _("&That's life"), _('&Hmm'))),
+                ('cancel', (_('&Cancel'), _('&Close'), _('&Quit'))),
+                ('apply', (_('&Apply'), _('&Start'))),
+                ('new', (_('&New'), _('&New game'))),
+                ('back', (_('&Back to game'),)),
+                ('reset', (_('&Reset...'), _('&Restart'))),
+                ('help', (_('&Rules'), _('&Info...'), _('&Credits'))),
+                ('next', (_('&Next number'), _('&Play'),
+                          _('&Play this game'))),
+                ('clear', (_('C&lear'),)),
+                ('color', (_('&Solid color...'),)),
+                ('save', (_('&Save to file'),)),
+                ('statistics', (_('&Statistics...'),)),
             ):
-                fn = self.dataloader.findImage(f, dirname)
-                im = loadImage(fn)
-                MfxDialog.button_img[n] = im
+                im = loadImage(self.dataloader.findImage(f, dirname))
+                for n in labels:
+                    MfxDialog.button_img[n] = im
 
     def loadImages2(self):
         # load canvas images

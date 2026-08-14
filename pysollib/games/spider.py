@@ -82,15 +82,15 @@ class Spider_Hint(SpiderType_Hint):
         return 1
 
     def shallMovePile(self, r, t, pile, rpile):
+     		# the pile we are going to move from r to t
+            # could be moved back from t ro r - this is
+            # dangerous for as we can create loops...
+    	if len(t.cards) == 0
+    		return t.acceptsCards(r, pile)
         if not SpiderType_Hint.shallMovePile(self, r, t, pile, rpile):
             return False
         rr = self.ClonedStack(r, stackcards=rpile)
         if rr.acceptsCards(t, pile):
-            # the pile we are going to move from r to t
-            # could be moved back from t ro r - this is
-            # dangerous for as we can create loops...
-            if len(t.cards) == 0:
-                return True
             if pile[0].suit == t.cards[-1].suit:
                 # The pile will get moved onto the correct suit
                 if len(rpile) == 0 or pile[0].suit != rpile[-1].suit:

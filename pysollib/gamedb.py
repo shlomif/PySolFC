@@ -520,6 +520,7 @@ class GI:
         ("Richard A. Canfield", (105, 835,)),
         ("Lillian Davies and Christa Baran", (605,)),
         ("Ann Edwards", (869,)),
+        ("Zach Gage and Kurt Bieg", (992,)),
         ("Robert Harbin", (381,)),
         ("Robert Hogue", (22216, 22217, 22218, 22231,)),
         ("Erik den Hollander", (344, 544,)),
@@ -644,7 +645,7 @@ class GI:
          (44, 526, 5906, 22399,)),
         ('fc-3.6', tuple(range(981, 991)) + tuple(range(19501, 19510)) +
          (16686,)),
-        ('dev', (991,)),
+        ('dev', tuple(range(991, 993))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
@@ -697,7 +698,7 @@ class GameInfo(Struct):
                  si=None, category=0, subcategory=GI.GS_NONE,
                  short_name=None, altnames=(),
                  suits=None, ranks=None, trumps=(),
-                 rules_filename=None,
+                 rules_filename=None, ncards=None
                  ):
         #
         if ranks is None:
@@ -716,7 +717,8 @@ class GameInfo(Struct):
                 print_err(err)
                 s = str(s, 'utf-8', 'ignore')
             return s
-        ncards = decks * (len(suits) * len(ranks) + len(trumps))
+        if ncards is None:
+            ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
         name = to_unicode(name)

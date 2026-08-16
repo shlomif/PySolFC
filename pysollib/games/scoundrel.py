@@ -209,7 +209,7 @@ class Scoundrel(Game):
                               font=self.app.getFont("canvas_large"))
 
         l.defaultStackGroups()
-        
+
         self.setRegion(s.foundations,
                        (0, 0, l.XM + l.XS * 3 // 2, self.height))
 

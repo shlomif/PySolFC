@@ -102,7 +102,7 @@ class Scoundrel_RoomStack(OpenStack):
             to_stack.moveMove(
                 len(to_stack.cards), game.s.foundations[0], frames=0)
         OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
-        
+
         if cleared and game.health > 0:
             game.s.talon.dealRoom()
 

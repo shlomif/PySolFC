@@ -607,6 +607,36 @@ class Spoilt(Game):
 
 
 # ************************************************************************
+# * Rectangular Rovers
+# ***********************************************************************
+
+class RectangularRovers_RowStack(Montana_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        return len(self.cards) == 0 and self.game.isNeighbour(from_stack, self)
+
+
+class RectangularRovers(Montana):
+    Hint_Class = None
+    Talon_Class = InitialDealTalonStack
+    RowStack_Class = RectangularRovers_RowStack
+    RLEN, RSTEP, RBASE = 24, 6, 0
+
+    SpaceRank = 5
+
+    def createGame(self):
+        Montana.createGame(self, round_text=False)
+
+    def isNeighbour(self, stack1, stack2):
+        column = stack2.id % 6
+        diff = stack1.id - stack2.id
+        if column == 0:
+            return diff in (-6, 1, 6)
+        if column == 5:
+            return diff in (-6, -1, 6)
+        return diff in (-6, -1, 1, 6)
+
+
+# ************************************************************************
 # * Double Montana
 # * Paganini II
 # * Double Blue Moon
@@ -730,3 +760,7 @@ registerGame(GameInfo(858, Station, "Station",
 registerGame(GameInfo(877, DoubleMontana, "Double Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 96}))
+registerGame(GameInfo(993, RectangularRovers, "Rectangular Rovers",
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4, 5),
+                      si={"ncards": 20}))

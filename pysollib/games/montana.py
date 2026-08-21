@@ -162,6 +162,8 @@ class Montana(Game):
     RowStack_Class = Montana_RowStack
     Hint_Class = Montana_Hint
 
+    SpaceRank = ACE
+
     RLEN, RSTEP, RBASE = 52, 13, 1
 
     def createGame(self, round_text=True):
@@ -192,8 +194,9 @@ class Montana(Game):
             # Talon is invisible
             x, y = self.getInvisibleCoords()
             s.talon = self.Talon_Class(x, y, self)
-        if self.RBASE:
-            # create an invisible stack to hold the four Aces
+        if not self.RBASE <= self.SpaceRank < self.RBASE + self.RSTEP - 1:
+            # the space rank is not part of the sequences, so create an
+            # invisible stack to hold those cards
             s.internals.append(InvisibleStack(self))
 
         # define stack-groups
@@ -208,7 +211,7 @@ class Montana(Game):
         toprows = len(self.s.talon.cards) * .75
         for i in range(len(self.s.talon.cards)):
             c = self.s.talon.cards[-1]
-            if c.rank == ACE:
+            if c.rank == self.SpaceRank:
                 self.s.talon.dealRow(rows=self.s.internals, frames=0)
             else:
                 if frames == 0 and i >= toprows:
@@ -669,7 +672,9 @@ class HouseOfCommons(Montana):
 
 class Pretzel(Montana):
     Talon_Class = InitialDealTalonStack
-    RLEN, RSTEP, RBASE = 20, 5, 1
+    RLEN, RSTEP, RBASE = 24, 6, 0
+
+    SpaceRank = 5
 
     def createGame(self):
         Montana.createGame(self, round_text=False)
@@ -715,10 +720,10 @@ registerGame(GameInfo(794, HouseOfCommons, "House of Commons",
                       GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 1,
                       GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
                       si={"ncards": 36}))
-registerGame(GameInfo(795, Pretzel, "Pretzel",
+registerGame(GameInfo(795, Pretzel, "Line Up",
                       GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
-                      GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4),
-                      si={"ncards": 16}))
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4, 5),
+                      si={"ncards": 20}, altnames=('Pretzel',)))
 registerGame(GameInfo(858, Station, "Station",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))

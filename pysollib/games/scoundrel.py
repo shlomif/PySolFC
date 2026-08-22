@@ -23,6 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
@@ -45,6 +46,62 @@ def strengthValue(card):
     if card.rank == ACE:
         return 14
     return card.rank + 1
+
+
+class Scoundrel_Hint(AbstractHint):
+    def computeHints(self):
+        game = self.game
+        if game.health <= 0:
+            return
+        discard = game.s.foundations[0]
+        weapon = game.s.reserves[0]
+        slain = game.s.reserves[1]
+        potions, weapons, slay, fists, extra = [], [], [], [], []
+        for r in game.s.rows:
+            if not r.cards:
+                continue
+            cards = r.cards[-1:]
+            if not r.canMoveCards(cards):
+                continue
+            card = cards[0]
+            if card.suit == HEART:
+                if self._shouldDrinkPotion():
+                    potions.append(r)
+                else:
+                    extra.append(r)
+            elif card.suit == DIAMOND:
+                if weapon.acceptsCards(r, cards):
+                    weapons.append(r)
+            elif slain.acceptsCards(r, cards):
+                slay.append(r)
+            elif discard.acceptsCards(r, cards):
+                fists.append(r)
+        if potions:
+            potions.sort(key=lambda s: strengthValue(s.cards[-1]),
+                         reverse=True)
+            self.addHint(30000, 1, potions[0], discard)
+        for r in weapons:
+            self.addHint(20000 + strengthValue(r.cards[-1]), 1, r, weapon)
+        for r in slay:
+            self.addHint(10000, 1, r, slain)
+        for r in fists:
+            self.addHint(5000, 1, r, discard)
+        for r in extra:
+            self.addHint(1000, 1, r, discard)
+
+    def _shouldDrinkPotion(self):
+        game = self.game
+        if game.potion_used:
+            return False
+        # Full health: a potion heals nothing, so treat it as filler.
+        if game.health >= game.MAX_HEALTH:
+            return False
+        # 15-19: wait until the third play of the room, so a hit can
+        # still be taken first and the heal is not wasted early.
+        if game.health >= 15:
+            return game.room_plays >= 2
+        # 14 or less: drink immediately - a bad monster can end the game.
+        return True
 
 
 class Scoundrel_Talon(TalonStack):
@@ -162,7 +219,7 @@ class Scoundrel_MonsterStack(OpenStack):
 
 
 class Scoundrel(Game):
-    Hint_Class = None
+    Hint_Class = Scoundrel_Hint
     MAX_HEALTH = 20
     ROOM_PLAYS = 3
 

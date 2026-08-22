@@ -469,7 +469,8 @@ registerGame(GameInfo(591, Pantagruel, "Pantagruel",
 registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
-                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED,
+                      altnames=('Upside-Down Pyramid')))
 registerGame(GameInfo(689, Brush, "Brush",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))

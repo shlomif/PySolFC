@@ -1,3 +1,4 @@
-Icons by remixicon.com
+Icons by Material Design Icons (mdi) 6.7.97
+https://pictogrammers.com/library/mdi/
 
 White version for darker interfaces

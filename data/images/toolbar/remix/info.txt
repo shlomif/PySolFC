@@ -1,1 +1,2 @@
-Icons by remixicon.com
+Icons by Material Design Icons (mdi) 6.7.96
+https://pictogrammers.com/library/mdi/

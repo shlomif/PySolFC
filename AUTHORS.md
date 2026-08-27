@@ -36,7 +36,7 @@ Enhancements
 
 * [ghostofiht](https://github.com/ghostofiht) - Contributed a new logo design.
 * [Trueno font](https://fontlibrary.org/en/font/trueno) under the [OFL](https://en.wikipedia.org/wiki/SIL_Open_Font_License) by [Julieta Ulanovsky](http://www.zkysky.com.ar/) - used in the logo.
-* [Remix Icon](https://remixicon.com/) - used for many icons throughout the app.
+* [Material Design Icons](https://pictogrammers.com/library/mdi/) under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) - used for many icons throughout the app.
 
 Translations
 ============

@@ -142,7 +142,7 @@ class PushPin(Game):
             pad = 5
 
         # set window
-        xx, yy = 9, 6
+        xx, yy = 9 * self.gameinfo.decks, 6
         w, h = l.XM + xx * l.XS, (l.YM * pad) + yy * l.YS
         self.setSize(w, h)
 
@@ -152,7 +152,7 @@ class PushPin(Game):
                 n = j+xx*i
                 if n < 1:
                     continue
-                if n > 52:
+                if n > self.gameinfo.ncards:
                     break
                 k = j
                 if i % 2:
@@ -166,7 +166,8 @@ class PushPin(Game):
                               font=self.app.getFont("canvas_default"))
         s.foundations.append(PushPin_Foundation(l.XM, h-l.YS, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
-                             max_accept=0, max_move=0, max_cards=52))
+                             max_accept=0, max_move=0,
+                             max_cards=self.gameinfo.ncards))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -175,8 +176,10 @@ class PushPin(Game):
     def startGame(self):
         self.startDealSample()
         if self.app.opt.accordion_deal_all:
-            self.s.talon.dealRow(rows=self.s.rows[:47], frames=0)
-            self.s.talon.dealRow(rows=self.s.rows[47:52])
+            self.s.talon.dealRow(rows=self.s.rows[:self.gameinfo.ncards-3],
+                                 frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[self.gameinfo.ncards-3:
+                                                  self.gameinfo.ncards])
         else:
             self.s.talon.dealRow(rows=self.s.rows[:3])
 
@@ -317,6 +320,12 @@ class Accordion2(Accordion):
 
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 51
+
+
+class Accordion2Deck(Accordion2):
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 103
 
 # ************************************************************************
 # * Relaxed Accordion
@@ -559,3 +568,5 @@ registerGame(GameInfo(883, TwoThreeSkidoo, "23 Skidoo",
 registerGame(GameInfo(918, SevenUp, "Seven Up",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
                       altnames=('Seventh Wonder', 'The Magic Seven')))
+registerGame(GameInfo(994, Accordion2Deck, "Accordion (2 Decks)",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_SKILL))

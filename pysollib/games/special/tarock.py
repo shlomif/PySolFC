@@ -41,7 +41,8 @@ from pysollib.stack import \
         SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack
+        WasteTalonStack, \
+        Yukon_SS_RowStack
 from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************
@@ -331,6 +332,7 @@ class WheelOfFortune(AbstractTarockGame):
 # ************************************************************************
 # * Imperial Trumps
 # * Imperial Trump Yukon
+# * Russian Imperial
 # ************************************************************************
 
 class ImperialTrumps(AbstractTarockGame):
@@ -408,6 +410,10 @@ class ImperialTrumpYukon(ImperialTrumps):
         for i in range(6):
             self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
         self._startAndDealRow()
+
+
+class RussianImperial(ImperialTrumpYukon):
+    ROW_STACK = Yukon_SS_RowStack
 
 
 # ************************************************************************
@@ -1024,6 +1030,9 @@ r(13160, ImperialTrumpYukon, "Imperial Trump Yukon", GI.GT_TAROCK, 1, 0,
 r(13161, KlondikeNouveau, "Klondike Nouveau", GI.GT_TAROCK, 1, -1,
   GI.SL_BALANCED)
 r(13162, YukonNouveau, "Yukon Nouveau", GI.GT_TAROCK, 1, 0,
+  GI.SL_BALANCED)
+
+r(13200, RussianImperial, "Russian Imperial", GI.GT_TAROCK, 1, 0,
   GI.SL_BALANCED)
 
 del r

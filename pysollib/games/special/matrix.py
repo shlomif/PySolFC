@@ -200,8 +200,6 @@ class Matrix(Game):
                              frames=3)
 
     def isGameWon(self):
-        if self.busy:
-            return 0
         s = self.s.rows
         mylen = len(s) - 1
         for r in s[:mylen]:

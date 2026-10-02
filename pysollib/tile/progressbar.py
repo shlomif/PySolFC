@@ -57,7 +57,14 @@ class PysolProgressBar:
             self.progress.pack(expand=True, fill='x')
         self.frame.pack(expand=True, fill='both')
         if 1:
-            setTransient(self.top, None, relx=0.5, rely=0.5)
+            # center over the main window (or where it will reopen)
+            rect = None
+            if parent is not None and parent.winfo_ismapped():
+                rect = (parent.winfo_x(), parent.winfo_y(),
+                        parent.winfo_width(), parent.winfo_height())
+            elif app is not None:
+                rect = app.opt.window_geometry
+            setTransient(self.top, None, relx=0.5, rely=0.5, rect=rect)
         else:
             self.update(percent=0)
         self.norm = norm

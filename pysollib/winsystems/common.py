@@ -32,7 +32,7 @@ from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import VERSION
 
 if TOOLKIT == 'tk':
-    from pysollib.ui.tktile.tkutil import loadImage
+    from pysollib.ui.tktile.tkutil import loadImage, restore_window_geometry
     if USE_TILE:
         import tkinter.ttk as ttk
 
@@ -111,6 +111,9 @@ def base_init_root_window(root, app):
         root.wm_minsize(400, 300)
     else:
         root.wm_minsize(520, 360)
+
+    if TOOLKIT == 'tk':
+        restore_window_geometry(root, app.opt)
 
     if TOOLKIT == 'tk' and USE_TILE:
         theme = app.opt.tile_theme

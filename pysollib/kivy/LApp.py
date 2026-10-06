@@ -284,6 +284,10 @@ def addAnchorOffset(pos, size, anchor):
 # =============================================================================
 
 
+# LMainWindow chrome. Shared so toolbar icons can follow the same background.
+MAIN_WINDOW_BG = (0.15, 0.15, 0.15, 1.0)
+
+
 def LColorToLuminance(color):
     kc = color
     if isinstance(color, str):
@@ -1649,7 +1653,7 @@ class LMainWindow(BoxLayout, LTkBase):
         # self.touches = []
 
         with self.canvas.before:
-            Color(0.15, 0.15, 0.15, 1)
+            Color(*MAIN_WINDOW_BG)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect)
         self.bind(size=self.update_rect)

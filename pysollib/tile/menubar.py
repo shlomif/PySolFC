@@ -120,6 +120,8 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         except ImportError:
             style = ttk.Style(self.top)
         style.theme_use(theme)
+        if self.app.refreshToolbarImages():
+            self.top.update_idletasks()
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))

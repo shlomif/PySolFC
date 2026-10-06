@@ -44,6 +44,13 @@ from pysollib.mfxutil import getprefdir, getusername
 from pysollib.mfxutil import latin1_normalize, print_err
 from pysollib.mfxutil import pickle, unpickle
 from pysollib.mygettext import _
+from pysollib.options import DEFAULT_BUTTON_ICON_STYLE
+from pysollib.options import DEFAULT_DEMO_LOGO_STYLE
+from pysollib.options import DEFAULT_DIALOG_ICON_STYLE
+from pysollib.options import DEFAULT_PAUSE_TEXT_STYLE
+from pysollib.options import DEFAULT_REDEAL_ICON_STYLE
+from pysollib.options import DEFAULT_TOOLBAR_STYLE
+from pysollib.options import DEFAULT_TREE_ICON_STYLE
 from pysollib.options import Options
 from pysollib.pysolrandom import PysolRandom, construct_random
 from pysollib.pysoltk import HTMLViewer
@@ -78,6 +85,96 @@ else:
     from pysollib.pysoltk import destroy_solver_dialog
 if TOOLKIT == 'kivy':
     import logging
+
+# Luminance below this counts as a dark theme background.
+_DARK_LUMINANCE = 0.4
+
+
+def resolve_toolbar_images_dir(images_root, style, size, default_style,
+                               use_light):
+    """Pick toolbar icon directory.
+
+    ``images_root`` is the ``images`` directory. A set that contains
+    ``light/<size>`` uses that tree for dark themes, when ``use_light``
+    is true. Any other name is left alone. A name with a directory
+    (or size) missing is replaced with ``default_style``.
+    """
+
+    def variant(name):
+        base = os.path.join(images_root, 'toolbar', name)
+        if not os.path.isdir(base):
+            return None
+        if use_light:
+            light = os.path.join(base, 'light', size)
+            if os.path.isdir(light):
+                return light
+        normal = os.path.join(base, size)
+        if os.path.isdir(normal):
+            return normal
+        return None
+
+    found = variant(style)
+    if found is not None:
+        return style, found
+    if style != default_style:
+        found = variant(default_style)
+        if found is not None:
+            return default_style, found
+    return default_style, os.path.join(
+        images_root, 'toolbar', default_style, size)
+
+
+def resolve_image_style(data_dir, category, style, default_style):
+    """Return the style name to load for an other-images category.
+
+    ``none`` means no images. Any other name whose directory is missing is
+    replaced with ``default_style``.
+    """
+    def present(name):
+        if name == 'none':
+            return True
+        return os.path.isdir(
+            os.path.join(data_dir, 'images', category, name))
+
+    if present(style):
+        return style
+    return default_style
+
+
+def interface_is_dark(root):
+    """True when the UI theme background is dark.
+
+    Tile themes are sampled from the current ttk background. Kivy uses the
+    main-window chrome color. A color that cannot be read counts as light.
+    """
+    if TOOLKIT == 'kivy':
+        from pysollib.kivy.LApp import LColorToLuminance, MAIN_WINDOW_BG
+        return LColorToLuminance(MAIN_WINDOW_BG) < _DARK_LUMINANCE
+    if root is None:
+        return False
+    color = ''
+    from pysollib.settings import USE_TILE
+    if TOOLKIT == 'tk' and USE_TILE:
+        try:
+            import tkinter.ttk as ttk
+            style = ttk.Style(root)
+            color = (style.lookup('TFrame', 'background')
+                     or style.lookup('.', 'background')
+                     or '')
+        except Exception:
+            color = ''
+    if not color:
+        try:
+            color = root.cget('background')
+        except Exception:
+            return False
+    try:
+        red, green, blue = (c / 65535.0 for c in root.winfo_rgb(color))
+    except Exception:
+        return False
+    luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+    return luminance < _DARK_LUMINANCE
+
 
 _GameStatResult = GameStatResult
 GameStat = pysollib.app_stat.GameStat
@@ -542,7 +639,9 @@ class Application:
                   "joker11_100_774",
                   "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dirname))
-        dirname = os.path.join('images', 'dialog', self.opt.dialog_icon_style)
+        style = self._selectImageStyle(
+            'dialog_icon_style', 'dialog', DEFAULT_DIALOG_ICON_STYLE)
+        dirname = os.path.join('images', 'dialog', style)
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)
@@ -550,9 +649,10 @@ class Application:
 
         # load button images
         MfxDialog.button_img = {}
-        if TOOLKIT == 'tk' and self.opt.button_icon_style != 'none':
-            dirname = os.path.join('images', 'buttons',
-                                   self.opt.button_icon_style)
+        style = self._selectImageStyle(
+            'button_icon_style', 'buttons', DEFAULT_BUTTON_ICON_STYLE)
+        if TOOLKIT == 'tk' and style != 'none':
+            dirname = os.path.join('images', 'buttons', style)
             for f, labels in (
                 ('ok', (_('&OK'), _('&Select'), _('&Nice'), _('&Enjoy'),
                         _('&Great'), _('&Cool'), _('&Yeah'), _('&Wow'),
@@ -576,13 +676,16 @@ class Application:
 
     def loadImages2(self):
         # load canvas images
-        dirname = os.path.join("images", "redealicons",
-                               self.opt.redeal_icon_style)
+        style = self._selectImageStyle(
+            'redeal_icon_style', 'redealicons', DEFAULT_REDEAL_ICON_STYLE)
+        dirname = os.path.join("images", "redealicons", style)
         # for f in ("noredeal", "redeal",):
         self.gimages.redeal = []
         for f in ("stopsign", "redeal",):
             self.gimages.redeal.append(self.dataloader.findImage(f, dirname))
-        dirname = os.path.join("images", "demo", self.opt.demo_logo_style)
+        style = self._selectImageStyle(
+            'demo_logo_style', 'demo', DEFAULT_DEMO_LOGO_STYLE)
+        dirname = os.path.join("images", "demo", style)
         self.gimages.demo = []
         foundall = False
         count = 0
@@ -595,7 +698,9 @@ class Application:
                                                                    dirname))
             except OSError:
                 foundall = True
-        dirname = os.path.join("images", "pause", self.opt.pause_text_style)
+        style = self._selectImageStyle(
+            'pause_text_style', 'pause', DEFAULT_PAUSE_TEXT_STYLE)
+        dirname = os.path.join("images", "pause", style)
         self.gimages.pause = []
         foundall = False
         count = 0
@@ -615,7 +720,9 @@ class Application:
     def loadImages3(self):
         # load treeview images
         SelectDialogTreeData.img = []
-        dirname = os.path.join('images', 'tree', self.opt.tree_icon_style)
+        style = self._selectImageStyle(
+            'tree_icon_style', 'tree', DEFAULT_TREE_ICON_STYLE)
+        dirname = os.path.join('images', 'tree', style)
         for f in ('folder', 'openfolder', 'node', 'emptynode'):
             fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)
@@ -650,21 +757,57 @@ class Application:
     def getFindCardImagesDir(self):
         return self._getImagesDir('cards')
 
-    def getToolbarImagesDir(self):
-        if self.opt.toolbar_size == 2:
-            size = 'xlarge'
-        elif self.opt.toolbar_size == 1:
-            size = 'large'
-        else:
-            size = 'small'
-        style = self.opt.toolbar_style
+    def _toolbarIconSizeName(self):
         if TOOLKIT == 'kivy':
-            size = 'xlarge'
-            style = 'remix light'
-        d = self._getImagesDir('toolbar', style, size)
-        if d:
-            return d
-        return self._getImagesDir('toolbar', 'default', size, check=False)
+            return 'xlarge'
+        if self.opt.toolbar_size == 2:
+            return 'xlarge'
+        if self.opt.toolbar_size == 1:
+            return 'large'
+        return 'small'
+
+    def _syncImageStyleMenu(self, attr):
+        menubar = getattr(self, 'menubar', None)
+        if menubar is None:
+            return
+        var = getattr(getattr(menubar, 'tkopt', None), attr, None)
+        if var is None:
+            return
+        style = getattr(self.opt, attr)
+        if hasattr(var, 'value'):
+            var.value = style
+        elif hasattr(var, 'set'):
+            var.set(style)
+
+    def _selectImageStyle(self, attr, category, default_style):
+        style = resolve_image_style(
+            self.dataloader.dir, category, getattr(self.opt, attr),
+            default_style)
+        if style != getattr(self.opt, attr):
+            setattr(self.opt, attr, style)
+            self._syncImageStyleMenu(attr)
+        return style
+
+    def _syncToolbarStyleMenu(self):
+        self._syncImageStyleMenu('toolbar_style')
+
+    def getToolbarImagesDir(self):
+        size = self._toolbarIconSizeName()
+        images_root = os.path.join(self.dataloader.dir, 'images')
+        style, dirname = resolve_toolbar_images_dir(
+            images_root, self.opt.toolbar_style, size,
+            DEFAULT_TOOLBAR_STYLE, interface_is_dark(self.top))
+        if style != self.opt.toolbar_style:
+            self.opt.toolbar_style = style
+            self._syncToolbarStyleMenu()
+        return dirname
+
+    def refreshToolbarImages(self):
+        toolbar = getattr(self, 'toolbar', None)
+        if toolbar is None or not hasattr(toolbar, 'updateImages'):
+            return False
+        dirname = self.getToolbarImagesDir()
+        return bool(toolbar.updateImages(dirname, self.opt.toolbar_size))
 
     def setTile(self, i, scaling=-1, force=0):
         if scaling == -1:

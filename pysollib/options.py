@@ -233,6 +233,16 @@ resampling = integer(0, 10)
 '''.splitlines()
 
 
+# A saved image set whose directory is missing is replaced with these.
+DEFAULT_TOOLBAR_STYLE = 'material'
+DEFAULT_DIALOG_ICON_STYLE = 'material'
+DEFAULT_TREE_ICON_STYLE = 'material'
+DEFAULT_BUTTON_ICON_STYLE = 'none'
+DEFAULT_REDEAL_ICON_STYLE = 'modern'
+DEFAULT_DEMO_LOGO_STYLE = 'komika'
+DEFAULT_PAUSE_TEXT_STYLE = 'komika'
+
+
 class Options:
     GENERAL_OPTIONS = [
         ('last_version', 'list'),
@@ -384,12 +394,12 @@ class Options:
         self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = True
-        self.demo_logo_style = 'komika'
-        self.pause_text_style = 'komika'
-        self.redeal_icon_style = 'modern'
-        self.dialog_icon_style = 'remix'
-        self.tree_icon_style = 'remix'
-        self.button_icon_style = 'none'
+        self.demo_logo_style = DEFAULT_DEMO_LOGO_STYLE
+        self.pause_text_style = DEFAULT_PAUSE_TEXT_STYLE
+        self.redeal_icon_style = DEFAULT_REDEAL_ICON_STYLE
+        self.dialog_icon_style = DEFAULT_DIALOG_ICON_STYLE
+        self.tree_icon_style = DEFAULT_TREE_ICON_STYLE
+        self.button_icon_style = DEFAULT_BUTTON_ICON_STYLE
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, left, right
@@ -399,7 +409,7 @@ class Options:
         # 0 == hide,
         # 1,2,3,4 == top, bottom, left, right
         # self.toolbar_style = 'default'
-        self.toolbar_style = 'remix'
+        self.toolbar_style = DEFAULT_TOOLBAR_STYLE
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0

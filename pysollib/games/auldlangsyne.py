@@ -52,6 +52,8 @@ class TamOShanter(Game):
     Foundation_Class = RK_FoundationStack
     RowStack_Class = StackWrapper(BasicRowStack, max_move=1, max_accept=0)
 
+    ALT_FOUNDATIONS = False
+
     def createGame(self, rows=4, playcards=12, texts=False, yoffset=None):
         # create layout
         l, s = Layout(self), self.s
@@ -72,12 +74,23 @@ class TamOShanter(Game):
         l.createText(s.talon, "s")
         if texts:
             l.createRoundText(s.talon, 'nn')
-        x, y = l.XM+2*l.XS, l.YM
-        for i in range(4*self.gameinfo.decks):
-            s.foundations.append(
-                self.Foundation_Class(x, y, self, suit=i % 4))
-            x += l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
+        x, y = l.XM + 2 * l.XS, l.YM
+        if self.ALT_FOUNDATIONS:
+            for i in range(4):
+                s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+                x += l.XS
+            for i in range(4):
+                s.foundations.append(self.Foundation_Class(x, y, self,
+                                                           suit=i,
+                                                           base_rank=KING,
+                                                           dir=-1))
+                x += l.XS
+        else:
+            for i in range(4 * self.gameinfo.decks):
+                s.foundations.append(
+                    self.Foundation_Class(x, y, self, suit=i % 4))
+                x += l.XS
+        x, y = l.XM + 2 * l.XS, l.YM + l.YS
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self)
             s.rows.append(stack)
@@ -596,6 +609,20 @@ class DoubleAcquaintance(AuldLangSyne):
         AuldLangSyne.createGame(self, rows=8, texts=True)
 
 
+class MutualAcquaintance(AuldLangSyne):
+    Talon_Class = StackWrapper(Acquaintance_Talon, max_rounds=2)
+
+    ALT_FOUNDATIONS = True
+
+    def createGame(self):
+        AuldLangSyne.createGame(self, rows=8, texts=True)
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.deck == 0 and c.rank in (0, 12),
+                              (c.rank, c.suit)), 8)
+
+
 # ************************************************************************
 # * Formic
 # ************************************************************************
@@ -688,3 +715,5 @@ registerGame(GameInfo(853, Grandfather, "Grandfather",
                       GI.GT_NUMERICA, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(866, OldFashioned, "Old Fashioned",
                       GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(995, MutualAcquaintance, "Mutual Acquaintance",
+                      GI.GT_NUMERICA, 2, 1, GI.SL_BALANCED))

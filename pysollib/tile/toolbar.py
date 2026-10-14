@@ -181,6 +181,7 @@ class PysolToolbarTk:
             (None,           None,            None),
             (n_("Undo"),     self.mUndo,      _("Undo last move")),
             (n_("Redo"),     self.mRedo,      _("Redo last move")),
+            (n_("Deal"),     self.mDeal,      _("Deal cards")),
             (n_("Autodrop"), self.mDrop,      _("Auto drop cards")),
             (n_("Shuffle"),  self.mShuffle,   _("Shuffle tiles")),
             (n_("Hint"),     self.mHint,      _("Hint")),

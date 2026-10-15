@@ -881,6 +881,10 @@ class Game:
         if autoplay:
             self.autoPlay()
             self.stats.player_moves = 0
+        # Opening layout can already be dead (Yukon shuffles that never
+        # reach a drop or a flip). Check before the player has to move.
+        if not self.preview:
+            self.updateStuck()
         self.setCursor(cursor=self.app.top_cursor)
         self.stats.update_time = time.time()
         if not self.preview:

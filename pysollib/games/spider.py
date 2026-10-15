@@ -95,6 +95,9 @@ class Spider_Hint(SpiderType_Hint):
                 # The pile will get moved onto the correct suit
                 if len(rpile) == 0 or pile[0].suit != rpile[-1].suit:
                     return True
+            # Uncovering a run that can drop is progress, not a shuffle.
+            if rr.canDropCards(self.game.s.foundations)[0]:
+                return True
             # Stuck must not accept reversible whole-pile shuffles, even
             # though player hints (level <= 1) are more lenient.
             if hint_level_is_stuck(self.level):

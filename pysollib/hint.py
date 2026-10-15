@@ -263,8 +263,10 @@ class AbstractHint(HintInterface):
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
         if rr.acceptsCards(to_stack, pile):
-            # the pile we are going to move could be moved back -
-            # this is dangerous as we can create endless loops...
+            # If a card can come straight back, it can create an endless
+            # loop, unless the uncovered card can go to a foundation.
+            if rr.canDropCards(self.game.s.foundations)[0]:
+                return 1
             return 0
         return 1
 
@@ -274,15 +276,8 @@ class AbstractHint(HintInterface):
                 to_stack.acceptsCards(from_stack, pile):
             return 0
         if hint_level_avoids_move_loops(self.level):
-            #
-            if len(rpile) == 0:
-                return 1
-            # now check for loops
-            rr = self.ClonedStack(from_stack, stackcards=rpile)
-            if rr.acceptsCards(to_stack, pile):
-                # the pile we are going to move could be moved back -
-                # this is dangerous as we can create endless loops...
-                return 0
+            return self._cautiousShallMovePile(
+                from_stack, to_stack, pile, rpile)
         return 1
 
     shallMovePile = _defaultShallMovePile
@@ -745,6 +740,24 @@ class KlondikeType_Hint(DefaultHint):
 
 # this works for Yukon, but not too well for Russian Solitaire
 class YukonType_Hint(CautiousDefaultHint):
+    # Bound the stuck search. Hitting the cap keeps the hints, so a long
+    # real line is not reported as stuck; only a fully explored dead
+    # shuffle graph is. Layouts with nothing left to flip or drop are
+    # decided before the search.
+    _YUKON_STUCK_STATE_CAP = 80
+
+    def getHints(self, taken_hint=None):
+        hints = super().getHints(taken_hint)
+        # Any face-up card can move, so one-step reversibility still leaves
+        # closed shuffle graphs looking playable. Stuck is when none of
+        # those moves can reach a drop or a flip.
+        if (taken_hint or not hints or
+                not hint_level_is_stuck(self.level)):
+            return hints
+        if not self._yukon_stuck_can_progress():
+            return []
+        return hints
+
     def step010b_getPiles(self, stack):
         # return all moveable piles for this stack, longest one first
         p = stack.getPile()
@@ -753,6 +766,142 @@ class YukonType_Hint(CautiousDefaultHint):
             piles.append(p)
             p = p[1:]       # note: we need a fresh shallow copy
         return piles
+
+    def _yukon_sources(self):
+        return list(self.game.sg.dropstacks)
+
+    def _yukon_targets(self):
+        targets = list(self.game.s.rows)
+        for stack in self.game.s.reserves or []:
+            if stack not in targets:
+                targets.append(stack)
+        return targets
+
+    def _yukon_key(self):
+        parts = []
+        stacks = self._yukon_sources() + list(self.game.s.foundations)
+        for stack in stacks:
+            parts.append((stack.id, tuple(
+                (card.id, card.face_up) for card in stack.cards)))
+        return tuple(parts)
+
+    def _yukon_capture(self):
+        snap = []
+        stacks = self._yukon_sources() + list(self.game.s.foundations)
+        for stack in stacks:
+            snap.append((stack, list(stack.cards),
+                         [card.face_up for card in stack.cards]))
+        return snap
+
+    def _yukon_restore(self, snap):
+        for stack, cards, faces in snap:
+            stack.cards[:] = cards
+            for card, face in zip(stack.cards, faces):
+                card.face_up = face
+
+    def _yukon_apply(self, src, dst, pile):
+        n = len(pile)
+        del src.cards[-n:]
+        dst.cards.extend(pile)
+
+    def _yukon_unapply(self, src, dst, pile):
+        n = len(pile)
+        del dst.cards[-n:]
+        src.cards.extend(pile)
+
+    def _yukon_position_progress(self):
+        # A flip or a foundation drop is forward motion. Tableau yanks
+        # that never reach either are the shuffles that hid stuck games.
+        founds = self.game.s.foundations
+        for src in self._yukon_sources():
+            if src.canFlipCard():
+                return True
+            if src.canDropCards(founds)[0]:
+                return True
+        return False
+
+    def _yukon_iter_moves(self):
+        founds = self.game.s.foundations
+        targets = self._yukon_targets()
+        for src in self._yukon_sources():
+            if not src.cards:
+                continue
+            drop, n = src.canDropCards(founds)
+            if drop and n:
+                yield src, drop, list(src.cards[-n:])
+            start = None
+            for i, card in enumerate(src.cards):
+                if card.face_up:
+                    start = i
+                    break
+            if start is None:
+                continue
+            for i in range(start, len(src.cards)):
+                pile = list(src.cards[i:])
+                if not src.canMoveCards(pile):
+                    continue
+                for dst in targets:
+                    if dst is src or not dst.acceptsCards(src, pile):
+                        continue
+                    yield src, dst, pile
+
+    def _yukon_search_progress(self):
+        cap = self._YUKON_STUCK_STATE_CAP
+        seen = {self._yukon_key()}
+        queue = [self._yukon_capture()]
+        scanned = 0
+        while queue:
+            if scanned >= cap:
+                return True
+            self._yukon_restore(queue.pop())
+            scanned += 1
+            for src, dst, pile in list(self._yukon_iter_moves()):
+                self._yukon_apply(src, dst, pile)
+                try:
+                    if self._yukon_position_progress():
+                        return True
+                    key = self._yukon_key()
+                    if key not in seen:
+                        seen.add(key)
+                        queue.append(self._yukon_capture())
+                finally:
+                    self._yukon_unapply(src, dst, pile)
+        return False
+
+    def _yukon_future_drop_or_flip(self):
+        # Spider-style rows drop a whole suit, so a lone card is not
+        # evidence. Single-card foundations (Yukon) are stuck when no
+        # card left in play is the next foundation card and nothing is
+        # face down.
+        from pysollib.stack import OpenStack
+        sources = self._yukon_sources()
+        for src in sources:
+            if type(src).canDropCards is not OpenStack.canDropCards:
+                return True
+            if any(not card.face_up for card in src.cards):
+                return True
+        founds = self.game.s.foundations
+        for src in sources:
+            saved = src.cards[:]
+            try:
+                for card in saved:
+                    src.cards[:] = [card]
+                    if src.canDropCards(founds)[0]:
+                        return True
+            finally:
+                src.cards[:] = saved
+        return False
+
+    def _yukon_stuck_can_progress(self):
+        if self._yukon_position_progress():
+            return True
+        if not self._yukon_future_drop_or_flip():
+            return False
+        root = self._yukon_capture()
+        try:
+            return self._yukon_search_progress()
+        finally:
+            self._yukon_restore(root)
 
 
 class Yukon_Hint(YukonType_Hint):

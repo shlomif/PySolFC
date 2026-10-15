@@ -62,16 +62,31 @@ def wm_get_geometry(window):
         raise tkinter.TclError("invalid geometry "+str(g))
     lst = list(map(int, m.groups()))
     if window.wm_state() == "zoomed":
-        # workaround as Tk returns the "unzoomed" origin
-        lst[2] = lst[3] = 0
+        # Tk returns the "unzoomed" geometry; use the real one so
+        # this works when maximized on a secondary monitor
+        lst = [window.winfo_width(), window.winfo_height(),
+               window.winfo_x(), window.winfo_y()]
     return lst
+
+
+def restore_window_geometry(window, opt):
+    # also applied when maximized/fullscreen, so the window gets
+    # zoomed on the monitor it was last used on
+    x, y, w, h = opt.window_geometry
+    if w <= 0 or h <= 0:
+        return
+    try:
+        window.wm_geometry("%dx%d+%d+%d" % (w, h, x, y))
+    except tkinter.TclError:
+        pass
 
 
 # ************************************************************************
 # * window util
 # ************************************************************************
 
-def setTransient(window, parent, relx=None, rely=None, expose=1):
+def setTransient(window, parent, relx=None, rely=None, expose=1,
+                 rect=None):
     # Make an existing toplevel window transient for a parent.
     #
     # The window must exist but should not yet have been placed; in
@@ -86,7 +101,7 @@ def setTransient(window, parent, relx=None, rely=None, expose=1):
     # actualize geometry information
     window.update_idletasks()
     # show
-    x, y = __getWidgetXY(window, parent, relx=relx, rely=rely)
+    x, y = __getWidgetXY(window, parent, relx=relx, rely=rely, rect=rect)
     window.wm_geometry("+%d+%d" % (x, y))
     if expose:
         window.wm_deiconify()
@@ -119,7 +134,7 @@ def make_help_toplevel(app, title=None):
 
 
 def __getWidgetXY(widget, parent, relx=None, rely=None,
-                  w_width=None, w_height=None):
+                  w_width=None, w_height=None, rect=None):
     if w_width is None:
         w_width = widget.winfo_reqwidth()
     if w_height is None:
@@ -153,25 +168,20 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
                 relx = 0.5
             if rely is None:
                 rely = 0.5
-        m_x = max(m_x, 0)
-        m_y = max(m_y, 0)
     else:
+        # no mapped parent: center on the given (x, y, w, h), e.g. the
+        # saved main window position, instead of the primary screen
+        if rect and rect[2] > 0 and rect[3] > 0:
+            m_x, m_y, m_width, m_height = rect
         if relx is None:
             relx = 0.5
         if rely is None:
             rely = 0.3
     x = m_x + int((m_width - w_width) * relx)
     y = m_y + int((m_height - w_height) * rely)
-    # print x, y, w_width, w_height, m_x, m_y, m_width, m_height
-    # make sure the widget is fully on screen
-    if x < 0:
-        x = 0
-    elif x + w_width + 32 > s_width:
-        x = max(0, (s_width - w_width) // 2)
-    if y < 0:
-        y = 0
-    elif y + w_height + 32 > s_height:
-        y = max(0, (s_height - w_height) // 2)
+    # let's try this instead in case it ends up outside of screen
+    x = max(m_x, min(x, m_x + m_width - w_width))
+    y = max(m_y, min(y, m_y + m_height - w_height))
     return x, y
 
 

@@ -105,6 +105,7 @@ class GI:
     GT_SHISEN_SHO = 34
     GT_SIMPLE_TYPE = 29
     GT_SPIDER = 30
+    GT_SUDOKU = 44
     GT_TAROCK = 31
     GT_TERRACE = 32
     GT_YUKON = 33
@@ -173,6 +174,7 @@ class GI:
         GT_PUZZLE_TYPE:         n_("Puzzle"),
         GT_SAMEGAME:            n_("Samegame"),
         GT_SHISEN_SHO:          n_("Shisen-Sho"),
+        GT_SUDOKU:              n_("Sudoku"),
         GT_TAROCK:              n_("Tarock"),
         GT_HANOI:               n_("Tower of Hanoi"),
 
@@ -300,6 +302,7 @@ class GI:
             lambda gi, gt=GT_SAMEGAME: gi.si.game_type == gt),
         (n_("Shisen-Sho type"),
             lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
+        (n_("Sudoku type"), lambda gi, gt=GT_SUDOKU: gi.si.game_type == gt),
         (n_("Tarock type"), lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
         (n_("Tower of Hanoi type"),
             lambda gi, gt=GT_HANOI: gi.si.game_type == gt),
@@ -653,7 +656,8 @@ class GI:
          (44, 526, 5906, 22399,)),
         ('fc-3.6', tuple(range(981, 991)) + tuple(range(19501, 19510)) +
          (16686,)),
-        ('dev', tuple(range(991, 996)) + (13200,)),
+        ('dev', tuple(range(991, 996)) + (13200,) +
+         tuple(range(21001, 21005))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

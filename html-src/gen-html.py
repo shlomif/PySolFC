@@ -84,6 +84,7 @@ rules_files = [
     ('tilepuzzle.html', 'PySol - Rules for Tile Puzzle'),
     ('samegame.html', 'PySol - Rules for Samegame'),
     ('matchthree.html', 'PySol - Rules for Match Three'),
+    ('sudoku.html', 'PySol - Rules for Sudoku'),
     ]
 
 

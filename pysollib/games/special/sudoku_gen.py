@@ -206,6 +206,29 @@ class _Grid(object):
             return score, False
         return score, self.empty == 0
 
+    def placements_within(self, limit):
+        if not self.ok:
+            return []
+        hardest = 0
+        try:
+            while self.empty:
+                before = self.value[:]
+                step = self._step(limit)
+                if not step:
+                    return []
+                if step > hardest:
+                    hardest = step
+                placed = []
+                for cell in range(81):
+                    if self.value[cell] and not before[cell]:
+                        placed.append(
+                            (cell, self.value[cell], hardest))
+                if placed:
+                    return placed
+        except _Conflict:
+            return []
+        return []
+
     def _step(self, limit):
         # Techniques above the cap are not tried. A removal the cap
         # cannot solve is rejected, and easy deals never pay for a
@@ -696,6 +719,14 @@ def solve_puzzle(puzzle):
     if not solved:
         return rating, False, None
     return rating, True, _as_board(grid.value)
+
+
+def next_forced(puzzle, level):
+    # The first digits the level's own techniques can place. An
+    # elimination that does not fill a cell is followed until one
+    # does, so a pair is reported as the digit it frees.
+    cap = _LEVEL_DIG.get(int(level), _LEVEL_DIG[2])[0]
+    return _Grid(puzzle).placements_within(cap)
 
 
 def rate_puzzle(puzzle):

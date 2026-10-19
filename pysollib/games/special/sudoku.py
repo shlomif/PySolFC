@@ -26,6 +26,7 @@ from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.special.sudoku_gen import \
         SudokuGenerator, \
         clues_from_puzzle, \
+        next_forced, \
         ranks_from_solution
 from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
@@ -233,6 +234,37 @@ class Sudoku_Hint(AbstractHint):
             self.addHint(
                 10000 * (10 - n_ranks), 1,
                 game.reserve_by_rank[rank], game.s.rows[i])
+        if naked or hidden:
+            return
+        self._hint_pattern(legal, solution)
+
+    def _hint_pattern(self, legal, solution):
+        game = self.game
+        puzzle = []
+        row = []
+        for cell in game.s.rows:
+            if cell.cards:
+                row.append(cell.cards[-1].rank + 1)
+            else:
+                row.append(0)
+            if len(row) == 9:
+                puzzle.append(row)
+                row = []
+        level = getattr(game, "LEVEL", 1)
+        for index, digit, rank in next_forced(puzzle, level):
+            card_rank = digit - 1
+            if solution[index] != card_rank:
+                continue
+            if card_rank not in legal.get(index, ()):
+                continue
+            # A pair is rank 3 and lands at 80000, under a naked
+            # single. The player hint keeps each step of 10000.
+            score = 10000 * (11 - rank)
+            if score <= 0:
+                continue
+            self.addHint(
+                score, 1, game.reserve_by_rank[card_rank],
+                game.s.rows[index])
 
 
 # ************************************************************************

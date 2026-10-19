@@ -549,7 +549,8 @@ registerGame(GameInfo(287, PushPin, "Push Pin",
                       altnames=('Queens')))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      altnames=('Betrothal', 'Coquette')))
+                      altnames=('Betrothal', 'Coquette',
+                                'The Queen and Her Lad')))
 registerGame(GameInfo(656, Accordion, "Bayan",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(772, Accordion2, "Accordion",

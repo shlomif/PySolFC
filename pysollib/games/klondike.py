@@ -1712,7 +1712,8 @@ registerGame(GameInfo(231, Canister, "Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(229, AgnesSorel, "Agnes Sorel",
-                      GI.GT_GYPSY, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_GYPSY, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Agnes",)))
 registerGame(GameInfo(4, EightTimesEight, "8 x 8",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(127, AchtmalAcht, "Eight Times Eight",

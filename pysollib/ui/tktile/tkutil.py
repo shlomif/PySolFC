@@ -107,6 +107,19 @@ def setTransient(window, parent, relx=None, rely=None, expose=1,
         window.wm_deiconify()
 
 
+def placeOverParent(window, parent, relx=None, rely=None,
+                    w_width=None, w_height=None):
+    # Position a non-transient window over its parent, so it opens on
+    # the same monitor as the main window. Stay hidden while measuring,
+    # so it doesn't flash at the default position first.
+    window.wm_withdraw()
+    window.update_idletasks()
+    x, y = __getWidgetXY(window, parent, relx=relx, rely=rely,
+                         w_width=w_width, w_height=w_height)
+    window.wm_geometry("+%d+%d" % (x, y))
+    window.wm_deiconify()
+
+
 def makeToplevel(parent, title=None):
     # Create a Toplevel window.
     #

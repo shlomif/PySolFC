@@ -32,7 +32,8 @@ from pysollib.settings import WIN_SYSTEM
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
-from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
+from pysollib.ui.tktile.tkutil import makeToplevel, placeOverParent
+from pysollib.ui.tktile.tkutil import setTransient
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
@@ -76,6 +77,8 @@ class MfxDialog:  # ex. _ToplevelDialog
             except SystemExit:
                 pass
             self.destroy()
+        else:
+            placeOverParent(self.top, self.parent)
 
     def destroy(self):
         after_cancel(self.timer)

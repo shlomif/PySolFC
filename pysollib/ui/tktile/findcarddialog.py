@@ -31,6 +31,7 @@ from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage, MfxCanvasRectangle
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, makeImage, unbind_destroy
+from pysollib.ui.tktile.tkutil import placeOverParent
 
 
 LARGE_EMBLEMS_SIZE = (38, 34)
@@ -234,6 +235,7 @@ def create_find_card_dialog(parent, game, dir):
     except Exception:
         # traceback.print_exc()
         find_card_dialog = FindCardDialog(parent, game, dir)
+        placeOverParent(find_card_dialog, parent)
 
 
 def connect_game_find_card_dialog(game):

@@ -1551,3 +1551,20 @@ class Application:
         # print('dirs =', dirs)
         ext_re = re.compile(self.audio.EXTENSIONS)
         self.initResource(music_manager, dirs, ext_re, Music)
+
+    def refreshMusicPlaylist(self):
+        # The music folder is scanned at startup. An empty or missing
+        # music folder stays empty until we look again.
+        audio = self.audio
+        if audio is None or not audio.CAN_PLAY_MUSIC:
+            return False
+        if getattr(audio, 'music_list', None) or self.music_playlist:
+            return True
+        self.initMusic()
+        music = self.music_manager.getAll()
+        if not music:
+            return False
+        self.music_playlist = list(music)[:]
+        self.miscrandom.shuffle(self.music_playlist)
+        audio.playContinuousMusic(self.music_playlist)
+        return True

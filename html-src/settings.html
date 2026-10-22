@@ -1,0 +1,172 @@
+<h1>Settings and Options</h1>
+<p>
+PySol contains a lot of options allowing you to customize your game's
+look and feel, and experience.  These are found in the Options menu of
+your menu bar.  Note that depending on your installation configuration,
+or if you are running an Android/Kivy version, some of these options
+may not be available.
+
+<h2>Player Options</h2>
+<p>
+You can change your player name.  By registering multiple players, you
+can track statistics for multiple players playing on the same computer
+separately.
+<p>
+Additionally, there are options for whether we're tracking statistics,
+or if we want to confirm before ending an unfinished game.
+
+<h2>Automatic Play</h2>
+<p>
+Automatic play options allow you to have certain moves play automatically,
+such as auto flip causing exposed cards to automatically flip face-up, and
+auto deal, which automatically deals cards from the talon when the waste is
+empty.  Quick play enables the right mouse button shortcut.
+<p>
+The auto drop option allows cards to automatically move to the foundations
+when possible, though even if it's not set to run automatically, auto drop
+can still be manually triggered when needed.  For more detail on auto drop,
+see <a href="assist_options.html">Assist Options</a>.
+
+<p>
+See <a href="howtoplay.html">How to use PySol</a> for more details.
+
+<h2>Assist Level</h2>
+<p>
+The assist level options allow you to enable or disable certain assist
+features, which causes their options to be grayed out, and keyboard shortcuts
+to not work.
+<p>
+The free hints option ensures that using hints does not disqualify the game
+from being counted as a win, though it would still not be counted as a perfect
+game.
+<p>
+You can also enable a stuck notification, so the game will notify you if there
+are no moves left.
+<p>
+There are other assist options that are game-specific, such as dealing all cards
+in Accordion type games or showing removed tiles in Mahjongg games.  More info
+on these can be found with the rules of said games.
+<p>
+See <a href="assist_options.html">Assist Options</a> for more details.</p>
+
+<h2>Sound and Music</h2>
+<p>
+The sound and music dialog allows you to turn on and off music and sound
+samples, along with setting the volumes for the sounds.  You can also toggle
+individual sound samples that should play or not.
+
+<h2>Cards and Table</h2>
+<h3>Cardset, Card Back, and Table Tile</h3>
+<p>
+You can change the cardset to change the look and feel of the individual
+cards.  Different cardsets represent different decks of cards you can play
+with, and each can have a number of different possible card backs you can
+pick from.
+<p>
+You can also create custom cardsets from your own images - see
+<a href="cardset_customization.html">cardset customization</a> for more info
+on how.
+
+<p>
+The table tile controls the background of the table.  You can set it to a
+solid color, or one of several loaded images.  You can also import your own
+table tile images from your local files to use.
+
+<h3>Card Size and Scaling</h3>
+<p>
+If your build supports card scaling, you can change the size of the cards.
+By default, auto-scaling is on, and the cards are scaled to match the screen
+size.  But this can be switched to manual sizing, where you can use the
+default card size for the cardset, or grow or shrink them to your desired size.
+You can determine whether the aspect ratio should be preserved, or if the
+height and width can be resized separately, and if the auto scaling should
+apply in previews.
+<p>
+As an advanced option, you can change the resampling algorithm used to
+resize the cards.
+
+<h3>Card View</h3>
+<p>
+The card view options control how the cards are displayed:
+<ul>
+<li>Card shadow - turns on and off the shadows on the moving cards
+<li>Shade legal moves - when moving cards, the destination stack is
+highlighted when you're about to move to a valid stack
+<li>Negative cards bottom - controls whether the empty stack images
+use the normal images (black borders) or the negative images (white
+borders)
+<li>Shrink face-down cards - face-down cards in stacks are compressed
+<li>Shade filled stacks - stacks that are completely filled are shaded
+<li>Compact long stacks - if a stack is extremely long, the cards will
+be compressed, so more will fit on the screen
+<li>Randomize card placement - there is some slight randomization of
+the positions of the cards, creating a slight scatter effect.
+</ul>
+
+<h2>Game Layout</h2>
+<p>
+These options affect how the game and window are laid out:
+<ul>
+<li>Fullscreen - toggles fullscreen mode (also toggled with F11)
+<li>Spread stacks - spreads the stacks evenly across the screen
+<li>Center layout - sets the core layout to be centered on the window
+<li>Save game geometry - ensures that the game window size and position
+are preserved on reloading
+<li>Keep dialogs on top - dialog windows, like find card or help, will
+always remain on top of the game window
+</ul>
+
+<h2>Animations</h2>
+<p>
+From here, you can set the animation speed, turn off animations entirely,
+or toggle specific animations (redeal, flip, and winning animations)
+
+<h2>Mouse</h2>
+<p>
+From mouse options, you can decide how the mouse will work in the app,
+if you want to move cards by drag and drop, point and click, or a sticky
+mouse.
+<p>
+Additionally, you can turn on whether to use the unique drag card cursor
+or if you want to enable the mouse shortcuts for undo and redo (described
+in <a href="howtoplay.html">How to use PySol</a>).
+
+<h2>Fonts, Colors, and Timeouts</h2>
+<p>
+Here, you can alter the fonts and text styles used throughout the app,
+or the colors in the game.  By changing timeouts, you can speed up or
+slow down the delay between certain automatic actions.
+
+<h2>Theme</h2>
+<p>
+The window theme determines the look and feel of PySol's main window and
+the various dialogs.
+
+<h2>Toolbar and Status Bar</h2>
+<p>
+You can configure the toolbar on the top of the window.  From here, you
+can turn on and off the toolbar or move it to a different side of the
+screen.
+<p>
+Additionally, you can decide which icons you want to have on the toolbar.
+You can control the toolbar configuration - the size and style of the icons,
+or if the icons are displayed with labels.
+<p>
+Similarly, you can turn on or off the status bar at the bottom of the
+window, and determine which pieces of info will be shown in the status bar.
+
+<h2>Other Graphics</h2>
+<p>
+From the other graphics options, you can configure the style of pretty much
+any of the secondary graphics in PySol, such as the game paused text, the
+demo logo, the dialog, tree, and redeal icons, or icons on the dialog
+buttons.
+
+<h2>Where Settings are Stored</h2>
+<p>
+PySol settings are stored in a configuration file, options.dat or options.cfg
+depending on your environment - this file is located in the user folder.  See
+<a href="install.html">Installation</a> for more details on the exact pathing.
+<p>
+You may back up this file, but editing it manually is not recommended and can
+break your configuration.

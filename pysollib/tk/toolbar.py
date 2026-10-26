@@ -190,6 +190,12 @@ class PysolToolbarTk:
             (None,           None,            None),
             (n_("Undo"),     self.mUndo,      _("Undo last move")),
             (n_("Redo"),     self.mRedo,      _("Redo last move")),
+            # Add a dedicated button to deal cards.  This button invokes
+            # the same action as the “Deal cards” entry in the Game menu
+            # (shortcut D), making it easier to deal from the talon
+            # without reaching for the keyboard or menu.  If no custom
+            # icon is available the text label will be used instead.
+            (n_("Deal"),     self.mDeal,      _("Deal cards")),
             (n_("Autodrop"), self.mDrop,      _("Auto drop cards")),
             (n_("Shuffle"),  self.mShuffle,   _("Shuffle tiles")),
             (n_("Hint"),     self.mHint,      _("Hint")),

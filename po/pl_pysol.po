@@ -4553,7 +4553,7 @@ msgid "Select "
 msgstr "Wybierz "
 
 #: pysollib\tile\menubar.py:124
-msgid "Set t&heme"
+msgid "Window t&heme"
 msgstr "Wybierz skórkę"
 
 #: pysollib\tile\menubar.py:135

@@ -4585,7 +4585,7 @@ msgid "Select "
 msgstr "Scelta"
 
 #: pysollib\tile\menubar.py:124
-msgid "Set t&heme"
+msgid "Window t&heme"
 msgstr "Scelta t&ema"
 
 #: pysollib\tile\menubar.py:135

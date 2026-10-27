@@ -4595,7 +4595,7 @@ msgid "Select "
 msgstr "Выбрать "
 
 #: pysollib\tile\menubar.py:124
-msgid "Set t&heme"
+msgid "Window t&heme"
 msgstr "Установить &тему"
 
 #: pysollib\tile\menubar.py:135

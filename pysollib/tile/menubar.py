@@ -124,7 +124,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
             self.top.update_idletasks()
 
     def createThemesMenu(self, menu):
-        submenu = MfxMenu(menu, label=n_("Set t&heme"))
+        submenu = MfxMenu(menu, label=n_("Window t&heme"))
 
         try:
             from ttkthemes import themed_style

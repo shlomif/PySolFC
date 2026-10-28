@@ -40,7 +40,7 @@ from tkutil import makeToplevel, setTransient
 class PysolProgressBar:
     def __init__(self, app, parent, title=None, images=None,
                  color='blue', bg='#c0c0c0',
-                 height=25, show_text=1, norm=1):
+                 height=25, show_text=1, norm=1, rect=None):
         self.parent = parent
         self.percent = 0
         self.steps_sum = 0

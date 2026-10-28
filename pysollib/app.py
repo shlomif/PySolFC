@@ -906,6 +906,11 @@ class Application:
                 return 1
         #
         if progress is None and not noprogress:
+            progress_rect = (
+                self.top.winfo_x(), self.top.winfo_y(),
+                self.top.winfo_width(), self.top.winfo_height()
+            )
+
             self.wm_save_state()
             self.wm_withdraw()
             title = _("Loading cardset %s...") % cs.name
@@ -914,7 +919,8 @@ class Application:
                 color = "#008200"
             progress = PysolProgressBar(self, self.top, title=title,
                                         color=color,
-                                        images=self.progress_images)
+                                        images=self.progress_images,
+                                        rect=progress_rect)
         images = Images(self.dataloader, cs)
         images.cardset_bottoms = self.opt.use_cardset_bottoms
         try:

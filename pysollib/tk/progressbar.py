@@ -33,7 +33,7 @@ from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
 class PysolProgressBar:
     def __init__(self, app, parent, title=None, images=None, color="blue",
-                 width=300, height=25, show_text=1, norm=1):
+                 width=300, height=25, show_text=1, norm=1, rect=None):
         self.parent = parent
         self.percent = 0
         self.top = makeToplevel(parent, title=title)

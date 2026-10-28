@@ -1145,7 +1145,8 @@ registerGame(GameInfo(901, LaBelleLucie, "La Belle Lucie",      # was: 32, 82
 registerGame(GameInfo(132, SuperFlowerGarden, "Super Flower Garden",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(128, ThreeShufflesAndADraw, "Three Shuffles and a Draw",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
+                      altnames=("La Belle Lucie With a Draw",)))
 registerGame(GameInfo(88, Trefoil, "Trefoil",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(227, Intelligence, "Intelligence",

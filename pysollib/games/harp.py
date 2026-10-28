@@ -478,7 +478,7 @@ registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(828, Churchill, "Churchill",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED,
-                      altnames=('Prime Minister')))
+                      altnames=('Prime Minister', "Devil's Six")))
 registerGame(GameInfo(885, PittTheYounger, "Pitt the Younger",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(920, QuadrupleKlondike, "Quadruple Klondike",

@@ -1446,7 +1446,8 @@ registerGame(GameInfo(257, Numerica, "Numerica",
 registerGame(GameInfo(171, LadyBetty, "Lady Betty",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(355, Frog, "Frog",
-                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED,
+                      altnames=("Bullfrog")))
 registerGame(GameInfo(356, Fly, "Fly",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(357, Gnat, "Gnat",

@@ -510,12 +510,13 @@ class LScatterFrame(Scatter):
             self.offset = (offx/offmx,offy/offmy)
 
         # update persistent zoom parameters
-        zoom = self.bbox[1][0]/float(self.size[0])
-        if self.offset is not None:
-            zoominfo = [zoom, self.offset[0], self.offset[1]]
-        else:
-            zoominfo = [zoom, 0.0, 0.0]
-        self.tkopt.table_zoom.value = zoominfo
+        if self.size[0] > 0:
+            zoom = self.bbox[1][0]/float(self.size[0])
+            if self.offset is not None:
+                zoominfo = [zoom, self.offset[0], self.offset[1]]
+            else:
+                zoominfo = [zoom, 0.0, 0.0]
+            self.tkopt.table_zoom.value = zoominfo
 
         # remove lock
         self.lock_chk = None

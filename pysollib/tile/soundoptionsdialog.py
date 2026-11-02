@@ -164,6 +164,32 @@ class SoundOptionsDialog(MfxDialog):
                       )
         return MfxDialog.initKw(self, kw)
 
+    def _musicAudible(self, opt):
+        return bool(
+            opt.sound and opt.music and opt.sound_music_volume > 0)
+
+    def _warnNoMusic(self):
+        dirs = self.app.music_manager.getSearchDirs(
+            self.app, "music-*", "PYSOL_MUSIC")
+        if not dirs:
+            dirs = [os.path.join(self.app.dn.config, "music")]
+        MfxMessageDialog(
+            self.top, title=_("No music found"),
+            bitmap="warning",
+            text=_("""\
+No music files were found, so background music cannot play.
+
+PySol looks for music files here:
+
+%(dirs)s
+
+Copy music files into that location, then apply the sound
+settings again.
+""") % {"dirs": "\n".join(dirs)},
+            strings=(_("&OK"),),
+            default=0,
+        )
+
     def mDone(self, button):
         if button == 0 or button == 1:
             self.app.opt.sound = self.sound.get()
@@ -176,7 +202,19 @@ class SoundOptionsDialog(MfxDialog):
         elif button == 2:
             self.app.opt = self.saved_opt
         if self.app.audio:
+            warn_no_music = False
+            audible = (
+                button in (0, 1) and
+                self.app.audio.CAN_PLAY_MUSIC and
+                self._musicAudible(self.app.opt))
+            if audible and not self.app.refreshMusicPlaylist():
+                # Only when they just asked for music. Leaving the
+                # box checked with no files should not nag on every
+                # visit to this dialog.
+                warn_no_music = not self._musicAudible(self.saved_opt)
             self.app.audio.updateSettings()
+            if warn_no_music:
+                self._warnNoMusic()
             if button == 1:
                 self.app.audio.playSample("drop", priority=1000)
         if button == 1:

@@ -140,6 +140,11 @@ class LMenuBase:
             LTreeSliderNode(variable=auto_var, setup=auto_setup), rg)
         return rg1
 
+    def addBackNode(self, tv):
+        tv.add_node(LTreeNode(
+            text='[b]' + _('< Back') + '[/b]',
+            command=self.make_command(self.menubar.mMainMenuDialog)))
+
 # ************************************************************************
 # * Tree Generators
 # ************************************************************************
@@ -323,6 +328,8 @@ class FileMenuDialog(LMenuDialog):
         return doit
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         rg = tv.add_node(
             LTreeNode(text=_('Recent games')))
         recids = self.app.opt.recent_gameid
@@ -370,10 +377,14 @@ class EditMenuDialog(LMenuDialog):  # Tools
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('New game'), command=self.menubar.mNewGame))
         tv.add_node(LTreeNode(
             text=_('Restart game'), command=self.menubar.mRestart))
+        tv.add_node(LTreeNode(
+            text=_('Replay'), command=self.auto_close(self.menubar.mReplay)))
 
         tv.add_node(LTreeNode(
             text=_('Undo'), command=self.menubar.mUndo))
@@ -444,7 +455,7 @@ class GameMenuDialog(LMenuDialog):
         super().__init__(
             menubar, parent, title, app, **kw)
 
-    def make_command(self, key, command):
+    def make_stats_command(self, key, command):
         def stats_command():
             kw = {}
             kw['mode'] = key
@@ -452,14 +463,18 @@ class GameMenuDialog(LMenuDialog):
         return stats_command
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('Current game...'),
             command=self.auto_close(
-                self.make_command(101, self.menubar.mPlayerStats))), None)
+                self.make_stats_command(101, self.menubar.mPlayerStats))),
+            None)
 
         # tv.add_node(LTreeNode(
         #   text='All games ...',
-        #   command=self.make_command(102, self.menubar.mPlayerStats)), None)
+        #   command=self.make_stats_command(102, self.menubar.mPlayerStats)),
+        #   None)
 
     # -------------------------------------------
     # TBD ? - just to remember original tk code.
@@ -515,6 +530,8 @@ class AssistMenuDialog(LMenuDialog):
             menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(LTreeNode(
             text=_('Hint'), command=self.menubar.mHint))
 
@@ -552,6 +569,8 @@ class AssistMenuDialog(LMenuDialog):
 
 class LOptionsMenuGenerator(LTreeGenerator):
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         # -------------------------------------------
         # Automatic play settings
 
@@ -623,7 +642,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
                               self.menubar.mOptEnableHighlightCards)
 
             self.addCheckNode(tv, rg,
-                              _('Enable highlight same rank'),
+                              _('Enable highlight same rank/suit'),
                               self.menubar.tkopt.highlight_samerank,
                               self.menubar.mOptEnableHighlightSameRank)
 
@@ -1344,6 +1363,8 @@ class HelpMenuDialog(LMenuDialog):
         super().__init__(menubar, parent, title, app, **kw)
 
     def buildTree(self, tv, node):
+        self.addBackNode(tv)
+
         tv.add_node(
             LTreeNode(
                 text=_('Contents'),

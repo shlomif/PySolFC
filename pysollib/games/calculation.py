@@ -523,7 +523,8 @@ registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
                       GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED,
                       altnames=("Mathematics")))
 registerGame(GameInfo(704, SPatience, "S Patience",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Letter S")))
 registerGame(GameInfo(863, ImaginaryThirteen, "Imaginary Thirteen",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Pythagor")))

@@ -48,6 +48,8 @@ class LImage(Widget, LBase):
         self.rect.pos = p
 
     def make_contain(self, s, p):
+        if s[0] <= 0 or s[1] <= 0:
+            return
         taspect = self.texture.size[0]/self.texture.size[1]
         waspect = s[0]/s[1]
         r = self.rect
@@ -61,6 +63,8 @@ class LImage(Widget, LBase):
             r.pos = (p[0]+(s[0]-s0)/2.0, p[1])
 
     def make_cover(self, s, p):
+        if self.size[0] <= 0 or self.size[1] <= 0:
+            return
         aspect = self.texture.size[0]/self.texture.size[1]
         waspect = self.size[0]/self.size[1]
 

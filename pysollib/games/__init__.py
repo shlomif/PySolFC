@@ -81,6 +81,7 @@ from . import pyramid  # noqa: F401
 from . import royalcotillion  # noqa: F401
 from . import royaleast  # noqa: F401
 from . import sanibel  # noqa: F401
+from . import scoundrel  # noqa: F401
 from . import siebenbisas  # noqa: F401
 from . import simplex  # noqa: F401
 from . import spider  # noqa: F401

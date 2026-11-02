@@ -193,11 +193,9 @@ class LightsOut(Game):
                              flip=0, frames=3)
 
     def isGameWon(self):
-        if self.busy:
-            return 0
         s = self.s.rows
         for r in s:
-            if r.cards[0].face_up:
+            if not r.cards or r.cards[0].face_up:
                 return 0
         return 1
 

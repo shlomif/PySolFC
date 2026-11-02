@@ -117,11 +117,9 @@ class TilePuzzle(Game):
         self.s.talon.dealRow(rows=self.s.rows, frames=3)
 
     def isGameWon(self):
-        if self.busy:
-            return 0
         s = self.s.rows
         for r in s[:len(s)]:
-            if not r.cards[0].rank == r.id:
+            if not r.cards or not r.cards[0].rank == r.id:
                 return 0
         self.s.talon.dealRow(rows=s, frames=0)
         return 1

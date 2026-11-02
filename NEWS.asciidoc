@@ -1,5 +1,11 @@
 [[news]]
 === News
+* _2 November, 2026:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.7.0/[PySolFC
+v3.7.0]. New in this release:
+** Ten new games and variants.
+** New replay option to automatically replay a game you played in demo mode.
+** Bugfixes, enhancements, and cleanup.
 * _19 July, 2026:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.6.1/[PySolFC
 v3.6.1]. New in this release:

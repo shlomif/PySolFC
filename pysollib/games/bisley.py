@@ -264,7 +264,7 @@ class HospitalPatience(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'ne')
 
-        x = l.XM+2*l.XS
+        x = l.XM + 2 * l.XS
         for i in range(4):
             y = l.YM
             s.foundations.append(SS_FoundationStack(x, y, self, i, max_move=0))

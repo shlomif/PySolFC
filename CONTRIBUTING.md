@@ -17,6 +17,7 @@ Because they require fundamentally different design considerations and features,
 
 - The [GitHub Actions CI build](https://github.com/shlomif/PySolFC/actions) and [AppVeyor build](https://ci.appveyor.com/project/shlomif/pysolfc) (which also run the test suite) should pass on each commit.
 - Your contributions should be under [GPLv3+](https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_3) or a [compatible free software licence](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses), but please don't put them under the [AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License), which adds additional restrictions.
+- Any code generated using AI tools must be human reviewed and tested before being committed.  The developer is responsible for ensuring all code meets the coding standards and is free of bugs.  "The AI did it" is not an excuse.
 - The code should be compatible with Python 3.7 and above.
 - Changes should not remove, replace, or override existing features, without a clear, well-documented justification.
 

@@ -27,7 +27,8 @@ from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy
+from pysollib.ui.tktile.tkutil import bind, placeOverParent
+from pysollib.ui.tktile.tkutil import unbind_destroy
 
 
 class FullPictureDialog(tkinter.Toplevel):
@@ -126,6 +127,7 @@ def create_full_picture_dialog(parent, game):
     except Exception:
         # traceback.print_exc()
         full_picture_dialog = FullPictureDialog(parent, game)
+        placeOverParent(full_picture_dialog, parent)
 
 
 def connect_game_full_picture_dialog(game):

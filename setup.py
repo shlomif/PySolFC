@@ -93,7 +93,8 @@ kw = {
                  'pysollib.game',
                  'pysollib.games',
                  'pysollib.games.special',
-                 'pysollib.games.mahjongg'],
+                 'pysollib.games.mahjongg',
+                 'pysollib.games.solvable_seeds'],
     'data_files': data_files,
     }
 

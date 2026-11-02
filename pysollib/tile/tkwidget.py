@@ -36,7 +36,8 @@ from pysollib.speech import Speech
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 from pysollib.ui.tktile.tkutil import after, after_cancel, after_idle
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
-from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
+from pysollib.ui.tktile.tkutil import makeToplevel, placeOverParent
+from pysollib.ui.tktile.tkutil import setTransient
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
@@ -89,8 +90,10 @@ class MfxDialog:  # ex. _ToplevelDialog
             except SystemExit:
                 pass
             self.destroy()
-        elif focus is not None:
-            focus.focus_set()
+        else:
+            placeOverParent(self.top, self.parent)
+            if focus is not None:
+                focus.focus_set()
 
     def destroy(self):
         after_cancel(self.timer)

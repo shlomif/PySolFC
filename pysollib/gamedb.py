@@ -105,6 +105,7 @@ class GI:
     GT_SHISEN_SHO = 34
     GT_SIMPLE_TYPE = 29
     GT_SPIDER = 30
+    GT_SUDOKU = 44
     GT_TAROCK = 31
     GT_TERRACE = 32
     GT_YUKON = 33
@@ -173,6 +174,7 @@ class GI:
         GT_PUZZLE_TYPE:         n_("Puzzle"),
         GT_SAMEGAME:            n_("Samegame"),
         GT_SHISEN_SHO:          n_("Shisen-Sho"),
+        GT_SUDOKU:              n_("Sudoku"),
         GT_TAROCK:              n_("Tarock"),
         GT_HANOI:               n_("Tower of Hanoi"),
 
@@ -300,6 +302,7 @@ class GI:
             lambda gi, gt=GT_SAMEGAME: gi.si.game_type == gt),
         (n_("Shisen-Sho type"),
             lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
+        (n_("Sudoku type"), lambda gi, gt=GT_SUDOKU: gi.si.game_type == gt),
         (n_("Tarock type"), lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
         (n_("Tower of Hanoi type"),
             lambda gi, gt=GT_HANOI: gi.si.game_type == gt),
@@ -397,6 +400,14 @@ class GI:
             105, 112, 126, 133, 134, 135, 139, 147, 173, 222, 234, 235,
             256, 258, 296, 330, 398, 484, 619, 657, 737, 784, 800, 805,
             901, 903,
+        )),
+
+        # Interplay Solitaire
+        # still missing:
+        #       Super Scorpion
+        ("Interplay Solitaire", (
+            2, 11, 13, 29, 34, 36, 38, 89, 95, 96, 109, 111, 128, 139,
+            299, 304, 315, 484, 678, 715, 772, 816,
         )),
 
         # KMahjongg
@@ -520,6 +531,7 @@ class GI:
         ("Richard A. Canfield", (105, 835,)),
         ("Lillian Davies and Christa Baran", (605,)),
         ("Ann Edwards", (869,)),
+        ("Zach Gage and Kurt Bieg", (992,)),
         ("Robert Harbin", (381,)),
         ("Robert Hogue", (22216, 22217, 22218, 22231,)),
         ("Erik den Hollander", (344, 544,)),
@@ -644,6 +656,8 @@ class GI:
          (44, 526, 5906, 22399,)),
         ('fc-3.6', tuple(range(981, 991)) + tuple(range(19501, 19510)) +
          (16686,)),
+        ('fc-3.7', tuple(range(991, 996)) + (13200,) +
+         tuple(range(21001, 21005))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
@@ -696,7 +710,7 @@ class GameInfo(Struct):
                  si=None, category=0, subcategory=GI.GS_NONE,
                  short_name=None, altnames=(),
                  suits=None, ranks=None, trumps=(),
-                 rules_filename=None,
+                 rules_filename=None, ncards=None
                  ):
         #
         if ranks is None:
@@ -715,7 +729,8 @@ class GameInfo(Struct):
                 print_err(err)
                 s = str(s, 'utf-8', 'ignore')
             return s
-        ncards = decks * (len(suits) * len(ranks) + len(trumps))
+        if ncards is None:
+            ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
         name = to_unicode(name)

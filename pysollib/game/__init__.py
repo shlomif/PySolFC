@@ -418,7 +418,7 @@ class GameStatsStruct(NewStruct):
     highlight_piles = attr.ib(default=0)
     # number of highlight matching cards consumed
     highlight_cards = attr.ib(default=0)
-    # number of highlight same rank consumed
+    # number of highlight same rank/suit consumed
     highlight_samerank = attr.ib(default=0)
     undo_moves = attr.ib(default=0)             # number of undos
     redo_moves = attr.ib(default=0)             # number of redos
@@ -552,6 +552,9 @@ class Game:
         self.pause = False
         self.finished = False
         self.stuck = False
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         self.version = VERSION
         self.version_tuple = VERSION_TUPLE
         self.cards = []
@@ -729,6 +732,7 @@ class Game:
         bind(self.canvas,
              self._calcMouseBind("<{mouse_button3}>"), self.redoHandler)
         bind(self.canvas, '<Unmap>', self._unmapHandler)
+        bind(self.canvas, '<Map>', self._mapHandler)
         bind(self.canvas, '<Configure>', self._configureHandler, add=True)
 
     def __createCommon(self, app):
@@ -822,6 +826,9 @@ class Game:
                 dealer=None):
         self.finished = False
         self.stuck = False
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
         self.stopWinAnimation()
@@ -874,6 +881,10 @@ class Game:
         if autoplay:
             self.autoPlay()
             self.stats.player_moves = 0
+        # Opening layout can already be dead (Yukon shuffles that never
+        # reach a drop or a flip). Check before the player has to move.
+        if not self.preview:
+            self.updateStuck()
         self.setCursor(cursor=self.app.top_cursor)
         self.stats.update_time = time.time()
         if not self.preview:
@@ -1005,6 +1016,9 @@ class Game:
         if self.preview:
             return
         self.app.wm_save_state()
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
         if self.pause:
             self.doPause()
         if holdgame:
@@ -1571,9 +1585,47 @@ class Game:
 
     def _unmapHandler(self, event):
         # pause game if root window has been iconified
-        if self.app and not self.pause:
+        if not self.app or self.pause:
+            return
+        # mPause/_cancelDrag refuses while busy (e.g. auto-drop); pause
+        # directly so minimize still stops play
+        if self.busy:
+            self.doPause()
+            self.app.menubar._setPauseMenu(self.pause)
+        else:
             self.app.menubar.mPause()
         # should return EVENT_HANDLED or EVENT_PROPAGATE
+
+    def _mapHandler(self, event):
+        # show win dialog deferred while the main window was iconified
+        if self._pending_win_status is None:
+            return
+        if self._isMainWindowIconic():
+            return
+        status = self._pending_win_status
+        top_msg = self._pending_win_top_msg
+        time_str = self._pending_win_time
+        self._pending_win_status = None
+        self._pending_win_top_msg = ''
+        self._pending_win_time = ''
+        if self.pause:
+            # doPause() returns early when finished; clear pause UI directly
+            self.pause = False
+            self.canvas.setTopImage(None)
+            self.pause_logo = None
+            self.canvas.showAllItems()
+            if self.app:
+                self.app.menubar._setPauseMenu(False)
+        self._showWinDialog(status, top_msg, time_str)
+        # should return EVENT_HANDLED or EVENT_PROPAGATE
+
+    def _isMainWindowIconic(self):
+        if self.top is None:
+            return False
+        try:
+            return self.top.wm_state() == 'iconic'
+        except Exception:
+            return False
 
     _resizeHandlerID = None
 
@@ -2406,16 +2458,31 @@ class Game:
             if not self.app.opt.display_win_message:
                 return True
             self.top.waitAnimation()
-        if status == 2:
+        top_msg = ''
+        time_str = ''
+        if status in (1, 2):
             top_msg = self.updateStats()
-            time = self.getTime()
-            self.finished = True
+            time_str = self.getTime()
+        self.finished = True
+        self.updateMenus()
+        # Avoid a modal win dialog while iconified — it can prevent restore.
+        if TOOLKIT != 'kivy' and self._isMainWindowIconic():
+            self._pending_win_status = status
+            self._pending_win_top_msg = top_msg
+            self._pending_win_time = time_str
+            return True
+        return self._showWinDialog(status, top_msg, time_str)
+
+    def _showWinDialog(self, status, top_msg='', time_str=''):
+        if status == 2:
+            if not time_str:
+                time_str = self.getTime()
             self.playSample("gameperfect", priority=1000)
             self.winAnimation(perfect=1)
             text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
                              'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % {'time': time, 'n': self.moves.index}
+            text = text % {'time': time_str, 'n': self.moves.index}
             congrats = _('Congratulations, this\nwas a truly perfect game!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
@@ -2424,15 +2491,14 @@ class Game:
                          _("&Cancel")),
                 image=self.app.gimages.logos[5])
         elif status == 1:
-            top_msg = self.updateStats()
-            time = self.getTime()
-            self.finished = True
+            if not time_str:
+                time_str = self.getTime()
             self.playSample("gamewon", priority=1000)
             self.winAnimation()
             text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
                              'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % {'time': time, 'n': self.moves.index}
+            text = text % {'time': time_str, 'n': self.moves.index}
             congrats = _('Congratulations, you did it!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
@@ -2441,14 +2507,12 @@ class Game:
                          _("&Cancel")),
                 image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
-            self.finished = True
             self.playSample("gamefinished", priority=1000)
             d = MfxMessageDialog(
                 self.top, title=_("Game finished"), bitmap="info",
                 text=_("\nGame finished\n"),
                 strings=(_("&New game"), None, None, _("&Close")))
         else:
-            self.finished = True
             self.playSample("gamelost", priority=1000)
             text = _("Game finished, but not without my help...")
             if self.stats.hints > 0 and not self.app.opt.free_hint:
@@ -2466,7 +2530,6 @@ class Game:
                 self.top, title=_("Game finished"), bitmap="info",
                 text=_(text + '\n\n' + hintsused),
                 strings=(_("&New game"), _("&Restart"), None, _("&Cancel")))
-        self.updateMenus()
         if TOOLKIT == 'kivy':
             return True
         if d.status == 0 and d.button == 0:
@@ -2545,6 +2608,9 @@ class Game:
         flipstacks, dropstacks, quickstacks = self.getAutoStacks()
         done_something = 1
         while done_something:
+            # stop when paused / minimized (Unmap pauses the game)
+            if self.pause or self._isMainWindowIconic():
+                return 0
             done_something = 0
             # a) flip top cards face-up
             if autofaceup and flipstacks:
@@ -2608,7 +2674,7 @@ class Game:
         for s in self.allstacks:
             for c in s.cards:
                 if c.suit == suit and c.rank == rank:
-                    if s.basicShallHighlightSameRank(c):
+                    if s.basicShallHighlight(c):
                         info.append((s, c, c, col))
         return self._highlightCards(info, 0)
 
@@ -2975,12 +3041,142 @@ class Game:
         self.busy = False
         self.updateMenus()
 
+    #
+    # Replay - restart same deal and play back recorded moves via redo()
+    #
+
+    def startReplay(self):
+        if not self.top or self.preview or self.demo:
+            return
+        if self.moves.index == 0:
+            return
+        # If the game was already over, replaying must not award another win
+        # (restart clears local hint/demo counters, which could upgrade a
+        # helped finish into a scored win).
+        skip_win = bool(
+            self.finished or self.isGameWon() or self.gstats.updated < 0)
+        # Capture history up to the current position before restart wipes it
+        script = list(self.moves.history[:self.moves.index])
+        random = self.random
+        self.endGame(restart=1)
+        self.newGame(restart=1, random=random, autoplay=0)
+        self.moves.history = script
+        self.moves.index = 0
+        self.demo = Struct(
+            level=2,
+            mixed=0,
+            sleep=self.app.opt.timeouts['demo'],
+            last_deal=[],
+            snapshots=[],
+            hint=None,
+            keypress=None,
+            start_demo_moves=self.stats.demo_moves,
+            info_text=None,
+            replay=True,
+            skip_win=skip_win,
+        )
+        self.hints.list = None
+        self.createDemoInfoText()
+        self.createDemoLogo()
+        after_idle(self.top, self.replayEvent)
+
+    def replayEvent(self):
+        # Note: other events are allowed to stop self.demo at any time
+        if not self.demo or self.demo.keypress:
+            self.stopDemo()
+            return
+        if self.moves.index >= len(self.moves.history):
+            self.stopDemo()
+            return
+        # Match demo pacing: hint arrow + pause before the move (not after)
+        self._showReplayHint()
+        if not self.demo or self.demo.keypress:
+            self.stopDemo()
+            return
+        # Only rewrite drag moves (frames=-2). Preserve game-level overrides
+        # such as Match Three's frames=0 swap helpers, cascade, and fills.
+        step = self.moves.history[self.moves.index]
+        saved_frames = []
+        for am in step:
+            if getattr(am, 'frames', None) == -2:
+                saved_frames.append((am, am.frames))
+                am.frames = -1
+        try:
+            self.redo()
+        finally:
+            for am, frames in saved_frames:
+                am.frames = frames
+        self.top.update_idletasks()
+        if self.isGameWon():
+            skip_win = getattr(self.demo, 'skip_win', False)
+            self.stopDemo()
+            if skip_win:
+                # Already finished before Replay — restore finished state only
+                self.finished = True
+                self.updateMenus()
+                return
+            self.checkForWin()
+            return
+        if self.demo and not self.demo.keypress:
+            self.top.busyUpdate()
+            after_idle(self.top, self.replayEvent)
+        else:
+            self.stopDemo()
+
+    def _isTalonDealAtomic(self, am):
+        """True for Klondike-like deals from the talon onto the waste."""
+        if not isinstance(am, (AMoveMove, AFlipAndMoveMove)):
+            return False
+        s = getattr(self, 's', None)
+        if not s:
+            return False
+        talon, waste = getattr(s, 'talon', None), getattr(s, 'waste', None)
+        if not talon or not waste:
+            return False
+        return (am.from_stack_id == talon.id and
+                am.to_stack_id == waste.id)
+
+    def _showReplayHint(self):
+        """Pause before the next replay move, with a hint arrow when useful.
+
+        Prefer the first animated stack-to-stack move (frames != 0). Instant
+        helper moves (frames=0) are skipped so games like Match Three show the
+        visible swap, not the cascade. Talon deals stay quick (no pause).
+
+        Steps with no arrow, like flips (Lights Out) and instant slides
+        (Matrix), still sleep so the replay is watchable when the game has no
+        demo.
+        """
+        demo = self.demo
+        if not demo or demo.sleep <= 0:
+            return
+        step = self.moves.history[self.moves.index]
+        for am in step:
+            if isinstance(am, (AMoveMove, AFlipAndMoveMove)):
+                if getattr(am, 'frames', -1) == 0:
+                    continue
+                if self._isTalonDealAtomic(am):
+                    return
+                from_stack = self.allstacks[am.from_stack_id]
+                to_stack = self.allstacks[am.to_stack_id]
+                ncards = am.ncards if isinstance(am, AMoveMove) else 1
+                self.drawHintArrow(from_stack, to_stack, ncards, demo.sleep)
+                return
+        # No arrow. Still pause, except for a quick talon deal.
+        if any(self._isTalonDealAtomic(am) for am in step):
+            return
+        self.sleep(demo.sleep)
+
     # demo event - play one demo move and check for win/loss
     def demoEvent(self):
         # note: other events are allowed to stop self.demo at any time
         if not self.demo or self.demo.keypress:
             self.stopDemo()
             # self.updateMenus()
+            return
+        # Replay uses its own event loop; never run AI demo moves during replay
+        if getattr(self.demo, 'replay', False):
+            after_idle(self.top, self.replayEvent)
             return
         finished = self.playOneDemoMove(self.demo)
         self.finishMove()

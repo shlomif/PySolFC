@@ -63,6 +63,7 @@ files = [
     ('report_bug.html', 'PySol - Report a Bug'),
     # ('rules_alternate.html', 'PySol - a Solitaire Game Collection'),
     # ('rules.html', 'PySol - a Solitaire Game Collection'),
+    ('settings.html', 'PySol - Settings'),
     ('assist_options.html', 'PySol - Assist Options'),
     ('solitaire_wizard.html', 'PySol - Solitaire Wizard'),
     ('cardset_customization.html', 'PySol - Cardset Customization'),
@@ -84,6 +85,7 @@ rules_files = [
     ('tilepuzzle.html', 'PySol - Rules for Tile Puzzle'),
     ('samegame.html', 'PySol - Rules for Samegame'),
     ('matchthree.html', 'PySol - Rules for Match Three'),
+    ('sudoku.html', 'PySol - Rules for Sudoku'),
     ]
 
 

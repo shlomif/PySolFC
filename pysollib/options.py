@@ -124,6 +124,7 @@ use_cardset_bottoms = boolean
 dragcursor = boolean
 save_games_geometry = boolean
 game_geometry = int_list(min=2, max=2)
+window_geometry = int_list(min=4, max=4)
 topmost_dialogs = boolean
 sound = boolean
 sound_mode = integer(0, 1)
@@ -231,6 +232,16 @@ spread_stacks = boolean
 preserve_aspect_ratio = boolean
 resampling = integer(0, 10)
 '''.splitlines()
+
+
+# A saved image set whose directory is missing is replaced with these.
+DEFAULT_TOOLBAR_STYLE = 'material'
+DEFAULT_DIALOG_ICON_STYLE = 'material'
+DEFAULT_TREE_ICON_STYLE = 'material'
+DEFAULT_BUTTON_ICON_STYLE = 'none'
+DEFAULT_REDEAL_ICON_STYLE = 'modern'
+DEFAULT_DEMO_LOGO_STYLE = 'komika'
+DEFAULT_PAUSE_TEXT_STYLE = 'komika'
 
 
 class Options:
@@ -384,12 +395,12 @@ class Options:
         self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = True
-        self.demo_logo_style = 'komika'
-        self.pause_text_style = 'komika'
-        self.redeal_icon_style = 'modern'
-        self.dialog_icon_style = 'remix'
-        self.tree_icon_style = 'remix'
-        self.button_icon_style = 'none'
+        self.demo_logo_style = DEFAULT_DEMO_LOGO_STYLE
+        self.pause_text_style = DEFAULT_PAUSE_TEXT_STYLE
+        self.redeal_icon_style = DEFAULT_REDEAL_ICON_STYLE
+        self.dialog_icon_style = DEFAULT_DIALOG_ICON_STYLE
+        self.tree_icon_style = DEFAULT_TREE_ICON_STYLE
+        self.button_icon_style = DEFAULT_BUTTON_ICON_STYLE
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, left, right
@@ -399,7 +410,7 @@ class Options:
         # 0 == hide,
         # 1,2,3,4 == top, bottom, left, right
         # self.toolbar_style = 'default'
-        self.toolbar_style = 'remix'
+        self.toolbar_style = DEFAULT_TOOLBAR_STYLE
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0
@@ -515,6 +526,7 @@ class Options:
         # saved games geometry (gameid: (width, height))
         self.games_geometry = {}
         self.game_geometry = (0, 0)  # game geometry before exit
+        self.window_geometry = (0, 0, 0, 0)
         self.offsets = {}           # cards offsets
         #
         self.randomize_place = False
@@ -730,6 +742,7 @@ class Options:
         for key, val in self.games_geometry.items():
             config['games_geometry'][str(key)] = val
         config['general']['game_geometry'] = self.game_geometry
+        config['general']['window_geometry'] = self.window_geometry
 
         # offsets
         for key, val in self.offsets.items():
@@ -926,6 +939,13 @@ class Options:
         if game_geometry is not None:
             try:
                 self.game_geometry = tuple(int(i) for i in game_geometry)
+            except Exception:
+                traceback.print_exc()
+        window_geometry = self._getOption(
+            'general', 'window_geometry', 'list')
+        if window_geometry is not None:
+            try:
+                self.window_geometry = tuple(int(i) for i in window_geometry)
             except Exception:
                 traceback.print_exc()
 

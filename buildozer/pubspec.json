@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 102130401,
-      "versionName": "3.4.1",
+      "versionCode": 102130601,
+      "versionName": "3.6.1",
       "outputFile": "pysolfc-release.apk"
     }
   ],

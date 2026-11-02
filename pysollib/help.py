@@ -121,6 +121,7 @@ def help_html(app, document, dir_, top=None):
         return None
     if top is None:
         top = app.top
+    parent = top
     try:
         doc = app.dataloader.findFile(document, dir_)
         if help_html_index is None:
@@ -149,10 +150,11 @@ def help_html(app, document, dir_, top=None):
         h = int(sh * .8)
         w = min(650, int(sw * .8))
         if TOOLKIT == "tk":
-            th = int(top.winfo_rooty() - top.winfo_y())
+            from pysollib.ui.tktile.tkutil import placeOverParent
             top.wm_minsize(w, min(200, h))
-            top.geometry("%dx%d+%d+%d" % (w, h, (sw - w) / 2,
-                                          ((sh - h) / 2) - th))
+            top.geometry("%dx%d" % (w, h))
+            # center over the main window, not the primary screen
+            placeOverParent(top, parent, rely=0.5, w_width=w, w_height=h)
 
         viewer = HTMLViewer(top, app, help_html_index)
         viewer.display(doc)

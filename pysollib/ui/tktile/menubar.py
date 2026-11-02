@@ -563,6 +563,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("Restart"),
             command=self.mRestart, accelerator=m+"G")
+        menu.add_command(
+            label=n_("&Replay"),
+            command=self.mReplay)
 
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))
@@ -705,7 +708,7 @@ class PysolMenubarTkCommon:
             variable=self.tkopt.highlight_cards,
             command=self.mOptEnableHighlightCards)
         submenu.add_checkbutton(
-            label=n_("Enable highlight same &rank"),
+            label=n_("Enable highlight same &rank/suit"),
             variable=self.tkopt.highlight_samerank,
             command=self.mOptEnableHighlightSameRank)
         submenu.add_checkbutton(
@@ -911,6 +914,10 @@ class PysolMenubarTkCommon:
         # we will not create a duplicate "Help->Contents" item.
         # The tk-provided menu item expects this callback.
         self.top.createcommand('tk::mac::ShowHelp', self.mHelp)
+
+        if WIN_SYSTEM == "aqua":
+            self.top.createcommand(
+                'tk::mac::Quit', lambda: self.top.after_idle(self.mQuit))
 
         menu = MfxMenu(self.menubar, label=n_("&Help"))
         if WIN_SYSTEM != "aqua":

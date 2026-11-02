@@ -1442,7 +1442,7 @@ registerGame(GameInfo(410, CaptiveQueens, "Captive Queens",
                                 "Partners")))
 registerGame(GameInfo(418, Contradance, "Contradance",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK,
-                      altnames=("Cotillion",)))
+                      altnames=("Cotillion", "Round Dance")))
 registerGame(GameInfo(419, IdleAces, "Idle Aces",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(423, LadyOfTheManor, "Lady of the Manor",

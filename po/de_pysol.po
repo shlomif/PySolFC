@@ -2819,6 +2819,10 @@ msgstr ""
 msgid "Full picture"
 msgstr ""
 
+#: pysollib\kivy\menubar.py:146 pysollib\kivy\selectgame.py:493
+msgid "< Back"
+msgstr ""
+
 #: pysollib\kivy\menubar.py:265
 msgid "File"
 msgstr "Datei"
@@ -3004,8 +3008,8 @@ msgid "Enable highlight cards"
 msgstr "Karten hervorheben"
 
 #: pysollib\kivy\menubar.py:626
-msgid "Enable highlight same rank"
-msgstr "Gleichen Rang hervorheben"
+msgid "Enable highlight same rank/suit"
+msgstr "Gleichen Rang/Farbe hervorheben"
 
 #: pysollib\kivy\menubar.py:631
 msgid "Enable face-down peek"
@@ -4301,8 +4305,8 @@ msgstr "Hervorhebung Karten: "
 
 #: pysollib\pysolgtk\tkstats.py:529 pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
-msgstr "Gleichen Rang hervorheben: "
+msgid "Highlight same rank/suit: "
+msgstr "Gleichen Rang/Farbe hervorheben: "
 
 #: pysollib\pysolgtk\tkstats.py:531 pysollib\tile\tkstats.py:697
 #: pysollib\tk\tkstats.py:617
@@ -4472,7 +4476,7 @@ msgid "Select "
 msgstr "Auswählen "
 
 #: pysollib\tile\menubar.py:124
-msgid "Set t&heme"
+msgid "Window t&heme"
 msgstr "Thema auswählen"
 
 #: pysollib\tile\menubar.py:135
@@ -4880,8 +4884,8 @@ msgstr "Hervorhebung Karten:"
 
 #: pysollib\tile\timeoutsdialog.py:68 pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
-msgstr "Gleichen Rang hervorheben:"
+msgid "Highlight same rank/suit:"
+msgstr "Gleichen Rang/Farbe hervorheben:"
 
 #: pysollib\tile\tkstats.py:54
 msgid "Demo Statistics"
@@ -5648,12 +5652,12 @@ msgid "Highlight cards 2:"
 msgstr "Hervorhebung Karten 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:79 data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
-msgstr "Hervorhebung gleicher Rang 1:"
+msgid "Highlight same rank/suit 1:"
+msgstr "Hervorhebung gleicher Rang/Farbe 1:"
 
 #: pysollib\ui\tktile\colorsdialog.py:80 data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
-msgstr "Hervorhebung gleicher Rang 2:"
+msgid "Highlight same rank/suit 2:"
+msgstr "Hervorhebung gleicher Rang/Farbe 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:81 data\pysolfc.glade:2187
 msgid "Hint arrow:"
@@ -6025,8 +6029,8 @@ msgid "Enable highlight &cards"
 msgstr "Hervorhebung Karten:"
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
-msgstr "Gleichen Rang hervorheben:"
+msgid "Enable highlight same &rank/suit"
+msgstr "Gleichen Rang/Farbe hervorheben:"
 
 #: pysollib\ui\tktile\menubar.py:712
 msgid "Enable face-down &peek"

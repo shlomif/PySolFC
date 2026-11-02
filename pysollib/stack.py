@@ -299,8 +299,8 @@ class Stack:
              self.__middleclickEventHandler)
         # bind(group, self._calcMouseBind(
         # "<Control-{mouse_button2}>"), self.__controlmiddleclickEventHandler)
-        # bind(group, self._calcMouseBind("<Shift-{mouse_button3}>"),
-        # self.__shiftrightclickEventHandler)
+        bind(group, self._calcMouseBind("<Shift-{mouse_button3}>"),
+             self.__shiftrightclickEventHandler)
         # bind(group, self._calcMouseBind("<Double-{mouse_button2}>"), "")
         bind(group, "<Enter>", self.__enterEventHandler)
         bind(group, "<Leave>", self.__leaveEventHandler)
@@ -936,7 +936,7 @@ class Stack:
             if self.texts.misc:
                 move(self.texts.misc)
 
-    def basicShallHighlightSameRank(self, card):
+    def basicShallHighlight(self, card):
         # by default all open stacks are available for highlighting
         assert card in self.cards
         if not self.is_visible or not card.face_up:
@@ -951,29 +951,28 @@ class Stack:
         #     return False
         return True
 
-    def basicShallHighlightMatch(self, card):
-        # by default all open stacks are available for highlighting
-        return self.basicShallHighlightSameRank(card)
-
     def highlightSameRank(self, event):
+        return self._highlightSameAttr(event, 'rank')
+
+    def highlightSameSuit(self, event):
+        return self._highlightSameAttr(event, 'suit')
+
+    def _highlightSameAttr(self, event, attr):
         i = self._findCard(event)
         if i < 0:
             return 0
         card = self.cards[i]
-        if not self.basicShallHighlightSameRank(card):
+        if not self.basicShallHighlight(card):
             return 0
         col_1 = self.game.app.opt.colors['samerank_1']
         col_2 = self.game.app.opt.colors['samerank_2']
+        value = getattr(card, attr)
         info = [(self, card, card, col_1)]
         for s in self.game.allstacks:
             for c in s.cards:
-                if c is card:
+                if c is card or getattr(c, attr) != value:
                     continue
-                # check the rank
-                if c.rank != card.rank:
-                    continue
-                # ask the target stack
-                if s.basicShallHighlightSameRank(c):
+                if s.basicShallHighlight(c):
                     info.append((s, c, c, col_2))
         self.game.stats.highlight_samerank += 1
         return self.game._highlightCards(
@@ -984,7 +983,7 @@ class Stack:
         if i < 0:
             return 0
         card = self.cards[i]
-        if not self.basicShallHighlightMatch(card):
+        if not self.basicShallHighlight(card):
             return 0
         col_1 = self.game.app.opt.colors['cards_1']
         col_2 = self.game.app.opt.colors['cards_2']
@@ -1001,7 +1000,7 @@ class Stack:
                 if c is card:
                     continue
                 # ask the target stack
-                if not s.basicShallHighlightMatch(c):
+                if not s.basicShallHighlight(c):
                     continue
                 # ask the game
                 if self.game.shallHighlightMatch(self, card, s, c):
@@ -1108,6 +1107,9 @@ class Stack:
         return 0
 
     def shiftrightclickHandler(self, event):
+        # default action: highlight all cards of the same suit
+        if self.game.app.opt.highlight_samerank:
+            return self.highlightSameSuit(event)
         return 0
 
     def releaseHandler(self, event, drag, sound=True, invalid=False):

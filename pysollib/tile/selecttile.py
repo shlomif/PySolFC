@@ -352,6 +352,12 @@ class SelectTileDialogWithPreview(MfxDialog):
                                 padx=padx, pady=pady)
         self.useFileButton.state(['disabled'])
 
+        self.cncFileButton = PysolButton(loadfile_frame, text=_('Cancel'),
+                                         command=self.cncFile)
+        self.cncFileButton.grid(row=6, column=1, sticky='w',
+                                padx=padx, pady=pady)
+        self.cncFileButton.state(['disabled'])
+
         loadfile_frame.columnconfigure(0, weight=1)
         loadfile_frame.columnconfigure(1, weight=1)
 
@@ -500,6 +506,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.filelabel.config(text=name)
             self.nameFile.set(Path(filename).stem)
             self.useFileButton.state(['!disabled'])
+            self.cncFileButton.state(['!disabled'])
             self.updateLoadPreview()
 
     def useFile(self):
@@ -554,6 +561,14 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.speakTileInfo(tile.name)
         except (ValueError, tkinter.TclError):
             pass
+
+    def cncFile(self):
+        self.loadedFile.set('')
+        self.filelabel.config(text='')
+        self.nameFile.set('')
+        self.updateLoadPreview()
+        self.useFileButton.state(['disabled'])
+        self.cncFileButton.state(['disabled'])
 
     def refreshTreeData(self):
         data = self.TreeDataHolder_Class.data

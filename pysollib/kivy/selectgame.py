@@ -487,6 +487,12 @@ class SelectGameDialog:
         tv.load_func = loaderCB
         tv.bind(minimum_height=tv.setter('height'))
 
+        def back_command():
+            parent.popWork('SelectGame')
+            self.app.menubar.mMainMenuDialog()
+        tv.add_node(LTreeNode(
+            text='[b]' + _('< Back') + '[/b]', command=back_command))
+
         # tree in einem Scrollwindow präsentieren.
 
         root = LScrollView(pos=(0, 0))

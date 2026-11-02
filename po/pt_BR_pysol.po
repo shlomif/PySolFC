@@ -2888,6 +2888,10 @@ msgstr ""
 msgid "Full picture"
 msgstr ""
 
+#: pysollib\kivy\menubar.py:146 pysollib\kivy\selectgame.py:493
+msgid "< Back"
+msgstr ""
+
 #: pysollib\kivy\menubar.py:265
 msgid "File"
 msgstr "Arquivo"
@@ -3073,8 +3077,8 @@ msgid "Enable highlight cards"
 msgstr "Ativar realçamento de cartas"
 
 #: pysollib\kivy\menubar.py:626
-msgid "Enable highlight same rank"
-msgstr "Aitvar realçamento de mesmo valor"
+msgid "Enable highlight same rank/suit"
+msgstr "Aitvar realçamento de mesmo valor/naipe"
 
 #: pysollib\kivy\menubar.py:631
 msgid "Enable face-down peek"
@@ -4382,8 +4386,8 @@ msgstr "Cartas de destaque: "
 
 #: pysollib\pysolgtk\tkstats.py:529 pysollib\tile\tkstats.py:695
 #: pysollib\tk\tkstats.py:615
-msgid "Highlight same rank: "
-msgstr "Destaque a mesma classificação: "
+msgid "Highlight same rank/suit: "
+msgstr "Destaque a mesma classificação/naipe: "
 
 #: pysollib\pysolgtk\tkstats.py:531 pysollib\tile\tkstats.py:697
 #: pysollib\tk\tkstats.py:617
@@ -4553,7 +4557,7 @@ msgid "Select "
 msgstr "Selecionar "
 
 #: pysollib\tile\menubar.py:124
-msgid "Set t&heme"
+msgid "Window t&heme"
 msgstr "Definir Tema"
 
 #: pysollib\tile\menubar.py:135
@@ -4962,8 +4966,8 @@ msgstr "cartas de destaque:"
 
 #: pysollib\tile\timeoutsdialog.py:68 pysollib\tk\timeoutsdialog.py:67
 #: data\pysolfc.glade:1684
-msgid "Highlight same rank:"
-msgstr "Destaque a mesma classificação:"
+msgid "Highlight same rank/suit:"
+msgstr "Destaque a mesma classificação/naipe:"
 
 #: pysollib\tile\tkstats.py:54
 msgid "Demo Statistics"
@@ -5730,12 +5734,12 @@ msgid "Highlight cards 2:"
 msgstr "cartas de destaque 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:79 data\pysolfc.glade:2135
-msgid "Highlight same rank 1:"
-msgstr "Destaque de mesma classificação 1:"
+msgid "Highlight same rank/suit 1:"
+msgstr "Destaque de mesma classificação/naipe 1:"
 
 #: pysollib\ui\tktile\colorsdialog.py:80 data\pysolfc.glade:2161
-msgid "Highlight same rank 2:"
-msgstr "Destaque de mesma classificação 2:"
+msgid "Highlight same rank/suit 2:"
+msgstr "Destaque de mesma classificação/naipe 2:"
 
 #: pysollib\ui\tktile\colorsdialog.py:81 data\pysolfc.glade:2187
 msgid "Hint arrow:"
@@ -6101,8 +6105,8 @@ msgid "Enable highlight &cards"
 msgstr "Ativar realce &cartas"
 
 #: pysollib\ui\tktile\menubar.py:708
-msgid "Enable highlight same &rank"
-msgstr "Ativar o mesmo realce &classificar"
+msgid "Enable highlight same &rank/suit"
+msgstr "Ativar o mesmo realce &classificar/naipe"
 
 #: pysollib\ui\tktile\menubar.py:712
 msgid "Enable face-down &peek"

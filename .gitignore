@@ -16,6 +16,7 @@
 /po/pl.po
 /po/ru.po
 /po/pt_BR.po
+/po/sv.po
 /tests/individually-importing/*.py
 /tests/unit-generated/*.py
 PySolFC-Cardsets--Minimal-2.0.*

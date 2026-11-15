@@ -1067,6 +1067,11 @@ class PysolToolbar(PysolToolbarTk):
             self.menubar.mRedo()
         return 1
 
+    def mDeal(self, *args):
+        if not self._busy():
+            self.menubar.mDeal()
+        return 1
+
     def mDrop(self, *args):
         if not self._busy():
             self.menubar.mDrop()

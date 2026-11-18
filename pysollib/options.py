@@ -380,7 +380,7 @@ class Options:
         if TOOLKIT == 'kivy':
             self.mahjongg_create_solvable = 1  # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True
-        self.shisen_show_matching = False
+        self.shisen_show_matching = True
         self.match_three_cascade = True
         self.animations = 3             # default to Medium
         self.redeal_animation = True

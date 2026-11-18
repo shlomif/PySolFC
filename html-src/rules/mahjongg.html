@@ -28,8 +28,8 @@ to make points. A second tile is placed to the rightmost of these two files.
 </ul>
 <p>
 Tiles may be removed from the tableau only in matching pairs and only
-if both tiles are free.  A tile is free if there are no tiles on top
-of it and no tiles either to the right or left of it.
+if both tiles are free.  A tile is free if there are no tiles covering it on
+the top, and either the left or right side of it horizontally is unblocked.
 <p>
 A set of Mahjongg tiles has three suits of nine tiles plus three Dragons
 and four Winds, each of which is repeated four times.  And there four
@@ -41,11 +41,22 @@ red, green and white.  A green Dragon will only match another green Dragon.
 The Winds are North, South, East and West.  North will only match North
 etc.  Any Flower will match any other Flower and any Season will match
 any other Season.
+<p>
+Typical Mahjongg layouts include four copies of each tile, except for the
+seasons and flowers, which count as sets of four on their own.  Double
+Mahjongg layouts use eight copies of each tile, plus two sets of seasons and
+flowers.
 
 <h3>Strategy</h3>
 Remove tiles from the deepest stacks first.
 
 <h3>Notes</h3>
+<p>
 Mahjongg is a game that requires four players referred to as the four
 winds.  The first widely distributed computer solitaire game that used
 the Mahjongg tiles was called Shanghai and was produced by Activision.
+<p>
+In the options menu, you can enable or disable the display showing the
+count of current free matches, or set it up so the removed tiles are
+kept in stacks to the left of the layout to make it easier to keep track
+of which tiles are removes.

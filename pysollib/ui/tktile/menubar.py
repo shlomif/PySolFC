@@ -303,6 +303,7 @@ class PysolMenubarTkCommon:
             stuck_notification=tkinter.BooleanVar(),
             mahjongg_show_removed=tkinter.BooleanVar(),
             shisen_show_hint=tkinter.BooleanVar(),
+            shisen_show_matching=tkinter.BooleanVar(),
             match_three_cascade=tkinter.BooleanVar(),
             accordion_deal_all=tkinter.BooleanVar(),
             pegged_auto_remove=tkinter.BooleanVar(),
@@ -382,6 +383,7 @@ class PysolMenubarTkCommon:
         tkopt.randomize_place.set(opt.randomize_place)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
+        tkopt.shisen_show_matching.set(opt.shisen_show_matching)
         tkopt.match_three_cascade.set(opt.match_three_cascade)
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
         tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
@@ -732,6 +734,10 @@ class PysolMenubarTkCommon:
             label=n_("Show hint &arrow (in Shisen-Sho games)"),
             variable=self.tkopt.shisen_show_hint,
             command=self.mOptShisenShowHint)
+        submenu.add_checkbutton(
+            label=n_("Show free match c&ount (in Mahjongg/Shisen-Sho games)"),
+            variable=self.tkopt.shisen_show_matching,
+            command=self.mOptShisenShowMatching)
         submenu.add_checkbutton(
             label=n_("Show ca&scade (in Match Three games)"),
             variable=self.tkopt.match_three_cascade,
@@ -1822,6 +1828,15 @@ Unsupported game for import.
             return
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
         # self.game.updateMenus()
+
+    def mOptShisenShowMatching(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.shisen_show_matching = \
+            self.tkopt.shisen_show_matching.get()
+        # self.game.updateMenus()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     def mOptMatchThreeCascade(self, *args):
         if self._cancelDrag(break_pause=False):

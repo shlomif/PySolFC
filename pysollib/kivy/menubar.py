@@ -674,6 +674,12 @@ class LOptionsMenuGenerator(LTreeGenerator):
                               self.menubar.mOptShisenShowHint)
 
             self.addCheckNode(tv, rg,
+                              _('Show free match count '
+                                '(in Mahjongg/Shisen-Sho games)'),
+                              self.menubar.tkopt.shisen_show_matching,
+                              self.menubar.mOptShisenShowMatching)
+
+            self.addCheckNode(tv, rg,
                               _('Show cascade (in Match Three games)'),
                               self.menubar.tkopt.match_three_cascade,
                               self.menubar.mOptMatchThreeCascade)
@@ -1555,6 +1561,7 @@ class PysolMenubarTk:
             stuck_notification=LBoolWrap(opt, "stuck_notification"),
             mahjongg_show_removed=LBoolWrap(opt, "mahjongg_show_removed"),
             shisen_show_hint=LBoolWrap(opt, "shisen_show_hint"),
+            shisen_show_matching=LBoolWrap(opt, "shisen_show_matching"),
             match_three_cascade=LBoolWrap(opt, "match_three_cascade"),
             accordion_deal_all=LBoolWrap(opt, "accordion_deal_all"),
             pegged_auto_remove=LBoolWrap(opt, "pegged_auto_remove"),

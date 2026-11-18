@@ -1090,29 +1090,32 @@ a solvable configuration.'''),
         self.texts.info.config(text=t)
 
     def getText(self):
-        # find matching tiles
-        stacks = []
-        for r in self.s.rows:
-            if r.cards and not r.basicIsBlocked():
-                stacks.append(r)
-        f, i = 0, 0
-        for r in stacks:
-            n = 0
-            for t in stacks[i+1:]:
-                if self.cardsMatch(r.cards[0], t.cards[0]):
-                    n += 1
-            # if n == 3: n = 1
-            # elif n == 2: n = 0
-            n = n % 2
-            f += n
-            i += 1
+        if self.app.opt.shisen_show_matching:
+            # find matching tiles
+            stacks = []
+            for r in self.s.rows:
+                if r.cards and not r.basicIsBlocked():
+                    stacks.append(r)
+            f, i = 0, 0
+            for r in stacks:
+                n = 0
+                for t in stacks[i+1:]:
+                    if self.cardsMatch(r.cards[0], t.cards[0]):
+                        n += 1
+                # if n == 3: n = 1
+                # elif n == 2: n = 0
+                n = n % 2
+                f += n
+                i += 1
 
-        if f == 0:
-            f = _('No Free\nMatching\nPairs')
+            if f == 0:
+                f = _('No Free\nMatching\nPairs')
+            else:
+                f = ungettext('%d Free\nMatching\nPair',
+                              '%d Free\nMatching\nPairs',
+                              f) % f
         else:
-            f = ungettext('%d Free\nMatching\nPair',
-                          '%d Free\nMatching\nPairs',
-                          f) % f
+            f = ''
         t = sum(len(ii.cards) for ii in self.s.foundations)
         r1 = ungettext('%d\nTile\nRemoved\n\n',
                        '%d\nTiles\nRemoved\n\n',

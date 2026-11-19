@@ -1273,7 +1273,7 @@ class TheBogey_Talon(TalonStack):
     def canDealCards(self):
         return (len(self.game.s.reserves[0].cards) < 1 and
                 (len(self.cards) > 0 or
-                 len(self.game.s.reserves[0].cards) > 0))
+                 len(self.game.s.reserves[1].cards) > 0))
 
     def dealCards(self, sound=False):
         if len(self.cards) < 1:

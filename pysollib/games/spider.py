@@ -78,6 +78,10 @@ class Spider_Hint(SpiderType_Hint):
 
     BONUS_SAME_SUIT_MOVE = 400
 
+    # Spider may split a run at any card; the base class only hints the whole
+    # pile, missing the split that refills a row and allows dealing again.
+    step010b_getPiles = YukonType_Hint.step010b_getPiles
+
     def _preferHighRankMoves(self):
         return 1
 

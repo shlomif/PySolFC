@@ -726,27 +726,28 @@ class PysolMenubarTkCommon:
             variable=self.tkopt.stuck_notification,
             command=self.mOptEnableStuckNotification)
         submenu.add_separator()
-        submenu.add_checkbutton(
+        gs_submenu = MfxMenu(submenu, label=n_("&Game-specific options"))
+        gs_submenu.add_checkbutton(
             label=n_("&Show removed tiles (in Mahjongg games)"),
             variable=self.tkopt.mahjongg_show_removed,
             command=self.mOptMahjonggShowRemoved)
-        submenu.add_checkbutton(
+        gs_submenu.add_checkbutton(
             label=n_("Show hint &arrow (in Shisen-Sho games)"),
             variable=self.tkopt.shisen_show_hint,
             command=self.mOptShisenShowHint)
-        submenu.add_checkbutton(
+        gs_submenu.add_checkbutton(
             label=n_("Show free match c&ount (in Mahjongg/Shisen-Sho games)"),
             variable=self.tkopt.shisen_show_matching,
             command=self.mOptShisenShowMatching)
-        submenu.add_checkbutton(
+        gs_submenu.add_checkbutton(
             label=n_("Show ca&scade (in Match Three games)"),
             variable=self.tkopt.match_three_cascade,
             command=self.mOptMatchThreeCascade)
-        submenu.add_checkbutton(
+        gs_submenu.add_checkbutton(
             label=n_("&Deal all cards (in Accordion type games)"),
             variable=self.tkopt.accordion_deal_all,
             command=self.mOptAccordionDealAll)
-        submenu.add_checkbutton(
+        gs_submenu.add_checkbutton(
             label=n_("A&uto-remove first card (in Pegged games)"),
             variable=self.tkopt.pegged_auto_remove,
             command=self.mOptPeggedAutoRemove)

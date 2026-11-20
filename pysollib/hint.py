@@ -677,15 +677,11 @@ class DefaultHint(AbstractHint):
             pile = [card]
             # compute remaining pile in r
             rpile = r.cards[:(len(r.cards)-len(pile))]
-            rr = self.ClonedStack(r, stackcards=rpile)
             for t in reservestacks:
                 if t is r or not t.acceptsCards(r, pile):
                     continue
                 if hint_level_avoids_move_loops(self.level):
-                    if rr.acceptsCards(t, pile):
-                        # the pile we are going to move from r to t
-                        # could be moved back from t ro r - this is
-                        # dangerous as we can create loops...
+                    if not self._cautiousShallMovePile(r, t, pile, rpile):
                         continue
                 score = 10000
                 score, color = self._getMovePileScore(

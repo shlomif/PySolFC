@@ -677,15 +677,11 @@ class DefaultHint(AbstractHint):
             pile = [card]
             # compute remaining pile in r
             rpile = r.cards[:(len(r.cards)-len(pile))]
-            rr = self.ClonedStack(r, stackcards=rpile)
             for t in reservestacks:
                 if t is r or not t.acceptsCards(r, pile):
                     continue
                 if hint_level_avoids_move_loops(self.level):
-                    if rr.acceptsCards(t, pile):
-                        # the pile we are going to move from r to t
-                        # could be moved back from t ro r - this is
-                        # dangerous as we can create loops...
+                    if not self._cautiousShallMovePile(r, t, pile, rpile):
                         continue
                 score = 10000
                 score, color = self._getMovePileScore(
@@ -931,7 +927,90 @@ class Yukon_Hint(YukonType_Hint):
 
 
 class FreeCellType_Hint(CautiousDefaultHint):
-    pass
+    # Clearing the next foundation card can take several reversible-looking
+    # moves; search a bounded number of positions before calling it stuck.
+    _STUCK_STATE_CAP = 20000
+
+    def getHints(self, taken_hint=None):
+        hints = super().getHints(taken_hint)
+        if (hints or taken_hint or
+                not hint_level_is_stuck(self.level) or
+                self.game.canDealCards()):
+            return hints
+        move = self._stuck_find_progress()
+        if move is None:
+            return hints
+        # Report the first move of the line so getStuck() sees progress.
+        return [(1, 0, move[2], move[0], move[1], self.BLACK, None)]
+
+    def _stuck_find_progress(self):
+        game = self.game
+        founds = game.s.foundations
+        stacks = list(game.s.rows) + list(game.s.reserves or [])
+        card_by_id = {card.id: card for card in game.cards}
+
+        def snapshot():
+            return tuple(tuple(card.id for card in st.cards) for st in stacks)
+
+        def restore(state):
+            for st, ids in zip(stacks, state):
+                st.cards[:] = [card_by_id[i] for i in ids]
+
+        def iter_moves():
+            for src in stacks:
+                if not src.cards or not src.cards[-1].face_up:
+                    continue
+                for n in range(1, len(src.cards) + 1):
+                    pile = src.cards[-n:]
+                    if not all(card.face_up for card in pile) or \
+                            not src.canMoveCards(pile):
+                        continue
+                    for dst in stacks:
+                        if dst is not src and dst.acceptsCards(src, pile):
+                            yield src, dst, n
+
+        def progressed():
+            if game.canDealCards():
+                return True
+            for st in game.allstacks:
+                if st.canFlipCard():
+                    return True
+                if st not in founds and st.canDropCards(founds)[0]:
+                    return True
+            return False
+
+        def first_move(state):
+            move = None
+            while seen[state] is not None:
+                state, move = seen[state]
+            return move
+
+        root = snapshot()
+        seen = {root: None}
+        queue = [root]
+        try:
+            for state in queue:
+                if len(seen) >= self._STUCK_STATE_CAP:
+                    restore(state)
+                    return first_move(state) or next(iter_moves(), None)
+                restore(state)
+                for src, dst, n in list(iter_moves()):
+                    pile = src.cards[-n:]
+                    del src.cards[-n:]
+                    dst.cards.extend(pile)
+                    try:
+                        if progressed():
+                            return first_move(state) or (src, dst, n)
+                        key = snapshot()
+                        if key not in seen:
+                            seen[key] = (state, (src, dst, n))
+                            queue.append(key)
+                    finally:
+                        dst.cards[-n:] = []
+                        src.cards.extend(pile)
+        finally:
+            restore(root)
+        return None
 
 
 class GolfType_Hint(DefaultHint):

@@ -81,6 +81,30 @@ class Spider_Hint(SpiderType_Hint):
     def _preferHighRankMoves(self):
         return 1
 
+    def step010b_getPiles(self, stack):
+        # Splits are only useful while a row is empty and the talon can
+        # still deal; otherwise the pile can just move straight back.
+        talon = self.game.s.talon
+        if (not (talon and talon.cards) or
+                all(s.cards for s in self.game.s.rows)):
+            p = stack.getPile()
+            return (p, ) if p else ()
+        return YukonType_Hint.step010b_getPiles(self, stack)
+
+    def getHints(self, taken_hint=None):
+        hints = SpiderType_Hint.getHints(self, taken_hint)
+        if not (taken_hint and taken_hint[6] is None and taken_hint[2] and
+                taken_hint[3] is not taken_hint[4] and
+                taken_hint[4] in self.game.s.rows and
+                len(taken_hint[4].cards) == taken_hint[2]):
+            return hints
+        # The last hint filled an empty row. Keep dropping, dealing or
+        # filling rows instead of moving the split straight back.
+        keep = [h for h in hints
+                if h[2] == 0 or h[4] in self.game.s.foundations or
+                (h[4] in self.game.s.rows and not h[4].cards)]
+        return keep or hints
+
     def shallMovePile(self, r, t, pile, rpile):
         # the pile we are going to move from r to t
         # could be moved back from t ro r - this is

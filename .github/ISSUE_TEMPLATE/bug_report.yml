@@ -1,0 +1,20 @@
+name: Bug Report
+description: Report a bug, or unexpected behavior
+body:
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Pre-submission Confirmation
+      description: Before submitting your issue, please confirm the following
+      options:
+        - label: I have been able to reproduce the issue on the latest version of PySolFC.
+          required: true
+        - label: I have read the [FAQ](https://pysolfc.sourceforge.io/faq.html) page and reviewed existing issues to confirm it is not a known issue.
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Please provide a clear description of the bug you experienced, including steps for reproduction, and any other information that might help diagnose it.
+    validations:
+      required: true

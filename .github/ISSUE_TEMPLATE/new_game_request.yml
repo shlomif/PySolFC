@@ -1,0 +1,18 @@
+name: New Game Request
+description: Request a new game to be added
+body:
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Pre-submission Confirmation
+      description: Before submitting your issue, please confirm the following
+      options:
+        - label: I have read the [FAQ](https://pysolfc.sourceforge.io/faq.html) page and reviewed existing issues to confirm it is not previously reported, or out of scope.
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What game do you want to request?
+      description: Please explain the game you want to request.  Include at least two sources for the game rules.
+    validations:
+      required: true

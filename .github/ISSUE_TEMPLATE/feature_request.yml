@@ -1,0 +1,18 @@
+name: Feature Request
+description: Request a new feature to be added
+body:
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Pre-submission Confirmation
+      description: Before submitting your issue, please confirm the following
+      options:
+        - label: I have read the [FAQ](https://pysolfc.sourceforge.io/faq.html) page and reviewed existing issues to confirm it is not previously reported, or out of scope.
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What feature do you want to request?
+      description: Please provide a description of the feature you want to request, including information as to what this feature helps to accomplish.
+    validations:
+      required: true

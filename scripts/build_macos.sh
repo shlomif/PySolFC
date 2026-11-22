@@ -16,7 +16,16 @@ case "$archs" in
           "the app will be single-arch." ;;
 esac
 
-"$PYTHON" -c "import tkinter" || { echo "ERROR: $PYTHON has no tkinter"; exit 1; }
+if ! "$PYTHON" -c "import tkinter" 2>/dev/null; then
+  echo "ERROR: $PYTHON has no tkinter."
+  pyexe="$("$PYTHON" -c 'import os, sys; print(os.path.realpath(sys.executable))')"
+  case "$pyexe" in
+    /opt/homebrew/*|/usr/local/Cellar/*|/usr/local/opt/*)
+      pyver="$("$PYTHON" -c 'import sys; print("%d.%d" % sys.version_info[:2])')"
+      echo "Homebrew Python: run 'brew install python-tk@${pyver}'." ;;
+  esac
+  exit 1
+fi
 
 echo "--> venv + dependencies"
 "$PYTHON" -m venv "$VENV"

@@ -663,38 +663,43 @@ class LOptionsMenuGenerator(LTreeGenerator):
 
             # submenu.add_separator()
 
-            self.addCheckNode(tv, rg,
-                              _('Show removed tiles (in Mahjongg games)'),
-                              self.menubar.tkopt.mahjongg_show_removed,
-                              self.menubar.mOptMahjonggShowRemoved)
+            rggs = tv.add_node(
+                LTreeNode(text=_('Game-specific options')), rg)
 
-            self.addCheckNode(tv, rg,
-                              _('Show hint arrow (in Shisen-Sho games)'),
-                              self.menubar.tkopt.shisen_show_hint,
-                              self.menubar.mOptShisenShowHint)
+            if rggs:
 
-            self.addCheckNode(tv, rg,
-                              _('Show free match count '
-                                '(in Mahjongg/Shisen-Sho games)'),
-                              self.menubar.tkopt.shisen_show_matching,
-                              self.menubar.mOptShisenShowMatching)
+                self.addCheckNode(tv, rggs,
+                                  _('Show removed tiles (in Mahjongg games)'),
+                                  self.menubar.tkopt.mahjongg_show_removed,
+                                  self.menubar.mOptMahjonggShowRemoved)
 
-            self.addCheckNode(tv, rg,
-                              _('Show cascade (in Match Three games)'),
-                              self.menubar.tkopt.match_three_cascade,
-                              self.menubar.mOptMatchThreeCascade)
+                self.addCheckNode(tv, rggs,
+                                  _('Show hint arrow (in Shisen-Sho games)'),
+                                  self.menubar.tkopt.shisen_show_hint,
+                                  self.menubar.mOptShisenShowHint)
 
-            self.addCheckNode(tv, rg,
-                              _('Deal all cards (in Accordion type games)'),
-                              self.menubar.tkopt.accordion_deal_all,
-                              self.menubar.mOptAccordionDealAll)
+                self.addCheckNode(tv, rggs,
+                                  _('Show free match count '
+                                    '(in Mahjongg/Shisen-Sho games)'),
+                                  self.menubar.tkopt.shisen_show_matching,
+                                  self.menubar.mOptShisenShowMatching)
 
-            self.addCheckNode(tv, rg,
-                              _('Auto-remove first card (in Pegged games)'),
-                              self.menubar.tkopt.accordion_deal_all,
-                              self.menubar.mOptPeggedAutoRemove)
+                self.addCheckNode(tv, rggs,
+                                  _('Show cascade (in Match Three games)'),
+                                  self.menubar.tkopt.match_three_cascade,
+                                  self.menubar.mOptMatchThreeCascade)
 
-            # submenu.add_separator()
+                self.addCheckNode(tv, rggs,
+                                  _('Deal all cards '
+                                    '(in Accordion type games)'),
+                                  self.menubar.tkopt.accordion_deal_all,
+                                  self.menubar.mOptAccordionDealAll)
+
+                self.addCheckNode(tv, rggs,
+                                  _('Auto-remove first card '
+                                    '(in Pegged games)'),
+                                  self.menubar.tkopt.pegged_auto_remove,
+                                  self.menubar.mOptPeggedAutoRemove)
 
         yield
         # -------------------------------------------
@@ -2403,6 +2408,13 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         # self.game.updateMenus()
+
+    def mOptShisenShowMatching(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        # self.game.updateMenus()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     def mOptMatchThreeCascade(self, *args):
         if self._cancelDrag(break_pause=False):

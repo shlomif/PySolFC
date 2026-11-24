@@ -30,6 +30,7 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         InvisibleStack, \
         OpenStack
+from pysollib.util import RANKS, SUITS_PL
 
 # ************************************************************************
 # *
@@ -198,6 +199,13 @@ class Memory24(Game):
 
     def cardsMatch(self, card1, card2):
         return card1.suit == card2.suit and card1.rank == card2.rank
+
+    def parseCard(self, card):
+        if self.gameinfo.suits or not card.face_up:
+            return Game.parseCard(self, card)
+        if self.app.cardset.type == GI.GC_FRENCH:
+            return RANKS[card.rank % 13] + " - " + SUITS_PL[card.rank // 13]
+        return str(card.rank + 1)
 
     def canSaveGame(self):
         return 0

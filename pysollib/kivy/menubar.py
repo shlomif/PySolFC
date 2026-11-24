@@ -355,9 +355,30 @@ class FileMenuDialog(LMenuDialog):
 
             self.make_favid_list(tv, rg)
 
-        tv.add_node(LTreeNode(
+        rg = tv.add_node(LTreeNode(
             text=_('Random game'),
             command=self.make_command(self.menubar.mSelectRandomGame)))
+        if rg:
+            tv.add_node(LTreeNode(
+                text=_('All games'),
+                command=self.make_command(self.menubar.mSelectRandomGame)), rg)
+            tv.add_node(LTreeNode(
+                text=_('Games played'),
+                command=self.make_command(
+                    lambda: self.menubar.mSelectRandomGame('played'))), rg)
+            tv.add_node(LTreeNode(
+                text=_('Games played and won'),
+                command=self.make_command(
+                    lambda: self.menubar.mSelectRandomGame('won'))), rg)
+            tv.add_node(LTreeNode(
+                text=_('Games played and not won'),
+                command=self.make_command(
+                    lambda: self.menubar.mSelectRandomGame('not won'))), rg)
+            tv.add_node(LTreeNode(
+                text=_('Games not played'),
+                command=self.make_command(
+                    lambda: self.menubar.mSelectRandomGame('not played'))), rg)
+
         tv.add_node(LTreeNode(
             text=_('Load'), command=self.make_command(self.menubar.mOpen)))
         tv.add_node(LTreeNode(

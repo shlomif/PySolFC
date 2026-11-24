@@ -906,10 +906,13 @@ class Application:
                 return 1
         #
         if progress is None and not noprogress:
-            progress_rect = (
-                self.top.winfo_x(), self.top.winfo_y(),
-                self.top.winfo_width(), self.top.winfo_height()
-            )
+            progress_options = {}
+            if TOOLKIT == 'tk':
+                # Only Tk progress bar dialogs use window geometry.
+                progress_options['rect'] = (
+                    self.top.winfo_x(), self.top.winfo_y(),
+                    self.top.winfo_width(), self.top.winfo_height()
+                )
 
             self.wm_save_state()
             self.wm_withdraw()
@@ -920,7 +923,7 @@ class Application:
             progress = PysolProgressBar(self, self.top, title=title,
                                         color=color,
                                         images=self.progress_images,
-                                        rect=progress_rect)
+                                        **progress_options)
         images = Images(self.dataloader, cs)
         images.cardset_bottoms = self.opt.use_cardset_bottoms
         try:
@@ -1135,14 +1138,15 @@ class Application:
 
     def selectCardset(self, title, key, initial_tab=None):
         wasPaused = False
-        if not self.game.pause:
+        # Between games, the previous game may already be destroyed.
+        if self.game is not None and not self.game.pause:
             self.game.doPause()
             wasPaused = True
         d = SelectCardsetDialogWithPreview(
             self.top, title=title, app=self,
             manager=self.cardset_manager, key=key,
             initial_tab=initial_tab)
-        if self.game.pause:
+        if self.game is not None and self.game.pause:
             if wasPaused:
                 self.game.doPause()
         cs = self.cardset_manager.get(d.key)

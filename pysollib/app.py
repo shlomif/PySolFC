@@ -928,7 +928,7 @@ class Application:
         images.cardset_bottoms = self.opt.use_cardset_bottoms
         try:
             if not images.load(app=self, progress=progress):
-                raise Exception("Invalid or damaged cardset")
+                raise Exception(_("Invalid or damaged cardset"))
             simages = SubsampledImages(images)
             if tocache:
                 simages.setNegative(self.opt.negative_bottom)
@@ -988,7 +988,7 @@ class Application:
             cs_subtype = cs.si.subtype
         t0, t1 = None, None
         if gc == GI.GC_FRENCH:
-            t0 = "French"
+            t0 = _("French")
             if cs_type not in (CSI.TYPE_FRENCH,
                                # CSI.TYPE_TAROCK,
                                ):
@@ -997,57 +997,57 @@ class Application:
                     and gs == CSI.SUBTYPE_JOKER_DECK):
                 t1 = t0
         elif gc == GI.GC_HANAFUDA:
-            t0 = "Hanafuda"
+            t0 = _("Hanafuda")
             if cs_type not in (CSI.TYPE_HANAFUDA,):
                 t1 = t0
         elif gc == GI.GC_TAROCK:
-            t0 = "Tarock"
+            t0 = _("Tarock")
             if cs_type not in (CSI.TYPE_TAROCK,):
                 t1 = t0
         elif gc == GI.GC_MAHJONGG:
-            t0 = "Mahjongg"
+            t0 = _("Mahjongg")
             if cs_type not in (CSI.TYPE_MAHJONGG,):
                 t1 = t0
         elif gc == GI.GC_HEXADECK:
-            t0 = "Hex A Deck"
+            t0 = _("Hex A Deck")
             if cs_type not in (CSI.TYPE_HEXADECK,):
                 t1 = t0
         elif gc == GI.GC_MUGHAL_GANJIFA:
-            t0 = "Mughal Ganjifa"
+            t0 = _("Mughal Ganjifa")
             if cs_type not in (CSI.TYPE_MUGHAL_GANJIFA,
                                CSI.TYPE_NAVAGRAHA_GANJIFA,
                                CSI.TYPE_DASHAVATARA_GANJIFA,):
                 t1 = t0
         elif gc == GI.GC_NAVAGRAHA_GANJIFA:
-            t0 = "Navagraha Ganjifa"
+            t0 = _("Navagraha Ganjifa")
             if cs_type not in (CSI.TYPE_NAVAGRAHA_GANJIFA,
                                CSI.TYPE_DASHAVATARA_GANJIFA,):
                 t1 = t0
         elif gc == GI.GC_DASHAVATARA_GANJIFA:
-            t0 = "Dashavatara Ganjifa"
+            t0 = _("Dashavatara Ganjifa")
             if cs_type not in (CSI.TYPE_DASHAVATARA_GANJIFA,):
                 t1 = t0
         elif gc == GI.GC_TRUMP_ONLY:
-            t0 = "Trump only"
+            t0 = _("Trump only")
             if cs_type not in (CSI.TYPE_TRUMP_ONLY,):
                 t1 = t0
             elif len(cs.trumps) < gi.ncards:    # not enough cards
                 t1 = t0
         elif gc == GI.GC_MATCHING:
-            t0 = "Matching"
+            t0 = _("Matching")
             if cs.ncards < (gi.ncards / 2):    # not enough cards
                 t1 = t0
         elif gc == GI.GC_PUZZLE:
-            t0 = "Puzzle"
+            t0 = _("Puzzle")
             if cs_type not in (CSI.TYPE_PUZZLE,) or cs_subtype != gs:
                 t1 = t0
         elif gc == GI.GC_ISHIDO:
-            t0 = "Ishido"
+            t0 = _("Ishido")
             if cs_type not in (CSI.TYPE_ISHIDO,):
                 t1 = t0
         else:
             # we should not come here
-            t0 = t1 = "Unknown"
+            t0 = t1 = _("Unknown")
         return t0, t1
 
     def getCompatibleCardset(self, gi, cs, trychange=True):

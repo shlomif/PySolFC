@@ -2295,7 +2295,7 @@ class OpenStack(Stack):
         # move cards
         if (not to_stack or from_stack is to_stack or
                 not to_stack.acceptsCards(from_stack, cards)):
-            self.game.app.speech.speak("Invalid move")
+            self.game.app.speech.speak(_("Invalid move"))
             # move cards back to their origin stack
             Stack.releaseHandler(self, event, drag, sound=sound,
                                  invalid=True)

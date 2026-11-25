@@ -255,7 +255,9 @@ class PysolAboutDialog(MfxDialog):
 # ************************************************************************
 
 class MfxExceptionDialog(MfxDialog):
-    def __init__(self, parent, ex, title="Error", **kw):
+    def __init__(self, parent, ex, title=None, **kw):
+        if title is None:
+            title = _("Error")
         kw = KwStruct(kw, bitmap="error")
         text = str(kw.get("text", ""))
         if text and text[-1] != "\n":

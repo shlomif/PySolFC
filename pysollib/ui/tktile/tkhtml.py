@@ -433,7 +433,7 @@ to open the following URL:
 
     def errorDialog(self, msg):
         self._calc_MfxMessageDialog()(
-            self.parent, title="%(app)s HTML Problem" % {'app': TITLE},
+            self.parent, title=_("%(app)s HTML Problem") % {'app': TITLE},
             text=msg,
             # bitmap="warning", # FIXME: this interp don't have images
             strings=(_("&OK"),), default=0)

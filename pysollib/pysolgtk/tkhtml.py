@@ -535,7 +535,7 @@ to open the following URL:
 
     def errorDialog(self, msg):
         MfxMessageDialog(
-            self.parent, title=TITLE+' HTML Problem',
+            self.parent, title=_("%(app)s HTML Problem") % {'app': TITLE},
             text=msg, bitmap='warning',
             strings=(_('&OK'),), default=0)
 

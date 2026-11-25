@@ -29,6 +29,7 @@ import time
 from io import BytesIO
 
 from pysollib.mfxutil import destruct
+from pysollib.mygettext import _
 from pysollib.pysolrandom import construct_random
 from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.util import KING
@@ -1127,7 +1128,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                    if c.suit == suit and c.rank == rank]
             if len(ret) < 1:
                 raise PySolHintLayoutImportError(
-                    "Duplicate cards in input",
+                    _("Duplicate cards in input"),
                     [solver.card2str1_(rank, suit)],
                     line_num
                 )
@@ -1169,7 +1170,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             if m:
                 for gm in my_find_re(
                         r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])', m,
-                        "Invalid Foundations line"):
+                        _("Invalid Foundations line")):
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if SUITS_S[suit] == gm[0]:
@@ -1185,7 +1186,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
                 g = my_find_re(r'(' + CARD_RE + r'|\-)', m,
-                               "Invalid Freecells line")
+                               _("Invalid Freecells line"))
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):
@@ -1195,13 +1196,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 continue
             m = re.match(r'^:?\s*(.*)', line)
             for str_ in my_find_re(r'(' + CARD_RE + r')', m,
-                                   "Invalid column text"):
+                                   _("Invalid column text")):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1
         if len(cards()) > 0:
             raise PySolHintLayoutImportError(
-                "Missing cards in input",
+                _("Missing cards in input"),
                 [solver.card2str1(c) for c in cards()],
                 -1
             )
@@ -1449,7 +1450,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                    if c.suit == suit and c.rank == rank]
             if len(ret) < 1:
                 raise PySolHintLayoutImportError(
-                    "Duplicate cards in input",
+                    _("Duplicate cards in input"),
                     [solver.card2str1_(rank, suit)],
                     line_num
                 )
@@ -1490,13 +1491,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
                 for gm in my_find_re(r'(' + CARD_RE + r')', m,
-                                     "Invalid Foundations line"):
+                                     _("Invalid Foundations line")):
                     put_str(game.foundations[found_idx], gm)
                     found_idx += 1
                 continue
             m = re.match(r'^:?\s*(.*)', line)
             for str_ in my_find_re(r'(' + CARD_RE + r')', m,
-                                   "Invalid column text"):
+                                   _("Invalid column text")):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1

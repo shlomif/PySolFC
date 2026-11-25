@@ -190,7 +190,7 @@ class FontsDialog(MfxDialog):
                 title = ' '.join(
                     [str(i) for i in font if i not in ('roman', 'normal')])
             elif font is None:
-                title = 'Default'
+                title = _('Default')
             label = ttk.Label(frame, font=font, text=title)
             label.grid(row=row, column=1, padx=8)
             b = PysolButton(frame, text=_('Change...'),

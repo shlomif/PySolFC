@@ -271,7 +271,9 @@ class MfxMessageDialog(MfxDialog):
 # ************************************************************************
 
 class MfxExceptionDialog(MfxMessageDialog):
-    def __init__(self, parent, ex, title="Error", **kw):
+    def __init__(self, parent, ex, title=None, **kw):
+        if title is None:
+            title = _("Error")
         kw = KwStruct(kw, bitmap="error")
         text = kw.get("text", "")
         if not text.endswith("\n"):

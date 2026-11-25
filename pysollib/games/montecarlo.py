@@ -27,6 +27,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
 from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         AutoDealTalonStack, \
@@ -481,6 +482,18 @@ class Crispy(SimpleCarlo):
 
     def createGame(self):
         MonteCarlo.createGame(self, rows=4, cols=4)
+
+        if self.preview <= 1:
+            l = Layout(self)
+            font = self.app.getFont("canvas_default")
+            for rank, label in ((KING, "K"), (QUEEN, "Q"), (JACK, "J")):
+                for i in PICTURE_DESTS[rank]:
+                    stack = self.s.rows[i]
+                    stack.texts.misc = MfxCanvasText(self.canvas,
+                                                     stack.x + l.CW // 2,
+                                                     stack.y + l.CH // 2,
+                                                     anchor="center",
+                                                     font=font, text=label)
 
     def isGameWon(self):
         for i in (1, 2, 13, 14):

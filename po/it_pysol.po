@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 17:31+0100\n"
+"POT-Creation-Date: 2026-11-26 17:43+0100\n"
 "PO-Revision-Date: 2025-07-21 21:36-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pysolfc/pysolfc-"
@@ -24,6 +24,268 @@ msgstr ""
 "Generated-By: pygettext.py 1.6con\n"
 "X-Generator: Poedit 3.4.2\n"
 "X-PySol-Language-Name: Italiano\n"
+
+#: data/pysolfc.glade:7
+msgid "Game Statistics"
+msgstr "Statistiche di gioco"
+
+#: data/pysolfc.glade:74 data/pysolfc.glade:1250
+#: pysollib/tile/solverdialog.py:41 pysollib/ui/tktile/solverdialog.py:45
+msgid "Game:"
+msgstr "Gioco:"
+
+#: data/pysolfc.glade:241 data/pysolfc.glade:519 pysollib/kivy/tkstats.py:218
+#: pysollib/pysolgtk/selectgame.py:123 pysollib/tile/selectgame.py:473
+#: pysollib/tile/tkstats.py:177 pysollib/tile/tkstats.py:184
+#: pysollib/tile/tkstats.py:201 pysollib/tile/tkstats.py:253
+#: pysollib/tk/selectgame.py:407 pysollib/tk/tkstats.py:86
+#: pysollib/tk/tkstats.py:140
+msgid "Won:"
+msgstr "Vinti:"
+
+#: data/pysolfc.glade:266 data/pysolfc.glade:569 pysollib/kivy/tkstats.py:222
+#: pysollib/tile/tkstats.py:179 pysollib/tile/tkstats.py:186
+#: pysollib/tile/tkstats.py:203 pysollib/tile/tkstats.py:257
+#: pysollib/tk/tkstats.py:88 pysollib/tk/tkstats.py:144
+msgid "Total:"
+msgstr "Totale:"
+
+#: data/pysolfc.glade:307 data/pysolfc.glade:544 pysollib/kivy/tkstats.py:220
+#: pysollib/pysolgtk/selectgame.py:124 pysollib/tile/selectgame.py:474
+#: pysollib/tile/tkstats.py:178 pysollib/tile/tkstats.py:185
+#: pysollib/tile/tkstats.py:202 pysollib/tile/tkstats.py:255
+#: pysollib/tk/selectgame.py:408 pysollib/tk/tkstats.py:87
+#: pysollib/tk/tkstats.py:142
+msgid "Lost:"
+msgstr "Perduti:"
+
+#: data/pysolfc.glade:348 pysollib/tile/tkstats.py:182
+#: pysollib/tile/tkstats.py:183 pysollib/tk/tkstats.py:72
+msgid "Current session"
+msgstr "Questa sessione"
+
+#: data/pysolfc.glade:626 pysollib/tile/tkstats.py:175
+#: pysollib/tile/tkstats.py:176 pysollib/tk/tkstats.py:70
+msgid "Total"
+msgstr "Totale"
+
+#: data/pysolfc.glade:660 pysollib/tile/tkstats.py:73
+#: pysollib/tile/tkstats.py:828 pysollib/tile/tkstats.py:916
+#: pysollib/tile/tkstats.py:987 pysollib/tk/tkstats.py:915
+msgid "Current game"
+msgstr "Gioco attuale"
+
+#: data/pysolfc.glade:717 pysollib/tile/tkstats.py:865
+#: pysollib/tk/selectgame.py:409 pysollib/tk/tkstats.py:746
+msgid "Playing time:"
+msgstr "Tempo di gioco:"
+
+#: data/pysolfc.glade:813 pysollib/tile/tkstats.py:872
+#: pysollib/tk/selectgame.py:410 pysollib/tk/tkstats.py:753
+msgid "Moves:"
+msgstr "Mosse:"
+
+#: data/pysolfc.glade:909 pysollib/tile/tkstats.py:879
+#: pysollib/tk/tkstats.py:760
+msgid "Total moves:"
+msgstr "Mosse totali:"
+
+#: data/pysolfc.glade:1005 pysollib/tile/tkstats.py:853
+#: pysollib/tile/tkstats.py:919 pysollib/tk/tkstats.py:738
+msgid "Minimum"
+msgstr "Minimo"
+
+#: data/pysolfc.glade:1028 pysollib/tile/tkstats.py:855
+#: pysollib/tile/tkstats.py:920 pysollib/tk/tkstats.py:739
+msgid "Maximum"
+msgstr "Massimo"
+
+#: data/pysolfc.glade:1051 pysollib/tile/tkstats.py:857
+#: pysollib/tile/tkstats.py:921 pysollib/tk/tkstats.py:740
+msgid "Average"
+msgstr "Media"
+
+#: data/pysolfc.glade:1088
+msgid "Summary"
+msgstr "Sommario"
+
+#: data/pysolfc.glade:1133 pysollib/pysolgtk/statusbar.py:96
+#: pysollib/pysolgtk/tkstats.py:426 pysollib/tile/statusbar.py:153
+#: pysollib/tk/statusbar.py:149
+msgid "Playing time"
+msgstr "Tempo di gioco"
+
+#: data/pysolfc.glade:1178 pysollib/pysolgtk/tkstats.py:427
+msgid "Moves"
+msgstr "Mosse"
+
+#: data/pysolfc.glade:1223
+msgid "Total moves"
+msgstr "Mosse totali"
+
+#: data/pysolfc.glade:1280 pysollib/settings.py:74
+msgid "Top 10"
+msgstr "Primi 10"
+
+#: data/pysolfc.glade:1342 pysollib/kivy/menubar.py:364
+#: pysollib/tile/tkstats.py:77 pysollib/tile/tkstats.py:836
+#: pysollib/tile/tkstats.py:914 pysollib/tile/tkstats.py:983
+#: pysollib/tk/tkstats.py:909
+msgid "All games"
+msgstr "Tutti i giochi"
+
+#: data/pysolfc.glade:1404 pysollib/tile/tkstats.py:583
+msgid "Full log"
+msgstr "Log completo"
+
+#: data/pysolfc.glade:1466 pysollib/tile/tkstats.py:578
+msgid "Session log"
+msgstr "Log della sessione"
+
+#: data/pysolfc.glade:1493 pysollib/actions.py:873
+msgid "Set timeouts"
+msgstr "Scelta tempi massimi"
+
+#: data/pysolfc.glade:1564 pysollib/tile/timeoutsdialog.py:63
+#: pysollib/tk/timeoutsdialog.py:60
+msgid "Demo:"
+msgstr "Demo:"
+
+#: data/pysolfc.glade:1588 pysollib/tile/timeoutsdialog.py:64
+#: pysollib/tk/timeoutsdialog.py:61
+msgid "Hint:"
+msgstr "Suggerimenti:"
+
+#: data/pysolfc.glade:1612 pysollib/tile/timeoutsdialog.py:65
+#: pysollib/tk/timeoutsdialog.py:62
+msgid "Raise card:"
+msgstr "Scopri carte:"
+
+#: data/pysolfc.glade:1636 data/pysolfc.glade:2057
+#: pysollib/tile/timeoutsdialog.py:66 pysollib/tk/timeoutsdialog.py:63
+#: pysollib/ui/tktile/colorsdialog.py:76
+msgid "Highlight piles:"
+msgstr "Evidenzia le pile:"
+
+#: data/pysolfc.glade:1660 pysollib/tile/timeoutsdialog.py:67
+#: pysollib/tk/timeoutsdialog.py:65
+msgid "Highlight cards:"
+msgstr "Evidenzia carte:"
+
+#: data/pysolfc.glade:1684
+#, fuzzy
+#| msgid "Highlight same rank/suit:"
+msgid "Highlight same rank:"
+msgstr "Evidenzia stesso valore/seme:"
+
+#: data/pysolfc.glade:1986 pysollib/actions.py:830
+msgid "Set colors"
+msgstr "Scelta dei colori"
+
+#: data/pysolfc.glade:2083 pysollib/ui/tktile/colorsdialog.py:77
+msgid "Highlight cards 1:"
+msgstr "Evidenzia le carte 1:"
+
+#: data/pysolfc.glade:2109 pysollib/ui/tktile/colorsdialog.py:78
+msgid "Highlight cards 2:"
+msgstr "Evidenzia le carte 2:"
+
+#: data/pysolfc.glade:2135
+#, fuzzy
+#| msgid "Highlight same rank/suit 1:"
+msgid "Highlight same rank 1:"
+msgstr "Evidenzia stesso valore/seme 1:"
+
+#: data/pysolfc.glade:2161
+#, fuzzy
+#| msgid "Highlight same rank/suit 2:"
+msgid "Highlight same rank 2:"
+msgstr "Evidenzia stesso valore/seme 2:"
+
+#: data/pysolfc.glade:2187 pysollib/ui/tktile/colorsdialog.py:81
+msgid "Hint arrow:"
+msgstr "Freccia suggerimenti;"
+
+#: data/pysolfc.glade:2213 pysollib/ui/tktile/colorsdialog.py:82
+msgid "Highlight not matching:"
+msgstr "Evidenzia non corrispondenti:"
+
+#: data/pysolfc.glade:2281 data/pysolfc.glade:2358 data/pysolfc.glade:2435
+#: data/pysolfc.glade:2512 data/pysolfc.glade:2589 data/pysolfc.glade:2666
+#: data/pysolfc.glade:2743 data/pysolfc.glade:2820 data/pysolfc.glade:3622
+#: data/pysolfc.glade:3699 data/pysolfc.glade:3776 data/pysolfc.glade:3853
+#: data/pysolfc.glade:3930 data/pysolfc.glade:4007 data/pysolfc.glade:4084
+#: pysollib/tile/fontsdialog.py:196 pysollib/tk/fontsdialog.py:181
+#: pysollib/ui/tktile/colorsdialog.py:92
+msgid "Change..."
+msgstr "Cambia..."
+
+#: data/pysolfc.glade:3111 pysollib/ui/tktile/colorsdialog.py:75
+msgid "Text foreground:"
+msgstr "Colore testo"
+
+#: data/pysolfc.glade:3145
+msgid "Set font"
+msgstr "Scegli carattere"
+
+#: data/pysolfc.glade:3216 pysollib/tile/fontsdialog.py:176
+#: pysollib/tk/fontsdialog.py:163
+msgid "HTML: "
+msgstr "HTML: "
+
+#: data/pysolfc.glade:3242 pysollib/tile/fontsdialog.py:177
+#: pysollib/tk/fontsdialog.py:164
+msgid "Small: "
+msgstr "Piccoli: "
+
+#: data/pysolfc.glade:3268 pysollib/tile/fontsdialog.py:178
+#: pysollib/tk/fontsdialog.py:165
+msgid "Fixed: "
+msgstr "Fissi: "
+
+#: data/pysolfc.glade:3294 pysollib/tile/fontsdialog.py:179
+#: pysollib/tk/fontsdialog.py:166
+msgid "Tableau default: "
+msgstr "Tableau: "
+
+#: data/pysolfc.glade:3320 pysollib/tile/fontsdialog.py:180
+#: pysollib/tk/fontsdialog.py:167
+msgid "Tableau fixed: "
+msgstr "Tableau fissi: "
+
+#: data/pysolfc.glade:3346 pysollib/tile/fontsdialog.py:182
+#: pysollib/tk/fontsdialog.py:169
+msgid "Tableau small: "
+msgstr "Tableau piccoli: "
+
+#: data/pysolfc.glade:3372 pysollib/tile/fontsdialog.py:181
+#: pysollib/tk/fontsdialog.py:168
+msgid "Tableau large: "
+msgstr "Tableau grandi: "
+
+#: data/pysolfc.glade:4127 pysollib/pysolgtk/menubar.py:678
+#: pysollib/ui/tktile/menubar.py:1688
+msgid "Sound settings"
+msgstr "Impostazioni suono"
+
+#: data/pysolfc.glade:4212 pysollib/tile/soundoptionsdialog.py:99
+#: pysollib/tk/soundoptionsdialog.py:99
+msgid "Sound enabled"
+msgstr "Suono abilitato"
+
+#: data/pysolfc.glade:4233 pysollib/tile/soundoptionsdialog.py:111
+#: pysollib/tk/soundoptionsdialog.py:111
+msgid "Sample volume:"
+msgstr "Volume dei campioni:"
+
+#: data/pysolfc.glade:4257 pysollib/tile/soundoptionsdialog.py:124
+#: pysollib/tk/soundoptionsdialog.py:119
+msgid "Music volume:"
+msgstr "Volume della musica:"
+
+#: data/pysolfc.glade:4392 pysollib/tk/soundoptionsdialog.py:131
+msgid "Enable samles"
+msgstr "Abilita esempi"
 
 #: pysollib/actions.py:276 pysollib/kivy/menubar.py:405
 #: pysollib/kivy/toolbar.py:156 pysollib/kivy/toolbar.py:242
@@ -318,17 +580,9 @@ msgstr "&Avvia questo gioco"
 msgid "Set player options"
 msgstr "Opzioni giocatore"
 
-#: pysollib/actions.py:830
-msgid "Set colors"
-msgstr "Scelta dei colori"
-
 #: pysollib/actions.py:856
 msgid "Set fonts"
 msgstr "Scelta dei caratteri"
-
-#: pysollib/actions.py:873
-msgid "Set timeouts"
-msgstr "Scelta tempi massimi"
 
 #: pysollib/app.py:446 pysollib/main.py:421
 #, python-format
@@ -2465,12 +2719,6 @@ msgstr "Giochi preferiti"
 msgid "Random game"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:364 pysollib/tile/tkstats.py:77
-#: pysollib/tile/tkstats.py:836 pysollib/tile/tkstats.py:914
-#: pysollib/tile/tkstats.py:983 pysollib/tk/tkstats.py:909
-msgid "All games"
-msgstr "Tutti i giochi"
-
 #: pysollib/kivy/menubar.py:367
 #, fuzzy
 #| msgid "&Games played"
@@ -3427,29 +3675,6 @@ msgid ""
 "   lost: %(lost)s ... %(percentlost)s%%\n"
 msgstr ""
 
-#: pysollib/kivy/tkstats.py:218 pysollib/pysolgtk/selectgame.py:123
-#: pysollib/tile/selectgame.py:473 pysollib/tile/tkstats.py:177
-#: pysollib/tile/tkstats.py:184 pysollib/tile/tkstats.py:201
-#: pysollib/tile/tkstats.py:253 pysollib/tk/selectgame.py:407
-#: pysollib/tk/tkstats.py:86 pysollib/tk/tkstats.py:140
-msgid "Won:"
-msgstr "Vinti:"
-
-#: pysollib/kivy/tkstats.py:220 pysollib/pysolgtk/selectgame.py:124
-#: pysollib/tile/selectgame.py:474 pysollib/tile/tkstats.py:178
-#: pysollib/tile/tkstats.py:185 pysollib/tile/tkstats.py:202
-#: pysollib/tile/tkstats.py:255 pysollib/tk/selectgame.py:408
-#: pysollib/tk/tkstats.py:87 pysollib/tk/tkstats.py:142
-msgid "Lost:"
-msgstr "Perduti:"
-
-#: pysollib/kivy/tkstats.py:222 pysollib/tile/tkstats.py:179
-#: pysollib/tile/tkstats.py:186 pysollib/tile/tkstats.py:203
-#: pysollib/tile/tkstats.py:257 pysollib/tk/tkstats.py:88
-#: pysollib/tk/tkstats.py:144
-msgid "Total:"
-msgstr "Totale:"
-
 #: pysollib/kivy/tkstats.py:248 pysollib/tk/tkstats.py:278
 msgid "&All games..."
 msgstr "&Tutti i giochi..."
@@ -3684,10 +3909,6 @@ msgstr "Aprire il gioco"
 #: pysollib/pysolgtk/menubar.py:630
 msgid "Save Game"
 msgstr "Salva il gioco"
-
-#: pysollib/pysolgtk/menubar.py:678 pysollib/ui/tktile/menubar.py:1688
-msgid "Sound settings"
-msgstr "Impostazioni suono"
 
 #: pysollib/pysolgtk/menubar.py:687 pysollib/ui/tktile/menubar.py:2064
 msgid "Select table background"
@@ -3965,11 +4186,6 @@ msgstr "Gioco perduto"
 msgid "Perfect game"
 msgstr "Gioco perfetto"
 
-#: pysollib/pysolgtk/statusbar.py:96 pysollib/pysolgtk/tkstats.py:426
-#: pysollib/tile/statusbar.py:153 pysollib/tk/statusbar.py:149
-msgid "Playing time"
-msgstr "Tempo di gioco"
-
 #: pysollib/pysolgtk/statusbar.py:97 pysollib/tile/statusbar.py:154
 #: pysollib/tk/statusbar.py:150
 msgid "Moves/Total moves"
@@ -4070,10 +4286,6 @@ msgstr "Vinti"
 #: pysollib/pysolgtk/tkstats.py:425 pysollib/stats.py:41 pysollib/stats.py:147
 msgid "Lost"
 msgstr "Persi"
-
-#: pysollib/pysolgtk/tkstats.py:427
-msgid "Moves"
-msgstr "Mosse"
 
 #: pysollib/pysolgtk/tkstats.py:428 pysollib/stats.py:44
 #: pysollib/tile/tkstats.py:1025 pysollib/tile/tkstats.py:1071
@@ -4524,10 +4736,6 @@ msgstr ""
 msgid "With %(cards)d or more cards)"
 msgstr ""
 
-#: pysollib/settings.py:74
-msgid "Top 10"
-msgstr "Primi 10"
-
 #: pysollib/stack.py:1675
 msgid "Empty row cannot be filled."
 msgstr "Non si può riempire una colonna vuota."
@@ -4871,42 +5079,9 @@ msgstr "Corsivo"
 msgid "Size:"
 msgstr "Dimensione:"
 
-#: pysollib/tile/fontsdialog.py:176 pysollib/tk/fontsdialog.py:163
-msgid "HTML: "
-msgstr "HTML: "
-
-#: pysollib/tile/fontsdialog.py:177 pysollib/tk/fontsdialog.py:164
-msgid "Small: "
-msgstr "Piccoli: "
-
-#: pysollib/tile/fontsdialog.py:178 pysollib/tk/fontsdialog.py:165
-msgid "Fixed: "
-msgstr "Fissi: "
-
-#: pysollib/tile/fontsdialog.py:179 pysollib/tk/fontsdialog.py:166
-msgid "Tableau default: "
-msgstr "Tableau: "
-
-#: pysollib/tile/fontsdialog.py:180 pysollib/tk/fontsdialog.py:167
-msgid "Tableau fixed: "
-msgstr "Tableau fissi: "
-
-#: pysollib/tile/fontsdialog.py:181 pysollib/tk/fontsdialog.py:168
-msgid "Tableau large: "
-msgstr "Tableau grandi: "
-
-#: pysollib/tile/fontsdialog.py:182 pysollib/tk/fontsdialog.py:169
-msgid "Tableau small: "
-msgstr "Tableau piccoli: "
-
 #: pysollib/tile/fontsdialog.py:193 pysollib/tk/fontsdialog.py:178
 msgid "Default"
 msgstr "Default"
-
-#: pysollib/tile/fontsdialog.py:196 pysollib/tk/fontsdialog.py:181
-#: pysollib/ui/tktile/colorsdialog.py:92
-msgid "Change..."
-msgstr "Cambia..."
 
 #: pysollib/tile/fontsdialog.py:207 pysollib/tk/fontsdialog.py:191
 msgid "Select font"
@@ -5237,10 +5412,6 @@ msgstr ""
 msgid "Failed to import file."
 msgstr ""
 
-#: pysollib/tile/solverdialog.py:41 pysollib/ui/tktile/solverdialog.py:45
-msgid "Game:"
-msgstr "Gioco:"
-
 #: pysollib/tile/solverdialog.py:48 pysollib/ui/tktile/solverdialog.py:60
 msgid "Preset:"
 msgstr "Predefinito:"
@@ -5249,19 +5420,10 @@ msgstr "Predefinito:"
 msgid "Show progress"
 msgstr "Mostra l'avanzamento"
 
-#: pysollib/tile/soundoptionsdialog.py:99 pysollib/tk/soundoptionsdialog.py:99
-msgid "Sound enabled"
-msgstr "Suono abilitato"
-
 #: pysollib/tile/soundoptionsdialog.py:105
 #: pysollib/tk/soundoptionsdialog.py:105
 msgid "Use DirectX for sound playing"
 msgstr "Usare DirectX per il suono"
-
-#: pysollib/tile/soundoptionsdialog.py:111
-#: pysollib/tk/soundoptionsdialog.py:111
-msgid "Sample volume:"
-msgstr "Volume dei campioni:"
 
 #: pysollib/tile/soundoptionsdialog.py:115
 #, fuzzy
@@ -5271,11 +5433,6 @@ msgstr "Volume dei campioni:"
 #: pysollib/tile/soundoptionsdialog.py:120
 msgid "Music enabled"
 msgstr ""
-
-#: pysollib/tile/soundoptionsdialog.py:124
-#: pysollib/tk/soundoptionsdialog.py:119
-msgid "Music volume:"
-msgstr "Volume della musica:"
 
 #: pysollib/tile/soundoptionsdialog.py:128
 #, fuzzy
@@ -5331,27 +5488,6 @@ msgstr ""
 msgid "Set delays in seconds"
 msgstr "Ritardi in secondi"
 
-#: pysollib/tile/timeoutsdialog.py:63 pysollib/tk/timeoutsdialog.py:60
-msgid "Demo:"
-msgstr "Demo:"
-
-#: pysollib/tile/timeoutsdialog.py:64 pysollib/tk/timeoutsdialog.py:61
-msgid "Hint:"
-msgstr "Suggerimenti:"
-
-#: pysollib/tile/timeoutsdialog.py:65 pysollib/tk/timeoutsdialog.py:62
-msgid "Raise card:"
-msgstr "Scopri carte:"
-
-#: pysollib/tile/timeoutsdialog.py:66 pysollib/tk/timeoutsdialog.py:63
-#: pysollib/ui/tktile/colorsdialog.py:76
-msgid "Highlight piles:"
-msgstr "Evidenzia le pile:"
-
-#: pysollib/tile/timeoutsdialog.py:67 pysollib/tk/timeoutsdialog.py:65
-msgid "Highlight cards:"
-msgstr "Evidenzia carte:"
-
 #: pysollib/tile/timeoutsdialog.py:68 pysollib/tk/timeoutsdialog.py:67
 msgid "Highlight same rank/suit:"
 msgstr "Evidenzia stesso valore/seme:"
@@ -5360,25 +5496,9 @@ msgstr "Evidenzia stesso valore/seme:"
 msgid "Demo Statistics"
 msgstr ""
 
-#: pysollib/tile/tkstats.py:73 pysollib/tile/tkstats.py:828
-#: pysollib/tile/tkstats.py:916 pysollib/tile/tkstats.py:987
-#: pysollib/tk/tkstats.py:915
-msgid "Current game"
-msgstr "Gioco attuale"
-
 #: pysollib/tile/tkstats.py:87
 msgid "Progression"
 msgstr "Progresso"
-
-#: pysollib/tile/tkstats.py:175 pysollib/tile/tkstats.py:176
-#: pysollib/tk/tkstats.py:70
-msgid "Total"
-msgstr "Totale"
-
-#: pysollib/tile/tkstats.py:182 pysollib/tile/tkstats.py:183
-#: pysollib/tk/tkstats.py:72
-msgid "Current session"
-msgstr "Questa sessione"
 
 #: pysollib/tile/tkstats.py:561
 msgid "Log"
@@ -5388,14 +5508,6 @@ msgstr "Log"
 msgid "Demo Log"
 msgstr ""
 
-#: pysollib/tile/tkstats.py:578
-msgid "Session log"
-msgstr "Log della sessione"
-
-#: pysollib/tile/tkstats.py:583
-msgid "Full log"
-msgstr "Log completo"
-
 #: pysollib/tile/tkstats.py:833 pysollib/tk/tkstats.py:791
 msgid "No TOP for this game"
 msgstr "Nessun TOP per questo gioco"
@@ -5403,35 +5515,6 @@ msgstr "Nessun TOP per questo gioco"
 #: pysollib/tile/tkstats.py:841
 msgid "No TOP for all games"
 msgstr "Nessun TOP per tutti i giochi"
-
-#: pysollib/tile/tkstats.py:853 pysollib/tile/tkstats.py:919
-#: pysollib/tk/tkstats.py:738
-msgid "Minimum"
-msgstr "Minimo"
-
-#: pysollib/tile/tkstats.py:855 pysollib/tile/tkstats.py:920
-#: pysollib/tk/tkstats.py:739
-msgid "Maximum"
-msgstr "Massimo"
-
-#: pysollib/tile/tkstats.py:857 pysollib/tile/tkstats.py:921
-#: pysollib/tk/tkstats.py:740
-msgid "Average"
-msgstr "Media"
-
-#: pysollib/tile/tkstats.py:865 pysollib/tk/selectgame.py:409
-#: pysollib/tk/tkstats.py:746
-msgid "Playing time:"
-msgstr "Tempo di gioco:"
-
-#: pysollib/tile/tkstats.py:872 pysollib/tk/selectgame.py:410
-#: pysollib/tk/tkstats.py:753
-msgid "Moves:"
-msgstr "Mosse:"
-
-#: pysollib/tile/tkstats.py:879 pysollib/tk/tkstats.py:760
-msgid "Total moves:"
-msgstr "Mosse totali:"
 
 #: pysollib/tile/tkstats.py:992 pysollib/tile/tkstats.py:1004
 #: pysollib/tk/tkstats.py:921
@@ -5547,10 +5630,6 @@ msgstr "Scelta..."
 msgid "Select name"
 msgstr "Scelta nome"
 
-#: pysollib/tk/soundoptionsdialog.py:131
-msgid "Enable samles"
-msgstr "Abilita esempi"
-
 #: pysollib/tk/tkstats.py:512
 msgid "&Reset all..."
 msgstr "&Ripulisci tutto..."
@@ -5563,18 +5642,6 @@ msgstr "Sto&rico sessione..."
 msgid "&Full log..."
 msgstr "Storico &completo..."
 
-#: pysollib/ui/tktile/colorsdialog.py:75
-msgid "Text foreground:"
-msgstr "Colore testo"
-
-#: pysollib/ui/tktile/colorsdialog.py:77
-msgid "Highlight cards 1:"
-msgstr "Evidenzia le carte 1:"
-
-#: pysollib/ui/tktile/colorsdialog.py:78
-msgid "Highlight cards 2:"
-msgstr "Evidenzia le carte 2:"
-
 #: pysollib/ui/tktile/colorsdialog.py:79
 msgid "Highlight same rank/suit 1:"
 msgstr "Evidenzia stesso valore/seme 1:"
@@ -5582,14 +5649,6 @@ msgstr "Evidenzia stesso valore/seme 1:"
 #: pysollib/ui/tktile/colorsdialog.py:80
 msgid "Highlight same rank/suit 2:"
 msgstr "Evidenzia stesso valore/seme 2:"
-
-#: pysollib/ui/tktile/colorsdialog.py:81
-msgid "Hint arrow:"
-msgstr "Freccia suggerimenti;"
-
-#: pysollib/ui/tktile/colorsdialog.py:82
-msgid "Highlight not matching:"
-msgstr "Evidenzia non corrispondenti:"
 
 #: pysollib/ui/tktile/colorsdialog.py:83
 msgid "Keyboard selector:"
@@ -6796,18 +6855,6 @@ msgstr "Servizio di apertura"
 #, fuzzy
 #~ msgid "Russian"
 #~ msgstr "Russia"
-
-#~ msgid "Game Statistics"
-#~ msgstr "Statistiche di gioco"
-
-#~ msgid "Summary"
-#~ msgstr "Sommario"
-
-#~ msgid "Total moves"
-#~ msgstr "Mosse totali"
-
-#~ msgid "Set font"
-#~ msgstr "Scegli carattere"
 
 #~ msgid "Reserve."
 #~ msgstr "Riserva."

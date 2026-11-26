@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-26 17:43+0100\n"
-"PO-Revision-Date: 2025-07-21 21:37-0400\n"
-"Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
+"PO-Revision-Date: 2026-11-26 17:48+0000\n"
+"Last-Translator: \"Joe R.\" <joeraz@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/pysolfc/pysolfc-"
 "ui/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 "X-PySol-Language-Name: Polski\n"
 
 #: data/pysolfc.glade:7
@@ -5756,26 +5756,18 @@ msgid "&All games"
 msgstr "Wszystkie gry"
 
 #: pysollib/ui/tktile/menubar.py:516
-#, fuzzy
-#| msgid "&Games played"
 msgid "&Games played"
 msgstr "&Gry rozegrane"
 
 #: pysollib/ui/tktile/menubar.py:519
-#, fuzzy
-#| msgid "Games played and &won"
 msgid "Games played and &won"
 msgstr "Gry rozegrane i &wygrane"
 
 #: pysollib/ui/tktile/menubar.py:522
-#, fuzzy
-#| msgid "Games played and &not won"
 msgid "Games played and &not won"
 msgstr "Gry rozegrane i &nie wygrane"
 
 #: pysollib/ui/tktile/menubar.py:525
-#, fuzzy
-#| msgid "Games not &played"
 msgid "Games not &played"
 msgstr "Gry jeszcze nie rozgrywane"
 

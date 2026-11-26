@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-PySol-Language-Name: Svenska\n"
 
 #: pysollib/actions.py:276 pysollib/kivy/menubar.py:383
 #: pysollib/kivy/toolbar.py:156 pysollib/kivy/toolbar.py:242

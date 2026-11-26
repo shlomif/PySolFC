@@ -8,6 +8,7 @@ import tkinter.filedialog
 
 from pysollib.gamedb import GI
 from pysollib.hint import PySolHintLayoutImportError
+from pysollib.languages import list_languages
 from pysollib.mfxutil import Image, USE_PIL
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mygettext import _, n_
@@ -154,6 +155,19 @@ def createOtherGraphicsMenu(menubar, menu):
                 label=name,
                 variable=menubar.tkopt.tree_icon_style,
                 value=f, command=menubar.mOptTreeIconStyle)
+
+
+def createLanguageMenu(menubar, menu):
+    menu.add_radiobutton(label=n_("Default (System)"),
+                         variable=menubar.tkopt.language,
+                         value='', command=menubar.mOptLanguage)
+    menu.add_separator()
+
+    for code, display_name in list_languages():
+        menu.add_radiobutton(
+            label=display_name, name='language_' + code,
+            underline=-1, variable=menubar.tkopt.language,
+            value=code, command=menubar.mOptLanguage)
 
 
 def createResamplingMenu(menubar, menu):
@@ -307,6 +321,7 @@ class PysolMenubarTkCommon:
             match_three_cascade=tkinter.BooleanVar(),
             accordion_deal_all=tkinter.BooleanVar(),
             pegged_auto_remove=tkinter.BooleanVar(),
+            language=tkinter.StringVar(),
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
             preview_scale=tkinter.BooleanVar(),
@@ -387,6 +402,7 @@ class PysolMenubarTkCommon:
         tkopt.match_three_cascade.set(opt.match_three_cascade)
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
         tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
+        tkopt.language.set(opt.language)
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
         tkopt.preview_scale.set(opt.preview_scale)
@@ -751,6 +767,10 @@ class PysolMenubarTkCommon:
             label=n_("A&uto-remove first card (in Pegged games)"),
             variable=self.tkopt.pegged_auto_remove,
             command=self.mOptPeggedAutoRemove)
+
+        submenu = MfxMenu(menu, label=n_("Lan&guage"))
+        createLanguageMenu(self, submenu)
+
         menu.add_separator()
         label = n_("&Sound...")
         menu.add_command(
@@ -1943,6 +1963,20 @@ Unsupported game for import.
         self.app.opt.preserve_aspect_ratio = preserve_aspect_ratio
         self.tkopt.preserve_aspect_ratio.set(preserve_aspect_ratio)
         self._updateCardSize()
+
+    def mOptLanguage(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        language = self.tkopt.language.get()
+        if language == self.app.opt.language:
+            return
+        self.app.opt.language = language
+        self._calc_MfxMessageDialog()(
+            self.app.top, title=_("Note"),
+            text=_("""\
+These settings will take effect
+the next time you restart the %(app)s""") % {'app': TITLE},
+            bitmap="info")
 
     def mOptResampling(self, *event):
         if self._cancelDrag(break_pause=False):

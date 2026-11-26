@@ -54,6 +54,7 @@ from pysollib.kivy.tkconst import TOOLBAR_BUTTONS
 from pysollib.kivy.tkutil import after_idle
 from pysollib.kivy.tkutil import bind
 from pysollib.kivy.toast import Toast
+from pysollib.languages import list_languages
 from pysollib.mfxutil import Struct
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog
@@ -730,29 +731,14 @@ class LOptionsMenuGenerator(LTreeGenerator):
             LTreeNode(text=_('Language')))
         if rg:
             self.addRadioNode(tv, rg,
-                              _('Default'),
+                              _("Default (System)"),
                               self.menubar.tkopt.language, '',
                               self.menubar.mOptLanguage)
-            self.addRadioNode(tv, rg,
-                              _('English'),
-                              self.menubar.tkopt.language, 'en',
-                              self.menubar.mOptLanguage)
-            self.addRadioNode(tv, rg,
-                              _('German'),
-                              self.menubar.tkopt.language, 'de',
-                              self.menubar.mOptLanguage)
-            self.addRadioNode(tv, rg,
-                              _('Italian'),
-                              self.menubar.tkopt.language, 'it',
-                              self.menubar.mOptLanguage)
-            self.addRadioNode(tv, rg,
-                              _('Polish'),
-                              self.menubar.tkopt.language, 'pl',
-                              self.menubar.mOptLanguage)
-            self.addRadioNode(tv, rg,
-                              _('Russian'),
-                              self.menubar.tkopt.language, 'ru',
-                              self.menubar.mOptLanguage)
+            for code, display_name in list_languages():
+                self.addRadioNode(tv, rg,
+                                  display_name,
+                                  self.menubar.tkopt.language, code,
+                                  self.menubar.mOptLanguage)
 
         yield
         # -------------------------------------------

@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
+"X-PySol-Language-Name: Português (Brasil)\n"
 
 #: pysollib\actions.py:269 pysollib\kivy\menubar.py:374
 #: pysollib\kivy\toolbar.py:156 pysollib\kivy\toolbar.py:242

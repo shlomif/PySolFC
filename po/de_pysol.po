@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-09 23:32-0400\n"
-"PO-Revision-Date: 2025-07-21 21:34-0400\n"
+"PO-Revision-Date: 2026-11-25 22:00-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -11,7 +11,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.10\n"
+"X-PySol-Language-Name: Deutsch\n"
 
 #: pysollib\actions.py:269 pysollib\kivy\menubar.py:374
 #: pysollib\kivy\toolbar.py:156 pysollib\kivy\toolbar.py:242
@@ -4807,9 +4808,8 @@ msgid "Sample volume:"
 msgstr "Tonlautstärke:"
 
 #: pysollib\tile\soundoptionsdialog.py:115
-#, fuzzy
 msgid "Sample volume"
-msgstr "Tonlautstärke:"
+msgstr "Tonlautstärke"
 
 #: pysollib\tile\soundoptionsdialog.py:120
 msgid "Music enabled"
@@ -4821,9 +4821,8 @@ msgid "Music volume:"
 msgstr "Musik Lautstärke:"
 
 #: pysollib\tile\soundoptionsdialog.py:128
-#, fuzzy
 msgid "Music volume"
-msgstr "Musik Lautstärke:"
+msgstr "Musik Lautstärke"
 
 #: pysollib\tile\soundoptionsdialog.py:136
 #: pysollib\tile\soundoptionsdialog.py:145

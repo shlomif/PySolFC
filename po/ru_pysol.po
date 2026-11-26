@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-26 17:43+0100\n"
-"PO-Revision-Date: 2025-07-21 21:39-0400\n"
-"Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
+"PO-Revision-Date: 2026-11-26 17:48+0000\n"
+"Last-Translator: \"Joe R.\" <joeraz@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pysolfc/pysolfc-"
 "ui/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: pygettext.py 1.6con\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 "X-PySol-Language-Name: Русский\n"
 
 #: data/pysolfc.glade:7
@@ -5830,26 +5830,18 @@ msgid "&All games"
 msgstr "&Все игры"
 
 #: pysollib/ui/tktile/menubar.py:516
-#, fuzzy
-#| msgid "&Games played"
 msgid "&Games played"
 msgstr "&Играли игры"
 
 #: pysollib/ui/tktile/menubar.py:519
-#, fuzzy
-#| msgid "Games played and &won"
 msgid "Games played and &won"
 msgstr "&Выигранные игры"
 
 #: pysollib/ui/tktile/menubar.py:522
-#, fuzzy
-#| msgid "Games played and &not won"
 msgid "Games played and &not won"
 msgstr "&Невыигранные игры"
 
 #: pysollib/ui/tktile/menubar.py:525
-#, fuzzy
-#| msgid "Games not &played"
 msgid "Games not &played"
 msgstr "Не&сыгранные игры"
 

@@ -7,7 +7,7 @@ tmpdir=./tmp
 
 echo '### prepare source'
 
-(cd .. && make rules && make all_games_html && make mo)
+(cd .. && make rules && make all_games_html)
 
 mkdir -p ${tmpdir}
 rm -rf ${tmpdir}/*

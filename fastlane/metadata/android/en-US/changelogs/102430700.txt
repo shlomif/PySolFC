@@ -1,0 +1,6 @@
+
+- 10 new games and game variants.
+- menu back button
+- replay option
+- enhancements and bug fixes
+- details at https://pysolfc.sourceforge.io

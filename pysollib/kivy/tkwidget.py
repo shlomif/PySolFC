@@ -228,7 +228,7 @@ class PysolAboutDialog:
         logging.info('PysolAboutDialog: txt=%s', text)
 
         text = text + '\n\n' + 'Adaptation to Kivy/Android\n' + \
-            ' Copyright (C) (2016-24) LB'
+            ' Copyright (C) (2016-26) LB'
 
         self.parent = parent
         self.app = app

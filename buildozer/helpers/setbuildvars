@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VP4A=$(cat buildozer.spec | grep -e "^p4a[.]commit" | sed -E "s/.*= *([0-9,A-F,a-f]*).*/\1/")
-VBUILDOZER='3ebc09e885457db4747e67a1250c2aea1ca7a046'
+VBUILDOZER='105543da41f7a0c866a46ff07d10cb8137df2e7b'
 VCPYTHON='v3.11.5'
 VCYTHON='3.0.10'
 AAPI=$(cat buildozer.spec | grep -e "^android[.]api" | sed -E "s/^.*([0-9].).*/\1/")
